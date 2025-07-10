@@ -1,3 +1,4 @@
+using UnityEngine;
 using Unity.Burst;
 using Unity.Entities;
 
@@ -26,6 +27,11 @@ partial struct ShootAttackSystem : ISystem
                 continue;
             }
             shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
+            Debug.Log("Shooting");
+
+            RefRW<Health> targetHealth = SystemAPI.GetComponentRW<Health>(target.ValueRO.targetEntity);
+            int damageAmount = 1;
+            targetHealth.ValueRW.healthAmount -= damageAmount;
         } 
     }
 
