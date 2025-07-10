@@ -8,6 +8,7 @@ partial struct ShootAttackSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        
         foreach ((
             RefRW<ShootAttack> shootAttack, 
             RefRO<Target> target) 
@@ -32,6 +33,8 @@ partial struct ShootAttackSystem : ISystem
             RefRW<Health> targetHealth = SystemAPI.GetComponentRW<Health>(target.ValueRO.targetEntity);
             int damageAmount = 1;
             targetHealth.ValueRW.healthAmount -= damageAmount;
+
+            
         } 
     }
 
