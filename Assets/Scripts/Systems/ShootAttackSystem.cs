@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
+using Unity.Mathematics;
 
 partial struct ShootAttackSystem : ISystem
 {
@@ -13,17 +14,36 @@ partial struct ShootAttackSystem : ISystem
         
         foreach ((
             RefRW<ShootAttack> shootAttack,
-            RefRO<LocalTransform> localTransform,
-            RefRO<Target> target) 
+            RefRW<LocalTransform> localTransform,
+            RefRO<Target> target,
+            RefRW<UnitMover> unitMover) 
             in SystemAPI.Query<
                 RefRW<ShootAttack>,
-                RefRO<LocalTransform>,
-                RefRO<Target>>()) 
+                RefRW<LocalTransform>,
+                RefRO<Target>,
+                RefRW<UnitMover>>()) 
         {
             if (target.ValueRO.targetEntity == Entity.Null) 
             {
                 continue;
             }
+
+            LocalTransform targetLocalTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
+            if (math.distance(localTransform.ValueRO.Position, targetLocalTransform.Position) > shootAttack.ValueRO.attackDistance)
+            {
+                unitMover.ValueRW.targetPosition = targetLocalTransform.Position;
+                continue;
+            }
+            else
+            {
+                unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
+            }
+
+            float3 aimDirection = targetLocalTransform.Position - localTransform.ValueRO.Position;
+            aimDirection = math.normalize(aimDirection);
+
+            quaternion targetRotation = quaternion.LookRotation(aimDirection, math.up());
+            localTransform.ValueRW.Rotation = math.slerp(localTransform.ValueRO.Rotation, targetRotation, SystemAPI.Time.DeltaTime * unitMover.ValueRO.rotationSpeed);
 
             shootAttack.ValueRW.timer -= SystemAPI.Time.DeltaTime;
 
@@ -32,9 +52,10 @@ partial struct ShootAttackSystem : ISystem
                 continue;
             }
             shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
-            
+
             Entity bulletEntity =  state.EntityManager.Instantiate(entitiesReferences.bulletPrefabEntity);
-            SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(localTransform.ValueRO.Position));
+            float3 bulletSpawnWorldPosition = localTransform.ValueRO.TransformPoint(shootAttack.ValueRO.bulletSpawnLocalPosition);
+            SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
             
             RefRW<Bullet> bulletBullet = SystemAPI.GetComponentRW<Bullet>(bulletEntity);
             bulletBullet.ValueRW.damageAmount = shootAttack.ValueRO.damageAmount;
