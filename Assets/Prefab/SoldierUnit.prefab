@@ -258,6 +258,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerMax: 0.2
-  damageAmount: 1
+  damageAmount: 10
   attackDistance: 13
   bulletSpawnPositionTransform: {fileID: 517911217189100086}
