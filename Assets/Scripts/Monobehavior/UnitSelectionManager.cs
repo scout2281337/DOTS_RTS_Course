@@ -48,7 +48,6 @@ public class UnitSelectionManager : MonoBehaviour
             float selectionAreaSize = selectionAreaRect.width + selectionAreaRect.height;
             float multipleSelectionSizeMin = 40f;
             bool isMultipleSelection = selectionAreaSize > multipleSelectionSizeMin;
-            Debug.Log(selectionAreaSize +  "" + isMultipleSelection);
 
             if (isMultipleSelection)
             {
