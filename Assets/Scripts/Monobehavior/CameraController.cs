@@ -21,13 +21,19 @@ public class CameraController : MonoBehaviour
 
     public void MoveCamera() 
     {
+        float speedMyltiplier = 1;
+        if (Input.GetKey(KeyCode.LeftShift)) 
+        {
+            speedMyltiplier = 3;   
+        }
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        transform.position += new Vector3(horizontalInput * cameraMovementSpeed, 0f, verticalInput * cameraMovementSpeed) * Time.deltaTime;
+        transform.position += new Vector3(horizontalInput * cameraMovementSpeed * speedMyltiplier, 0f, verticalInput * cameraMovementSpeed * speedMyltiplier) * Time.deltaTime;
 
 
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
         transform.position += transform.forward * Time.deltaTime * scrollMovementSpeed * scrollInput;
+        
     }
 
     public void RotateCamera() 
@@ -44,4 +50,5 @@ public class CameraController : MonoBehaviour
             transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
         }
     }
+    
 }

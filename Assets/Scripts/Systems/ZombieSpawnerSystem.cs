@@ -23,7 +23,7 @@ partial struct ZombieSpawnerSystem : ISystem
             
             Entity zombieEntity = state.EntityManager.Instantiate(entitiesReferences.zombiePrefabEntity);
             //float3 zombieSpawnWorldPosition = localTransform.ValueRO.TransformPoint(localTransform.ValueRO.Position);
-            SystemAPI.SetComponent(zombieEntity, LocalTransform.FromPosition(localTransform.ValueRO.Position));
+            SystemAPI.SetComponent(zombieEntity, LocalTransform.FromPosition(zombieSpawner.ValueRO.zombieSpawnPosition));
 
             entityCommandBuffer.AddComponent(zombieEntity, new RandomWalking
             {

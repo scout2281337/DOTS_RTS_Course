@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ZombieSpawnerAuthoring : MonoBehaviour
@@ -6,6 +7,7 @@ public class ZombieSpawnerAuthoring : MonoBehaviour
     public float timerMax;
     public float randomWalkingDistanceMin;
     public float randomWalkingDistanceMax;
+    public Transform zombieSpawnTransform; 
     public class Baker : Baker<ZombieSpawnerAuthoring>
     {
         
@@ -17,6 +19,7 @@ public class ZombieSpawnerAuthoring : MonoBehaviour
                 timerMax = authoring.timerMax,
                 randomWalkingDistanceMax = authoring.randomWalkingDistanceMax,
                 randomWalkingDistanceMin = authoring.randomWalkingDistanceMin,
+                zombieSpawnPosition = authoring.zombieSpawnTransform.position
             });
         }
     }
@@ -28,4 +31,5 @@ public struct ZombieSpawner : IComponentData
     public float timerMax;
     public float randomWalkingDistanceMin;
     public float randomWalkingDistanceMax;
+    public float3 zombieSpawnPosition;
 }
