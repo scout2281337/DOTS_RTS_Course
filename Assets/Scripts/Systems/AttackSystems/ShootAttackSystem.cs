@@ -4,6 +4,7 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Collections;
+using static UnityEngine.GraphicsBuffer;
 
 partial struct ShootAttackSystem : ISystem
 {
@@ -13,16 +14,14 @@ partial struct ShootAttackSystem : ISystem
     {
         
         var entitiesReferences = SystemAPI.GetSingleton<EntitiesReferences>();
+        
+        //var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
+        //var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
         /*
-        var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
-        var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
-
         var job = new ShootAttackJob
         {
             deltaTime = SystemAPI.Time.DeltaTime,
-            localTransformLookup = state.GetComponentLookup<LocalTransform>(true), // ReadOnly
-            bulletPrefab = entitiesReferences.bulletPrefabEntity,
-            ecb = ecb
+            targetLocalTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
         };
 
         job.ScheduleParallel();
@@ -97,52 +96,54 @@ partial struct ShootAttackSystem : ISystem
 public partial struct ShootAttackJob : IJobEntity
 {
     public float deltaTime;
-    [ReadOnly]public ComponentLookup<LocalTransform> localTransformLookup;
-    public Entity bulletPrefab;
-    public EntityCommandBuffer.ParallelWriter ecb;
+    public LocalTransform targetLocalTransform;
 
-    public void Execute(
-        [EntityIndexInQuery] int entityInQueryIndex,
-        Entity entity,
-        ref ShootAttack shootAttack,
-        ref LocalTransform localTransform,
-        in Target target,
-        ref UnitMover unitMover)
+    public void Execute(ref ShootAttack shootAttack, ref LocalTransform localTransform, in Target target, ref UnitMover unitMover) 
     {
-        if (target.targetEntity == Entity.Null || !localTransformLookup.HasComponent(target.targetEntity))
-            return;
-
-        var targetLocalTransform = localTransformLookup[target.targetEntity];
-
-        if (math.distance(localTransform.Position, targetLocalTransform.Position) > shootAttack.attackDistance)
+        if (target.targetEntity == Entity.Null)
         {
-            unitMover.targetPosition = targetLocalTransform.Position;
             return;
+        }
+
+        //LocalTransform targetLocalTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
+        if (math.distance(localTransform.Position, targetLocalTransform.Position) > shootAttack.ValueRO.attackDistance)
+        {
+            unitMover.ValueRW.targetPosition = targetLocalTransform.Position;
+            continue;
         }
         else
         {
-            unitMover.targetPosition = localTransform.Position;
+            unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
         }
 
-        float3 aimDirection = math.normalize(targetLocalTransform.Position - localTransform.Position);
+        float3 aimDirection = targetLocalTransform.Position - localTransform.ValueRO.Position;
+        aimDirection = math.normalize(aimDirection);
+
         quaternion targetRotation = quaternion.LookRotation(aimDirection, math.up());
-        localTransform.Rotation = math.slerp(localTransform.Rotation, targetRotation, deltaTime * unitMover.rotationSpeed);
+        localTransform.ValueRW.Rotation = math.slerp(localTransform.ValueRO.Rotation, targetRotation, SystemAPI.Time.DeltaTime * unitMover.ValueRO.rotationSpeed);
 
-        shootAttack.timer -= deltaTime;
-        if (shootAttack.timer > 0f)
-            return;
+        shootAttack.ValueRW.timer -= SystemAPI.Time.DeltaTime;
 
-        shootAttack.timer = shootAttack.timerMax;
+        if (shootAttack.ValueRO.timer > 0f)
+        {
+            continue;
+        }
+        shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
 
-        Entity bulletEntity = ecb.Instantiate(entityInQueryIndex, bulletPrefab);
-        float3 bulletSpawnWorldPosition = localTransform.TransformPoint(shootAttack.bulletSpawnLocalPosition);
+        Entity bulletEntity = state.EntityManager.Instantiate(entitiesReferences.bulletPrefabEntity);
+        float3 bulletSpawnWorldPosition = localTransform.ValueRO.TransformPoint(shootAttack.ValueRO.bulletSpawnLocalPosition);
+        SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
 
-        ecb.SetComponent(entityInQueryIndex, bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
-        ecb.SetComponent(entityInQueryIndex, bulletEntity, new Bullet { damageAmount = shootAttack.damageAmount });
-        ecb.SetComponent(entityInQueryIndex, bulletEntity, new Target { targetEntity = target.targetEntity });
+        RefRW<Bullet> bulletBullet = SystemAPI.GetComponentRW<Bullet>(bulletEntity);
+        bulletBullet.ValueRW.damageAmount = shootAttack.ValueRO.damageAmount;
 
-        shootAttack.onShoot.isTriggered = true;
-        shootAttack.onShoot.shootFromPosition = bulletSpawnWorldPosition;
+        RefRW<Target> bulletTarget = SystemAPI.GetComponentRW<Target>(bulletEntity);
+        bulletTarget.ValueRW.targetEntity = target.ValueRO.targetEntity;
+
+        shootAttack.ValueRW.onShoot.isTriggered = true;
+        shootAttack.ValueRW.onShoot.shootFromPosition = bulletSpawnWorldPosition;
     }
+        
+    
 }
 */

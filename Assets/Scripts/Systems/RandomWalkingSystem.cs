@@ -2,10 +2,10 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 
 partial struct RandomWalkingSystem : ISystem
 {
-
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {

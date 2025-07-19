@@ -24,7 +24,7 @@ public class CubeSpawner : MonoBehaviour
     {
         for (int i = 0; i < amountToSpawn; i++) 
         {
-            GameObject cube =  Instantiate(cubePrefab,new Vector3(Random.Range(-20, 20), 30 , 0), Quaternion.identity);
+            GameObject cube =  Instantiate(cubePrefab,new Vector3(Random.Range(-30, 30), 30 , 0), Quaternion.identity);
             cubes.Add(cube);
         }
     

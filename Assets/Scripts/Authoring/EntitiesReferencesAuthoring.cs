@@ -6,7 +6,7 @@ public class EntitiesReferencesAuthoring : MonoBehaviour
     public GameObject bulletPrefabGameObject;
     public GameObject zombiePrefabGameObject;//
     public GameObject shootLightPrefabGameObject;
-    public GameObject spawnPointPrefabGameObject;
+    //public GameObject spawnPointPrefabGameObject;
 
     public class Baker : Baker<EntitiesReferencesAuthoring>
     {
