@@ -9,10 +9,14 @@ public class CubeAuthoring : MonoBehaviour
         {
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new Cube());
+            AddComponent(entity, new NewSpawn());
         }
     }
 }
 public struct Cube : IComponentData 
 {
 
+}
+public struct NewSpawn : IComponentData
+{
 }
