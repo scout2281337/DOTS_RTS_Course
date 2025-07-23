@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour
     private float yaw = 0f;
     private float pitch = 0f;
 
+    public GameObject mainCamera;
+
     // Update is called once per frame
     void Update()
     {
@@ -28,12 +30,12 @@ public class CameraController : MonoBehaviour
         }
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        transform.position += new Vector3(horizontalInput * cameraMovementSpeed * speedMyltiplier, 0f, verticalInput * cameraMovementSpeed * speedMyltiplier) * Time.deltaTime;
+        //transform.position += new Vector3(horizontalInput * cameraMovementSpeed * speedMyltiplier, 0f, verticalInput * cameraMovementSpeed * speedMyltiplier) * Time.deltaTime;
 
+        transform.position += ((transform.forward * verticalInput) + (transform.right * horizontalInput)) * speedMyltiplier * cameraMovementSpeed * Time.deltaTime;
 
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-        transform.position += transform.forward * Time.deltaTime * scrollMovementSpeed * scrollInput;
-        
+        transform.position += mainCamera.transform.forward * Time.deltaTime * scrollMovementSpeed * scrollInput;
     }
 
     public void RotateCamera() 
@@ -47,7 +49,10 @@ public class CameraController : MonoBehaviour
             pitch -= mouseY * sensitivity;
             pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
 
-            transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
+            mainCamera.transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
+            
+            Vector3 cameraEuler = mainCamera.transform.eulerAngles;
+            transform.rotation = Quaternion.Euler( 0f, cameraEuler.y, 0f); 
         }
     }
     
