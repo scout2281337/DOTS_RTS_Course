@@ -44,7 +44,7 @@ public class UnitSelectionManager : MonoBehaviour
             }
             //entityQuery.CopyFromComponentDataArray(selectedArray);
             
-            Rect selectionAreaRect = GetSelectionareaRect();
+            Rect selectionAreaRect = GetSelectionAreaRect();
             float selectionAreaSize = selectionAreaRect.width + selectionAreaRect.height;
             float multipleSelectionSizeMin = 40f;
             bool isMultipleSelection = selectionAreaSize > multipleSelectionSizeMin;
@@ -55,11 +55,11 @@ public class UnitSelectionManager : MonoBehaviour
                 entityQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<LocalTransform, Unit>().WithPresent<Selected>().Build(entityManager);
 
                 entityArray = entityQuery.ToEntityArray(Allocator.Temp);
-                NativeArray<LocalTransform> localtransformArray = entityQuery.ToComponentDataArray<LocalTransform>(Allocator.Temp);
-                for (int i = 0; i < localtransformArray.Length; i++)
+                NativeArray<LocalTransform> localTransformArray = entityQuery.ToComponentDataArray<LocalTransform>(Allocator.Temp);
+                for (int i = 0; i < localTransformArray.Length; i++)
                 {
-                    LocalTransform unitLocaltransform = localtransformArray[i];
-                    Vector2 unitScreenPosition = Camera.main.WorldToScreenPoint(unitLocaltransform.Position);
+                    LocalTransform unitLocalTransform = localTransformArray[i];
+                    Vector2 unitScreenPosition = Camera.main.WorldToScreenPoint(unitLocalTransform.Position);
                     if (selectionAreaRect.Contains(unitScreenPosition))
                     {
                         entityManager.SetComponentEnabled<Selected>(entityArray[i], true);
@@ -78,7 +78,7 @@ public class UnitSelectionManager : MonoBehaviour
                 UnityEngine.Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 
-                RaycastInput raycastInput = new RaycastInput
+                RaycastInput rayCastInput = new RaycastInput
                 {
                     Start = cameraRay.GetPoint(0f),
                     End = cameraRay.GetPoint(999f),
@@ -91,9 +91,10 @@ public class UnitSelectionManager : MonoBehaviour
                 };
 
 
-                if (collisionWorld.CastRay(raycastInput, out Unity.Physics.RaycastHit raycastHit)) 
+                if (collisionWorld.CastRay(rayCastInput, out Unity.Physics.RaycastHit raycastHit)) 
                 {
-                    if (entityManager.HasComponent<Unit>(raycastHit.Entity) && entityManager.HasComponent<Selected>(raycastHit.Entity)) 
+                    if (entityManager.HasComponent<Unit>(raycastHit.Entity) &&
+                        entityManager.HasComponent<Selected>(raycastHit.Entity)) 
                     {
                         entityManager.SetComponentEnabled<Selected>(raycastHit.Entity, true);
                         Selected selected = entityManager.GetComponentData<Selected>(raycastHit.Entity);
@@ -107,12 +108,14 @@ public class UnitSelectionManager : MonoBehaviour
 
             OnSelectionAreaEnd?.Invoke(this, EventArgs.Empty);
         }
+
         if (Input.GetMouseButtonDown(1)) 
         {
             Vector3 mouseWorldPosition = MouseWorldPosition.Instance.GetPosition();
 
             EntityManager entityManager =  World.DefaultGameObjectInjectionWorld.EntityManager;
-            EntityQuery entityQuery =  new EntityQueryBuilder(Allocator.Temp).WithAll<Selected>().WithPresent<MoveOverride>().Build(entityManager);
+            EntityQuery entityQuery =  new EntityQueryBuilder(Allocator.Temp).WithAll<Selected>()
+                .WithPresent<MoveOverride>().Build(entityManager);
             
             NativeArray<Entity> entityArray = entityQuery.ToEntityArray(Allocator.Temp);
             NativeArray<MoveOverride> moveOverrideArray = entityQuery.ToComponentDataArray<MoveOverride>(Allocator.Temp);
@@ -128,7 +131,7 @@ public class UnitSelectionManager : MonoBehaviour
         }
     }
 
-    public Rect GetSelectionareaRect() 
+    public Rect GetSelectionAreaRect() 
     {
         Vector2 selectionEndMousePosition = Input.mousePosition;
 

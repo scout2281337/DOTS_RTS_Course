@@ -1,0 +1,20 @@
+.unity-label {
+    font-size: 32px;
+    margin: 0;
+    padding: 4px;
+}
+
+.MainText {
+    font-size: 32px;
+    white-space: normal;
+}
+
+.SubText {
+    font-size: 24px;
+    white-space: normal;
+}
+
+.ClearText {
+    font-size: 40px;
+    white-space: normal;
+}

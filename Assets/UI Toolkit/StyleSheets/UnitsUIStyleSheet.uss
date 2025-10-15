@@ -1,0 +1,7 @@
+.selectionBox {
+    position: absolute;
+    height: 0;
+    width: 0;
+    background-color: rgb(33, 124, 181);
+    opacity: 0.5;
+}

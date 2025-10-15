@@ -1,0 +1,30 @@
+.unity-slider {
+    margin: 4px;
+}
+
+.unity-base-slider__drag-container {
+}
+
+.unity-base-slider__tracker {
+    top: 0;
+    height: 100%;
+    border-width: 0;
+    margin: 0;
+    background-color: rgb(40, 40, 40);
+}
+
+.unity-base-slider__dragger-border {
+    background-color: rgb(40, 40, 40);
+}
+
+.unity-base-slider__dragger {
+    top: 0;
+    width: 24px;
+    border-width: 0;
+    margin: 0;
+    height: 100%;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}

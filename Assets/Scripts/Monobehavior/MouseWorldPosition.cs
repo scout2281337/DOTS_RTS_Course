@@ -3,6 +3,7 @@ using UnityEngine;
 public class MouseWorldPosition : MonoBehaviour
 {
     public static MouseWorldPosition Instance {  get; private set; }
+
     private void Awake()
     {
         if (Instance == null)

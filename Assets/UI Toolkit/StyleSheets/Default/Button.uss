@@ -1,0 +1,31 @@
+.unity-button {
+    padding: 12px;
+    border-width: 0;
+    margin: 0;
+    font-size: 32px;
+    overflow: visible;
+    transition-duration: 0.2s, 0.2s;
+    transition-timing-function: ease-in-out-cubic, ease-in-out-cubic;
+    transition-property: scale, background-color;
+}
+
+.unity-button:hover {
+    background-color: whitesmoke;
+    scale: 1.1 1.1;
+}
+
+.MainButton {
+    border-width: 6px;
+    border-radius: 10px;
+    border-color: rgb(40, 40, 40);
+    font-size: 48px;
+}
+
+.ClearButton{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+    .ClearButton:hover {
+        background-color: rgba(0, 0, 0, 0);
+        scale: 1 1;
+    }

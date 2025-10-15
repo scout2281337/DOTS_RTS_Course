@@ -13,6 +13,7 @@ public class UnitSelectionManagerUI : MonoBehaviour
         
         selectionAreaRectTransform.gameObject.SetActive(false);
     }
+
     private void Update()
     {
         if (selectionAreaRectTransform.gameObject.activeSelf) 
@@ -34,10 +35,10 @@ public class UnitSelectionManagerUI : MonoBehaviour
 
     private void UpdateVisual() 
     {
-        Rect selectionareaRect = UnitSelectionManager.Instance.GetSelectionareaRect();
+        Rect selectionAreaRect = UnitSelectionManager.Instance.GetSelectionAreaRect();
 
         float canvasScale = canvas.transform.localScale.x;
-        selectionAreaRectTransform.anchoredPosition = new Vector2(selectionareaRect.x, selectionareaRect.y) / canvasScale; 
-        selectionAreaRectTransform.sizeDelta = new Vector2(selectionareaRect.width, selectionareaRect.height) / canvasScale;
+        selectionAreaRectTransform.anchoredPosition = new Vector2(selectionAreaRect.x, selectionAreaRect.y) / canvasScale; 
+        selectionAreaRectTransform.sizeDelta = new Vector2(selectionAreaRect.width, selectionAreaRect.height) / canvasScale;
     }
 }
