@@ -14,11 +14,23 @@ partial struct ZombieSpawnerSystem : ISystem
 
         foreach ((RefRW<ZombieSpawner> zombieSpawner, RefRO<LocalTransform> localTransform)  in SystemAPI.Query<RefRW<ZombieSpawner>, RefRO<LocalTransform>>()) 
         {
-            zombieSpawner.ValueRW.timer -= SystemAPI.Time.DeltaTime; ;
+            zombieSpawner.ValueRW.timer -= SystemAPI.Time.DeltaTime;
+            
             if (zombieSpawner.ValueRO.timer > 0f) 
             {
                 continue;
             }
+            if (zombieSpawner.ValueRO.amountToSpawn <= zombieSpawner.ValueRO.spawnedEntities)
+            {
+                zombieSpawner.ValueRW.waveDelay -= SystemAPI.Time.DeltaTime;
+                if (zombieSpawner.ValueRW.waveDelay < 0f) 
+                {
+                    zombieSpawner.ValueRW.waveDelay = zombieSpawner.ValueRO.waveDelayMax;
+                    zombieSpawner.ValueRW.spawnedEntities = 0;
+                }
+                continue ;
+            }
+            zombieSpawner.ValueRW.spawnedEntities += 1;
             zombieSpawner.ValueRW.timer = zombieSpawner.ValueRO.timerMax; 
             
             Entity zombieEntity = state.EntityManager.Instantiate(entitiesReferences.zombiePrefabEntity);
