@@ -49,6 +49,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SelectUnitsButton",
+                    "type": "Button",
+                    "id": "26835863-c7a1-4456-9055-6433ad14ba5c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectUnitsButtonPosition",
+                    "type": "Value",
+                    "id": "0faad340-1530-4778-99ce-276416ba9cbb",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -121,7 +139,7 @@
                 {
                     "name": "up",
                     "id": "ae8e2d97-d1f4-46b0-b2f7-de82acadd0b2",
-                    "path": "<Gamepad>/rightStick/up",
+                    "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -132,7 +150,7 @@
                 {
                     "name": "down",
                     "id": "2db335d8-2fd4-4cde-9658-47be3cbe670e",
-                    "path": "<Gamepad>/rightStick/down",
+                    "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -143,7 +161,7 @@
                 {
                     "name": "left",
                     "id": "1294ee2d-4bc9-4b57-b6ad-e66d9e689244",
-                    "path": "<Gamepad>/leftStick/right",
+                    "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -154,7 +172,7 @@
                 {
                     "name": "right",
                     "id": "64ced4a3-57f3-4b82-aa6b-f3d4c134d362",
-                    "path": "<Gamepad>/rightStick/right",
+                    "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -203,6 +221,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "SpeedBoost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fcc3e138-d54d-4117-a856-92aa5e47811e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectUnitsButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "08a995e1-0f3e-478b-b2ca-da97509ade86",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectUnitsButtonPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

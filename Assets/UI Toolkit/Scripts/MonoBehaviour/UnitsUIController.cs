@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class UnitsUIController : MonoBehaviour
@@ -12,13 +13,45 @@ public class UnitsUIController : MonoBehaviour
 
     private Vector2 selectionStartMousePosition;
 
-
+    private bool isPresedUnitsSelectionButton;
+    private GameControls gameControls;
     private void Awake()
     {
         InitializeUI();
-
+        gameControls = new GameControls();
     }
 
+    private void OnEnable()
+    {
+        gameControls.Player.Enable();
+
+        gameControls.Player.SelectUnitsButton.started += OnSelectUnitsButtonPerformed;
+        gameControls.Player.SelectUnitsButton.canceled += OnSelectUnitsButtonCanceled;
+    }
+
+    private void OnDisable()
+    {
+        gameControls.Player.Disable();
+
+        gameControls.Player.SelectUnitsButton.started -= OnSelectUnitsButtonPerformed;
+        gameControls.Player.SelectUnitsButton.canceled -= OnSelectUnitsButtonCanceled;
+    }
+
+    private void OnSelectUnitsButtonPerformed(InputAction.CallbackContext context) 
+    {
+        isPresedUnitsSelectionButton = true;
+
+        //Debug.Log("сработало");
+        selectionStartMousePosition = gameControls.Player.SelectUnitsButtonPosition.ReadValue<Vector2>();//Input.mousePosition;
+        selectionBox.style.display = DisplayStyle.Flex;
+        selectionBoxActive = true;
+    }
+
+    private void OnSelectUnitsButtonCanceled(InputAction.CallbackContext context)
+    {
+        isPresedUnitsSelectionButton = false;
+        //Debug.Log("Released!");
+    }
     private void InitializeUI()
     {
         VisualElement root = uiDocument.rootVisualElement;
@@ -37,20 +70,15 @@ public class UnitsUIController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            selectionStartMousePosition = Input.mousePosition;
-            selectionBox.style.display = DisplayStyle.Flex;
-            selectionBoxActive = true;
-        }
 
         if (selectionBoxActive)
         {
             UpdateSelectionBox();
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if  (!isPresedUnitsSelectionButton /*Input.GetMouseButtonUp(0)*/)
         {
+            //Debug.Log("сработало dsrk.xtybt");
             selectionBox.style.display = DisplayStyle.None;
             selectionBoxActive = false;
         }
@@ -58,7 +86,7 @@ public class UnitsUIController : MonoBehaviour
 
     private void UpdateSelectionBox()
     {
-        Vector2 selectionEndMousePosition = Input.mousePosition;
+        Vector2 selectionEndMousePosition = gameControls.Player.SelectUnitsButtonPosition.ReadValue<Vector2>();
 
         Vector2 lowerLeftCorner = new Vector2(
             Mathf.Min(selectionStartMousePosition.x, selectionEndMousePosition.x),

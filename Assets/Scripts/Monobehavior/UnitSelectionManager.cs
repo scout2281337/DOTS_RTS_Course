@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class UnitSelectionManager : MonoBehaviour
 {
+    // Переписать инпуты
     public static UnitSelectionManager Instance { get; private set; }
 
     public event EventHandler OnSelectionAreaStart;

@@ -129,7 +129,7 @@ public class CameraController : MonoBehaviour
     {
         float speedMyltiplier = 1;
         
-        if (Input.GetKey(KeyCode.LeftShift)) 
+        if (isPressedLeftShift) 
         {
             speedMyltiplier = 3;   
         }

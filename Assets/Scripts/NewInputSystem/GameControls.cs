@@ -135,6 +135,24 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUnitsButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""26835863-c7a1-4456-9055-6433ad14ba5c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectUnitsButtonPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""0faad340-1530-4778-99ce-276416ba9cbb"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -207,7 +225,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""ae8e2d97-d1f4-46b0-b2f7-de82acadd0b2"",
-                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -218,7 +236,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""2db335d8-2fd4-4cde-9658-47be3cbe670e"",
-                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -229,7 +247,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""1294ee2d-4bc9-4b57-b6ad-e66d9e689244"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -240,7 +258,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""64ced4a3-57f3-4b82-aa6b-f3d4c134d362"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -291,6 +309,28 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""action"": ""SpeedBoost"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcc3e138-d54d-4117-a856-92aa5e47811e"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUnitsButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08a995e1-0f3e-478b-b2ca-da97509ade86"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectUnitsButtonPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -304,6 +344,8 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Player_ClickForRotation = m_Player.FindAction("ClickForRotation", throwIfNotFound: true);
         m_Player_ScreenZoom = m_Player.FindAction("ScreenZoom", throwIfNotFound: true);
         m_Player_SpeedBoost = m_Player.FindAction("SpeedBoost", throwIfNotFound: true);
+        m_Player_SelectUnitsButton = m_Player.FindAction("SelectUnitsButton", throwIfNotFound: true);
+        m_Player_SelectUnitsButtonPosition = m_Player.FindAction("SelectUnitsButtonPosition", throwIfNotFound: true);
     }
 
     ~@GameControls()
@@ -389,6 +431,8 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ClickForRotation;
     private readonly InputAction m_Player_ScreenZoom;
     private readonly InputAction m_Player_SpeedBoost;
+    private readonly InputAction m_Player_SelectUnitsButton;
+    private readonly InputAction m_Player_SelectUnitsButtonPosition;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -420,6 +464,14 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/SpeedBoost".
         /// </summary>
         public InputAction @SpeedBoost => m_Wrapper.m_Player_SpeedBoost;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectUnitsButton".
+        /// </summary>
+        public InputAction @SelectUnitsButton => m_Wrapper.m_Player_SelectUnitsButton;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectUnitsButtonPosition".
+        /// </summary>
+        public InputAction @SelectUnitsButtonPosition => m_Wrapper.m_Player_SelectUnitsButtonPosition;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -461,6 +513,12 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @SpeedBoost.started += instance.OnSpeedBoost;
             @SpeedBoost.performed += instance.OnSpeedBoost;
             @SpeedBoost.canceled += instance.OnSpeedBoost;
+            @SelectUnitsButton.started += instance.OnSelectUnitsButton;
+            @SelectUnitsButton.performed += instance.OnSelectUnitsButton;
+            @SelectUnitsButton.canceled += instance.OnSelectUnitsButton;
+            @SelectUnitsButtonPosition.started += instance.OnSelectUnitsButtonPosition;
+            @SelectUnitsButtonPosition.performed += instance.OnSelectUnitsButtonPosition;
+            @SelectUnitsButtonPosition.canceled += instance.OnSelectUnitsButtonPosition;
         }
 
         /// <summary>
@@ -487,6 +545,12 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @SpeedBoost.started -= instance.OnSpeedBoost;
             @SpeedBoost.performed -= instance.OnSpeedBoost;
             @SpeedBoost.canceled -= instance.OnSpeedBoost;
+            @SelectUnitsButton.started -= instance.OnSelectUnitsButton;
+            @SelectUnitsButton.performed -= instance.OnSelectUnitsButton;
+            @SelectUnitsButton.canceled -= instance.OnSelectUnitsButton;
+            @SelectUnitsButtonPosition.started -= instance.OnSelectUnitsButtonPosition;
+            @SelectUnitsButtonPosition.performed -= instance.OnSelectUnitsButtonPosition;
+            @SelectUnitsButtonPosition.canceled -= instance.OnSelectUnitsButtonPosition;
         }
 
         /// <summary>
@@ -562,5 +626,19 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSpeedBoost(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectUnitsButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectUnitsButton(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectUnitsButtonPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectUnitsButtonPosition(InputAction.CallbackContext context);
     }
 }
