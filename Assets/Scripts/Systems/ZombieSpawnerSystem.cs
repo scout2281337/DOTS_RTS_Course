@@ -14,37 +14,55 @@ partial struct ZombieSpawnerSystem : ISystem
 
         foreach ((RefRW<ZombieSpawner> zombieSpawner, RefRO<LocalTransform> localTransform)  in SystemAPI.Query<RefRW<ZombieSpawner>, RefRO<LocalTransform>>()) 
         {
-            zombieSpawner.ValueRW.timer -= SystemAPI.Time.DeltaTime;
+            if (zombieSpawner.ValueRO.currentWave <= zombieSpawner.ValueRO.waveAmount) 
+            {
+                zombieSpawner.ValueRW.timer -= SystemAPI.Time.DeltaTime;
             
-            if (zombieSpawner.ValueRO.timer > 0f) 
-            {
-                continue;
-            }
-            if (zombieSpawner.ValueRO.amountToSpawn <= zombieSpawner.ValueRO.spawnedEntities)
-            {
-                zombieSpawner.ValueRW.waveDelay -= SystemAPI.Time.DeltaTime;
-                if (zombieSpawner.ValueRW.waveDelay < 0f) 
+                if (zombieSpawner.ValueRO.timer > 0f) 
                 {
-                    zombieSpawner.ValueRW.waveDelay = zombieSpawner.ValueRO.waveDelayMax;
-                    zombieSpawner.ValueRW.spawnedEntities = 0;
+                    continue;
                 }
-                continue ;
-            }
-            zombieSpawner.ValueRW.spawnedEntities += 1;
-            zombieSpawner.ValueRW.timer = zombieSpawner.ValueRO.timerMax; 
+                if (zombieSpawner.ValueRO.amountToSpawn <= zombieSpawner.ValueRO.spawnedEntities) // Переделать на ивенты
+                {
+                    zombieSpawner.ValueRW.waveDelay -= SystemAPI.Time.DeltaTime;
+                    if (zombieSpawner.ValueRW.waveDelay < 0f) 
+                    {
+                        zombieSpawner.ValueRW.waveDelay = zombieSpawner.ValueRO.waveDelayMax;
+                        zombieSpawner.ValueRW.spawnedEntities = 0;
+                        zombieSpawner.ValueRW.currentWave += 1;
+                    }
+                    continue ;
+                }
+                zombieSpawner.ValueRW.spawnedEntities += 1;
+                zombieSpawner.ValueRW.timer = zombieSpawner.ValueRO.timerMax; 
             
-            Entity zombieEntity = state.EntityManager.Instantiate(entitiesReferences.zombiePrefabEntity);
-            //float3 zombieSpawnWorldPosition = localTransform.ValueRO.TransformPoint(localTransform.ValueRO.Position);
-            SystemAPI.SetComponent(zombieEntity, LocalTransform.FromPosition(zombieSpawner.ValueRO.zombieSpawnPosition));
+                Entity zombieEntity = state.EntityManager.Instantiate(entitiesReferences.zombiePrefabEntity);
+                //float3 zombieSpawnWorldPosition = localTransform.ValueRO.TransformPoint(localTransform.ValueRO.Position);
+                SystemAPI.SetComponent(zombieEntity, LocalTransform.FromPosition(zombieSpawner.ValueRO.zombieSpawnPosition));
+            
+                if (zombieSpawner.ValueRO.isRandomWalkingOnStart)
+                {
+                    // Вариант при котором враги идут в слуайную позицию после создания
+                    entityCommandBuffer.AddComponent(zombieEntity, new RandomWalking
+                    {
+                        originPosition = localTransform.ValueRO.Position,
+                        targetPosition = localTransform.ValueRO.Position,
+                        distanceMin = zombieSpawner.ValueRO.randomWalkingDistanceMin,
+                        distanceMax = zombieSpawner.ValueRO.randomWalkingDistanceMax,
+                        random = new Unity.Mathematics.Random((uint)zombieEntity.Index),
+                    });
+                }
+                else 
+                {
+                    // Вариант когда враги идут в указанную ячейку после появления
+                    SystemAPI.SetComponent(zombieEntity, new Target
+                    {
+                        // Задаем стартовую позицию
+                        targetEntity = zombieSpawner.ValueRO.startTargetEntity,
 
-            entityCommandBuffer.AddComponent(zombieEntity, new RandomWalking
-            {
-                originPosition = localTransform.ValueRO.Position,
-                targetPosition = localTransform.ValueRO.Position,
-                distanceMin = zombieSpawner.ValueRO.randomWalkingDistanceMin,
-                distanceMax = zombieSpawner.ValueRO.randomWalkingDistanceMax,
-                random = new Unity.Mathematics.Random((uint)zombieEntity.Index),
-            });
+                    });
+                }
+            }
         }  
     }
 }
