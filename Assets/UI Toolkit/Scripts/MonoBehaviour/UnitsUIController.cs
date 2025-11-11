@@ -13,8 +13,10 @@ public class UnitsUIController : MonoBehaviour
 
     private Vector2 selectionStartMousePosition;
 
-    private bool isPresedUnitsSelectionButton;
+    private bool isPressedUnitsSelectionButton;
     private GameControls gameControls;
+
+
     private void Awake()
     {
         InitializeUI();
@@ -39,7 +41,7 @@ public class UnitsUIController : MonoBehaviour
 
     private void OnSelectUnitsButtonPerformed(InputAction.CallbackContext context) 
     {
-        isPresedUnitsSelectionButton = true;
+        isPressedUnitsSelectionButton = true;
 
         //Debug.Log("сработало");
         selectionStartMousePosition = gameControls.Player.SelectUnitsButtonPosition.ReadValue<Vector2>();//Input.mousePosition;
@@ -49,9 +51,10 @@ public class UnitsUIController : MonoBehaviour
 
     private void OnSelectUnitsButtonCanceled(InputAction.CallbackContext context)
     {
-        isPresedUnitsSelectionButton = false;
+        isPressedUnitsSelectionButton = false;
         //Debug.Log("Released!");
     }
+
     private void InitializeUI()
     {
         VisualElement root = uiDocument.rootVisualElement;
@@ -76,7 +79,7 @@ public class UnitsUIController : MonoBehaviour
             UpdateSelectionBox();
         }
 
-        if  (!isPresedUnitsSelectionButton /*Input.GetMouseButtonUp(0)*/)
+        if  (!isPressedUnitsSelectionButton /*Input.GetMouseButtonUp(0)*/)
         {
             //Debug.Log("сработало dsrk.xtybt");
             selectionBox.style.display = DisplayStyle.None;
@@ -87,6 +90,10 @@ public class UnitsUIController : MonoBehaviour
     private void UpdateSelectionBox()
     {
         Vector2 selectionEndMousePosition = gameControls.Player.SelectUnitsButtonPosition.ReadValue<Vector2>();
+        //Debug.Log(selectionEndMousePosition);
+
+        Vector2 resolutionDelta = new(1920 / Screen.width, 1080 / Screen.height);
+        //Debug.Log(resolutionDelta);
 
         Vector2 lowerLeftCorner = new Vector2(
             Mathf.Min(selectionStartMousePosition.x, selectionEndMousePosition.x),
@@ -98,9 +105,9 @@ public class UnitsUIController : MonoBehaviour
             Mathf.Max(selectionStartMousePosition.y, selectionEndMousePosition.y)
         );
 
-        selectionBox.style.left = lowerLeftCorner.x;
-        selectionBox.style.bottom = lowerLeftCorner.y;
-        selectionBox.style.width = upperRightCorner.x - lowerLeftCorner.x;
-        selectionBox.style.height = upperRightCorner.y - lowerLeftCorner.y;
+        selectionBox.style.left = lowerLeftCorner.x * resolutionDelta.x;
+        selectionBox.style.bottom = lowerLeftCorner.y * resolutionDelta.y;
+        selectionBox.style.width = (upperRightCorner.x - lowerLeftCorner.x) * resolutionDelta.x;
+        selectionBox.style.height = (upperRightCorner.y - lowerLeftCorner.y) * resolutionDelta.y;
     }
 }

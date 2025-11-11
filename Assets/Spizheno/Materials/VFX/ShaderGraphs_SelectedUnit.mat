@@ -30,7 +30,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses:
@@ -61,7 +61,7 @@ Material:
     - _DstBlend: 0
     - _Health: 1
     - _HighEdge: 1
-    - _LowEdge: 0.85
+    - _LowEdge: 0.749
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 1
