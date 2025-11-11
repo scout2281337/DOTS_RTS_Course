@@ -92,7 +92,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             ""id"": ""deb16286-12ca-4820-8f1a-6a3f7934dbdf"",
             ""actions"": [
                 {
-                    ""name"": ""Movement"",
+                    ""name"": ""CameraMovement"",
                     ""type"": ""Value"",
                     ""id"": ""8eeb4952-fba1-40cc-ac8d-2e37be397b4f"",
                     ""expectedControlType"": ""Vector2"",
@@ -101,25 +101,16 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""CameraRotation"",
+                    ""name"": ""CameraTurn"",
                     ""type"": ""Value"",
-                    ""id"": ""6e6597c7-b6cc-43d4-a6d0-ad7ef68a006b"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""id"": ""60a8306d-c090-4304-bc19-bc46cea59a63"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""ClickForRotation"",
-                    ""type"": ""Button"",
-                    ""id"": ""8b5567b4-249f-4af1-a124-b503d49ef15c"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ScreenZoom"",
+                    ""name"": ""CameraZoom"",
                     ""type"": ""PassThrough"",
                     ""id"": ""ad7a5a17-cd09-4e96-abea-09dbe688447d"",
                     ""expectedControlType"": ""Vector2"",
@@ -137,7 +128,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SelectUnitsButton"",
+                    ""name"": ""SelectionInteraction"",
                     ""type"": ""Button"",
                     ""id"": ""26835863-c7a1-4456-9055-6433ad14ba5c"",
                     ""expectedControlType"": """",
@@ -146,7 +137,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SelectUnitsButtonPosition"",
+                    ""name"": ""CursorPosition"",
                     ""type"": ""Value"",
                     ""id"": ""0faad340-1530-4778-99ce-276416ba9cbb"",
                     ""expectedControlType"": ""Vector2"",
@@ -163,7 +154,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -174,7 +165,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -185,7 +176,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -196,7 +187,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -207,7 +198,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -218,7 +209,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -229,7 +220,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -240,7 +231,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -251,7 +242,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -262,31 +253,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""CameraMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""88b85313-fd10-4d26-b031-e5332dd29ea4"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CameraRotation"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f3fbffa3-f640-4e11-892a-1ff84bd4b422"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ClickForRotation"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -295,7 +264,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ScreenZoom"",
+                    ""action"": ""CameraZoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -317,7 +286,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SelectUnitsButton"",
+                    ""action"": ""SelectionInteraction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -328,9 +297,42 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SelectUnitsButtonPosition"",
+                    ""action"": ""CursorPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""2cfee37b-5b55-4a6b-b368-1803e1eb965d"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraTurn"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""cef5b07d-9c8a-42fc-88d6-2ef9dfc571c4"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraTurn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""59b7a598-0bab-4263-9a4d-5542ae457343"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraTurn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -339,13 +341,12 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
-        m_Player_CameraRotation = m_Player.FindAction("CameraRotation", throwIfNotFound: true);
-        m_Player_ClickForRotation = m_Player.FindAction("ClickForRotation", throwIfNotFound: true);
-        m_Player_ScreenZoom = m_Player.FindAction("ScreenZoom", throwIfNotFound: true);
+        m_Player_CameraMovement = m_Player.FindAction("CameraMovement", throwIfNotFound: true);
+        m_Player_CameraTurn = m_Player.FindAction("CameraTurn", throwIfNotFound: true);
+        m_Player_CameraZoom = m_Player.FindAction("CameraZoom", throwIfNotFound: true);
         m_Player_SpeedBoost = m_Player.FindAction("SpeedBoost", throwIfNotFound: true);
-        m_Player_SelectUnitsButton = m_Player.FindAction("SelectUnitsButton", throwIfNotFound: true);
-        m_Player_SelectUnitsButtonPosition = m_Player.FindAction("SelectUnitsButtonPosition", throwIfNotFound: true);
+        m_Player_SelectionInteraction = m_Player.FindAction("SelectionInteraction", throwIfNotFound: true);
+        m_Player_CursorPosition = m_Player.FindAction("CursorPosition", throwIfNotFound: true);
     }
 
     ~@GameControls()
@@ -426,13 +427,12 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Movement;
-    private readonly InputAction m_Player_CameraRotation;
-    private readonly InputAction m_Player_ClickForRotation;
-    private readonly InputAction m_Player_ScreenZoom;
+    private readonly InputAction m_Player_CameraMovement;
+    private readonly InputAction m_Player_CameraTurn;
+    private readonly InputAction m_Player_CameraZoom;
     private readonly InputAction m_Player_SpeedBoost;
-    private readonly InputAction m_Player_SelectUnitsButton;
-    private readonly InputAction m_Player_SelectUnitsButtonPosition;
+    private readonly InputAction m_Player_SelectionInteraction;
+    private readonly InputAction m_Player_CursorPosition;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -445,33 +445,29 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// </summary>
         public PlayerActions(@GameControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Player/Movement".
+        /// Provides access to the underlying input action "Player/CameraMovement".
         /// </summary>
-        public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @CameraMovement => m_Wrapper.m_Player_CameraMovement;
         /// <summary>
-        /// Provides access to the underlying input action "Player/CameraRotation".
+        /// Provides access to the underlying input action "Player/CameraTurn".
         /// </summary>
-        public InputAction @CameraRotation => m_Wrapper.m_Player_CameraRotation;
+        public InputAction @CameraTurn => m_Wrapper.m_Player_CameraTurn;
         /// <summary>
-        /// Provides access to the underlying input action "Player/ClickForRotation".
+        /// Provides access to the underlying input action "Player/CameraZoom".
         /// </summary>
-        public InputAction @ClickForRotation => m_Wrapper.m_Player_ClickForRotation;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/ScreenZoom".
-        /// </summary>
-        public InputAction @ScreenZoom => m_Wrapper.m_Player_ScreenZoom;
+        public InputAction @CameraZoom => m_Wrapper.m_Player_CameraZoom;
         /// <summary>
         /// Provides access to the underlying input action "Player/SpeedBoost".
         /// </summary>
         public InputAction @SpeedBoost => m_Wrapper.m_Player_SpeedBoost;
         /// <summary>
-        /// Provides access to the underlying input action "Player/SelectUnitsButton".
+        /// Provides access to the underlying input action "Player/SelectionInteraction".
         /// </summary>
-        public InputAction @SelectUnitsButton => m_Wrapper.m_Player_SelectUnitsButton;
+        public InputAction @SelectionInteraction => m_Wrapper.m_Player_SelectionInteraction;
         /// <summary>
-        /// Provides access to the underlying input action "Player/SelectUnitsButtonPosition".
+        /// Provides access to the underlying input action "Player/CursorPosition".
         /// </summary>
-        public InputAction @SelectUnitsButtonPosition => m_Wrapper.m_Player_SelectUnitsButtonPosition;
+        public InputAction @CursorPosition => m_Wrapper.m_Player_CursorPosition;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -498,27 +494,24 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @Movement.started += instance.OnMovement;
-            @Movement.performed += instance.OnMovement;
-            @Movement.canceled += instance.OnMovement;
-            @CameraRotation.started += instance.OnCameraRotation;
-            @CameraRotation.performed += instance.OnCameraRotation;
-            @CameraRotation.canceled += instance.OnCameraRotation;
-            @ClickForRotation.started += instance.OnClickForRotation;
-            @ClickForRotation.performed += instance.OnClickForRotation;
-            @ClickForRotation.canceled += instance.OnClickForRotation;
-            @ScreenZoom.started += instance.OnScreenZoom;
-            @ScreenZoom.performed += instance.OnScreenZoom;
-            @ScreenZoom.canceled += instance.OnScreenZoom;
+            @CameraMovement.started += instance.OnCameraMovement;
+            @CameraMovement.performed += instance.OnCameraMovement;
+            @CameraMovement.canceled += instance.OnCameraMovement;
+            @CameraTurn.started += instance.OnCameraTurn;
+            @CameraTurn.performed += instance.OnCameraTurn;
+            @CameraTurn.canceled += instance.OnCameraTurn;
+            @CameraZoom.started += instance.OnCameraZoom;
+            @CameraZoom.performed += instance.OnCameraZoom;
+            @CameraZoom.canceled += instance.OnCameraZoom;
             @SpeedBoost.started += instance.OnSpeedBoost;
             @SpeedBoost.performed += instance.OnSpeedBoost;
             @SpeedBoost.canceled += instance.OnSpeedBoost;
-            @SelectUnitsButton.started += instance.OnSelectUnitsButton;
-            @SelectUnitsButton.performed += instance.OnSelectUnitsButton;
-            @SelectUnitsButton.canceled += instance.OnSelectUnitsButton;
-            @SelectUnitsButtonPosition.started += instance.OnSelectUnitsButtonPosition;
-            @SelectUnitsButtonPosition.performed += instance.OnSelectUnitsButtonPosition;
-            @SelectUnitsButtonPosition.canceled += instance.OnSelectUnitsButtonPosition;
+            @SelectionInteraction.started += instance.OnSelectionInteraction;
+            @SelectionInteraction.performed += instance.OnSelectionInteraction;
+            @SelectionInteraction.canceled += instance.OnSelectionInteraction;
+            @CursorPosition.started += instance.OnCursorPosition;
+            @CursorPosition.performed += instance.OnCursorPosition;
+            @CursorPosition.canceled += instance.OnCursorPosition;
         }
 
         /// <summary>
@@ -530,27 +523,24 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerActions" />
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @Movement.started -= instance.OnMovement;
-            @Movement.performed -= instance.OnMovement;
-            @Movement.canceled -= instance.OnMovement;
-            @CameraRotation.started -= instance.OnCameraRotation;
-            @CameraRotation.performed -= instance.OnCameraRotation;
-            @CameraRotation.canceled -= instance.OnCameraRotation;
-            @ClickForRotation.started -= instance.OnClickForRotation;
-            @ClickForRotation.performed -= instance.OnClickForRotation;
-            @ClickForRotation.canceled -= instance.OnClickForRotation;
-            @ScreenZoom.started -= instance.OnScreenZoom;
-            @ScreenZoom.performed -= instance.OnScreenZoom;
-            @ScreenZoom.canceled -= instance.OnScreenZoom;
+            @CameraMovement.started -= instance.OnCameraMovement;
+            @CameraMovement.performed -= instance.OnCameraMovement;
+            @CameraMovement.canceled -= instance.OnCameraMovement;
+            @CameraTurn.started -= instance.OnCameraTurn;
+            @CameraTurn.performed -= instance.OnCameraTurn;
+            @CameraTurn.canceled -= instance.OnCameraTurn;
+            @CameraZoom.started -= instance.OnCameraZoom;
+            @CameraZoom.performed -= instance.OnCameraZoom;
+            @CameraZoom.canceled -= instance.OnCameraZoom;
             @SpeedBoost.started -= instance.OnSpeedBoost;
             @SpeedBoost.performed -= instance.OnSpeedBoost;
             @SpeedBoost.canceled -= instance.OnSpeedBoost;
-            @SelectUnitsButton.started -= instance.OnSelectUnitsButton;
-            @SelectUnitsButton.performed -= instance.OnSelectUnitsButton;
-            @SelectUnitsButton.canceled -= instance.OnSelectUnitsButton;
-            @SelectUnitsButtonPosition.started -= instance.OnSelectUnitsButtonPosition;
-            @SelectUnitsButtonPosition.performed -= instance.OnSelectUnitsButtonPosition;
-            @SelectUnitsButtonPosition.canceled -= instance.OnSelectUnitsButtonPosition;
+            @SelectionInteraction.started -= instance.OnSelectionInteraction;
+            @SelectionInteraction.performed -= instance.OnSelectionInteraction;
+            @SelectionInteraction.canceled -= instance.OnSelectionInteraction;
+            @CursorPosition.started -= instance.OnCursorPosition;
+            @CursorPosition.performed -= instance.OnCursorPosition;
+            @CursorPosition.canceled -= instance.OnCursorPosition;
         }
 
         /// <summary>
@@ -592,33 +582,26 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "CameraMovement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMovement(InputAction.CallbackContext context);
+        void OnCameraMovement(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "CameraRotation" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "CameraTurn" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCameraRotation(InputAction.CallbackContext context);
+        void OnCameraTurn(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "ClickForRotation" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "CameraZoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnClickForRotation(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "ScreenZoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnScreenZoom(InputAction.CallbackContext context);
+        void OnCameraZoom(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "SpeedBoost" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -627,18 +610,18 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSpeedBoost(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "SelectUnitsButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "SelectionInteraction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSelectUnitsButton(InputAction.CallbackContext context);
+        void OnSelectionInteraction(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "SelectUnitsButtonPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "CursorPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSelectUnitsButtonPosition(InputAction.CallbackContext context);
+        void OnCursorPosition(InputAction.CallbackContext context);
     }
 }

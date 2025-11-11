@@ -1,110 +1,77 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    private GameControls gameControls;
-    
+    [SerializeField] private CameraConfig cameraConfig;
+
     private Vector2 moveInput;
-    private Vector2 mouseInput;
-    private Vector2 scrollInput;
-
-    public float cameraMovementSpeed;
-    public float scrollMovementSpeed;
-
-    public float sensitivity = 5f;
-    public float pitchMin = -80f;
-    public float pitchMax = 80f;
-
-    private float yaw = 0f;
-    private float pitch = 0f;
-
-    public GameObject mainCamera;
-
-    private bool isRightMouseButtonPressed;
+    private float turnInput;
+    private Vector2 zoomInput;
     private bool isPressedLeftShift;
-    private void Awake()
-    {
-        gameControls = new GameControls();
-        Vector3 angles = mainCamera.transform.eulerAngles;
-        yaw = angles.y;
-        pitch = angles.x;
-    }
 
+    private GameControls gameControls;
 
+    #region InputSystemSetup
     private void OnEnable()
     {
         gameControls.Player.Enable();
 
-        gameControls.Player.Movement.performed += OnMovePerformed;
-        gameControls.Player.Movement.canceled += OnMoveCanceled;
+        gameControls.Player.CameraMovement.performed += OnCameraMovePerformed;
+        gameControls.Player.CameraMovement.canceled += OnCameraMoveCanceled;
 
-        gameControls.Player.CameraRotation.performed += OnLookPerformed;
-        gameControls.Player.CameraRotation.canceled += OnLookCanceled;
+        gameControls.Player.CameraTurn.performed += OnCameraTurnPerformed;
+        gameControls.Player.CameraTurn.canceled += OnCameraTurnCanceled;
 
-        gameControls.Player.ClickForRotation.performed += OnClickPerformed;
-        gameControls.Player.ClickForRotation.canceled += OnClickCanceled;
-
-        gameControls.Player.ScreenZoom.performed += OnScrollPerformed;
-        gameControls.Player.ScreenZoom.canceled += OnScrollCanceled;
+        gameControls.Player.CameraZoom.performed += OnCameraZoomPerformed;
+        gameControls.Player.CameraZoom.canceled += OnCameraZoomCanceled;
 
         gameControls.Player.SpeedBoost.performed += OnSpeedBoostPreformed;
         gameControls.Player.SpeedBoost.canceled += OnSpeedBoostCanceled;
-
     }
 
     private void OnDisable()
     {
-        gameControls.Player.Movement.performed -= OnMovePerformed;
-        gameControls.Player.Movement.canceled -= OnMoveCanceled;
+        gameControls.Player.CameraMovement.performed -= OnCameraMovePerformed;
+        gameControls.Player.CameraMovement.canceled -= OnCameraMoveCanceled;
 
-        gameControls.Player.CameraRotation.performed -= OnLookPerformed;
-        gameControls.Player.CameraRotation.canceled -= OnLookCanceled;
+        gameControls.Player.CameraTurn.performed -= OnCameraTurnPerformed;
+        gameControls.Player.CameraTurn.canceled -= OnCameraTurnCanceled;
 
-        gameControls.Player.ClickForRotation.performed -= OnClickPerformed;
-        gameControls.Player.ClickForRotation.canceled -= OnClickCanceled;
-
-        gameControls.Player.ScreenZoom.performed -= OnScrollPerformed;
-        gameControls.Player.ScreenZoom.canceled -= OnScrollCanceled;
+        gameControls.Player.CameraZoom.performed -= OnCameraZoomPerformed;
+        gameControls.Player.CameraZoom.canceled -= OnCameraZoomCanceled;
 
         gameControls.Player.SpeedBoost.performed -= OnSpeedBoostPreformed;
         gameControls.Player.SpeedBoost.canceled -= OnSpeedBoostCanceled;
 
         gameControls.Player.Disable();
     }
-    private void OnMovePerformed(InputAction.CallbackContext context) 
+
+    private void OnCameraMovePerformed(InputAction.CallbackContext context) 
     {
         moveInput = context.ReadValue<Vector2>();
     }
-    private void OnMoveCanceled(InputAction.CallbackContext context)
+    private void OnCameraMoveCanceled(InputAction.CallbackContext context)
     {
         moveInput = Vector2.zero;
     }
-    private void OnLookPerformed(InputAction.CallbackContext context)
+    private void OnCameraTurnPerformed(InputAction.CallbackContext context)
     {
-        mouseInput = context.ReadValue<Vector2>();
+        turnInput = context.ReadValue<float>();
     }
-    private void OnLookCanceled(InputAction.CallbackContext context)
+    private void OnCameraTurnCanceled(InputAction.CallbackContext context)
     {
-        mouseInput = Vector2.zero;
+        turnInput = 0;
     }
-    private void OnClickPerformed(InputAction.CallbackContext context)
+    private void OnCameraZoomPerformed(InputAction.CallbackContext context) 
     {
-        isRightMouseButtonPressed = true;    
+        zoomInput = context.ReadValue<Vector2>();   
     }
-    private void OnClickCanceled(InputAction.CallbackContext context)
+    private void OnCameraZoomCanceled(InputAction.CallbackContext context)
     {
-        isRightMouseButtonPressed= false;
+        zoomInput = Vector2.zero ;
     }
-    private void OnScrollPerformed(InputAction.CallbackContext context) 
-    {
-        scrollInput = context.ReadValue<Vector2>();   
-    }
-    private void OnScrollCanceled(InputAction.CallbackContext context)
-    {
-        scrollInput = Vector2.zero ;
-    }
-
     private void OnSpeedBoostPreformed(InputAction.CallbackContext context) 
     {
         isPressedLeftShift = true;
@@ -113,48 +80,52 @@ public class CameraController : MonoBehaviour
     {
         isPressedLeftShift = false;
     }
+    #endregion
 
-
-
-
-
+    private void Awake()
+    {
+        gameControls = new GameControls();
+    }
 
     void Update()
     {
         MoveCamera();
+
+        ZoomCamera();
+
         RotateCamera();
     }
 
     public void MoveCamera() 
     {
-        float speedMyltiplier = 1;
-        
+        float movementAmount = cameraConfig.cameraMovementSpeed * Time.deltaTime * Mathf.Sqrt(transform.localScale.x);
         if (isPressedLeftShift) 
         {
-            speedMyltiplier = 3;   
+            movementAmount *= 3;   
         }
-        
 
-        transform.position += ((transform.forward * moveInput.y) + (transform.right * moveInput.x)) * speedMyltiplier * cameraMovementSpeed * Time.deltaTime;
+        Vector3 movementDirectionLS = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+        Vector3 movementDirectionWS = transform.TransformDirection(movementDirectionLS);
 
+        transform.position += movementAmount * movementDirectionWS;
 
-        transform.position += mainCamera.transform.forward * Time.deltaTime * scrollMovementSpeed * scrollInput.y;
+        float moveClampX = Mathf.Clamp(transform.position.x, -cameraConfig.cameraMovementLimit.x, cameraConfig.cameraMovementLimit.x);
+        float moveClampZ = Mathf.Clamp(transform.position.z, -cameraConfig.cameraMovementLimit.y, cameraConfig.cameraMovementLimit.y);
+        transform.position = new Vector3(moveClampX, 0, moveClampZ);
     }
 
-    public void RotateCamera() 
+    private void ZoomCamera()
     {
-        if (isRightMouseButtonPressed) 
-        {
-            yaw += mouseInput.x * sensitivity;
-            pitch -= mouseInput.y * sensitivity;
-            pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
+        float zoomAmount = zoomInput.y * cameraConfig.cameraZoomSpeed * Time.deltaTime * transform.localScale.x;
+        transform.localScale -= new Vector3(zoomAmount, zoomAmount, zoomAmount);
 
-            mainCamera.transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
-            
-            Vector3 cameraEuler = mainCamera.transform.eulerAngles;
-            transform.rotation = Quaternion.Euler( 0f, cameraEuler.y, 0f); 
-        }
+        float zoomClamp = Mathf.Clamp(transform.localScale.x, cameraConfig.cameraZoomLimit.x, cameraConfig.cameraZoomLimit.y);
+        transform.localScale = new Vector3(zoomClamp, zoomClamp, zoomClamp);
     }
-    
-    
+
+    public void RotateCamera()
+    {
+        float turnAmount = turnInput * cameraConfig.cameraTurnSpeed * Time.deltaTime;
+        transform.Rotate(new Vector3(0, -turnAmount, 0));
+    }
 }

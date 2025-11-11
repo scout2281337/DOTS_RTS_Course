@@ -27,16 +27,16 @@ public class UnitsUIController : MonoBehaviour
     {
         gameControls.Player.Enable();
 
-        gameControls.Player.SelectUnitsButton.started += OnSelectUnitsButtonPerformed;
-        gameControls.Player.SelectUnitsButton.canceled += OnSelectUnitsButtonCanceled;
+        gameControls.Player.SelectionInteraction.started += OnSelectUnitsButtonPerformed;
+        gameControls.Player.SelectionInteraction.canceled += OnSelectUnitsButtonCanceled;
     }
 
     private void OnDisable()
     {
         gameControls.Player.Disable();
 
-        gameControls.Player.SelectUnitsButton.started -= OnSelectUnitsButtonPerformed;
-        gameControls.Player.SelectUnitsButton.canceled -= OnSelectUnitsButtonCanceled;
+        gameControls.Player.SelectionInteraction.started -= OnSelectUnitsButtonPerformed;
+        gameControls.Player.SelectionInteraction.canceled -= OnSelectUnitsButtonCanceled;
     }
 
     private void OnSelectUnitsButtonPerformed(InputAction.CallbackContext context) 
@@ -44,7 +44,7 @@ public class UnitsUIController : MonoBehaviour
         isPressedUnitsSelectionButton = true;
 
         //Debug.Log("сработало");
-        selectionStartMousePosition = gameControls.Player.SelectUnitsButtonPosition.ReadValue<Vector2>();//Input.mousePosition;
+        selectionStartMousePosition = gameControls.Player.CursorPosition.ReadValue<Vector2>();//Input.mousePosition;
         selectionBox.style.display = DisplayStyle.Flex;
         selectionBoxActive = true;
     }
@@ -89,7 +89,7 @@ public class UnitsUIController : MonoBehaviour
 
     private void UpdateSelectionBox()
     {
-        Vector2 selectionEndMousePosition = gameControls.Player.SelectUnitsButtonPosition.ReadValue<Vector2>();
+        Vector2 selectionEndMousePosition = gameControls.Player.CursorPosition.ReadValue<Vector2>();
         //Debug.Log(selectionEndMousePosition);
 
         Vector2 resolutionDelta = new(1920 / Screen.width, 1080 / Screen.height);
