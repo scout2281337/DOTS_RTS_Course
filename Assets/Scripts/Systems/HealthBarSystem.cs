@@ -45,7 +45,6 @@ partial struct HealthBarSystem : ISystem
             else 
             {
                 localTransform.ValueRW.Scale = 1f;
-
             }
 
             RefRW<PostTransformMatrix> barVisualPostTransformMatrix = 

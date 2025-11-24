@@ -1,0 +1,62 @@
+.unitPanel {
+    top: 880px;
+    align-self: center;
+    width: 1200px;
+    height: 200px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.unitProfile {
+    width: 250px;
+    height: 75px;
+    background-color: rgb(10, 10, 120);
+    opacity: 0.6;
+    flex-direction: row;
+}
+
+.unitIcon {
+    width: 50px;
+    height: 75px;
+    padding: 10px;
+}
+
+.skillBarsBox {
+    padding: 10px;
+    flex-grow: 1;
+    justify-content: space-around;
+}
+
+.skillButton {
+
+}
+
+.healthBar{
+
+}
+
+.staminaBar{
+
+}
+
+.infoPanel {
+    position: absolute;
+    bottom: 75px;
+    width: 250px;
+    height: 0px;
+    background-color: rgb(10, 10, 90);
+    opacity: 0.6;
+    overflow: hidden;
+    transition-property: height;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+.infoBlock {
+    background-color: rgb(128, 128, 128);
+    height: 80px;
+    flex-shrink: 0;
+    padding: 10px;
+    padding-bottom: 5px;
+}

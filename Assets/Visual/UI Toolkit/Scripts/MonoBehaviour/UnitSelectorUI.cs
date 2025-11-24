@@ -2,25 +2,25 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class UnitsUIController : MonoBehaviour
+public class UnitSelectorUI : MonoBehaviour
 {
     [Header("UI Toolkit")]
     [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private StyleSheetsSO styleSheet;
+    [SerializeField] private StyleSheetsSO defaultStyleSheet;
+    [SerializeField] private StyleSheet[] styleSheets;
 
     private VisualElement selectionBox;
     private bool selectionBoxActive = false;
 
     private Vector2 selectionStartMousePosition;
 
-    private bool isPressedUnitsSelectionButton;
     private GameControls gameControls;
 
 
     private void Awake()
     {
-        InitializeUI();
         gameControls = new GameControls();
+        InitializeUI();
     }
 
     private void OnEnable()
@@ -41,18 +41,15 @@ public class UnitsUIController : MonoBehaviour
 
     private void OnSelectUnitsButtonPerformed(InputAction.CallbackContext context) 
     {
-        isPressedUnitsSelectionButton = true;
-
-        //Debug.Log("сработало");
-        selectionStartMousePosition = gameControls.Player.CursorPosition.ReadValue<Vector2>();//Input.mousePosition;
+        selectionStartMousePosition = gameControls.Player.CursorPosition.ReadValue<Vector2>();
         selectionBox.style.display = DisplayStyle.Flex;
         selectionBoxActive = true;
     }
 
     private void OnSelectUnitsButtonCanceled(InputAction.CallbackContext context)
     {
-        isPressedUnitsSelectionButton = false;
-        //Debug.Log("Released!");
+        selectionBox.style.display = DisplayStyle.None;
+        selectionBoxActive = false;
     }
 
     private void InitializeUI()
@@ -60,8 +57,14 @@ public class UnitsUIController : MonoBehaviour
         VisualElement root = uiDocument.rootVisualElement;
         root.Clear();
 
-        foreach (StyleSheet sheet in styleSheet.styles)
+        foreach (StyleSheet sheet in defaultStyleSheet.styles)
+        {
             root.styleSheets.Add(sheet);
+        }
+        foreach (StyleSheet sheet in styleSheets)
+        {
+            root.styleSheets.Add(sheet);
+        }
 
         var canvas = UITK.AddElement(root, "canvas", "MainText");
         canvas.style.height = new Length(100, LengthUnit.Percent);
@@ -73,18 +76,10 @@ public class UnitsUIController : MonoBehaviour
 
     private void Update()
     {
-
         if (selectionBoxActive)
         {
             UpdateSelectionBox();
-        }
-
-        if  (!isPressedUnitsSelectionButton /*Input.GetMouseButtonUp(0)*/)
-        {
-            //Debug.Log("сработало dsrk.xtybt");
-            selectionBox.style.display = DisplayStyle.None;
-            selectionBoxActive = false;
-        }
+        }   
     }
 
     private void UpdateSelectionBox()

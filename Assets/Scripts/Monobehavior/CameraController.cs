@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private CameraConfig cameraConfig;
+    [SerializeField] private CameraConfig camCFG;
 
     private Vector2 moveInput;
     private float turnInput;
@@ -89,16 +89,16 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        MoveCamera();
+        if (moveInput != Vector2.zero) MoveCamera();
+        
+        if (turnInput != 0) RotateCamera();
 
-        ZoomCamera();
-
-        RotateCamera();
+        if (zoomInput != Vector2.zero) ZoomCamera();
     }
 
     public void MoveCamera() 
     {
-        float movementAmount = cameraConfig.cameraMovementSpeed * Time.deltaTime * Mathf.Sqrt(transform.localScale.x);
+        float movementAmount = camCFG.cameraMovementSpeed * Time.deltaTime * Mathf.Sqrt(transform.localScale.x);
         if (isPressedLeftShift) 
         {
             movementAmount *= 3;   
@@ -109,23 +109,23 @@ public class CameraController : MonoBehaviour
 
         transform.position += movementAmount * movementDirectionWS;
 
-        float moveClampX = Mathf.Clamp(transform.position.x, -cameraConfig.cameraMovementLimit.x, cameraConfig.cameraMovementLimit.x);
-        float moveClampZ = Mathf.Clamp(transform.position.z, -cameraConfig.cameraMovementLimit.y, cameraConfig.cameraMovementLimit.y);
+        float moveClampX = Mathf.Clamp(transform.position.x, -camCFG.cameraMovementLimit.x, camCFG.cameraMovementLimit.x);
+        float moveClampZ = Mathf.Clamp(transform.position.z, -camCFG.cameraMovementLimit.y, camCFG.cameraMovementLimit.y);
         transform.position = new Vector3(moveClampX, 0, moveClampZ);
     }
 
     private void ZoomCamera()
     {
-        float zoomAmount = zoomInput.y * cameraConfig.cameraZoomSpeed * Time.deltaTime * transform.localScale.x;
+        float zoomAmount = zoomInput.y * camCFG.cameraZoomSpeed * Time.deltaTime * transform.localScale.x;
         transform.localScale -= new Vector3(zoomAmount, zoomAmount, zoomAmount);
 
-        float zoomClamp = Mathf.Clamp(transform.localScale.x, cameraConfig.cameraZoomLimit.x, cameraConfig.cameraZoomLimit.y);
+        float zoomClamp = Mathf.Clamp(transform.localScale.x, camCFG.cameraZoomLimit.x, camCFG.cameraZoomLimit.y);
         transform.localScale = new Vector3(zoomClamp, zoomClamp, zoomClamp);
     }
 
     public void RotateCamera()
     {
-        float turnAmount = turnInput * cameraConfig.cameraTurnSpeed * Time.deltaTime;
+        float turnAmount = turnInput * camCFG.cameraTurnSpeed * Time.deltaTime;
         transform.Rotate(new Vector3(0, -turnAmount, 0));
     }
 }
