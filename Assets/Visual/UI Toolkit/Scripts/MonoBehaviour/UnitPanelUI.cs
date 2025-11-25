@@ -11,6 +11,9 @@ public class UnitPanelUI : MonoBehaviour
     private VisualElement unitPanel;
     private VisualElement[] unitProfiles = new VisualElement[4];
 
+    public ClassConfig classInfoBlockTester;
+    public WeaponConfig weaponInfoBlockTester;
+    public SkillConfig skillInfoBlockTester;
 
     private void Awake()
     {
@@ -31,7 +34,7 @@ public class UnitPanelUI : MonoBehaviour
             root.styleSheets.Add(sheet);
         }
 
-        unitPanel = UITK.AddElement(root, "unitPanel", "MainText");
+        unitPanel = UITK.AddElement(root, "unitPanel", "P");
         unitPanel.style.height = 250;
         unitPanel.style.top = 830;
 
@@ -45,22 +48,22 @@ public class UnitPanelUI : MonoBehaviour
     {
         var unitProfile = UITK.AddElement(unitPanel, "unitProfile");
 
-        var unitIcon = UITK.AddElement(unitProfile, "unitIcon");
+            var skillButton = UITK.AddElement<Button>(unitProfile, "skillButton");
 
-        var skillBarsBox = UITK.AddElement(unitProfile, "skillBarsBox");
+            var barsBox = UITK.AddElement(unitProfile, "barsBox");
+            
+                var healthBar = UITK.AddElement<ProgressBar>(barsBox, "healthBar");
 
-        var skillButton = UITK.AddElement<Button>(skillBarsBox, "skillButton");
+                var staminaBar = UITK.AddElement<ProgressBar>(barsBox, "staminaBar");
+            
+            var infoPanel = UITK.AddElement(unitProfile, "infoPanel");
+            
+                var classDetails = classInfoBlockTester.SetInfoBlockUI(infoPanel);
 
-        var healthBar = UITK.AddElement<ProgressBar>(skillBarsBox, "healthBar");
+                var weaponDetails = weaponInfoBlockTester.SetInfoBlockUI(infoPanel);
 
-        var staminaBar = UITK.AddElement<ProgressBar>(skillBarsBox, "staminaBar");
-
-        var infoPanel = UITK.AddElement(unitProfile, "infoPanel");
-
-
-        var weaponDetails = UITK.AddElement(infoPanel, "weaponDetails", "infoBlock");
-
-        var skillDetails = UITK.AddElement(infoPanel, "skillDetails", "infoBlock");
+                var skillDetails = skillInfoBlockTester.SetInfoBlockUI(infoPanel);
+        
 
         //events
         unitProfile.RegisterCallback<PointerEnterEvent>(evt =>

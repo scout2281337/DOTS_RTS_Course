@@ -16,20 +16,16 @@
     flex-direction: row;
 }
 
-.unitIcon {
-    width: 50px;
+.skillButton {
+    width: 75px;
     height: 75px;
     padding: 10px;
 }
 
-.skillBarsBox {
+.barsBox {
     padding: 10px;
     flex-grow: 1;
     justify-content: space-around;
-}
-
-.skillButton {
-
 }
 
 .healthBar{
@@ -58,5 +54,23 @@
     height: 80px;
     flex-shrink: 0;
     padding: 10px;
+    padding-top: 5px;
     padding-bottom: 5px;
+}
+
+.detailRow{
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.detailText{
+    width: 100px;
+}
+
+.detailAmount{
+    flex-grow: 0.55;
+}
+
+.detailBar{
+    flex-grow: 1;
 }

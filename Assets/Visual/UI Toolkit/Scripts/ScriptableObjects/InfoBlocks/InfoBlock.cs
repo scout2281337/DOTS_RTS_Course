@@ -1,7 +1,6 @@
-using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class InfoBlock : ScriptableObject
+public interface IInfoBlockUI
 {
-    public abstract VisualElement SetInfoBlock(VisualElement infoPanel);
+    public VisualElement SetInfoBlockUI(VisualElement infoPanel);
 }
