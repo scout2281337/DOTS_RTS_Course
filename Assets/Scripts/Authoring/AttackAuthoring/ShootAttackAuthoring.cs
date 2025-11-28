@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShootAttackAuthoring : MonoBehaviour
 {
     public float timerMax;
-    public int damageAmount;
+    public float damageAmount;
     public float attackDistance;
     public Transform bulletSpawnPositionTransform;
 
@@ -29,7 +29,7 @@ public struct ShootAttack : IComponentData
 {
     public float timer;
     public float timerMax;
-    public int damageAmount;
+    public float damageAmount;
     public float attackDistance;
     public float3 bulletSpawnLocalPosition;
     public OnShootEvent onShoot;

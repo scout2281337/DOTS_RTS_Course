@@ -6,6 +6,7 @@ public class ClassConfig : ScriptableObject, IInfoBlockUI
 {
     public int armor;
     public int speed;
+    public float maxHealth;
 
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {

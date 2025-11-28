@@ -7,6 +7,7 @@ public class EntitiesReferencesAuthoring : MonoBehaviour
     public GameObject zombiePrefabGameObject;//
     public GameObject shootLightPrefabGameObject;
     //public GameObject spawnPointPrefabGameObject;
+    public GameObject unitPrefabGameObject;
 
     public class Baker : Baker<EntitiesReferencesAuthoring>
     {
@@ -18,6 +19,7 @@ public class EntitiesReferencesAuthoring : MonoBehaviour
                 bulletPrefabEntity = GetEntity(authoring.bulletPrefabGameObject, TransformUsageFlags.Dynamic),
                 zombiePrefabEntity = GetEntity(authoring.zombiePrefabGameObject, TransformUsageFlags.Dynamic),//
                 shootLightPrefabEntity = GetEntity(authoring.shootLightPrefabGameObject, TransformUsageFlags.Dynamic),
+                unitPrefabEntity = GetEntity(authoring.unitPrefabGameObject, TransformUsageFlags.Dynamic),
                 //spawnPointPrefabEntity = GetEntity(authoring.spawnPointPrefabGameObject, TransformUsageFlags.Dynamic),
             });
         }
@@ -29,5 +31,6 @@ public struct EntitiesReferences : IComponentData
     public Entity bulletPrefabEntity;
     public Entity zombiePrefabEntity; //
     public Entity shootLightPrefabEntity;
+    public Entity unitPrefabEntity;
     //public Entity spawnPointPrefabEntity;
 }

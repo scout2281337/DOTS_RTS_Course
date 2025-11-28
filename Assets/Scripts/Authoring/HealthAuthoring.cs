@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class HealthAuthoring : MonoBehaviour
 {
-    public int healthAmount;
-    public int healthAmountMax;
+    public float healthAmount;
+    public float healthAmountMax;
 
     public class Baker : Baker<HealthAuthoring>
     {
@@ -23,7 +23,7 @@ public class HealthAuthoring : MonoBehaviour
 
 public struct Health : IComponentData 
 {
-    public int healthAmount;
-    public int healthAmountMax;
+    public float healthAmount;
+    public float healthAmountMax;
     public bool OnHealthChanged;
 }

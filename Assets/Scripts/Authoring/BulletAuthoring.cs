@@ -4,7 +4,7 @@ using UnityEngine;
 public class BulletAuthoring : MonoBehaviour
 {
     public float speed;
-    public int damageAmount;
+    public float damageAmount;
 
     public class Baker : Baker<BulletAuthoring>
     {
@@ -23,5 +23,5 @@ public class BulletAuthoring : MonoBehaviour
 public struct Bullet : IComponentData 
 {
     public float speed;
-    public int damageAmount;
+    public float damageAmount;
 }
