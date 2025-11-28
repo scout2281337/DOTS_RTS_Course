@@ -1,7 +1,6 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEditor;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public class FriendlyUnitManager : MonoBehaviour
@@ -16,6 +15,7 @@ public class FriendlyUnitManager : MonoBehaviour
     private bool isInitialized = false;
     private bool isSpawned = false;
 
+
     private void Update()
     {
         if (!isInitialized) 
@@ -29,6 +29,8 @@ public class FriendlyUnitManager : MonoBehaviour
                 Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
                 UnitInitializer(entityManager, weaponConfig, classConfig, spawnPos, entitiesReferences.unitPrefabEntity);
                 Debug.Log("Спавн сраьотал");
+                Debug.Log(entityManager.HasComponent<Prefab>(entitiesReferences.unitPrefabEntity));
+
             }
             isSpawned = true;
         }
@@ -47,7 +49,6 @@ public class FriendlyUnitManager : MonoBehaviour
             return;
         entitiesReferences = query.GetSingleton<EntitiesReferences>();
         Debug.Log("EntitiesReferences loaded!");
-        Debug.Log("Unit prefab: " + entitiesReferences.unitPrefabEntity);
         isInitialized = true;
 
     }
@@ -55,11 +56,11 @@ public class FriendlyUnitManager : MonoBehaviour
     {
 
     }
-    public void UnitInitializer(EntityManager em, WeaponConfig weaponConfig, ClassConfig classConfig, Vector3 startPos, Entity entityToSpawn) 
+    public void UnitInitializer(EntityManager em, WeaponConfig weaponConfig, ClassConfig classConfig, float3 startPos, Entity entityToSpawn) 
     {
         Entity currentEntity = em.Instantiate(entityToSpawn);
         em.SetComponentData(currentEntity, LocalTransform.FromPosition(startPos));
-        em.SetComponentData(currentEntity, new UnitMover
+        /*em.SetComponentData(currentEntity, new UnitMover
         {
             moveSpeed = classConfig.speed,
         });
@@ -77,12 +78,12 @@ public class FriendlyUnitManager : MonoBehaviour
         {
             healthAmountMax = classConfig.maxHealth,
             healthAmount = classConfig.maxHealth,
-        });
+        });*/
     }
 
     Vector3 RandomPointInCircle(Vector3 center, float radius)
     {
-        Vector2 rnd = Random.insideUnitCircle * radius;
+        Vector2 rnd = UnityEngine.Random.insideUnitCircle * radius;
         return new Vector3(center.x + rnd.x, center.y, center.z + rnd.y);
     }
 }

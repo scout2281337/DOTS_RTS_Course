@@ -47,4 +47,4 @@ MonoBehaviour:
   bulletPrefabGameObject: {fileID: 1181530933731577464, guid: 733b657c2aca91049aaa63eccca85c53, type: 3}
   zombiePrefabGameObject: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
   shootLightPrefabGameObject: {fileID: 7811043492682708520, guid: 6ea89a46c514e16459ae6e9f9588e35d, type: 3}
-  spawnPointPrefabGameObject: {fileID: 0}
+  unitPrefabGameObject: {fileID: 8020765196219228651, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
