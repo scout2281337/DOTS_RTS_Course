@@ -10,7 +10,6 @@ public class WeaponConfig : ScriptableObject, IInfoBlockUI
     public WeaponTypes weaponType;
     public float typeStat;
 
-
     public VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {
         var weaponDetails = UITK.AddElement(infoPanel, "weaponDetails", "infoBlock");

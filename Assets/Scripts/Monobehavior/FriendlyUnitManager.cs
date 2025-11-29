@@ -60,13 +60,17 @@ public class FriendlyUnitManager : MonoBehaviour
     {
         Entity currentEntity = em.Instantiate(entityToSpawn);
         em.SetComponentData(currentEntity, LocalTransform.FromPosition(startPos));
-        /*em.SetComponentData(currentEntity, new UnitMover
+        em.SetComponentData(currentEntity, new UnitMover
         {
             moveSpeed = classConfig.speed,
+            rotationSpeed = classConfig.rotationSpeed,
         });
         em.SetComponentData(currentEntity, new FindTarget
         {
-            range = weaponConfig.range + 2, //хуйня , переделать
+            range = weaponConfig.range, //хуйня , переделать
+            targetFaction = classConfig.targetFaction,
+            timer = 0,
+            timerMax = classConfig.timerMaxForOverlap,
         });
         em.SetComponentData(currentEntity, new ShootAttack
         {
@@ -78,7 +82,7 @@ public class FriendlyUnitManager : MonoBehaviour
         {
             healthAmountMax = classConfig.maxHealth,
             healthAmount = classConfig.maxHealth,
-        });*/
+        });
     }
 
     Vector3 RandomPointInCircle(Vector3 center, float radius)

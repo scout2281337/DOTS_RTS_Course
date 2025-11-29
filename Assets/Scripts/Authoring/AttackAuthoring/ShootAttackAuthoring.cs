@@ -7,7 +7,7 @@ public class ShootAttackAuthoring : MonoBehaviour
     public float timerMax;
     public float damageAmount;
     public float attackDistance;
-    public Transform bulletSpawnPositionTransform;
+    //public Transform bulletSpawnPositionTransform;
 
     public class Baker : Baker<ShootAttackAuthoring>
     {
@@ -19,7 +19,7 @@ public class ShootAttackAuthoring : MonoBehaviour
                 timerMax = authoring.timerMax,
                 damageAmount = authoring.damageAmount,
                 attackDistance = authoring.attackDistance,
-                bulletSpawnLocalPosition = authoring.bulletSpawnPositionTransform.localPosition,
+                //bulletSpawnLocalPosition = authoring.bulletSpawnPositionTransform.localPosition,
             });
         }
     }
@@ -31,7 +31,7 @@ public struct ShootAttack : IComponentData
     public float timerMax;
     public float damageAmount;
     public float attackDistance;
-    public float3 bulletSpawnLocalPosition;
+    //public float3 bulletSpawnLocalPosition;
     public OnShootEvent onShoot;
 
     public struct OnShootEvent 

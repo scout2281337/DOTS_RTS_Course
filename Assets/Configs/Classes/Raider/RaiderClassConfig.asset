@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armor: 2
   speed: 2
+  rotationSpeed: 15
+  maxHealth: 100
+  targetFaction: 1
+  timerMaxForOverlap: 0.2

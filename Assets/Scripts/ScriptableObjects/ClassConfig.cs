@@ -5,9 +5,15 @@ using UnityEngine.UIElements;
 public class ClassConfig : ScriptableObject, IInfoBlockUI
 {
     public int armor;
-    public int speed;
-    public float maxHealth;
 
+    [Header("Unit mover component")]
+    public int speed;
+    public int rotationSpeed;
+    [Header("Health component")]
+    public float maxHealth;
+    [Header("Find Target component")]
+    public Faction targetFaction;
+    public float timerMaxForOverlap;
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {
         var classDetails = UITK.AddElement(infoPanel, "classDetails", "infoBlock");

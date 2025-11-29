@@ -33,11 +33,13 @@ partial struct ShootAttackSystem : ISystem
             RefRW<ShootAttack> shootAttack,
             RefRW<LocalTransform> localTransform,
             RefRO<Target> target,
+            RefRO<BulletSpawnPosition> bulletSpawnPosition,
             RefRW<UnitMover> unitMover) 
             in SystemAPI.Query<
                 RefRW<ShootAttack>,
                 RefRW<LocalTransform>,
                 RefRO<Target>,
+                RefRO<BulletSpawnPosition>,
                 RefRW<UnitMover>>().WithDisabled<MoveOverride>()) 
         {
             
@@ -75,7 +77,7 @@ partial struct ShootAttackSystem : ISystem
             shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
 
             Entity bulletEntity =  state.EntityManager.Instantiate(entitiesReferences.bulletPrefabEntity);
-            float3 bulletSpawnWorldPosition = localTransform.ValueRO.TransformPoint(shootAttack.ValueRO.bulletSpawnLocalPosition);
+            float3 bulletSpawnWorldPosition = localTransform.ValueRO.TransformPoint(bulletSpawnPosition.ValueRO.bulletSpawnLocalPosition);
             SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
             
             RefRW<Bullet> bulletBullet = SystemAPI.GetComponentRW<Bullet>(bulletEntity);
