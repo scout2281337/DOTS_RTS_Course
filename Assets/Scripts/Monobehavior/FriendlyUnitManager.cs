@@ -62,9 +62,10 @@ public class FriendlyUnitManager : MonoBehaviour
         em.SetComponentData(currentEntity, LocalTransform.FromPosition(startPos));
         em.SetComponentData(currentEntity, new UnitMover
         {
-            moveSpeed = classConfig.speed,
+            CurrentMoveSpeed = classConfig.speed,
+            BaseSpeed = classConfig.speed,
             rotationSpeed = classConfig.rotationSpeed,
-        });
+        }) ;
         em.SetComponentData(currentEntity, new FindTarget
         {
             range = weaponConfig.range, 

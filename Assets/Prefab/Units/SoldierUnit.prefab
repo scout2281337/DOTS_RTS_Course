@@ -94,6 +94,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 273691799339553324, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      propertyPath: BaseSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 273691799339553324, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      propertyPath: CurrentMoveSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: m_Name
       value: SoldierUnit
@@ -148,6 +156,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       insertIndex: -1
       addedObject: {fileID: -1384460589673921009}
+    - targetCorrespondingSourceObject: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2053014451807784217}
   m_SourcePrefab: {fileID: 100100000, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
 --- !u!4 &18740432714998459 stripped
 Transform:
@@ -177,3 +188,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpawnPositionTransform: {fileID: 18740432714998459}
+--- !u!114 &2053014451807784217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8020765196219228651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2150b01e61d13544ebb9eacc2a086e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpeedBonus: 2
+  AbilityReload: 30
+  Duration: 7
+  isTriggered: 1
+  Active: 1
+  TimeLeft: 7
+  CooldownLeft: 30
