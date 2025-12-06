@@ -1,14 +1,15 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
+using UnityEngine;
 
 partial struct ZombieSpawnerSystem : ISystem
 {
-
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        EntitiesReferences entitiesReferences = SystemAPI.GetSingleton<EntitiesReferences>();
+        if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences))
+            return;
         EntityCommandBuffer entityCommandBuffer = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 
 

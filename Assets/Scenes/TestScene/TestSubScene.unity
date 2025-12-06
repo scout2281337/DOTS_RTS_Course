@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EntitiesReferences
       objectReference: {fileID: 0}
+    - target: {fileID: 207640748016422989, guid: a901b0679318a7e43a88831f3039bb9f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1024994180979018114, guid: a901b0679318a7e43a88831f3039bb9f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

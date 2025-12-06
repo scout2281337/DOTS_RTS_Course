@@ -12,8 +12,8 @@ partial struct ShootAttackSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        
-        var entitiesReferences = SystemAPI.GetSingleton<EntitiesReferences>();
+        if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences))
+            return;
         
         //var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
         //var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();

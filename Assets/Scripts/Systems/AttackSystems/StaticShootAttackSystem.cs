@@ -9,7 +9,8 @@ partial struct StaticShootAttackSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        EntitiesReferences entitiesReferences = SystemAPI.GetSingleton<EntitiesReferences>();
+        if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences))
+            return;
 
         foreach ((
             RefRW<ShootAttack> shootAttack,

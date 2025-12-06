@@ -24,7 +24,7 @@ public class FriendlyUnitManager : MonoBehaviour
         }
         if (isInitialized && !isSpawned) 
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < teamAmount; i++)
             {
                 Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
                 UnitInitializer(entityManager, weaponConfig, classConfig, spawnPos, entitiesReferences.unitPrefabEntity);
@@ -67,7 +67,7 @@ public class FriendlyUnitManager : MonoBehaviour
         });
         em.SetComponentData(currentEntity, new FindTarget
         {
-            range = weaponConfig.range, //хуйня , переделать
+            range = weaponConfig.range, 
             targetFaction = classConfig.targetFaction,
             timer = 0,
             timerMax = classConfig.timerMaxForOverlap,
