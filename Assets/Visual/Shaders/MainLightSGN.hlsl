@@ -45,8 +45,8 @@ void AllAdditionalLights_float(float3 PositionWS, float3 NormalWS, float CutoffT
 		#endif
 		Light light = GetAdditionalPerObjectLight(lightIndex, PositionWS);
         float NdotL = saturate(dot(NormalWS, light.direction));
-        float thisDiffuse = step(CutoffThreshold, NdotL);
-        LightColor += light.color * thisDiffuse;
+        float lightMask = step(CutoffThreshold, NdotL * light.distanceAttenuation * length(light.color));
+        LightColor += light.color * lightMask;
     LIGHT_LOOP_END
 
 #endif

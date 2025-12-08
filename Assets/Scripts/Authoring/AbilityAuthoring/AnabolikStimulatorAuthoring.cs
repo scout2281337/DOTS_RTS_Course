@@ -43,5 +43,4 @@ public struct AnabolikStimulator : IComponentData
 
     public float TimeLeft;
     public float CooldownLeft;
-
 }

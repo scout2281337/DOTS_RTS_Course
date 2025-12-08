@@ -13,6 +13,7 @@ partial struct AnabolikStimulatorSystem : ISystem
             {
                 AnabolikStimulator.ValueRW.CooldownLeft -= dt;
             }
+
             //Activation
             if (AnabolikStimulator.ValueRW.isTriggered && !AnabolikStimulator.ValueRW.Active && AnabolikStimulator.ValueRW.CooldownLeft <= 0) 
             {
@@ -27,11 +28,13 @@ partial struct AnabolikStimulatorSystem : ISystem
                 continue;
             
             }
+
             foreach ((RefRW<UnitMover> unitMover, RefRO<ShootAttack> shootAttack) in SystemAPI.Query<RefRW<UnitMover>, RefRO<ShootAttack>>())
             {
                 unitMover.ValueRW.CurrentMoveSpeed = unitMover.ValueRO.BaseSpeed * (1 + (AnabolikStimulator.ValueRO.SpeedBonus));
 
             }
+
             AnabolikStimulator.ValueRW.TimeLeft -= dt;
             if (AnabolikStimulator.ValueRW.TimeLeft <= 0) 
             {
@@ -39,11 +42,8 @@ partial struct AnabolikStimulatorSystem : ISystem
                 foreach ((RefRW<UnitMover> unitMover, RefRO<ShootAttack> shootAttack) in SystemAPI.Query<RefRW<UnitMover>, RefRO<ShootAttack>>())
                 {
                     unitMover.ValueRW.CurrentMoveSpeed = unitMover.ValueRO.BaseSpeed;
-
                 }
             }
-
-
         }
     }
 }

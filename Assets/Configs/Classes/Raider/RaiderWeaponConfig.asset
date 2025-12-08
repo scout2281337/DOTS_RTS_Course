@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5df1fc7cc277dd34cb58b4d9b4cb33c8, type: 3}
   m_Name: RaiderWeaponConfig
   m_EditorClassIdentifier: 
-  damage: 5
-  fireRate: 300
+  damage: 10
+  fireRate: 150
   range: 20
   weaponType: 0
   typeStat: 0.5

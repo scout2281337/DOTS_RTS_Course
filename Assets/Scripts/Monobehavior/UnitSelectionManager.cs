@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class UnitSelectionManager : MonoBehaviour
 {
-    // Переписать инпуты
+    //TODO Переписать инпуты
     public static UnitSelectionManager Instance { get; private set; }
 
     public event EventHandler OnSelectionAreaStart;
@@ -36,7 +36,7 @@ public class UnitSelectionManager : MonoBehaviour
             
             NativeArray<Entity> entityArray = entityQuery.ToEntityArray(Allocator.Temp);
             NativeArray<Selected> selectedArray = entityQuery.ToComponentDataArray<Selected>(Allocator.Temp);
-            for (int i = 0; i < entityArray.Length; i++) 
+            for (int i = 0; i < entityArray.Length; i++)
             {
                 entityManager.SetComponentEnabled<Selected>(entityArray[i], false);
                 Selected selected = selectedArray[i];
@@ -77,7 +77,6 @@ public class UnitSelectionManager : MonoBehaviour
                 PhysicsWorldSingleton physicsWorldSingleton = entityQuery.GetSingleton<PhysicsWorldSingleton>();
                 CollisionWorld collisionWorld = physicsWorldSingleton.CollisionWorld;
                 UnityEngine.Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
                 
                 RaycastInput rayCastInput = new RaycastInput
                 {
@@ -91,7 +90,6 @@ public class UnitSelectionManager : MonoBehaviour
                     }
                 };
 
-
                 if (collisionWorld.CastRay(rayCastInput, out Unity.Physics.RaycastHit raycastHit)) 
                 {
                     if (entityManager.HasComponent<Unit>(raycastHit.Entity) &&
@@ -104,8 +102,6 @@ public class UnitSelectionManager : MonoBehaviour
                     }
                 }
             }
-            
-
 
             OnSelectionAreaEnd?.Invoke(this, EventArgs.Empty);
         }
