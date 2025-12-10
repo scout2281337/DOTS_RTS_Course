@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8955846231783772450}
   m_Layer: 0
-  m_Name: OnHitBurstMetalBlood
+  m_Name: BurstSparkBlood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

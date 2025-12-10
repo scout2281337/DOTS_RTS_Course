@@ -1,5 +1,3 @@
-using Unity.Collections;
-using Unity.Entities;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -66,11 +64,6 @@ public class UnitPanelUI : MonoBehaviour
 
                 var skillDetails = skillInfoBlockTester.SetInfoBlockUI(infoPanel);
 
-
-        EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        EntityQuery entityQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<AnabolikStimulator>().Build(entityManager);
-            
-            
 
         //events
         unitProfile.RegisterCallback<PointerEnterEvent>(evt =>
