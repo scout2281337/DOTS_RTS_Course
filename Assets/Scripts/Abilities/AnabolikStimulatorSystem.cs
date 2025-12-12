@@ -3,20 +3,29 @@ using UnityEngine;
 
 partial struct AnabolikStimulatorSystem : ISystem
 {
+    
     public void OnUpdate(ref SystemState state) 
     {
         var dt = SystemAPI.Time.DeltaTime;
-        foreach (RefRW<AnabolikStimulator> AnabolikStimulator in SystemAPI.Query<RefRW<AnabolikStimulator>>()) 
+        EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        foreach ((RefRW<AnabolikStimulator> AnabolikStimulator, Entity entity) in SystemAPI.Query<RefRW<AnabolikStimulator>>().WithEntityAccess()) 
         {
             //cooldown
-            if (AnabolikStimulator.ValueRW.CooldownLeft > 0) 
+            if (AnabolikStimulator.ValueRW.CooldownLeft > 0 && !AnabolikStimulator.ValueRO.Active) 
             {
                 AnabolikStimulator.ValueRW.CooldownLeft -= dt;
+            }
+
+            //CooldownEndEvent
+            if (AnabolikStimulator.ValueRO.CooldownLeft <= 0) 
+            {
+                entityManager.AddComponent<CooldownEndEvent>(entity);
             }
 
             //Activation
             if (AnabolikStimulator.ValueRW.isTriggered && !AnabolikStimulator.ValueRW.Active && AnabolikStimulator.ValueRW.CooldownLeft <= 0) 
             {
+                entityManager.AddComponent<AbilityStartEvent>(entity);
                 AnabolikStimulator.ValueRW.Active = true;
                 AnabolikStimulator.ValueRW.TimeLeft = AnabolikStimulator.ValueRO.Duration;
                 AnabolikStimulator.ValueRW.CooldownLeft = AnabolikStimulator.ValueRO.AbilityReload;
@@ -26,7 +35,6 @@ partial struct AnabolikStimulatorSystem : ISystem
             if (!AnabolikStimulator.ValueRW.Active) 
             {
                 continue;
-            
             }
 
             foreach ((RefRW<UnitMover> unitMover, RefRO<ShootAttack> shootAttack) in SystemAPI.Query<RefRW<UnitMover>, RefRO<ShootAttack>>())
@@ -38,6 +46,7 @@ partial struct AnabolikStimulatorSystem : ISystem
             AnabolikStimulator.ValueRW.TimeLeft -= dt;
             if (AnabolikStimulator.ValueRW.TimeLeft <= 0) 
             {
+                entityManager.AddComponent<AbilityEndEvent>(entity);
                 AnabolikStimulator.ValueRW.Active = false;
                 foreach ((RefRW<UnitMover> unitMover, RefRO<ShootAttack> shootAttack) in SystemAPI.Query<RefRW<UnitMover>, RefRO<ShootAttack>>())
                 {
