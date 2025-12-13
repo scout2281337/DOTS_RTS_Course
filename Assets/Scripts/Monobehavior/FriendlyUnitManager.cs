@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -15,15 +16,9 @@ public class FriendlyUnitManager : MonoBehaviour
     private bool isInitialized = false;
     private bool isSpawned = false;
 
-    public Entity[] Units;
-    private void Awake()
-    {
-        Units = new Entity[teamAmount];
-    }
-    private void Start()
-    {
-            
-    }
+    //public Entity[] Units; мб убрать
+    public Dictionary<string, Entity> EntitiesDictionary = new Dictionary<string, Entity>();
+
     private void Update()
     {
         if (!isInitialized) 
@@ -35,7 +30,7 @@ public class FriendlyUnitManager : MonoBehaviour
             for (int i = 0; i < teamAmount; i++)
             {
                 Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
-                UnitInitializer(entityManager, weaponConfig, classConfig, spawnPos, entitiesReferences.unitPrefabEntity, i);
+                UnitInitializer(entityManager, weaponConfig, classConfig, spawnPos, entitiesReferences.unitPrefabEntity);
 
                 Debug.Log("—павн сработал");
                 Debug.Log(entityManager.HasComponent<Prefab>(entitiesReferences.unitPrefabEntity));
@@ -62,10 +57,9 @@ public class FriendlyUnitManager : MonoBehaviour
 
     }
 
-    public void UnitInitializer(EntityManager em, WeaponConfig weaponConfig, ClassConfig classConfig, float3 startPos, Entity entityToSpawn, int id) 
+    public void UnitInitializer(EntityManager em, WeaponConfig weaponConfig, ClassConfig classConfig, float3 startPos, Entity entityToSpawn) 
     {
         Entity currentEntity = em.Instantiate(entityToSpawn);
-        Units[id] = currentEntity;
         em.SetComponentData(currentEntity, LocalTransform.FromPosition(startPos));
         em.SetComponentData(currentEntity, new UnitMover
         {
@@ -91,6 +85,10 @@ public class FriendlyUnitManager : MonoBehaviour
             healthAmountMax = classConfig.maxHealth,
             healthAmount = classConfig.maxHealth,
         });
+        
+        
+        // ѕосле добавлени€ абилки или просто при спавне решить, здесь думаю нормально , но это так мысли в комментарии € шиз лелелеле
+        //EntitiesDictionary.Add($"{em.GetComponentData<Unit>(currentEntity).Class}", currentEntity);
     }
 
     Vector3 RandomPointInCircle(Vector3 center, float radius)

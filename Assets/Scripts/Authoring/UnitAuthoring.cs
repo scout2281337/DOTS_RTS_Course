@@ -4,6 +4,7 @@ using UnityEngine;
 public class UnitAuthoring : MonoBehaviour
 {
     public Faction faction;
+    public UnitClass Class;
     public class Baker : Baker<UnitAuthoring>
     {
         public override void Bake(UnitAuthoring authoring)
@@ -12,6 +13,7 @@ public class UnitAuthoring : MonoBehaviour
             AddComponent(entity, new Unit 
             {
                 faction = authoring.faction,
+                Class =authoring.Class,
             });
         }
     }
@@ -20,4 +22,13 @@ public class UnitAuthoring : MonoBehaviour
 public struct Unit : IComponentData 
 {
     public Faction faction;
+    public UnitClass Class;
+}
+
+public enum UnitClass 
+{
+    Raider,
+    Flamethrower,
+    Juggernaut,
+    Sniper
 }
