@@ -1,6 +1,6 @@
 
 using Unity.Entities;
-using UnityEngine;
+//using UnityEngine;
 partial struct AbilityEffectSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)
@@ -13,7 +13,7 @@ partial struct AbilityEffectSystem : ISystem
             {
                 case AbilityType.AnabolikStimulator:
                     ApplySpeedBoost(ref state, em, ability.ValueRO.Owner, ability.ValueRO.TargetType, 3f);
-                    Debug.Log("chf,");
+                    //Debug.Log("chf,");
                     break;
                 case AbilityType.Fireball:
                     //LaunchFireball(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
@@ -66,28 +66,29 @@ partial struct AbilityEffectSystem : ISystem
                 {
                     var mover = SystemAPI.GetComponentRW<UnitMover>(owner);
                     
-                    mover.ValueRW.CurrentMoveSpeed = mover.ValueRO.CurrentMoveSpeed * multiplier;
+                    mover.ValueRW.CurrentMoveSpeed *= multiplier;
                 }
                 break;
             case AbilityTargetType.Ally:
-                //foreach ((RefRW<UnitMover> allyMover, RefRO<Team> team) in
-                //         SystemAPI.Query<RefRW<UnitMover>, RefRO<Team>>())
-                //{
-                //    // проверяем союзников по команде
-                //    if (team.ValueRO.Value == em.GetComponent<RefRO<Team>>(owner).ValueRO.Value)
-                //        allyMover.ValueRW.CurrentMoveSpeed *= multiplier;
-                //}
-                //break;
+                foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit) in
+                         SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
+                {
+                    // проверяем союзников по команде
+                    if (friendlyUnit.ValueRO.faction == SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
+                        allyMover.ValueRW.CurrentMoveSpeed *= multiplier;
+                }
+                break;
             case AbilityTargetType.Enemy:
-                //foreach ((RefRW<UnitMover> enemyMover, RefRO<Team> team) in
-                //         SystemAPI.Query<RefRW<UnitMover>, RefRO<Team>>())
-                //{
-                //    if (team.ValueRO.Value != em.GetComponent<RefRO<Team>>(owner).ValueRO.Value)
-                //        enemyMover.ValueRW.CurrentMoveSpeed *= multiplier;
-                //}
-                //break;
+                foreach ((RefRW<UnitMover> enemyMover, RefRO<Unit> friendlyUnit) in
+                         SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
+                {
+                    // проверяем вражин
+                    if (friendlyUnit.ValueRO.faction != SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
+                        enemyMover.ValueRW.CurrentMoveSpeed *= multiplier;
+                }
+                break;
             case AbilityTargetType.Area:
-                // пример: можно применить к юнитам рядом с owner (через Position) // чета придумать я тупой
+                //  // чета придумать я тупой
                 break;
         }
     }
@@ -98,29 +99,30 @@ partial struct AbilityEffectSystem : ISystem
             case AbilityTargetType.Self:
                 if (em.HasComponent<UnitMover>(owner))
                 {
-                    Debug.Log("endSpeedB");
+                    //Debug.Log("endSpeedB");
                     var mover = SystemAPI.GetComponentRW<UnitMover>(owner);
 
                     mover.ValueRW.CurrentMoveSpeed = mover.ValueRO.BaseSpeed;
                 }
                 break;
             case AbilityTargetType.Ally:
-            //foreach ((RefRW<UnitMover> allyMover, RefRO<Team> team) in
-            //         SystemAPI.Query<RefRW<UnitMover>, RefRO<Team>>())
-            //{
-            //    // проверяем союзников по команде
-            //    if (team.ValueRO.Value == em.GetComponent<RefRO<Team>>(owner).ValueRO.Value)
-            //        allyMover.ValueRW.CurrentMoveSpeed *= multiplier;
-            //}
-            //break;
+                foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit) in
+                             SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
+                {
+                    // проверяем союзников по команде
+                    if (friendlyUnit.ValueRO.faction == SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
+                        allyMover.ValueRW.CurrentMoveSpeed = allyMover.ValueRO.BaseSpeed;
+                }
+                break;
             case AbilityTargetType.Enemy:
-            //foreach ((RefRW<UnitMover> enemyMover, RefRO<Team> team) in
-            //         SystemAPI.Query<RefRW<UnitMover>, RefRO<Team>>())
-            //{
-            //    if (team.ValueRO.Value != em.GetComponent<RefRO<Team>>(owner).ValueRO.Value)
-            //        enemyMover.ValueRW.CurrentMoveSpeed *= multiplier;
-            //}
-            //break;
+                foreach ((RefRW<UnitMover> enemyMover, RefRO<Unit> friendlyUnit) in
+                             SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
+                {
+                    // проверяем вражин
+                    if (friendlyUnit.ValueRO.faction != SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
+                        enemyMover.ValueRW.CurrentMoveSpeed = enemyMover.ValueRO.BaseSpeed;
+                }
+                break;
             case AbilityTargetType.Area:
                 // пример: можно применить к юнитам рядом с owner (через Position) // чета придумать я тупой
                 break;

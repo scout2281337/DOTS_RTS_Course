@@ -15,7 +15,15 @@ public class FriendlyUnitManager : MonoBehaviour
     private bool isInitialized = false;
     private bool isSpawned = false;
 
-
+    public Entity[] Units;
+    private void Awake()
+    {
+        Units = new Entity[teamAmount];
+    }
+    private void Start()
+    {
+            
+    }
     private void Update()
     {
         if (!isInitialized) 
@@ -27,8 +35,9 @@ public class FriendlyUnitManager : MonoBehaviour
             for (int i = 0; i < teamAmount; i++)
             {
                 Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
-                UnitInitializer(entityManager, weaponConfig, classConfig, spawnPos, entitiesReferences.unitPrefabEntity);
-                Debug.Log("Спавн сраьотал");
+                UnitInitializer(entityManager, weaponConfig, classConfig, spawnPos, entitiesReferences.unitPrefabEntity, i);
+
+                Debug.Log("Спавн сработал");
                 Debug.Log(entityManager.HasComponent<Prefab>(entitiesReferences.unitPrefabEntity));
 
             }
@@ -52,13 +61,11 @@ public class FriendlyUnitManager : MonoBehaviour
         isInitialized = true;
 
     }
-    void Start()
-    {
 
-    }
-    public void UnitInitializer(EntityManager em, WeaponConfig weaponConfig, ClassConfig classConfig, float3 startPos, Entity entityToSpawn) 
+    public void UnitInitializer(EntityManager em, WeaponConfig weaponConfig, ClassConfig classConfig, float3 startPos, Entity entityToSpawn, int id) 
     {
         Entity currentEntity = em.Instantiate(entityToSpawn);
+        Units[id] = currentEntity;
         em.SetComponentData(currentEntity, LocalTransform.FromPosition(startPos));
         em.SetComponentData(currentEntity, new UnitMover
         {
