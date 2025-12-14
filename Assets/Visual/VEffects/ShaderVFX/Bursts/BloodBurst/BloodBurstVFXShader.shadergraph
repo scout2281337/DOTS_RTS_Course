@@ -566,7 +566,7 @@
         },
         "preventRotation": false
     },
-    "m_Path": "Shader Graphs",
+    "m_Path": "Custom/VFX/VFXShader",
     "m_GraphPrecision": 1,
     "m_PreviewMode": 2,
     "m_OutputNode": {
@@ -4133,7 +4133,7 @@
     "m_Title": "BloodPattern",
     "m_Position": {
         "x": -2992.7998046875,
-        "y": 526.4000854492188
+        "y": 526.3999633789063
     }
 }
 

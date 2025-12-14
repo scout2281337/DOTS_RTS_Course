@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GravityMagnifierMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: e94278af0e0d210459bcf8444258ac8a, type: 3}
+  m_Name: RifleBulletTrailMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: aea93eb1dc9f2934c83a77c5e0a4ed5a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,10 +24,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -42,16 +38,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Glossiness: 0.5
-    - _Metallic: 0
+    - _Distance: 1
+    - _Erosion: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 0, b: 0.6431373, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.41132066, g: 0.41132066, b: 0.41132066, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &2954028507484385236
+--- !u!114 &2101577335094141128
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3074987f3e53bc94f889f6dabfcead36, type: 3}
+  m_Name: BurstVFXSO
+  m_EditorClassIdentifier: 
+  explosionVFXObject: {fileID: -2868393442025850211, guid: 11676c7ca4e0bb147ade5d774b31a050, type: 3}
+  bloodBurstVFXObject: {fileID: 1550885706446538447, guid: 0843060886088c34fb5698f65d820ab5, type: 3}
+  sparkBurstVFXObject: {fileID: -8665072877193362364, guid: 3a754ece405c3ab47a0e8a0fda23f386, type: 3}
