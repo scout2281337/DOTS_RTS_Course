@@ -1,6 +1,6 @@
 
 using Unity.Entities;
-//using UnityEngine;
+
 partial struct AbilityEffectSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)
@@ -12,7 +12,7 @@ partial struct AbilityEffectSystem : ISystem
             switch (ability.ValueRO.Type)
             {
                 case AbilityType.AnabolikStimulator:
-                    ApplySpeedBoost(ref state, em, ability.ValueRO.Owner, ability.ValueRO.TargetType, 3f);
+                    ApplySpeedBoost(ref state, em, ent, ability.ValueRO.TargetType, 3f); //ability.ValueRO.Owner
                     //Debug.Log("chf,");
                     break;
                 case AbilityType.Fireball:
@@ -36,7 +36,7 @@ partial struct AbilityEffectSystem : ISystem
             switch (ability.ValueRO.Type)
             {
                 case AbilityType.AnabolikStimulator:
-                    EndSpeedBoost(ref state, em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
+                    EndSpeedBoost(ref state, em, ent, ability.ValueRO.TargetType);
                     break;
                 case AbilityType.Fireball:
                     //LaunchFireball(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);

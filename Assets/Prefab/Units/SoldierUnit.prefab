@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
-  Owner: {fileID: 0}
+  Owner: {fileID: 8020765196219228651}
   TimeLeft: 7
   CooldownLeft: 30
   Active: 0

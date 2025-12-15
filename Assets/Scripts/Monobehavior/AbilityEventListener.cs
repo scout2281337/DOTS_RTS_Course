@@ -1,25 +1,37 @@
+using System;
 using Unity.Collections;
 using Unity.Entities;
+using UnityEditor.Playables;
 using UnityEngine;
 
 public class AbilityEventListener : MonoBehaviour
 {
+    public static AbilityEventListener Instance;
+
+    public event Action<Entity, AbilityType> AbilityStarted;
+    public event Action<Entity, AbilityType> AbilityEnded;
+
     EntityManager em;
     EntityQuery startQuery;
     EntityQuery endQuery;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
         em = World.DefaultGameObjectInjectionWorld.EntityManager;
 
         startQuery = em.CreateEntityQuery(
-            typeof(Ability),
             typeof(AbilityStartEvent)
+            , typeof(Ability)
         );
 
         endQuery = em.CreateEntityQuery(
-            typeof(Ability),
-            typeof(AbilityEndEvent)
+            typeof(AbilityEndEvent),
+            typeof(Ability)
         );
     }
 
@@ -37,8 +49,8 @@ public class AbilityEventListener : MonoBehaviour
 
         foreach (var ability in abilities)
         {
-            OnAbilityStart(ability);
-            //Ивент при старте абилки
+            AbilityStarted?.Invoke(ability.Owner, ability.Type);
+            Debug.Log("Сработало ивентус");
         }
 
         abilities.Dispose();
@@ -52,30 +64,10 @@ public class AbilityEventListener : MonoBehaviour
 
         foreach (var ability in abilities)
         {
-            OnAbilityEnd(ability);
-            //Ивент в конце абилки
+            AbilityEnded?.Invoke(ability.Owner, ability.Type);
+            Debug.Log("Сработало ивентус");
         }
 
         abilities.Dispose();
-    }
-
-    void OnAbilityStart(Ability ability) //нужно не нужно
-    {
-        switch (ability.Type)
-        {
-            case AbilityType.AnabolikStimulator:
-                Debug.Log("Speed boost start by " + ability.Owner);
-                break;
-        }
-    }
-
-    void OnAbilityEnd(Ability ability)//нужно не нужно
-    {
-        switch (ability.Type)
-        {
-            case AbilityType.AnabolikStimulator:
-                Debug.Log("Speed boost end");
-                break;
-        }
     }
 }

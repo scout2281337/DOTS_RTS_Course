@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -17,8 +18,19 @@ public class FriendlyUnitManager : MonoBehaviour
     private bool isSpawned = false;
 
     //public Entity[] Units; мб убрать
-    public Dictionary<string, Entity> EntitiesDictionary = new Dictionary<string, Entity>();
+    public Dictionary<UnitClass, Entity> EntitiesDictionary = new Dictionary<UnitClass, Entity>();
+    //public static event Action OnUnitSpawn;
+    public static FriendlyUnitManager Instance { get; private set; }
+    private void Start()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        Instance = this;
+    }
     private void Update()
     {
         if (!isInitialized) 
@@ -37,6 +49,7 @@ public class FriendlyUnitManager : MonoBehaviour
 
             }
             isSpawned = true;
+            //OnUnitSpawn?.Invoke();
         }
     }
     void TryToInitialize() 
@@ -88,7 +101,7 @@ public class FriendlyUnitManager : MonoBehaviour
         
         
         // ѕосле добавлени€ абилки или просто при спавне решить, здесь думаю нормально , но это так мысли в комментарии € шиз лелелеле
-        //EntitiesDictionary.Add($"{em.GetComponentData<Unit>(currentEntity).Class}", currentEntity);
+        //EntitiesDictionary.Add(em.GetComponentData<Unit>(currentEntity).Class, currentEntity);
     }
 
     Vector3 RandomPointInCircle(Vector3 center, float radius)
