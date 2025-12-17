@@ -211,10 +211,10 @@ MonoBehaviour:
   Type: 0
   Owner: {fileID: 8020765196219228651}
   TimeLeft: 7
-  CooldownLeft: 30
+  CooldownLeft: 9
   Active: 0
   IsTriggered: 0
-  TargetType: 0
+  TargetType: 1
 --- !u!1001 &8175049506232043090
 PrefabInstance:
   m_ObjectHideFlags: 0

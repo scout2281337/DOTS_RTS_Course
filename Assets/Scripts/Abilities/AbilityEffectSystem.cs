@@ -1,6 +1,6 @@
 
 using Unity.Entities;
-
+[UpdateInGroup(typeof(PresentationSystemGroup))]
 partial struct AbilityEffectSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)
@@ -27,6 +27,7 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.None:
                     break;
             }
+            AbilityEventListener.Instance?.RaiseAbilityStarted(ent, ability.ValueRO.Type); // ивент использования абилки
 
             // Убираем одноразовый Event
             ecb.RemoveComponent<AbilityStartEvent>(ent);
@@ -50,7 +51,7 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.None:
                     break;
             }
-
+            AbilityEventListener.Instance?.RaiseAbilityEnded(ent, ability.ValueRO.Type);
             // Убираем одноразовый Event
             ecb.RemoveComponent<AbilityEndEvent>(ent);
         }
