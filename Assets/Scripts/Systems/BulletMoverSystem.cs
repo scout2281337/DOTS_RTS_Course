@@ -49,9 +49,20 @@ partial struct BulletMoverSystem : ISystem
             if ( math.distancesq(localTransform.ValueRO.Position, targetPosition) < destroyDistanceSq) 
             {
                 //close enough to do damage
-                RefRW<Health> targetHealth = SystemAPI.GetComponentRW<Health>(target.ValueRO.targetEntity);
-                targetHealth.ValueRW.healthAmount -= bullet.ValueRO.damageAmount;
-                targetHealth.ValueRW.OnHealthChanged = true;
+                Entity damageEntity = entityCommandBuffer.CreateEntity();
+                entityCommandBuffer.AddComponent(damageEntity, new DamageEvent
+                {
+                    TargetEntity = target.ValueRO.targetEntity,
+                    DamageAmount = bullet.ValueRO.damageAmount,
+
+                });
+
+
+
+
+                //RefRW<Health> targetHealth = SystemAPI.GetComponentRW<Health>(target.ValueRO.targetEntity);
+                //targetHealth.ValueRW.healthAmount -= bullet.ValueRO.damageAmount;
+                //targetHealth.ValueRW.OnHealthChanged = true;
 
                 entityCommandBuffer.DestroyEntity(entity);
             }

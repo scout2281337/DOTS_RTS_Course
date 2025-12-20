@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 public class WeaponConfig : ScriptableObject, IInfoBlockUI
 {
     public float damage;
-    public int fireRate;
+    public float fireRate;
     public float range;
     public WeaponTypes weaponType;
     public float typeStat;

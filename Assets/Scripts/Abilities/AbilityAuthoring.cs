@@ -26,7 +26,6 @@ public class AbilityAuthoring : MonoBehaviour
 
                 CooldownLeft = authoring.CooldownLeft,
                 Active = authoring.Active,
-
                 IsTriggered = authoring.IsTriggered,
                 TargetType = authoring.TargetType,
             });

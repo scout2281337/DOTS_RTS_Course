@@ -9,12 +9,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -7360125597435588533, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      propertyPath: Armour
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -7360125597435588533, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: healthAmount
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: -7360125597435588533, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: healthAmountMax
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 273691799339553324, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: BaseSpeed

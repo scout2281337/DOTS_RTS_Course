@@ -55,9 +55,16 @@ partial struct AbilityEffectSystem : ISystem
             // Убираем одноразовый Event
             ecb.RemoveComponent<AbilityEndEvent>(ent);
         }
+        foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithAll<CooldownEndEvent>().WithEntityAccess()) //рефактор сделать
+        {
+            
+            AbilityEventListener.Instance?.RaiseCooldownEnded(ent, ability.ValueRO.Type);
+            ecb.RemoveComponent<CooldownEndEvent>(ent);
+        }
         ecb.Playback(state.EntityManager);
         ecb.Dispose();
     }
+
     void ApplySpeedBoost(ref SystemState state, EntityManager em, Entity owner, AbilityTargetType target, float multiplier)
     {
         switch (target)

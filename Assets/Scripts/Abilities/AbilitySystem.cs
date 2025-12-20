@@ -6,16 +6,23 @@ partial struct AbilitySystem : ISystem
     {
         var dt = SystemAPI.Time.DeltaTime;
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
-
+        
+        
         foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithEntityAccess())
         {
             // cooldown tick
-            if (!ability.ValueRO.Active && ability.ValueRO.CooldownLeft > 0)
+            if (!ability.ValueRO.Active && ability.ValueRO.CooldownLeft > 0) 
+            {
                 ability.ValueRW.CooldownLeft -= dt;
+                // CooldownEndEvent
+                if (ability.ValueRO.CooldownLeft <= 0) 
+                {
+                    ecb.AddComponent<CooldownEndEvent>(ent);
+                }
+            
+            }
 
-            // CooldownEndEvent
-            if (ability.ValueRO.CooldownLeft <= 0)
-                ecb.AddComponent<CooldownEndEvent>(ent);
+
 
             // Activation
             if (ability.ValueRO.IsTriggered && !ability.ValueRO.Active && ability.ValueRO.CooldownLeft <= 0)

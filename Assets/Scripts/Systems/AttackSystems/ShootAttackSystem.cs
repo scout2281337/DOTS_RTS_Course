@@ -3,20 +3,31 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
-using Unity.Collections;
-using static UnityEngine.GraphicsBuffer;
+using UnityEngine;
 
+[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 partial struct ShootAttackSystem : ISystem
 {
+    EntityArchetype damageArchetype;
 
+    public void OnCreate(ref SystemState state)
+    {
+        damageArchetype = state.EntityManager.CreateArchetype(
+            typeof(DamageEvent)
+        );
+    }
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences))
             return;
+        var physicsWorld = SystemAPI
+            .GetSingleton<PhysicsWorldSingleton>()
+            .CollisionWorld;
+
         
-        //var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
-        //var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter();
+        var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
+        var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged); //можно перевести на многопоточку
         /*
         var job = new ShootAttackJob
         {
@@ -76,19 +87,42 @@ partial struct ShootAttackSystem : ISystem
             }
             shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
 
-            Entity bulletEntity =  state.EntityManager.Instantiate(entitiesReferences.bulletPrefabEntity);
+
             float3 bulletSpawnWorldPosition = localTransform.ValueRO.TransformPoint(bulletSpawnPosition.ValueRO.bulletSpawnLocalPosition);
-            SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
-            
-            RefRW<Bullet> bulletBullet = SystemAPI.GetComponentRW<Bullet>(bulletEntity);
-            bulletBullet.ValueRW.damageAmount = shootAttack.ValueRO.damageAmount;
+            RaycastInput input = new RaycastInput
+            {
+                Start = bulletSpawnWorldPosition,
+                End = bulletSpawnWorldPosition + aimDirection * shootAttack.ValueRO.attackDistance,
+                Filter = new CollisionFilter //реворк по настроению
+                {
+                    BelongsTo = ~0u,
+                    CollidesWith = ~0u,
+                    GroupIndex = 0
+                }
+            };
+            if (physicsWorld.CastRay(input, out Unity.Physics.RaycastHit hit))
+            {
+                Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+                Entity damageEntity = ecb.CreateEntity();
+                ecb.AddComponent(damageEntity, new DamageEvent
+                {
+                    TargetEntity = hitEntity,
+                    DamageAmount = 10f,//rework later
 
-            RefRW<Target> bulletTarget = SystemAPI.GetComponentRW<Target>(bulletEntity);
-            bulletTarget.ValueRW.targetEntity = target.ValueRO.targetEntity;
+                });
+            }
+            //Entity bulletEntity =  state.EntityManager.Instantiate(entitiesReferences.bulletPrefabEntity);
+            //SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
 
-            shootAttack.ValueRW.onShoot.isTriggered = true;
-            shootAttack.ValueRW.onShoot.shootFromPosition = bulletSpawnWorldPosition;
-            
+            //RefRW<Bullet> bulletBullet = SystemAPI.GetComponentRW<Bullet>(bulletEntity);
+            //bulletBullet.ValueRW.damageAmount = shootAttack.ValueRO.damageAmount;
+
+            //RefRW<Target> bulletTarget = SystemAPI.GetComponentRW<Target>(bulletEntity);
+            //bulletTarget.ValueRW.targetEntity = target.ValueRO.targetEntity;
+
+            //shootAttack.ValueRW.onShoot.isTriggered = true;
+            //shootAttack.ValueRW.onShoot.shootFromPosition = bulletSpawnWorldPosition;
+
 
         }
     }

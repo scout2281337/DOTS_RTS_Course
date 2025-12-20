@@ -4,9 +4,8 @@ using UnityEngine.UIElements;
 [CreateAssetMenu(fileName = "ClassConfig", menuName = "Scriptable Objects/Classes/ClassConfig")]
 public class ClassConfig : ScriptableObject, IInfoBlockUI
 {
-    public int armor;
 
-    [Header("Unit mover component")]
+    [Header("Unit mover component")] // скорость
     public int speed;
     public int rotationSpeed;
     [Header("Health component")]
@@ -14,6 +13,12 @@ public class ClassConfig : ScriptableObject, IInfoBlockUI
     [Header("Find Target component")]
     public Faction targetFaction;
     public float timerMaxForOverlap;
+
+    [Header("Armour")]
+    public float Armour;
+    [Header("Stamina")]
+    public float Stamina;
+
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {
         var classDetails = UITK.AddElement(infoPanel, "classDetails", "infoBlock");
@@ -28,7 +33,7 @@ public class ClassConfig : ScriptableObject, IInfoBlockUI
                 var armorBar = UITK.AddElement<ProgressBar>(armorRow, "armorBar", "detailBar");
                 armorBar.lowValue = 0;
                 armorBar.highValue = 3;
-                armorBar.value = armor;
+                armorBar.value = Armour;
 
             var speedRow = UITK.AddElement(classDetails, "speedRow", "detailRow");
             

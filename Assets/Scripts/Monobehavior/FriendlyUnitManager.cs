@@ -89,7 +89,8 @@ public class FriendlyUnitManager : MonoBehaviour
         });
         em.SetComponentData(currentEntity, new ShootAttack
         {
-            timerMax = 1 / weaponConfig.fireRate,
+            timerMax = 60 / weaponConfig.fireRate,
+            timer = 60f / weaponConfig.fireRate,
             damageAmount = weaponConfig.damage,
             attackDistance = weaponConfig.range,
         });
@@ -97,6 +98,7 @@ public class FriendlyUnitManager : MonoBehaviour
         {
             healthAmountMax = classConfig.maxHealth,
             healthAmount = classConfig.maxHealth,
+            Armour = classConfig.Armour,
         });
         
         

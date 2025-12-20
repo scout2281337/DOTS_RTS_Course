@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8639eb4953e93f9419b647898d865a93, type: 3}
   m_Name: RaiderClassConfig
   m_EditorClassIdentifier: 
-  armor: 2
   speed: 2
   rotationSpeed: 15
   maxHealth: 100
   targetFaction: 1
   timerMaxForOverlap: 0.2
+  Armour: 15
+  Stamina: 20

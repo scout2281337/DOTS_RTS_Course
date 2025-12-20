@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 public class SkillConfig : ScriptableObject, IInfoBlockUI
 {
     public float cooldown;
+    public float duration;
+    public float speedBoost;
 
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {
