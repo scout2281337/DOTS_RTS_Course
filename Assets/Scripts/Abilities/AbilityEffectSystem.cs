@@ -1,5 +1,8 @@
 
+using System;
 using Unity.Entities;
+using UnityEngine.LightTransport;
+using static UnityEngine.EventSystems.EventTrigger;
 [UpdateInGroup(typeof(PresentationSystemGroup))]
 partial struct AbilityEffectSystem : ISystem
 {
@@ -7,12 +10,14 @@ partial struct AbilityEffectSystem : ISystem
     {
         var em = state.EntityManager;
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
+
+
         foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityStartEvent>().WithEntityAccess())
         {
             switch (ability.ValueRO.Type)
             {
                 case AbilityType.AnabolikStimulator:
-                    ApplySpeedBoost(ref state, em, ent, ability.ValueRO.TargetType, 3f); //ability.ValueRO.Owner
+                    ApplySpeedBoost(ref state, em,ecb, ent, ability.ValueRO.TargetType, 3f); //ability.ValueRO.Owner
                     //Debug.Log("chf,");
                     break;
                 case AbilityType.Fireball:
@@ -65,16 +70,28 @@ partial struct AbilityEffectSystem : ISystem
         ecb.Dispose();
     }
 
-    void ApplySpeedBoost(ref SystemState state, EntityManager em, Entity owner, AbilityTargetType target, float multiplier)
+    void ApplySpeedBoost(ref SystemState state, EntityManager em, EntityCommandBuffer ecb, Entity owner, AbilityTargetType target, float multiplier)
     {
         switch (target)
         {
             case AbilityTargetType.Self:
                 if (em.HasComponent<UnitMover>(owner))
                 {
-                    var mover = SystemAPI.GetComponentRW<UnitMover>(owner);
-                    
-                    mover.ValueRW.CurrentMoveSpeed *= multiplier;
+                    DynamicBuffer<SlowDebuff> buffer;
+                    if (SystemAPI.HasBuffer<SlowDebuff>(owner))
+                    {
+                        buffer = SystemAPI.GetBuffer<SlowDebuff>(owner);
+                    }
+                    else
+                    {
+                        buffer = ecb.AddBuffer<SlowDebuff>(owner);
+                    }
+
+                    buffer.Add(new SlowDebuff
+                    {
+                        Multiplier = multiplier,
+                        Source = owner,
+                    });
                 }
                 break;
             case AbilityTargetType.Ally:
@@ -107,10 +124,20 @@ partial struct AbilityEffectSystem : ISystem
             case AbilityTargetType.Self:
                 if (em.HasComponent<UnitMover>(owner))
                 {
-                    //Debug.Log("endSpeedB");
-                    var mover = SystemAPI.GetComponentRW<UnitMover>(owner);
 
-                    mover.ValueRW.CurrentMoveSpeed = mover.ValueRO.BaseSpeed;
+                    if (!SystemAPI.HasBuffer<SlowDebuff>(owner))
+                        return;
+
+                    var buffer = SystemAPI.GetBuffer<SlowDebuff>(owner);
+
+                    for (int i = buffer.Length - 1; i >= 0; i--)
+                    {
+                        if (buffer[i].Source == owner)
+                        {
+                            buffer.RemoveAt(i);
+                        }
+                    }
+
                 }
                 break;
             case AbilityTargetType.Ally:

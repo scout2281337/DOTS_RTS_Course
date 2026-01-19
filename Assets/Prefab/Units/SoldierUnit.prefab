@@ -214,7 +214,7 @@ MonoBehaviour:
   CooldownLeft: 9
   Active: 0
   IsTriggered: 0
-  TargetType: 1
+  TargetType: 0
 --- !u!1001 &8175049506232043090
 PrefabInstance:
   m_ObjectHideFlags: 0

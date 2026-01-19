@@ -27,16 +27,8 @@ partial struct ShootAttackSystem : ISystem
 
         
         var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
-        var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged); //можно перевести на многопоточку
-        /*
-        var job = new ShootAttackJob
-        {
-            deltaTime = SystemAPI.Time.DeltaTime,
-            targetLocalTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
-        };
+        var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
 
-        job.ScheduleParallel();
-        */
 
 
 
