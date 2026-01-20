@@ -3,22 +3,22 @@ using UnityEngine.Pool;
 
 public class VFXManager : Singleton<VFXManager>
 {
-    public TrailVFXSO trailsSO;
-    public IObjectPool<VFXObject> bulletTrailVFXObjectPool;
+    [SerializeField] private TrailVFXSO trailsSO;
+    [SerializeField] private IObjectPool<VFXObject> bulletTrailVFXObjectPool;
 
-    public BurstVFXSO burstSO;
-    public IObjectPool<VFXObject> explosionVFXObjectPool;
-    public IObjectPool<VFXObject> bloodBurstVFXObjectPool;
-    public IObjectPool<VFXObject> sparkBurstVFXObjectPool;
+    [SerializeField] private BurstVFXSO burstSO;
+    [SerializeField] private IObjectPool<VFXObject> explosionVFXObjectPool;
+    [SerializeField] private IObjectPool<VFXObject> bloodBurstVFXObjectPool;
+    [SerializeField] private IObjectPool<VFXObject> sparkBurstVFXObjectPool;
 
-    public SkillVFXSO skillsSO;
-    public IObjectPool<VFXObject> anabolicVFXObjectPool;
-    public IObjectPool<VFXObject> gravityMagnifierVFXObjectPool;
-    public IObjectPool<VFXObject> railgunVFXObjectPool;
-    public IObjectPool<VFXObject> scorchingProjectileVFXObjectPool;
+    [SerializeField] private SkillVFXSO skillsSO;
+    [SerializeField] private IObjectPool<VFXObject> anabolicVFXObjectPool;
+    [SerializeField] private IObjectPool<VFXObject> gravityMagnifierVFXObjectPool;
+    [SerializeField] private IObjectPool<VFXObject> railgunVFXObjectPool;
+    [SerializeField] private IObjectPool<VFXObject> scorchingProjectileVFXObjectPool;
 
 
-    public void CreateTrail(IObjectPool<VFXObject> objectPool, Vector3 start, Vector3 end)
+    private void CreateVFXTrail(IObjectPool<VFXObject> objectPool, Vector3 start, Vector3 end)
     {
         Vector3 direction = end - start;
         Vector3 midPoint = start + (direction * 0.5f);
@@ -36,16 +36,17 @@ public class VFXManager : Singleton<VFXManager>
         StartCoroutine(vfxObject.PoolVFXObject(objectPool));
     }
 
-    private IObjectPool<VFXObject> NewObjectPool(VFXObject vfxObject)
+    private void CreateVFXObject(IObjectPool<VFXObject> objectPool, Vector3 start)
     {
-        return new ObjectPool<VFXObject>(
-            () => OnNewPooledObject(vfxObject),
-            OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject);
+        VFXObject vfxObject = objectPool.Get();
+        vfxObject.transform.position = start;
+
+        StartCoroutine(vfxObject.PoolVFXObject(objectPool));
     }
 
     private VFXObject OnNewPooledObject(VFXObject vfxObject)
     {
-        VFXObject VFXInstance = Instantiate(vfxObject);
+        VFXObject VFXInstance = Instantiate(vfxObject, this.transform);
 
         return VFXInstance;
     }
@@ -63,6 +64,13 @@ public class VFXManager : Singleton<VFXManager>
     private void OnDestroyPooledObject(VFXObject pooledObject)
     {
         DestroyImmediate(pooledObject);
+    }
+
+    private IObjectPool<VFXObject> NewObjectPool(VFXObject vfxObject)
+    {
+        return new ObjectPool<VFXObject>(
+            () => OnNewPooledObject(vfxObject),
+            OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject);
     }
 
 

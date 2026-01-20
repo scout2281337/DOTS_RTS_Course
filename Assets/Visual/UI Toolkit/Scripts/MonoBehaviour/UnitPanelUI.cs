@@ -8,8 +8,11 @@ public class UnitPanelUI : MonoBehaviour
     [SerializeField] private StyleSheetsSO defaultStyleSheet;
     [SerializeField] private StyleSheet[] styleSheets;
 
+    [SerializeField] private SkillIcons skillIcons;
+
     private VisualElement unitPanel;
     private VisualElement[] unitProfiles = new VisualElement[4];
+
 
     public ClassConfig classInfoBlockTester;
     public WeaponConfig weaponInfoBlockTester;
@@ -49,6 +52,7 @@ public class UnitPanelUI : MonoBehaviour
         var unitProfile = UITK.AddElement(unitPanel, "unitProfile");
 
             var skillButton = UITK.AddElement<Button>(unitProfile, "skillButton");
+            skillButton.style.backgroundImage = skillIcons.icons[0];
 
             var barsBox = UITK.AddElement(unitProfile, "barsBox");
             
