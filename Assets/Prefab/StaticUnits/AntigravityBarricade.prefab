@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpeedDebuff: 0.3
   Cooldown: 40
-  Duration: 10
+  Duration: 40
   Range: 10
 --- !u!114 &-4652790148154076487
 MonoBehaviour:

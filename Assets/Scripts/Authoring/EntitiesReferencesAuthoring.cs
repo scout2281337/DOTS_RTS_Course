@@ -8,7 +8,7 @@ public class EntitiesReferencesAuthoring : MonoBehaviour
     public GameObject shootLightPrefabGameObject;
     //public GameObject spawnPointPrefabGameObject;
     public GameObject unitPrefabGameObject;
-
+    public GameObject AntiGravitationBarrier;
     public class Baker : Baker<EntitiesReferencesAuthoring>
     {
         public override void Bake(EntitiesReferencesAuthoring authoring)
@@ -20,6 +20,7 @@ public class EntitiesReferencesAuthoring : MonoBehaviour
                 zombiePrefabEntity = GetEntity(authoring.zombiePrefabGameObject, TransformUsageFlags.Dynamic),//
                 shootLightPrefabEntity = GetEntity(authoring.shootLightPrefabGameObject, TransformUsageFlags.Dynamic),
                 unitPrefabEntity = GetEntity(authoring.unitPrefabGameObject, TransformUsageFlags.Dynamic),
+                AntiGravitationBarrier = GetEntity(authoring.AntiGravitationBarrier, TransformUsageFlags.Dynamic)
                 //spawnPointPrefabEntity = GetEntity(authoring.spawnPointPrefabGameObject, TransformUsageFlags.Dynamic),
             });
         }
@@ -32,5 +33,7 @@ public struct EntitiesReferences : IComponentData
     public Entity zombiePrefabEntity; //
     public Entity shootLightPrefabEntity;
     public Entity unitPrefabEntity;
+    public Entity AntiGravitationBarrier;
+
     //public Entity spawnPointPrefabEntity;
 }

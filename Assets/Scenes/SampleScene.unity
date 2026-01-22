@@ -1638,7 +1638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &881444884
 Transform:
   m_ObjectHideFlags: 0
@@ -1824,7 +1824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponConfig: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
   classConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
-  teamAmount: 1
+  teamAmount: 4
 --- !u!4 &1199244195
 Transform:
   m_ObjectHideFlags: 0
@@ -1992,6 +1992,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x

@@ -10,12 +10,22 @@ partial struct AGBSystem : ISystem
     {
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
+
+
         foreach (var (fieldTransform, agb, fieldEntity)
-                 in SystemAPI.Query<RefRO<LocalTransform>, RefRO<AGB>>()
+                 in SystemAPI.Query<RefRO<LocalTransform>, RefRW<AGB>>()
                              .WithEntityAccess())
         {
             float rangeSq = agb.ValueRO.Range * agb.ValueRO.Range;
-
+            if (agb.ValueRO.Duration <= 0)
+            {
+                ecb.DestroyEntity(fieldEntity);
+                continue;
+            }
+            else 
+            {
+                agb.ValueRW.Duration -= SystemAPI.Time.DeltaTime;   
+            }
             foreach (var (unitTransform, unitData, unitEntity)
                      in SystemAPI.Query<RefRO<LocalTransform>, RefRO<Unit>>()
                                  .WithEntityAccess())

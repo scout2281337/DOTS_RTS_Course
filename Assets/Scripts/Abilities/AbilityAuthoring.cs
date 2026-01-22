@@ -56,7 +56,7 @@ public enum AbilityTargetType
 public enum AbilityType
 {
     AnabolikStimulator,
-    Fireball,
+    AntiGravitationBarrier,
     Shield,
     Heal,
     None // Нихуя не делает

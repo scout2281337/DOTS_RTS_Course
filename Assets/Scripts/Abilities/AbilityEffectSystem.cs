@@ -1,13 +1,15 @@
 
 using System;
 using Unity.Entities;
-using UnityEngine.LightTransport;
-using static UnityEngine.EventSystems.EventTrigger;
+
 [UpdateInGroup(typeof(PresentationSystemGroup))]
 partial struct AbilityEffectSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)
     {
+        if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences))
+            return;
+
         var em = state.EntityManager;
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
@@ -18,10 +20,10 @@ partial struct AbilityEffectSystem : ISystem
             {
                 case AbilityType.AnabolikStimulator:
                     ApplySpeedBoost(ref state, em,ecb, ent, ability.ValueRO.TargetType, 3f); //ability.ValueRO.Owner
-                    //Debug.Log("chf,");
+
                     break;
-                case AbilityType.Fireball:
-                    //LaunchFireball(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
+                case AbilityType.AntiGravitationBarrier:
+                    SpawnObject(entitiesReferences.AntiGravitationBarrier, ref state);
                     break;
                 case AbilityType.Shield:
                     //ApplyShield(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
@@ -44,8 +46,8 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.AnabolikStimulator:
                     EndSpeedBoost(ref state, em, ent, ability.ValueRO.TargetType);
                     break;
-                case AbilityType.Fireball:
-                    //LaunchFireball(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
+                case AbilityType.AntiGravitationBarrier:
+                    //νθυσÿ
                     break;
                 case AbilityType.Shield:
                     //ApplyShield(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
@@ -163,5 +165,8 @@ partial struct AbilityEffectSystem : ISystem
                 break;
         }
     }
-
+    void SpawnObject(Entity EntityToSpawn, ref SystemState State) 
+    {
+        Entity entityToSpawn = State.EntityManager.Instantiate(EntityToSpawn);
+    }
 }
