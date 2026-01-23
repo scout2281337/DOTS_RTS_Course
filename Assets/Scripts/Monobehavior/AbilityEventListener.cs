@@ -2,27 +2,21 @@ using System;
 using Unity.Entities;
 using UnityEngine;
 
-public class AbilityEventListener : MonoBehaviour
+public class AbilityEventListener : Singleton<AbilityEventListener>
 {
-    public static AbilityEventListener Instance;
-
     public event Action<Entity, AbilityType> AbilityStarted;
     public event Action<Entity, AbilityType> AbilityEnded;
     public event Action<Entity, AbilityType> CooldownEnded;
 
-
-
-    void Awake()
-    {
-        Instance = this;//Доделать:)
-    }
-
+    public event Action<Vector3, Vector3> BulletShot;
 
 
     public void RaiseAbilityStarted(Entity owner, AbilityType type)
     {
         AbilityStarted?.Invoke(owner, type);
-        Debug.Log("Ивент старт абилки");
+        Debug.Log("RaiseAbilityStarted \n" +
+            owner + "\n"
+            + type);
     }
 
     public void RaiseAbilityEnded(Entity owner, AbilityType type)
@@ -34,7 +28,16 @@ public class AbilityEventListener : MonoBehaviour
     public void RaiseCooldownEnded(Entity owner, AbilityType type) 
     {
         CooldownEnded?.Invoke(owner, type);
-        Debug.Log("ивент конца кулдауна сработал:)");
-    
+        Debug.Log("RaiseCooldownEnded \n" +
+            owner + "\n"
+            + type);
+    }
+
+    public void RaiseBulletShot(Vector3 start, Vector3 end)
+    {
+        BulletShot?.Invoke(start, end);
+        Debug.Log("BulletShot \n" +
+            start + "\n"
+            + end);
     }
 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501efd99e92dbec4a97107ef019ec0c3, type: 3}
   m_Name: TrailVFXSO
   m_EditorClassIdentifier: 
-  bulletTrailVFXObject: {fileID: 0}
+  bulletTrailVFXObject: {fileID: -773895563563464766, guid: f48c9ba2fca12e545bbf1da930417df4, type: 3}

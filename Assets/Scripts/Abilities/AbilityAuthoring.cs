@@ -1,12 +1,10 @@
 using Unity.Entities;
 using UnityEngine;
 
-
-
 public class AbilityAuthoring : MonoBehaviour 
 {
     public AbilityType Type;
-    public GameObject Owner;          // Юнит, которому принадлежит способность
+    public GameObject Owner;          // пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public float TimeLeft;
     public float CooldownLeft;
     public bool Active;
@@ -31,34 +29,33 @@ public class AbilityAuthoring : MonoBehaviour
             });
         }
     }
-
 }
 
 public struct Ability : IComponentData
 {
     public AbilityType Type;
-    public Entity Owner;          // Юнит, которому принадлежит способность
+    public Entity Owner;          // пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public float TimeLeft;
     public float CooldownLeft;
     public bool Active;
     public bool IsTriggered;
     public AbilityTargetType TargetType;
-
 }
+
 public enum AbilityTargetType
 {
-    Self,       // на себя
-    Ally,       // на союзников
-    Enemy,      // на врагов
-    Area        // область
+    Self,       // пїЅпїЅ пїЅпїЅпїЅпїЅ
+    Ally,       // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    Enemy,      // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    Area        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 }
 
 public enum AbilityType
 {
-    AnabolikStimulator,
+    AnabolicStimulator,
     AntiGravitationBarrier,
     Shield,
     Heal,
-    None // Нихуя не делает
+    None // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 }
 

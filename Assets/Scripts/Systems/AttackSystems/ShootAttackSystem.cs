@@ -3,7 +3,6 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
-using UnityEngine;
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 partial struct ShootAttackSystem : ISystem
@@ -16,21 +15,18 @@ partial struct ShootAttackSystem : ISystem
             typeof(DamageEvent)
         );
     }
+
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences))
-            return;
+        if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences)) return;
+
         var physicsWorld = SystemAPI
             .GetSingleton<PhysicsWorldSingleton>()
             .CollisionWorld;
 
-        
         var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
         var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
-
-
-
 
         foreach ((
             RefRW<ShootAttack> shootAttack,
@@ -45,26 +41,18 @@ partial struct ShootAttackSystem : ISystem
                 RefRO<BulletSpawnPosition>,
                 RefRW<UnitMover>>().WithDisabled<MoveOverride>()) 
         {
-            
-            
-            
-            
-            if (target.ValueRO.targetEntity == Entity.Null) 
-            {
-                continue;
-            }
+            if (target.ValueRO.targetEntity == Entity.Null) continue;
 
+            // Проверка на дистанцию до цели
             LocalTransform targetLocalTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
             if (math.distance(localTransform.ValueRO.Position, targetLocalTransform.Position) > shootAttack.ValueRO.attackDistance)
             {
-                unitMover.ValueRW.targetPosition = targetLocalTransform.Position;
+                unitMover.ValueRW.targetPosition = targetLocalTransform.Position; 
                 continue;
             }
-            else
-            {
-                unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
-            }
 
+            // Разворот до цели и анимация разворота
+            unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
             float3 aimDirection = targetLocalTransform.Position - localTransform.ValueRO.Position;
             aimDirection = math.normalize(aimDirection);
 
@@ -73,12 +61,10 @@ partial struct ShootAttackSystem : ISystem
 
             shootAttack.ValueRW.timer -= SystemAPI.Time.DeltaTime;
 
-            if (shootAttack.ValueRO.timer > 0f) 
-            {
-                continue;
-            }
+            if (shootAttack.ValueRO.timer > 0f) continue;
+            
+            // Стрельба
             shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
-
 
             float3 bulletSpawnWorldPosition = localTransform.ValueRO.TransformPoint(bulletSpawnPosition.ValueRO.bulletSpawnLocalPosition);
             RaycastInput input = new RaycastInput
@@ -92,6 +78,7 @@ partial struct ShootAttackSystem : ISystem
                     GroupIndex = 0
                 }
             };
+
             if (physicsWorld.CastRay(input, out Unity.Physics.RaycastHit hit))
             {
                 Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
@@ -100,9 +87,12 @@ partial struct ShootAttackSystem : ISystem
                 {
                     TargetEntity = hitEntity,
                     DamageAmount = 10f,//rework later
-
                 });
             }
+
+            // Ивент на выстрел
+            AbilityEventListener.Instance?.RaiseBulletShot(input.Start, hit.Position);
+
             //Entity bulletEntity =  state.EntityManager.Instantiate(entitiesReferences.bulletPrefabEntity);
             //SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
 
@@ -114,12 +104,10 @@ partial struct ShootAttackSystem : ISystem
 
             //shootAttack.ValueRW.onShoot.isTriggered = true;
             //shootAttack.ValueRW.onShoot.shootFromPosition = bulletSpawnWorldPosition;
-
-
         }
     }
-
 }
+
 /*[BurstCompile]
 public partial struct ShootAttackJob : IJobEntity
 {
@@ -171,7 +159,5 @@ public partial struct ShootAttackJob : IJobEntity
         shootAttack.ValueRW.onShoot.isTriggered = true;
         shootAttack.ValueRW.onShoot.shootFromPosition = bulletSpawnWorldPosition;
     }
-        
-    
 }
 */

@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -82,11 +84,21 @@ public class VFXManager : Singleton<VFXManager>
 
         explosionVFXObjectPool = NewObjectPool(burstSO.explosionVFXObject);
         bloodBurstVFXObjectPool = NewObjectPool(burstSO.bloodBurstVFXObject);
-        sparkBurstVFXObjectPool = NewObjectPool(burstSO.bloodBurstVFXObject);
+        sparkBurstVFXObjectPool = NewObjectPool(burstSO.sparkBurstVFXObject);
 
         anabolicVFXObjectPool = NewObjectPool(skillsSO.anabolicVFXObject);
         gravityMagnifierVFXObjectPool = NewObjectPool(skillsSO.gravityMagnifierVFXObject);
         railgunVFXObjectPool = NewObjectPool(skillsSO.railgunVFXObject);
         scorchingProjectileVFXObjectPool = NewObjectPool(skillsSO.scorchingProjectileVFXObject);
+    }
+
+    private void Start()
+    {
+        AbilityEventListener.Instance.BulletShot += (start, end) =>
+        {
+            CreateVFXTrail(bulletTrailVFXObjectPool, start, end);
+            CreateVFXObject(explosionVFXObjectPool, end);
+            CreateVFXObject(bloodBurstVFXObjectPool, end);
+        };
     }
 }

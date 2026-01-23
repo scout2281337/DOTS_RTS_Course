@@ -1,4 +1,3 @@
-
 using System;
 using Unity.Entities;
 
@@ -18,9 +17,8 @@ partial struct AbilityEffectSystem : ISystem
         {
             switch (ability.ValueRO.Type)
             {
-                case AbilityType.AnabolikStimulator:
-                    ApplySpeedBoost(ref state, em,ecb, ent, ability.ValueRO.TargetType, 3f); //ability.ValueRO.Owner
-
+                case AbilityType.AnabolicStimulator:
+                    ApplySpeedBoost(ref state, em, ecb, ent, ability.ValueRO.TargetType, 3f); //ability.ValueRO.Owner
                     break;
                 case AbilityType.AntiGravitationBarrier:
                     SpawnObject(entitiesReferences.AntiGravitationBarrier, ref state);
@@ -34,20 +32,21 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.None:
                     break;
             }
-            AbilityEventListener.Instance?.RaiseAbilityStarted(ent, ability.ValueRO.Type); // ивент использования абилки
+            AbilityEventListener.Instance?.RaiseAbilityStarted(ent, ability.ValueRO.Type); // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
-            // Убираем одноразовый Event
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Event
             ecb.RemoveComponent<AbilityStartEvent>(ent);
         }
-        foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityEndEvent>().WithEntityAccess()) //рефактор сделать
+
+        foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityEndEvent>().WithEntityAccess()) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         {
             switch (ability.ValueRO.Type)
             {
-                case AbilityType.AnabolikStimulator:
+                case AbilityType.AnabolicStimulator:
                     EndSpeedBoost(ref state, em, ent, ability.ValueRO.TargetType);
                     break;
                 case AbilityType.AntiGravitationBarrier:
-                    //нихуя
+                    //пїЅпїЅпїЅпїЅпїЅ
                     break;
                 case AbilityType.Shield:
                     //ApplyShield(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
@@ -59,10 +58,11 @@ partial struct AbilityEffectSystem : ISystem
                     break;
             }
             AbilityEventListener.Instance?.RaiseAbilityEnded(ent, ability.ValueRO.Type);
-            // Убираем одноразовый Event
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Event
             ecb.RemoveComponent<AbilityEndEvent>(ent);
         }
-        foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithAll<CooldownEndEvent>().WithEntityAccess()) //рефактор сделать
+
+        foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithAll<CooldownEndEvent>().WithEntityAccess()) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         {
             
             AbilityEventListener.Instance?.RaiseCooldownEnded(ent, ability.ValueRO.Type);
@@ -100,7 +100,7 @@ partial struct AbilityEffectSystem : ISystem
                 foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit) in
                          SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
                 {
-                    // проверяем союзников по команде
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     if (friendlyUnit.ValueRO.faction == SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
                         allyMover.ValueRW.CurrentMoveSpeed *= multiplier;
                 }
@@ -109,16 +109,17 @@ partial struct AbilityEffectSystem : ISystem
                 foreach ((RefRW<UnitMover> enemyMover, RefRO<Unit> friendlyUnit) in
                          SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
                 {
-                    // проверяем вражин
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     if (friendlyUnit.ValueRO.faction != SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
                         enemyMover.ValueRW.CurrentMoveSpeed *= multiplier;
                 }
                 break;
             case AbilityTargetType.Area:
-                //  // чета придумать я тупой
+                //  // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
                 break;
         }
     }
+
     void EndSpeedBoost(ref SystemState state, EntityManager em, Entity owner, AbilityTargetType target)
     {
         switch (target)
@@ -146,7 +147,7 @@ partial struct AbilityEffectSystem : ISystem
                 foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit) in
                              SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
                 {
-                    // проверяем союзников по команде
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     if (friendlyUnit.ValueRO.faction == SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
                         allyMover.ValueRW.CurrentMoveSpeed = allyMover.ValueRO.BaseSpeed;
                 }
@@ -155,13 +156,13 @@ partial struct AbilityEffectSystem : ISystem
                 foreach ((RefRW<UnitMover> enemyMover, RefRO<Unit> friendlyUnit) in
                              SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
                 {
-                    // проверяем вражин
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     if (friendlyUnit.ValueRO.faction != SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
                         enemyMover.ValueRW.CurrentMoveSpeed = enemyMover.ValueRO.BaseSpeed;
                 }
                 break;
             case AbilityTargetType.Area:
-                // пример: можно применить к юнитам рядом с owner (через Position) // чета придумать я тупой
+                // пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ owner (пїЅпїЅпїЅпїЅпїЅ Position) // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
                 break;
         }
     }
