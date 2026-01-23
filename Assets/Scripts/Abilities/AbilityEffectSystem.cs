@@ -32,7 +32,7 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.None:
                     break;
             }
-            AbilityEventListener.Instance?.RaiseAbilityStarted(ent, ability.ValueRO.Type); // ����� ������������� ������
+            AbilityEventListener.Instance?.RaiseAbilityStarted(ent, ability.ValueRO.Type); 
 
             // ������� ����������� Event
             ecb.RemoveComponent<AbilityStartEvent>(ent);
@@ -57,7 +57,7 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.None:
                     break;
             }
-            AbilityEventListener.Instance?.RaiseAbilityEnded(ent, ability.ValueRO.Type);
+            AbilityEventListener.Instance?.RaiseAbilityEnded(ent, ability.ValueRO.Type); // LEGACY but fine right now
             // ������� ����������� Event
             ecb.RemoveComponent<AbilityEndEvent>(ent);
         }

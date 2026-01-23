@@ -3,6 +3,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
+using Unity.VisualScripting;
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 partial struct ShootAttackSystem : ISystem
@@ -90,8 +91,22 @@ partial struct ShootAttackSystem : ISystem
                 });
             }
 
-            // Ивент на выстрел
-            AbilityEventListener.Instance?.RaiseBulletShot(input.Start, hit.Position);
+            var hub = SystemAPI
+                .QueryBuilder()
+                .WithAll<EventHub>()
+                .Build()
+                .GetSingletonEntity();
+
+            var bulletEvents = SystemAPI.GetBuffer<BulletShotEvent>(hub);
+
+            bulletEvents.Add(new BulletShotEvent
+            {
+                From = bulletSpawnWorldPosition,
+                To = bulletSpawnWorldPosition + aimDirection * shootAttack.ValueRO.attackDistance,
+                //Shooter = shooter
+            });
+
+            //AbilityEventListener.Instance?.RaiseBulletShot(input.Start, hit.Position);
 
             //Entity bulletEntity =  state.EntityManager.Instantiate(entitiesReferences.bulletPrefabEntity);
             //SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
