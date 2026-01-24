@@ -8,7 +8,7 @@ public class UnitPanelUI : MonoBehaviour
     [SerializeField] private StyleSheetsSO defaultStyleSheet;
     [SerializeField] private StyleSheet[] styleSheets;
 
-    [SerializeField] private SkillIcons skillIcons;
+    [SerializeField] private SkillIconsSO skillIcons;
 
     private VisualElement unitPanel;
     private VisualElement[] unitProfiles = new VisualElement[4];

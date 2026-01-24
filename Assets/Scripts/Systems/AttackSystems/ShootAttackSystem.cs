@@ -3,7 +3,6 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
-using Unity.VisualScripting;
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 partial struct ShootAttackSystem : ISystem
@@ -102,7 +101,7 @@ partial struct ShootAttackSystem : ISystem
             bulletEvents.Add(new BulletShotEvent
             {
                 From = bulletSpawnWorldPosition,
-                To = bulletSpawnWorldPosition + aimDirection * shootAttack.ValueRO.attackDistance,
+                To = hit.Position,
                 //Shooter = shooter
             });
 

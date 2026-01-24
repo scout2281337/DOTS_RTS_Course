@@ -1599,7 +1599,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "CellDensity",
     "m_StageCapability": 3,
-    "m_Value": 15.0,
+    "m_Value": 5.0,
     "m_DefaultValue": 5.0,
     "m_Labels": []
 }
@@ -4132,8 +4132,8 @@
     "m_ObjectId": "f9711e26df3f4900986726015b3aae15",
     "m_Title": "BloodPattern",
     "m_Position": {
-        "x": -2992.7998046875,
-        "y": 526.3999633789063
+        "x": -2992.800048828125,
+        "y": 526.4000244140625
     }
 }
 
