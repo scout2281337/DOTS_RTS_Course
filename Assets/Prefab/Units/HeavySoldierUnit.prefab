@@ -20,6 +20,14 @@ PrefabInstance:
       propertyPath: attackDistance
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: -826494588273469841, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
+      propertyPath: Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -826494588273469841, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
+      propertyPath: ClassSkillConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 2056e750e43c60648ab2a7c412cd75cc, type: 2}
     - target: {fileID: 517911217189100086, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.594

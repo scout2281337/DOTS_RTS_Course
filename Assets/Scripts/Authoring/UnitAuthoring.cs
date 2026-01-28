@@ -15,6 +15,8 @@ public class UnitAuthoring : MonoBehaviour
                 faction = authoring.faction,
                 Class =authoring.Class,
             });
+            //AddComponent<NavPathProgress>(entity);
+            //AddBuffer<NavPathPoint>(entity);
         }
     }
 }

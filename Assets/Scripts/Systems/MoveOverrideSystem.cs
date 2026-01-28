@@ -11,25 +11,17 @@ partial struct MoveOverrideSystem : ISystem
         foreach ((
             RefRO<LocalTransform> localTransform,
             RefRO<MoveOverride> moveOverride,
-            EnabledRefRW<MoveOverride> moveOverrideEnabled,
-            RefRW<UnitMover> unitMover) in SystemAPI.Query<
+            EnabledRefRW<MoveOverride> moveOverrideEnabled)
+            in SystemAPI.Query<
                 RefRO<LocalTransform>,
                 RefRO<MoveOverride>,
-                EnabledRefRW<MoveOverride>,
-                RefRW<UnitMover>>()) 
+                EnabledRefRW<MoveOverride>>())
         {
-            if (math.distancesq(localTransform.ValueRO.Position, moveOverride.ValueRO.targetPosition) > UnitMoverSystem.REACHED_TARGET_POSITION_DISTANCE_SQ)
-            {
-                //move closer
-                unitMover.ValueRW.targetPosition = moveOverride.ValueRO.targetPosition;
-            }
-            else 
-            {
-                //Reached the move
-                moveOverrideEnabled.ValueRW = false;
-            }
-        }   
+            // MoveOverride теперь Ч это "приказ"
+            // ќн просто говорит: надо построить путь
+            // ƒальше работает NavMeshPathSystem
 
+            moveOverrideEnabled.ValueRW = false;
+        }
     }
-
 }

@@ -1,5 +1,6 @@
 using System;
 using Unity.Entities;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 [UpdateInGroup(typeof(PresentationSystemGroup))]
 partial struct AbilityEffectSystem : ISystem
@@ -97,25 +98,33 @@ partial struct AbilityEffectSystem : ISystem
                 }
                 break;
             case AbilityTargetType.Ally:
-                foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit) in
-                         SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
+                foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit, Entity friendlyEntity) in
+                         SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>().WithEntityAccess())
                 {
-                    // ��������� ��������� �� �������
-                    if (friendlyUnit.ValueRO.faction == SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
-                        allyMover.ValueRW.CurrentMoveSpeed *= multiplier;
+                    
+                    if (friendlyUnit.ValueRO.faction == SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction && em.HasComponent<UnitMover>(friendlyEntity))
+                    {
+                        DynamicBuffer<SlowDebuff> buffer;
+                        if (SystemAPI.HasBuffer<SlowDebuff>(friendlyEntity))
+                        {
+                            buffer = SystemAPI.GetBuffer<SlowDebuff>(friendlyEntity);
+                        }
+                        else
+                        {
+                            buffer = ecb.AddBuffer<SlowDebuff>(friendlyEntity);
+                        }
+
+                        buffer.Add(new SlowDebuff
+                        {
+                            Multiplier = multiplier,
+                            Source = owner,
+                        });
+                    }
                 }
                 break;
             case AbilityTargetType.Enemy:
-                foreach ((RefRW<UnitMover> enemyMover, RefRO<Unit> friendlyUnit) in
-                         SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
-                {
-                    // ��������� ������
-                    if (friendlyUnit.ValueRO.faction != SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
-                        enemyMover.ValueRW.CurrentMoveSpeed *= multiplier;
-                }
                 break;
             case AbilityTargetType.Area:
-                //  // ���� ��������� � �����
                 break;
         }
     }
@@ -144,12 +153,22 @@ partial struct AbilityEffectSystem : ISystem
                 }
                 break;
             case AbilityTargetType.Ally:
-                foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit) in
-                             SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
+                foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit, Entity friendlyEntity) in
+                         SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>().WithEntityAccess())
                 {
-                    // ��������� ��������� �� �������
-                    if (friendlyUnit.ValueRO.faction == SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
-                        allyMover.ValueRW.CurrentMoveSpeed = allyMover.ValueRO.BaseSpeed;
+
+                    if (!SystemAPI.HasBuffer<SlowDebuff>(friendlyEntity))
+                        return;
+
+                    var buffer = SystemAPI.GetBuffer<SlowDebuff>(friendlyEntity);
+
+                    for (int i = buffer.Length - 1; i >= 0; i--)
+                    {
+                        if (buffer[i].Source == owner)
+                        {
+                            buffer.RemoveAt(i);
+                        }
+                    }
                 }
                 break;
             case AbilityTargetType.Enemy:

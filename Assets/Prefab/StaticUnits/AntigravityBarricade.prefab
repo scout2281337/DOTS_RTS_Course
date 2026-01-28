@@ -45,10 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f07e82da1cc6941933bc2d764ee448, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedDebuff: 0.3
-  Cooldown: 40
-  Duration: 40
-  Range: 10
+  JuggernautSkillCfg: {fileID: 11400000, guid: 2056e750e43c60648ab2a7c412cd75cc, type: 2}
 --- !u!114 &-4652790148154076487
 MonoBehaviour:
   m_ObjectHideFlags: 0

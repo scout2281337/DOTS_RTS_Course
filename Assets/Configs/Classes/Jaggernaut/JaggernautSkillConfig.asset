@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f014522df3b9daf4ea6c73c32e8fca19, type: 3}
   m_Name: JaggernautSkillConfig
   m_EditorClassIdentifier: 
-  cooldown: 0
-  duration: 0
-  speedBoost: 0
+  cooldown: 40
+  duration: 40
+  speedBoost: 0.5
+  PerkParameter1: 10
+  PerkParameter2: 0

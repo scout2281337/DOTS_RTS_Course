@@ -5,11 +5,12 @@ public class AbilityAuthoring : MonoBehaviour
 {
     public AbilityType Type;
     public GameObject Owner;          // ����, �������� ����������� �����������
-    public float TimeLeft;
-    public float CooldownLeft;
     public bool Active;
     public bool IsTriggered;
     public AbilityTargetType TargetType;
+
+    public SkillConfig ClassSkillConfig;
+
 
     public class baker : Baker<AbilityAuthoring>
     {
@@ -20,12 +21,14 @@ public class AbilityAuthoring : MonoBehaviour
             {
                 Type = authoring.Type,
                 Owner = GetEntity(authoring.Owner, TransformUsageFlags.Dynamic),
-                TimeLeft = authoring.TimeLeft,
+                TimeLeft = authoring.ClassSkillConfig.duration,
 
-                CooldownLeft = authoring.CooldownLeft,
+                CooldownLeft = authoring.ClassSkillConfig.cooldown,
                 Active = authoring.Active,
                 IsTriggered = authoring.IsTriggered,
                 TargetType = authoring.TargetType,
+                Cooldown = authoring.ClassSkillConfig.cooldown,
+                Duration = authoring.ClassSkillConfig.cooldown,
             });
         }
     }
@@ -34,12 +37,15 @@ public class AbilityAuthoring : MonoBehaviour
 public struct Ability : IComponentData
 {
     public AbilityType Type;
-    public Entity Owner;          // ����, �������� ����������� �����������
+    public Entity Owner;          
     public float TimeLeft;
     public float CooldownLeft;
     public bool Active;
     public bool IsTriggered;
     public AbilityTargetType TargetType;
+
+    public float Cooldown;
+    public float Duration;
 }
 
 public enum AbilityTargetType
@@ -56,6 +62,6 @@ public enum AbilityType
     AntiGravitationBarrier,
     Shield,
     Heal,
-    None // ����� �� ������
+    None 
 }
 

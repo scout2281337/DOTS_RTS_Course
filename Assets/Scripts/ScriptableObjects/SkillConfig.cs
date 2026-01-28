@@ -7,6 +7,8 @@ public class SkillConfig : ScriptableObject, IInfoBlockUI
     public float cooldown;
     public float duration;
     public float speedBoost;
+    [Header("Optional (Damage / Range / other)")] public float PerkParameter1;
+    [Header("Optional (Damage / Range / other)")] public float PerkParameter2;
 
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {

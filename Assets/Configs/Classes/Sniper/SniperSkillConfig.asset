@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f014522df3b9daf4ea6c73c32e8fca19, type: 3}
-  m_Name: RaiderSkillConfig
+  m_Name: SniperSkillConfig
   m_EditorClassIdentifier: 
-  cooldown: 30
-  duration: 7
-  speedBoost: 1.3
-  PerkParameter1: 0
-  PerkParameter2: 0
+  cooldown: 40
+  duration: 0
+  speedBoost: 0
+  PerkParameter1: 20
+  PerkParameter2: 20

@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.VisualScripting;
 
 partial struct AbilitySystem : ISystem
 {
@@ -29,8 +30,8 @@ partial struct AbilitySystem : ISystem
             {
                 ecb.AddComponent<AbilityStartEvent>(ent);
                 ability.ValueRW.Active = true;
-                ability.ValueRW.TimeLeft = 7;
-                ability.ValueRW.CooldownLeft = 12;
+                ability.ValueRW.TimeLeft = ability.ValueRO.Duration;
+                ability.ValueRW.CooldownLeft = ability.ValueRO.Cooldown;
                 ability.ValueRW.IsTriggered = false;
             }
 

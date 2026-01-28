@@ -6,69 +6,49 @@ using Unity.Physics;
 
 partial struct UnitMoverSystem : ISystem
 {
-    public const float REACHED_TARGET_POSITION_DISTANCE_SQ = 2f;
+    public const float REACHED_TARGET_POSITION_DISTANCE_SQ = 0.04f; // 0.2 * 0.2
+
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        ///*
-        UnitMoverJob unitMoverJob = new UnitMoverJob
+        new UnitMoverJob
         {
-            deltaTime = SystemAPI.Time.DeltaTime,
-        };
-
-        unitMoverJob.ScheduleParallel();
-        //*/
-        /*
-        foreach ((
-            RefRW<LocalTransform> localTransform, 
-            RefRO<UnitMover> unitMover,
-            RefRW<PhysicsVelocity> physicsVelocity) 
-            in SystemAPI.Query<
-                RefRW<LocalTransform>, 
-                RefRO<UnitMover>,
-                RefRW<PhysicsVelocity>>()) 
-        {
-            float3 targetPosition = MouseWorldPosition.Instance.GetPosition();
-            float3 moveDirection = unitMover.ValueRO.targetPosition - localTransform.ValueRO.Position;
-            moveDirection = math.normalize(moveDirection);
-
-            
-            localTransform.ValueRW.Rotation = 
-                math.slerp(localTransform.ValueRO.Rotation, quaternion.LookRotation(moveDirection, math.up()), SystemAPI.Time.DeltaTime * unitMover.ValueRO.rotationSpeed);
-
-            physicsVelocity.ValueRW.Linear = moveDirection * unitMover.ValueRO.moveSpeed;
-            physicsVelocity.ValueRW.Angular = float3.zero;
-            
-        }
-        */
+            deltaTime = SystemAPI.Time.DeltaTime
+        }.ScheduleParallel();
     }
 }
 
 [BurstCompile]
-public partial struct UnitMoverJob : IJobEntity 
+public partial struct UnitMoverJob : IJobEntity
 {
     public float deltaTime;
-    
-    public void Execute(ref LocalTransform localTransform, in UnitMover unitMover, ref PhysicsVelocity physicsVelocity) 
-    {
-        float3 moveDirection = unitMover.targetPosition - localTransform.Position;
 
-        float reachedTargetDistanceSq = UnitMoverSystem.REACHED_TARGET_POSITION_DISTANCE_SQ;
-        if (math.lengthsq(moveDirection) <= reachedTargetDistanceSq) 
+    public void Execute(
+        ref LocalTransform localTransform,
+        in UnitMover unitMover,
+        ref PhysicsVelocity physicsVelocity)
+    {
+        float3 toTarget = unitMover.targetPosition - localTransform.Position;
+        float distSq = math.lengthsq(toTarget);
+
+        if (distSq <= UnitMoverSystem.REACHED_TARGET_POSITION_DISTANCE_SQ)
         {
-            //Reached the target position
             physicsVelocity.Linear = float3.zero;
             physicsVelocity.Angular = float3.zero;
             return;
         }
-        
-        moveDirection = math.normalize(moveDirection);
 
+        // безопасная нормализация
+        float invLen = math.rsqrt(distSq);
+        float3 moveDir = toTarget * invLen;
 
+        // поворот
+        quaternion targetRot = quaternion.LookRotation(moveDir, math.up());
         localTransform.Rotation =
-            math.slerp(localTransform.Rotation, quaternion.LookRotation(moveDirection, math.up()), deltaTime * unitMover.rotationSpeed);
+            math.slerp(localTransform.Rotation, targetRot, deltaTime * unitMover.rotationSpeed);
 
-        physicsVelocity.Linear = moveDirection * unitMover.CurrentMoveSpeed;
+        // движение
+        physicsVelocity.Linear = moveDir * unitMover.CurrentMoveSpeed;
         physicsVelocity.Angular = float3.zero;
     }
 }

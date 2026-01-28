@@ -3,10 +3,7 @@ using UnityEngine;
 
 public class AGBAuthoring : MonoBehaviour
 {
-    public float SpeedDebuff = 0.6f;
-    public float Cooldown = 40;
-    public float Duration = 10;
-    public float Range = 10;
+    public SkillConfig JuggernautSkillCfg;
     public class Baker : Baker<AGBAuthoring>
     {
         public override void Bake(AGBAuthoring authoring)
@@ -14,10 +11,10 @@ public class AGBAuthoring : MonoBehaviour
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new AGB
             {
-                SpeedDebuff = authoring.SpeedDebuff,
-                Cooldown = authoring.Cooldown,
-                Duration = authoring.Duration,
-                Range = authoring.Range,
+                SpeedDebuff = authoring.JuggernautSkillCfg.speedBoost,
+                Cooldown = authoring.JuggernautSkillCfg.cooldown,
+                Duration = authoring.JuggernautSkillCfg.duration,
+                Range = authoring.JuggernautSkillCfg.PerkParameter1,
 
             });
 

@@ -44,7 +44,9 @@ public class UnitSelectionManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
+            
             HandleMoveCommand();
+            //Debug.Log("указание движения отработало");
         }
     }
 
@@ -217,11 +219,20 @@ public class UnitSelectionManager : MonoBehaviour
 
         for (int i = 0; i < entities.Length; i++)
         {
+            Entity e = entities[i];
             var move = moveOverrides[i];
+
+            //  1. Сбрасываем старый путь, чтобы NavMeshPathSystem построил новый
+            if (em.HasComponent<NavPathProgress>(e))
+                em.RemoveComponent<NavPathProgress>(e);
+
+            //  2. Назначаем новую цель движения
             move.targetPosition = positions[i];
             moveOverrides[i] = move;
+            em.SetComponentData(e, move);
 
-            em.SetComponentEnabled<MoveOverride>(entities[i], true);
+            //  3. Включаем приказ движения
+            em.SetComponentEnabled<MoveOverride>(e, true);
         }
 
         query.CopyFromComponentDataArray(moveOverrides);
@@ -230,6 +241,7 @@ public class UnitSelectionManager : MonoBehaviour
         moveOverrides.Dispose();
         positions.Dispose();
     }
+
 
     private NativeArray<float3> GenerateMovePositions(float3 target, int count)
     {

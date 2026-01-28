@@ -1725,6 +1725,50 @@ Transform:
   - {fileID: 330585546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &932764645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 932764647}
+  - component: {fileID: 932764646}
+  m_Layer: 0
+  m_Name: NavigationBridge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &932764646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932764645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35c17568f86e864ab07d462b4cb19e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &932764647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932764645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.929352, y: 17.413603, z: -6.330368}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &948511341 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6434001449724273942, guid: 50a82bad91b8580478c04d91c97b5d3e, type: 3}
@@ -1907,7 +1951,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1976620479}
   m_SourcePrefab: {fileID: 100100000, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
 --- !u!4 &1309323505 stripped
 Transform:
@@ -2092,6 +2139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1469357022}
+  - component: {fileID: 1469357023}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -2115,6 +2163,38 @@ Transform:
   - {fileID: 794043560}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1469357023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469357021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: ed4f9c2569296b34f9dd6a262642ac0c, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1001 &1471019705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3007,6 +3087,27 @@ MonoBehaviour:
   classInfoBlockTester: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
   weaponInfoBlockTester: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
   skillInfoBlockTester: {fileID: 11400000, guid: fec15c96a3996d94f894bf7e6ff4846f, type: 2}
+--- !u!1 &1976620478 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+  m_PrefabInstance: {fileID: 1309323504}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &1976620479
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976620478}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 20, y: 20, z: 20}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2041972612
 GameObject:
   m_ObjectHideFlags: 0
@@ -3584,3 +3685,4 @@ SceneRoots:
   - {fileID: 1623136250}
   - {fileID: 53212871}
   - {fileID: 881444884}
+  - {fileID: 932764647}
