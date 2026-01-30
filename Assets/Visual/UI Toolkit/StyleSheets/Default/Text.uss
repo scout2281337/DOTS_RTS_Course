@@ -6,11 +6,13 @@
 .H1 {
     font-size: 36px;
     white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UI Toolkit/Fonts/LibreFranklin/Base/LibreFranklin-Black SDF.asset");
 }
 
 .H2 {
     font-size: 28px;
     white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UI Toolkit/Fonts/LibreFranklin/Base/LibreFranklin-Black SDF.asset");
 }
 
 .H3 {
@@ -21,4 +23,5 @@
 .P {
     font-size: 18px;
     white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UI Toolkit/Fonts/LibreFranklin/Base/LibreFranklin-Black SDF.asset");
 }

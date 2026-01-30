@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df1fc7cc277dd34cb58b4d9b4cb33c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 151ce8584842a3d4bbbdba9bc866e64f, type: 3}
   m_Name: RaiderWeaponConfig
   m_EditorClassIdentifier: 
   damage: 10
   fireRate: 150
-  range: 20
+  distance: 15
   weaponType: 0
   typeStat: 0.5

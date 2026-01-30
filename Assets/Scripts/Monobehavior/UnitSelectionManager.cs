@@ -6,10 +6,8 @@ using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 
-public class UnitSelectionManager : MonoBehaviour
+public class UnitSelectionManager : Singleton<UnitSelectionManager>
 {
-    public static UnitSelectionManager Instance { get; private set; }
-
     public event EventHandler OnSelectionAreaStart;
     public event EventHandler OnSelectionAreaEnd;
 
@@ -21,11 +19,6 @@ public class UnitSelectionManager : MonoBehaviour
         Add,
         Remove,
         Invert
-    }
-
-    private void Awake()
-    {
-        Instance = this;
     }
 
     private void Update()

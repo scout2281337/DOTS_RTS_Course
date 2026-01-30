@@ -13,7 +13,7 @@ public class UnitAuthoring : MonoBehaviour
             AddComponent(entity, new Unit 
             {
                 faction = authoring.faction,
-                Class =authoring.Class,
+                Class = authoring.Class,
             });
             //AddComponent<NavPathProgress>(entity);
             //AddBuffer<NavPathPoint>(entity);
@@ -30,7 +30,7 @@ public struct Unit : IComponentData
 public enum UnitClass 
 {
     Raider,
-    Flamethrower,
+    Arsonist,
     Juggernaut,
     Sniper
 }

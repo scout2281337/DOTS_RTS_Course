@@ -7,21 +7,18 @@ public class UnitPanelUI : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private StyleSheetsSO defaultStyleSheet;
     [SerializeField] private StyleSheet[] styleSheets;
+    [SerializeField] private ColorSchemeSO colorScheme;
+    [SerializeField] private Texture2D statsBoardBG;
 
     [SerializeField] private SkillIconsSO skillIcons;
 
     private VisualElement unitPanel;
     private VisualElement[] unitProfiles = new VisualElement[4];
 
-
     public ClassConfig classInfoBlockTester;
     public WeaponConfig weaponInfoBlockTester;
     public SkillConfig skillInfoBlockTester;
 
-    private void Awake()
-    {
-        InitializeUI();
-    }
 
     private void InitializeUI()
     {
@@ -50,36 +47,62 @@ public class UnitPanelUI : MonoBehaviour
     private VisualElement AddUnitProfile(VisualElement unitPanel)
     {
         var unitProfile = UITK.AddElement(unitPanel, "unitProfile");
-
+        unitProfile.style.backgroundColor = colorScheme.Black;
+         
             var skillButton = UITK.AddElement<Button>(unitProfile, "skillButton");
             skillButton.style.backgroundImage = skillIcons.icons[0];
-
+            
             var barsBox = UITK.AddElement(unitProfile, "barsBox");
-            
+                     
                 var healthBar = UITK.AddElement<ProgressBar>(barsBox, "healthBar");
-
+                
                 var staminaBar = UITK.AddElement<ProgressBar>(barsBox, "staminaBar");
-            
+                
             var infoPanel = UITK.AddElement(unitProfile, "infoPanel");
-            
-                var classDetails = classInfoBlockTester.SetInfoBlockUI(infoPanel);
+            infoPanel.style.backgroundColor = colorScheme.darkGray;
 
-                var weaponDetails = weaponInfoBlockTester.SetInfoBlockUI(infoPanel);
+                var statsBoard = UITK.AddElement(infoPanel, "statsBoard", "H2");
+                statsBoard.style.backgroundColor = colorScheme.gray;
+                statsBoard.style.backgroundImage = statsBoardBG;
 
-                var skillDetails = skillInfoBlockTester.SetInfoBlockUI(infoPanel);
+                    var weaponBoard = UITK.AddElement(statsBoard, "statBoard");
+                    weaponBoard.style.color = colorScheme.white;
 
+                        var DMG = UITK.AddElement<Label>(weaponBoard, "DMG", "statElement");
+                        DMG.text = weaponInfoBlockTester.damage.ToString();
 
-        //events
-        unitProfile.RegisterCallback<PointerEnterEvent>(evt =>
-        {
-            infoPanel.style.height = 240;
-        });
+                        var FIRE = UITK.AddElement<Label>(weaponBoard, "FIRE", "statElement");
+                        FIRE.text = weaponInfoBlockTester.fireRate.ToString();
 
-        unitProfile.RegisterCallback<PointerLeaveEvent>(evt =>
-        {
-            infoPanel.style.height = 0;
-        });
+                        var DST = UITK.AddElement<Label>(weaponBoard, "DST", "statElement");
+                        DST.text = weaponInfoBlockTester.distance.ToString();
+
+                    var skillBoard = UITK.AddElement(statsBoard, "statBoard");
+                    skillBoard.style.color = colorScheme.white;
+
+                        var PWR = UITK.AddElement<Label>(skillBoard, "PWR", "statElement");
+                        PWR.text = skillInfoBlockTester.power.ToString();
+
+                        var TIME = UITK.AddElement<Label>(skillBoard, "TIME", "statElement");
+                        TIME.text = skillInfoBlockTester.duration.ToString() + "/" 
+                                    + skillInfoBlockTester.cooldown.ToString();
+
+                        var AREA = UITK.AddElement<Label>(skillBoard, "AREA", "statElement");
+                        AREA.text = skillInfoBlockTester.area.ToString() + "/"
+                                    + skillInfoBlockTester.range.ToString();
+
+        //var classDetails = classInfoBlockTester.SetInfoBlockUI(infoPanel, colorScheme);
+
+        //var weaponDetails = weaponInfoBlockTester.SetInfoBlockUI(infoPanel, colorScheme);
+
+        //var skillDetails = skillInfoBlockTester.SetInfoBlockUI(infoPanel, colorScheme);
 
         return unitProfile;
+    }
+
+
+    private void Awake()
+    {
+        InitializeUI();
     }
 }

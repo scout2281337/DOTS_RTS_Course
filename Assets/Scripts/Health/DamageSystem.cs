@@ -26,10 +26,10 @@ public partial struct DamageSystem : ISystem
             float damage = dmg.ValueRO.DamageAmount;
 
             // защита
-            if (SystemAPI.GetComponentRO<Health>(target).ValueRO.Armour != 0)
+            if (SystemAPI.GetComponentRO<Health>(target).ValueRO.armor != 0)
             {
-                var Armour = SystemAPI.GetComponentRO<Health>(target).ValueRO.Armour;
-                damage *= (1f - (Armour / 100));
+                var armor = SystemAPI.GetComponentRO<Health>(target).ValueRO.armor;
+                damage *= (1f - (armor / 100));
             }
 
             // применяем урон

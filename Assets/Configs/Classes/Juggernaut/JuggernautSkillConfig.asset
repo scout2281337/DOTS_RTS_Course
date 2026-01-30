@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f014522df3b9daf4ea6c73c32e8fca19, type: 3}
-  m_Name: JaggernautSkillConfig
+  m_Script: {fileID: 11500000, guid: a0e18e8ec77b6a146be52a30c5a40f62, type: 3}
+  m_Name: JuggernautSkillConfig
   m_EditorClassIdentifier: 
+  power: 10
   cooldown: 40
-  duration: 40
-  speedBoost: 0.5
-  PerkParameter1: 10
+  duration: 10
+  range: 10
+  area: 5
+  PerkParameter1: 0
   PerkParameter2: 0

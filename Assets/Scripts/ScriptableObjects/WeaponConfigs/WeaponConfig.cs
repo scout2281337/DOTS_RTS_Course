@@ -2,17 +2,18 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "WeaponConfig", menuName = "Scriptable Objects/Classes/WeaponConfig")]
-public class WeaponConfig : ScriptableObject, IInfoBlockUI
+public abstract class WeaponConfig : ScriptableObject, IInfoBlockUI
 {
     public float damage;
     public float fireRate;
-    public float range;
+    public float distance;
     public WeaponTypes weaponType;
     public float typeStat;
 
-    public VisualElement SetInfoBlockUI(VisualElement infoPanel)
+    public VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
     {
         var weaponDetails = UITK.AddElement(infoPanel, "weaponDetails", "infoBlock");
+        weaponDetails.style.color = colorScheme.white;
 
             var damageRow = UITK.AddElement(weaponDetails, "damageRow", "detailRow");
 
@@ -20,6 +21,7 @@ public class WeaponConfig : ScriptableObject, IInfoBlockUI
                 damageText.text = "Damage:";
 
                 var damageAmount = UITK.AddElement<Label>(damageRow, "damageAmount", "detailAmount");
+                //damageAmount.style.color = colorScheme.baseRed;
                 damageAmount.text = damage.ToString();
 
             var fireRateRow = UITK.AddElement(weaponDetails, "fireRateRow", "detailRow");
@@ -28,6 +30,7 @@ public class WeaponConfig : ScriptableObject, IInfoBlockUI
                 fireRateText.text = "Fire Rate:";
 
                 var fireRateAmount = UITK.AddElement<Label>(fireRateRow, "fireRateAmount", "detailAmount");
+                //fireRateAmount.style.color = colorScheme.baseRed;
                 fireRateAmount.text = fireRate.ToString();
 
             var rangeRow = UITK.AddElement(weaponDetails, "rangeRow", "detailRow");
@@ -36,9 +39,8 @@ public class WeaponConfig : ScriptableObject, IInfoBlockUI
                 rangeText.text = "Range:";
 
                 var rangeAmount = UITK.AddElement<Label>(rangeRow, "rangeAmount", "detailAmount");
-                rangeAmount.text = range.ToString();
-
-
+                //rangeAmount.style.color = colorScheme.baseRed;
+                rangeAmount.text = distance.ToString();
 
         return weaponDetails;
     }

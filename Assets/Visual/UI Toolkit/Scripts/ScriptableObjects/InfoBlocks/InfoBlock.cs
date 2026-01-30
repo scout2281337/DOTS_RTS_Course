@@ -2,5 +2,5 @@ using UnityEngine.UIElements;
 
 public interface IInfoBlockUI
 {
-    public VisualElement SetInfoBlockUI(VisualElement infoPanel);
+    public VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme);
 }

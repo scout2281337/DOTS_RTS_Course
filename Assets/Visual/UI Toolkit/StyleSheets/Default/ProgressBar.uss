@@ -8,9 +8,9 @@
 }
 
 .unity-progress-bar__background {
-    background-color: rgba(40, 40, 40, 0.7);
+    background-color: rgb(60, 60, 60);
 }
 
 .unity-progress-bar__progress {
-    background-color: rgb(210, 35, 35);
+    background-color: rgb(25, 238, 207);
 }

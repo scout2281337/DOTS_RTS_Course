@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8639eb4953e93f9419b647898d865a93, type: 3}
+  m_Script: {fileID: 11500000, guid: 3aee339e2bb0b304ab0cefbc5c22c855, type: 3}
   m_Name: RaiderClassConfig
   m_EditorClassIdentifier: 
-  speed: 3
-  rotationSpeed: 15
+  speed: 2
+  rotationSpeed: 1
   maxHealth: 100
   targetFaction: 1
   timerMaxForOverlap: 0.2
-  Armour: 15
-  Stamina: 20
+  Armor: 2

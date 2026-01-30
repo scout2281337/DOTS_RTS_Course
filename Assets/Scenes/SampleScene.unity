@@ -3083,6 +3083,8 @@ MonoBehaviour:
   defaultStyleSheet: {fileID: 11400000, guid: 7372483320212184c80b40cd99dd39ba, type: 2}
   styleSheets:
   - {fileID: 7433441132597879392, guid: 89612c08a6310cd46858131103faa549, type: 3}
+  colorScheme: {fileID: 11400000, guid: 48a1c6ba502d3a749b558ba9c2df0da5, type: 2}
+  statsBoardBG: {fileID: 2800000, guid: e07b11543a6d57f42844c9c46798b0ab, type: 3}
   skillIcons: {fileID: 11400000, guid: 6653be4419672ec47838f7bb449661e5, type: 2}
   classInfoBlockTester: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
   weaponInfoBlockTester: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}

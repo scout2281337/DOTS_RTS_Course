@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CreateAssetMenu(fileName = "ClassConfig", menuName = "Scriptable Objects/Classes/ClassConfig")]
-public class ClassConfig : ScriptableObject, IInfoBlockUI
+public abstract class ClassConfig : ScriptableObject, IInfoBlockUI
 {
-
-    [Header("Unit mover component")] // скорость
+    [Header("Unit mover component")]
     public int speed;
     public int rotationSpeed;
     [Header("Health component")]
@@ -14,27 +12,26 @@ public class ClassConfig : ScriptableObject, IInfoBlockUI
     public Faction targetFaction;
     public float timerMaxForOverlap;
 
-    [Header("Armour")]
-    public float Armour;
-    [Header("Stamina")]
-    public float Stamina;
+    [Header("armor")]
+    public float Armor;
 
-    public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel)
+    public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
     {
         var classDetails = UITK.AddElement(infoPanel, "classDetails", "infoBlock");
+        classDetails.style.color = colorScheme.white;
         
             var classIcon = UITK.AddElement(classDetails, "classIcon");
 
             var armorRow = UITK.AddElement(classDetails, "armorRow", "detailRow");
             
                 var armorText = UITK.AddElement<Label>(armorRow, "armorText", "detailText");
-                armorText.text = "Armor:";           
-
+                armorText.text = "armor:";  
+                
                 var armorBar = UITK.AddElement<ProgressBar>(armorRow, "armorBar", "detailBar");
                 armorBar.lowValue = 0;
                 armorBar.highValue = 3;
-                armorBar.value = Armour;
-
+                armorBar.value = Armor;
+                
             var speedRow = UITK.AddElement(classDetails, "speedRow", "detailRow");
             
                 var speedText = UITK.AddElement<Label>(speedRow, "speedText", "detailText");

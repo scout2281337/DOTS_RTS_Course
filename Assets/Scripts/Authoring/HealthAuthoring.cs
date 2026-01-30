@@ -6,7 +6,7 @@ public class HealthAuthoring : MonoBehaviour
     public float healthAmount;
     public float healthAmountMax;
 
-    public float Armour;
+    public float armor;
 
     public class Baker : Baker<HealthAuthoring>
     {
@@ -18,7 +18,7 @@ public class HealthAuthoring : MonoBehaviour
                 healthAmount = authoring.healthAmount,
                 healthAmountMax = authoring.healthAmountMax,
                 OnHealthChanged = true,
-                Armour = authoring.Armour,
+                armor = authoring.armor,
             });
         }
     }
@@ -30,5 +30,5 @@ public struct Health : IComponentData
     public float healthAmountMax;
     public bool OnHealthChanged;
 
-    public float Armour;
+    public float armor;
 }

@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df1fc7cc277dd34cb58b4d9b4cb33c8, type: 3}
-  m_Name: JaggernautWeaponConfig
+  m_Script: {fileID: 11500000, guid: b90285767b9184c4286097515ef00e83, type: 3}
+  m_Name: JuggernautClassConfig
   m_EditorClassIdentifier: 
-  damage: 5
-  fireRate: 300
-  range: 10
-  weaponType: 1
-  typeStat: 1
+  speed: 1
+  rotationSpeed: 1
+  maxHealth: 100
+  targetFaction: 1
+  timerMaxForOverlap: 0.2
+  Armor: 3

@@ -11,7 +11,7 @@ public class AGBAuthoring : MonoBehaviour
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new AGB
             {
-                SpeedDebuff = authoring.JuggernautSkillCfg.speedBoost,
+                SpeedDebuff = authoring.JuggernautSkillCfg.power,
                 Cooldown = authoring.JuggernautSkillCfg.cooldown,
                 Duration = authoring.JuggernautSkillCfg.duration,
                 Range = authoring.JuggernautSkillCfg.PerkParameter1,
