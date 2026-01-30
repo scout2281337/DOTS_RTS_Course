@@ -11,6 +11,6 @@ public partial struct EventHubInitSystem : ISystem
         state.EntityManager.AddBuffer<BulletShotEvent>(hub);
         state.EntityManager.AddBuffer<AbilityStartedEvent>(hub);
         state.EntityManager.AddBuffer<AbilityEndedEvent>(hub);
-        //state.EntityManager.AddBuffer<UnitDiedEvent>(hub);
+        state.EntityManager.AddBuffer<DamageEvent>(hub);
     }
 }

@@ -77,6 +77,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5144778676629051156, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      propertyPath: Class
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5144778676629051156, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: faction
       value: 1
       objectReference: {fileID: 0}

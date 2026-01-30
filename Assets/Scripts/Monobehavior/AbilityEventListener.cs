@@ -1,6 +1,7 @@
 using System;
 using Unity.Entities;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class AbilityEventListener : Singleton<AbilityEventListener>
 {
@@ -9,7 +10,7 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
     public event Action<Entity, AbilityType> CooldownEnded;
 
     public event Action<Vector3, Vector3> BulletShot;
-
+    public event Action<UnitClass, float> HealthChanged;
 
     public void RaiseAbilityStarted(Entity owner, AbilityType type)
     {
@@ -18,7 +19,13 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
             owner + "\n"
             + type);
     }
-
+    public void RaiseOnHealthChanged(UnitClass TargetUnitClass, float currentHealth) 
+    {
+        HealthChanged?.Invoke(TargetUnitClass, currentHealth);
+        Debug.Log("RaiseOnHealthChanged \n" +
+            TargetUnitClass + "\n"
+            + currentHealth);
+    }
     public void RaiseAbilityEnded(Entity owner, AbilityType type)
     {
         AbilityEnded?.Invoke(owner, type);

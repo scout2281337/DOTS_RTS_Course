@@ -32,5 +32,6 @@ public enum UnitClass
     Raider,
     Arsonist,
     Juggernaut,
-    Sniper
+    Sniper,
+    Robot
 }

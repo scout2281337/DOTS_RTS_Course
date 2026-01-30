@@ -2,44 +2,38 @@ using Unity.Burst;
 using Unity.Entities;
 
 [UpdateInGroup(typeof(SimulationSystemGroup))]
+[BurstCompile]
 public partial struct DamageSystem : ISystem
 {
-
-    [BurstCompile]
-    public void OnUpdate(ref SystemState state) 
+    public void OnUpdate(ref SystemState state)
     {
         var em = state.EntityManager;
-        var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
+        if (!SystemAPI.TryGetSingletonEntity<EventHub>(out var hub))
+            return;
 
-        foreach ((RefRO<DamageEvent> dmg, Entity dmgEntity)
-                 in SystemAPI.Query<RefRO<DamageEvent>>().WithEntityAccess()) 
+        var damageEvents = SystemAPI.GetBuffer<DamageEvent>(hub);
+
+        for (int i = 0; i < damageEvents.Length; i++)
         {
-            var target = dmg.ValueRO.TargetEntity;
+            var dmg = damageEvents[i];
+            var target = dmg.DamageAmount;
 
-            if (!em.HasComponent<Health>(target))
-            {
-                ecb.DestroyEntity(dmgEntity);
+            if (!em.HasComponent<Health>(dmg.TargetEntity))
                 continue;
-            }
 
-            float damage = dmg.ValueRO.DamageAmount;
+            float damage = dmg.DamageAmount;
 
-            // защита
-            if (SystemAPI.GetComponentRO<Health>(target).ValueRO.armor != 0)
+            var healthRO = SystemAPI.GetComponentRO<Health>(dmg.TargetEntity);
+
+            // armor
+            if (healthRO.ValueRO.armor > 0)
             {
-                var armor = SystemAPI.GetComponentRO<Health>(target).ValueRO.armor;
-                damage *= (1f - (armor / 100));
+                damage *= 1f - (healthRO.ValueRO.armor / 100f);
             }
 
-            // применяем урон
-            var health = SystemAPI.GetComponentRW<Health>(target);
-            health.ValueRW.healthAmount -= damage;
-
-            // удаляем event
-            ecb.DestroyEntity(dmgEntity);
+            var healthRW = SystemAPI.GetComponentRW<Health>(dmg.TargetEntity);
+            healthRW.ValueRW.healthAmount -= damage;
         }
-        ecb.Playback(em);
-        ecb.Dispose();
-    }    
+    }
 }

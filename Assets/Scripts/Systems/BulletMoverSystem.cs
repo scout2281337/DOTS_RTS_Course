@@ -46,26 +46,26 @@ partial struct BulletMoverSystem : ISystem
             }
 
             float destroyDistanceSq = .2f;
-            if ( math.distancesq(localTransform.ValueRO.Position, targetPosition) < destroyDistanceSq) 
-            {
-                //close enough to do damage
-                Entity damageEntity = entityCommandBuffer.CreateEntity();
-                entityCommandBuffer.AddComponent(damageEntity, new DamageEvent
-                {
-                    TargetEntity = target.ValueRO.targetEntity,
-                    DamageAmount = bullet.ValueRO.damageAmount,
+            //if ( math.distancesq(localTransform.ValueRO.Position, targetPosition) < destroyDistanceSq) 
+            //{
+            //    //close enough to do damage
+            //    Entity damageEntity = entityCommandBuffer.CreateEntity();
+            //    entityCommandBuffer.AddComponent(damageEntity, new DamageEvent
+            //    {
+            //        TargetEntity = target.ValueRO.targetEntity,
+            //        DamageAmount = bullet.ValueRO.damageAmount,
 
-                });
-
-
+            //    });
 
 
-                //RefRW<Health> targetHealth = SystemAPI.GetComponentRW<Health>(target.ValueRO.targetEntity);
-                //targetHealth.ValueRW.healthAmount -= bullet.ValueRO.damageAmount;
-                //targetHealth.ValueRW.OnHealthChanged = true;
 
-                entityCommandBuffer.DestroyEntity(entity);
-            }
+
+            //    //RefRW<Health> targetHealth = SystemAPI.GetComponentRW<Health>(target.ValueRO.targetEntity);
+            //    //targetHealth.ValueRW.healthAmount -= bullet.ValueRO.damageAmount;
+            //    //targetHealth.ValueRW.OnHealthChanged = true;
+
+            //    entityCommandBuffer.DestroyEntity(entity);
+            //}
         } 
     }
 

@@ -17,16 +17,22 @@ public partial struct EventPresentationSystem : ISystem
         foreach (var e in bulletEvents)
         {
             AbilityEventListener.Instance?.RaiseBulletShot(e.From, e.To);
-            Debug.Log("worked 1");
+            //Debug.Log("worked 1");
         }
         bulletEvents.Clear();
-
+        var HealthChangedEvents = SystemAPI.GetBuffer<DamageEvent>(hub);
+        foreach (var e in HealthChangedEvents)
+        {
+            AbilityEventListener.Instance?.RaiseOnHealthChanged(e.TargetEntityClass, e.DamageAmount);
+            Debug.Log("worked OnHealthChanged " + e.TargetEntityClass + " " + e.DamageAmount);
+        }
+        HealthChangedEvents.Clear();
         // ABILITY START
         var startEvents = SystemAPI.GetBuffer<AbilityStartedEvent>(hub);
         foreach (var e in startEvents)
         {
             AbilityEventListener.Instance?.RaiseAbilityStarted(e.Caster, e.Type);
-            Debug.Log("worked 2");
+            //Debug.Log("worked 2");
         }
         startEvents.Clear();
 
@@ -35,7 +41,7 @@ public partial struct EventPresentationSystem : ISystem
         foreach (var e in endEvents)
         {
             AbilityEventListener.Instance?.RaiseAbilityEnded(e.Caster, e.Type);
-            Debug.Log("worked 3");
+            //Debug.Log("worked 3");
         }
         endEvents.Clear();
     }

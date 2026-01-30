@@ -32,12 +32,14 @@ partial struct ShootAttackSystem : ISystem
             RefRW<ShootAttack> shootAttack,
             RefRW<LocalTransform> localTransform,
             RefRO<Target> target,
+            RefRO<Unit> Unit,
             RefRO<BulletSpawnPosition> bulletSpawnPosition,
             RefRW<UnitMover> unitMover) 
             in SystemAPI.Query<
                 RefRW<ShootAttack>,
                 RefRW<LocalTransform>,
                 RefRO<Target>,
+                RefRO<Unit>,
                 RefRO<BulletSpawnPosition>,
                 RefRW<UnitMover>>().WithDisabled<MoveOverride>()) 
         {
@@ -79,22 +81,34 @@ partial struct ShootAttackSystem : ISystem
                 }
             };
 
-            if (physicsWorld.CastRay(input, out Unity.Physics.RaycastHit hit))
-            {
-                Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
-                Entity damageEntity = ecb.CreateEntity();
-                ecb.AddComponent(damageEntity, new DamageEvent
-                {
-                    TargetEntity = hitEntity,
-                    DamageAmount = 10f,//rework later
-                });
-            }
-
             var hub = SystemAPI
                 .QueryBuilder()
                 .WithAll<EventHub>()
                 .Build()
                 .GetSingletonEntity();
+
+            if (physicsWorld.CastRay(input, out Unity.Physics.RaycastHit hit))
+            {
+                Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+                Entity damageEntity = ecb.CreateEntity();
+                Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
+
+                var damageBuffer = SystemAPI.GetBuffer<DamageEvent>(hub);
+
+                damageBuffer.Add(new DamageEvent
+                {
+                    TargetEntity = hitEntity,
+                    TargetEntityClass = targetUnit.Class,
+                    DamageAmount = 10f,
+                });
+
+                //ecb.AddComponent(damageEntity, new DamageEvent
+                //{
+                //    TargetEntity = hitEntity,
+                //    DamageAmount = 10f,//rework later
+                //});
+            }
+
 
             var bulletEvents = SystemAPI.GetBuffer<BulletShotEvent>(hub);
 
