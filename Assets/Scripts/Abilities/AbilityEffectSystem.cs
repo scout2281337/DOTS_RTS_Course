@@ -33,7 +33,7 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.None:
                     break;
             }
-            AbilityEventListener.Instance?.RaiseAbilityStarted(ent, ability.ValueRO.Type); 
+            AbilityEventListener.Instance?.InvokeAbilityStarted(ent, ability.ValueRO.Type); 
 
             // ������� ����������� Event
             ecb.RemoveComponent<AbilityStartEvent>(ent);
@@ -58,7 +58,7 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.None:
                     break;
             }
-            AbilityEventListener.Instance?.RaiseAbilityEnded(ent, ability.ValueRO.Type); // LEGACY but fine right now
+            AbilityEventListener.Instance?.InvokeAbilityEnded(ent, ability.ValueRO.Type); // LEGACY but fine right now
             // ������� ����������� Event
             ecb.RemoveComponent<AbilityEndEvent>(ent);
         }
@@ -66,7 +66,7 @@ partial struct AbilityEffectSystem : ISystem
         foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithAll<CooldownEndEvent>().WithEntityAccess()) //�������� �������
         {
             
-            AbilityEventListener.Instance?.RaiseCooldownEnded(ent, ability.ValueRO.Type);
+            AbilityEventListener.Instance?.InvokeCooldownEnded(ent, ability.ValueRO.Type);
             ecb.RemoveComponent<CooldownEndEvent>(ent);
         }
         ecb.Playback(state.EntityManager);

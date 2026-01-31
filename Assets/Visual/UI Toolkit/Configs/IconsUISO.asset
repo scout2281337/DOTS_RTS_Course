@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78319f3c98fd005468d44e04328f0222, type: 3}
-  m_Name: SkillIconsSO
+  m_Name: IconsUISO
   m_EditorClassIdentifier: 
-  icons:
+  statsBoardBG: {fileID: 2800000, guid: e07b11543a6d57f42844c9c46798b0ab, type: 3}
+  classAbilityIcons:
   - {fileID: 2800000, guid: 06d6eb23fc2de4348bb54d28cd4ed6bf, type: 3}

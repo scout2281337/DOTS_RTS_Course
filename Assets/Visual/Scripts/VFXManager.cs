@@ -92,7 +92,7 @@ public class VFXManager : Singleton<VFXManager>
 
     private void Start()
     {
-        AbilityEventListener.Instance.BulletShot += (start, end) =>
+        AbilityEventListener.Instance.OnBulletShot += (start, end) =>
         {
             CreateVFXTrail(bulletTrailVFXObjectPool, start, end);
             CreateVFXObject(explosionVFXObjectPool, end);

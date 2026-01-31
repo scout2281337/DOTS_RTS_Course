@@ -1,48 +1,18 @@
 .unitPanel {
-    top: 880px;
+    top: 840px;
     align-self: center;
     width: 1200px;
-    height: 200px;
+    height: 120px;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .unitProfile {
-    width: 250px;
-    height: 75px;
+    top: 0px;
     opacity: 0.9;
-    flex-direction: row;
-}
-
-.skillButton {
-    width: 75px;
-    height: 75px;
-    padding: 10px;
-}
-
-.barsBox {
-    padding: 10px;
-    flex-grow: 1;
-    justify-content: space-around;
-}
-
-.healthBar{
-
-}
-
-.staminaBar{
-
-}
-
-.infoPanel {
-    position: absolute;
-    bottom: 75px;
-    width: 250px;
-    height: 50px;
-    opacity: 0.9;
-    overflow: hidden;
-    transition-property: height;
+    flex-direction: column-reverse;
+    transition-property: top;
     transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
 }
@@ -60,8 +30,38 @@
     -unity-text-align: middle-center;
 }
 
-.statElement{
+.statElement {
     width: 83px;
+}
+
+.skillHealthBlock {
+    width: 250px;
+    height: 50px;
+    flex-direction: row;
+}
+
+.skillButton {
+    width: 75px;
+    height: 50px;
+    padding: 10px;
+}
+
+.healthBar {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.infoPanel {
+    width: 250px;
+    height: 20px;
+    overflow: hidden;
+    transition-property: height;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+.infoPanelButton{
+    height: 20px;
 }
 
 .infoBlock {

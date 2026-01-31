@@ -6,7 +6,7 @@ public abstract class WeaponConfig : ScriptableObject, IInfoBlockUI
 {
     public float damage;
     public float fireRate;
-    public float distance;
+    public float range;
     public WeaponTypes weaponType;
     public float typeStat;
 
@@ -40,7 +40,7 @@ public abstract class WeaponConfig : ScriptableObject, IInfoBlockUI
 
                 var rangeAmount = UITK.AddElement<Label>(rangeRow, "rangeAmount", "detailAmount");
                 //rangeAmount.style.color = colorScheme.baseRed;
-                rangeAmount.text = distance.ToString();
+                rangeAmount.text = range.ToString();
 
         return weaponDetails;
     }

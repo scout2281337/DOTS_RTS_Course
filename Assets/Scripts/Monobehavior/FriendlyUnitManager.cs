@@ -82,7 +82,7 @@ public class FriendlyUnitManager : MonoBehaviour
         }) ;
         em.SetComponentData(currentEntity, new FindTarget
         {
-            range = weaponConfig.distance, 
+            range = weaponConfig.range, 
             targetFaction = classConfig.targetFaction,
             timer = 0,
             timerMax = classConfig.timerMaxForOverlap,
@@ -92,7 +92,7 @@ public class FriendlyUnitManager : MonoBehaviour
             timerMax = 60 / weaponConfig.fireRate,
             timer = 60f / weaponConfig.fireRate,
             damageAmount = weaponConfig.damage,
-            attackDistance = weaponConfig.distance,
+            attackDistance = weaponConfig.range,
         });
         em.SetComponentData(currentEntity, new Health
         {
