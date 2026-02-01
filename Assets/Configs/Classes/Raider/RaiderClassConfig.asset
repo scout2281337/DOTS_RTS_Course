@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: RaiderClassConfig
   m_EditorClassIdentifier: 
   speed: 2
-  rotationSpeed: 1
+  rotationSpeed: 15
   maxHealth: 100
   targetFaction: 1
   timerMaxForOverlap: 0.2
-  Armor: 2
+  Armor: 15

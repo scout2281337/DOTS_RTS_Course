@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SniperClassConfig
   m_EditorClassIdentifier: 
   speed: 3
-  rotationSpeed: 1
+  rotationSpeed: 15
   maxHealth: 100
-  targetFaction: 0
-  timerMaxForOverlap: 0
-  Armor: 1
+  targetFaction: 1
+  timerMaxForOverlap: 0.2
+  Armor: 15

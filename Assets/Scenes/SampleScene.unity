@@ -1873,7 +1873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponConfig: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
   classConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
-  teamAmount: 4
+  teamAmount: 1
 --- !u!4 &1199244195
 Transform:
   m_ObjectHideFlags: 0

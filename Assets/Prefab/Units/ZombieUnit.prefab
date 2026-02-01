@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerMax: 0.5
   damageAmount: 5
-  colliderSize: 0.5
+  colliderSize: 2
 --- !u!4 &8309297851094295363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2761374770735142045, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}

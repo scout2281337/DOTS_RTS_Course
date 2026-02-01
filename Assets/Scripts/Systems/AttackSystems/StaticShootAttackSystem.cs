@@ -56,8 +56,6 @@ partial struct StaticShootAttackSystem : ISystem
             RefRW<Target> bulletTarget = SystemAPI.GetComponentRW<Target>(bulletEntity);
             bulletTarget.ValueRW.targetEntity = target.ValueRO.targetEntity;
 
-            shootAttack.ValueRW.onShoot.isTriggered = true;
-            shootAttack.ValueRW.onShoot.shootFromPosition = bulletSpawnWorldPosition;
         }
     }
 

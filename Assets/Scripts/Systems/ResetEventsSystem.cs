@@ -18,7 +18,7 @@ partial struct ResetEventsSystem : ISystem
         }
         foreach (RefRW<ShootAttack> shootAttack in SystemAPI.Query<RefRW<ShootAttack>>())
         {
-            shootAttack.ValueRW.onShoot.isTriggered = false;
+            //shootAttack.ValueRW.onShoot.isTriggered = false;
         }
     }
 }

@@ -99,14 +99,8 @@ partial struct ShootAttackSystem : ISystem
                 {
                     TargetEntity = hitEntity,
                     TargetEntityClass = targetUnit.Class,
-                    DamageAmount = 10f,
+                    DamageAmount = shootAttack.ValueRO.damageAmount,
                 });
-
-                //ecb.AddComponent(damageEntity, new DamageEvent
-                //{
-                //    TargetEntity = hitEntity,
-                //    DamageAmount = 10f,//rework later
-                //});
             }
 
 
@@ -116,22 +110,8 @@ partial struct ShootAttackSystem : ISystem
             {
                 From = bulletSpawnWorldPosition,
                 To = hit.Position,
-                //Shooter = shooter
             });
 
-            //AbilityEventListener.Instance?.RaiseBulletShot(input.Start, hit.Position);
-
-            //Entity bulletEntity =  state.EntityManager.Instantiate(entitiesReferences.bulletPrefabEntity);
-            //SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
-
-            //RefRW<Bullet> bulletBullet = SystemAPI.GetComponentRW<Bullet>(bulletEntity);
-            //bulletBullet.ValueRW.damageAmount = shootAttack.ValueRO.damageAmount;
-
-            //RefRW<Target> bulletTarget = SystemAPI.GetComponentRW<Target>(bulletEntity);
-            //bulletTarget.ValueRW.targetEntity = target.ValueRO.targetEntity;
-
-            //shootAttack.ValueRW.onShoot.isTriggered = true;
-            //shootAttack.ValueRW.onShoot.shootFromPosition = bulletSpawnWorldPosition;
         }
     }
 }

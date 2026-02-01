@@ -5,88 +5,107 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
 
+
+[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
+[BurstCompile]
 partial struct MeleeAttackSystem : ISystem
 {
-
-
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
+        // Получаем мир физики
         PhysicsWorldSingleton physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
         CollisionWorld collisionWorld = physicsWorldSingleton.CollisionWorld;
 
         NativeList<RaycastHit> raycastHitList = new NativeList<RaycastHit>(Allocator.Temp);
+
+        // Проходимся по всем юнитам с атакой
         foreach ((
             RefRO<LocalTransform> localTransform,
             RefRW<MeleeAttack> meleeAttack,
             RefRO<Target> target,
-            RefRW<UnitMover> unitMover) in SystemAPI.Query<
-                RefRO<LocalTransform>,
-                RefRW<MeleeAttack>,
-                RefRO<Target>,
-                RefRW<UnitMover>>().WithDisabled<MoveOverride>()) 
+            RefRW<UnitMover> unitMover
+        ) in SystemAPI.Query<
+            RefRO<LocalTransform>,
+            RefRW<MeleeAttack>,
+            RefRO<Target>,
+            RefRW<UnitMover>>()) //.WithDisabled<MoveOverride>()
         {
-            if (target.ValueRO.targetEntity == Entity.Null) 
-            {
-                continue;
-            }
+            if (target.ValueRO.targetEntity == Entity.Null) continue;
 
-            LocalTransform targetLocalTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
-            float meleeAttackDistanceSq = 2f;
+            LocalTransform targetTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
 
-            bool isCloseEnoughToAttack = math.distancesq(localTransform.ValueRO.Position, targetLocalTransform.Position) < meleeAttackDistanceSq;
+            // Проверка дистанции (квадрат расстояния)
+            float meleeDistance = meleeAttack.ValueRO.colliderSize; // например 2f
+            bool isCloseEnough = math.distancesq(localTransform.ValueRO.Position, targetTransform.Position) < meleeDistance * meleeDistance;
 
             bool isTouchingTarget = false;
-            if (isCloseEnoughToAttack) 
-            {
-                float3 dirToTarget = targetLocalTransform.Position - localTransform.ValueRO.Position;
-                dirToTarget = math.normalize(dirToTarget);
-                float distanceExtraToTestRaycast = 0.4f;
 
+            if (isCloseEnough)
+            {
+                float3 dirToTarget = targetTransform.Position - localTransform.ValueRO.Position;
+                dirToTarget = math.normalize(dirToTarget);
+
+                float distanceExtra = 0.4f;
                 RaycastInput raycastInput = new RaycastInput
                 {
                     Start = localTransform.ValueRO.Position,
-                    End = localTransform.ValueRO.Position + dirToTarget * (meleeAttack.ValueRO.colliderSize + distanceExtraToTestRaycast),
-                    Filter = CollisionFilter.Default,
-                };
-                raycastHitList.Clear();
-                if (collisionWorld.CastRay(raycastInput, ref raycastHitList )) 
-                {
-                    foreach (RaycastHit raycastHit in raycastHitList) 
+                    End = localTransform.ValueRO.Position + dirToTarget * (meleeAttack.ValueRO.colliderSize + distanceExtra),
+                    Filter = new CollisionFilter
                     {
-                        if (raycastHit.Entity == target.ValueRO.targetEntity) 
+                        BelongsTo = ~0u,
+                        CollidesWith = ~0u,
+                        GroupIndex = 0
+                    }
+                };
+
+                raycastHitList.Clear();
+                if (collisionWorld.CastRay(raycastInput, ref raycastHitList))
+                {
+                    foreach (var hit in raycastHitList)
+                    {
+                        if (hit.Entity == target.ValueRO.targetEntity)
                         {
-                            //we hit target, close enogh to attack
                             isTouchingTarget = true;
                             break;
                         }
                     }
                 }
             }
-            
-            
-            
-            if (!isCloseEnoughToAttack && !isTouchingTarget)
+
+            // Двигаемся к цели или остаёмся на месте
+            if (!isCloseEnough && !isTouchingTarget)
             {
-                unitMover.ValueRW.targetPosition = targetLocalTransform.Position;
+                unitMover.ValueRW.targetPosition = targetTransform.Position;
             }
-            else 
+            else
             {
                 unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
+
+                // Таймер атаки
                 meleeAttack.ValueRW.timer -= SystemAPI.Time.DeltaTime;
-                if (meleeAttack.ValueRO.timer > 0) 
-                {
-                    continue;
-                }
+                if (meleeAttack.ValueRW.timer > 0f) continue;
+
                 meleeAttack.ValueRW.timer = meleeAttack.ValueRO.timerMax;
 
-                RefRW<Health> targetHealth = SystemAPI.GetComponentRW<Health>(target.ValueRO.targetEntity);
-                targetHealth.ValueRW.healthAmount -= meleeAttack.ValueRO.damageAmount;
-                targetHealth.ValueRW.OnHealthChanged = true;
+                // Берём EventHub и добавляем DamageEvent
+                var hub = SystemAPI
+                    .QueryBuilder()
+                    .WithAll<EventHub>()
+                    .Build()
+                    .GetSingletonEntity();
 
+                var damageBuffer = SystemAPI.GetBuffer<DamageEvent>(hub);
+
+                damageBuffer.Add(new DamageEvent
+                {
+                    TargetEntity = target.ValueRO.targetEntity,
+                    TargetEntityClass = SystemAPI.GetComponent<Unit>(target.ValueRO.targetEntity).Class,
+                    DamageAmount = meleeAttack.ValueRO.damageAmount
+                });
             }
         }
+
+        raycastHitList.Dispose();
     }
-
-
 }

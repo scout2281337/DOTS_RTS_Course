@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: JuggernautClassConfig
   m_EditorClassIdentifier: 
   speed: 1
-  rotationSpeed: 1
+  rotationSpeed: 15
   maxHealth: 100
   targetFaction: 1
   timerMaxForOverlap: 0.2

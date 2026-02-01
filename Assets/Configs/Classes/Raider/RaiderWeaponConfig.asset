@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   fireRate: 150
-  distance: 15
+  range: 15
   weaponType: 0
   typeStat: 0.5

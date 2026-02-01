@@ -29,6 +29,7 @@ public partial struct UnitMoverJob : IJobEntity
         ref PhysicsVelocity physicsVelocity)
     {
         float3 toTarget = unitMover.targetPosition - localTransform.Position;
+        toTarget.y = 0; // тест
         float distSq = math.lengthsq(toTarget);
 
         if (distSq <= UnitMoverSystem.REACHED_TARGET_POSITION_DISTANCE_SQ)
