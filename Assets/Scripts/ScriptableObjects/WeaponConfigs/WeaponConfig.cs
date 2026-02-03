@@ -9,6 +9,8 @@ public abstract class WeaponConfig : ScriptableObject, IInfoBlockUI
     public float range;
     public WeaponTypes weaponType;
     public float typeStat;
+    public float explosiveRange;
+    public int maxPierceCount;
 
     public VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
     {

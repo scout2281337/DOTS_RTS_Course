@@ -3,5 +3,7 @@ public enum WeaponTypes
 {
     Explosive,
     AntiMaterial,
-    Dispersive
+    Dispersive,
+    SingleRay,
+    PiercingRay
 }

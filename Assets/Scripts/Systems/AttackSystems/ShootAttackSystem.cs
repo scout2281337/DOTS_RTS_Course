@@ -3,169 +3,225 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
+using Unity.Collections;
+using System.Security.Principal;
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 partial struct ShootAttackSystem : ISystem
 {
-    EntityArchetype damageArchetype;
-
-    public void OnCreate(ref SystemState state)
-    {
-        damageArchetype = state.EntityManager.CreateArchetype(
-            typeof(DamageEvent)
-        );
-    }
-
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences)) return;
+        if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences))
+            return;
 
         var physicsWorld = SystemAPI
             .GetSingleton<PhysicsWorldSingleton>()
             .CollisionWorld;
 
-        var ecbSingleton = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>();
-        var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
+        var hub = SystemAPI
+            .QueryBuilder()
+            .WithAll<EventHub>()
+            .Build()
+            .GetSingletonEntity();
+
+        var damageBuffer = SystemAPI.GetBuffer<DamageEvent>(hub);
+        var bulletEvents = SystemAPI.GetBuffer<BulletShotEvent>(hub);
 
         foreach ((
             RefRW<ShootAttack> shootAttack,
             RefRW<LocalTransform> localTransform,
             RefRO<Target> target,
-            RefRO<Unit> Unit,
+            RefRO<Unit> unit,
             RefRO<BulletSpawnPosition> bulletSpawnPosition,
-            RefRW<UnitMover> unitMover) 
+            RefRW<UnitMover> unitMover)
             in SystemAPI.Query<
                 RefRW<ShootAttack>,
                 RefRW<LocalTransform>,
                 RefRO<Target>,
                 RefRO<Unit>,
                 RefRO<BulletSpawnPosition>,
-                RefRW<UnitMover>>().WithDisabled<MoveOverride>()) 
+                RefRW<UnitMover>>()
+            .WithDisabled<MoveOverride>())
         {
-            if (target.ValueRO.targetEntity == Entity.Null) continue;
+            if (target.ValueRO.targetEntity == Entity.Null)
+                continue;
 
-            // Проверка на дистанцию до цели
-            LocalTransform targetLocalTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
-            if (math.distance(localTransform.ValueRO.Position, targetLocalTransform.Position) > shootAttack.ValueRO.attackDistance)
+            LocalTransform targetTransform =
+                SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
+
+            float distance = math.distance(
+                localTransform.ValueRO.Position,
+                targetTransform.Position);
+
+            if (distance > shootAttack.ValueRO.attackDistance)
             {
-                unitMover.ValueRW.targetPosition = targetLocalTransform.Position; 
+                unitMover.ValueRW.targetPosition = targetTransform.Position;
                 continue;
             }
 
-            // Разворот до цели и анимация разворота
             unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
-            float3 aimDirection = targetLocalTransform.Position - localTransform.ValueRO.Position;
-            aimDirection = math.normalize(aimDirection);
 
-            quaternion targetRotation = quaternion.LookRotation(aimDirection, math.up());
-            localTransform.ValueRW.Rotation = math.slerp(localTransform.ValueRO.Rotation, targetRotation, SystemAPI.Time.DeltaTime * unitMover.ValueRO.rotationSpeed);
+            float3 aimDir = math.normalize(
+                targetTransform.Position - localTransform.ValueRO.Position);
+
+            quaternion targetRot =
+                quaternion.LookRotation(aimDir, math.up());
+
+            localTransform.ValueRW.Rotation =
+                math.slerp(
+                    localTransform.ValueRO.Rotation,
+                    targetRot,
+                    SystemAPI.Time.DeltaTime * unitMover.ValueRO.rotationSpeed);
 
             shootAttack.ValueRW.timer -= SystemAPI.Time.DeltaTime;
+            if (shootAttack.ValueRO.timer > 0f)
+                continue;
 
-            if (shootAttack.ValueRO.timer > 0f) continue;
-            
-            // Стрельба
             shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
 
-            float3 bulletSpawnWorldPosition = localTransform.ValueRO.TransformPoint(bulletSpawnPosition.ValueRO.bulletSpawnLocalPosition);
-            RaycastInput input = new RaycastInput
+            float3 bulletSpawnWorldPos =
+                localTransform.ValueRO.TransformPoint(
+                    bulletSpawnPosition.ValueRO.bulletSpawnLocalPosition);
+
+            RaycastInput rayInput = new RaycastInput
             {
-                Start = bulletSpawnWorldPosition,
-                End = bulletSpawnWorldPosition + aimDirection * shootAttack.ValueRO.attackDistance,
-                Filter = new CollisionFilter //реворк по настроению
-                {
-                    BelongsTo = ~0u,
-                    CollidesWith = ~0u,
-                    GroupIndex = 0
-                }
+                Start = bulletSpawnWorldPos,
+                End = bulletSpawnWorldPos + aimDir * shootAttack.ValueRO.attackDistance,
+                Filter = CollisionFilter.Default
             };
 
-            var hub = SystemAPI
-                .QueryBuilder()
-                .WithAll<EventHub>()
-                .Build()
-                .GetSingletonEntity();
-
-            if (physicsWorld.CastRay(input, out Unity.Physics.RaycastHit hit))
+            // ==============================
+            // СТРЕЛЬБА
+            // ==============================
+            switch (shootAttack.ValueRO.weaponType)
             {
-                Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
-                Entity damageEntity = ecb.CreateEntity();
-                Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
+                case WeaponTypes.SingleRay:
+                    {
+                        if (physicsWorld.CastRay(rayInput, out var hit))
+                        {
+                            Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+                            Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
+                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit);
+                            bulletEvents.Add(new BulletShotEvent
+                            {
+                                From = bulletSpawnWorldPos,
+                                To = hit.Position
+                            });
+                        }
+                        break;
+                    }
 
-                var damageBuffer = SystemAPI.GetBuffer<DamageEvent>(hub);
+                case WeaponTypes.PiercingRay:
+                    {
+                        var hits = new NativeList<RaycastHit>(Allocator.Temp);
+                        physicsWorld.CastRay(rayInput, ref hits);
 
-                damageBuffer.Add(new DamageEvent
-                {
-                    TargetEntity = hitEntity,
-                    TargetEntityClass = targetUnit.Class,
-                    DamageAmount = shootAttack.ValueRO.damageAmount,
-                });
+                        int pierceLeft = shootAttack.ValueRO.maxPierceCount;
+
+                        foreach (var hit in hits)
+                        {
+                            if (pierceLeft-- <= 0)
+                                break;
+
+                            Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+                            Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
+                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit);
+                        }
+
+                        hits.Dispose();
+                        break;
+                    }
+
+                case WeaponTypes.Explosive:
+                    {
+                        if (!physicsWorld.CastRay(rayInput, out var hit))
+                            break;
+
+                        float3 hitPos = hit.Position;
+                        var hits = new NativeList<DistanceHit>(Allocator.Temp);
+
+                        physicsWorld.OverlapSphere(
+                            hitPos,
+                            shootAttack.ValueRO.explosiveRange,
+                            ref hits,
+                            CollisionFilter.Default);
+
+                        foreach (var h in hits)
+                        {
+                            Entity e =
+                                physicsWorld.Bodies[h.RigidBodyIndex].Entity;
+                            Unit targetUnit =
+                                SystemAPI.GetComponent<Unit>(e);
+
+                            damageBuffer.Add(new DamageEvent
+                            {
+                                TargetEntity = e,
+                                TargetEntityClass = targetUnit.Class,
+                                DamageAmount = shootAttack.ValueRO.damageAmount
+                            });
+                        }
+
+                        hits.Dispose();
+
+                        bulletEvents.Add(new BulletShotEvent
+                        {
+                            From = bulletSpawnWorldPos,
+                            To = hitPos
+                        });
+                        break;
+                    }
+
+                case WeaponTypes.Dispersive:
+                    {
+                        float3 center =
+                            bulletSpawnWorldPos + aimDir * 2f;
+
+                        var hits = new NativeList<DistanceHit>(Allocator.Temp);
+
+                        physicsWorld.OverlapSphere(
+                            center,
+                            shootAttack.ValueRO.attackDistance,
+                            ref hits,
+                            CollisionFilter.Default);
+
+                        foreach (var h in hits)
+                        {
+                            Entity e =
+                                physicsWorld.Bodies[h.RigidBodyIndex].Entity;
+                            Unit targetUnit =
+                                SystemAPI.GetComponent<Unit>(e);
+
+                            damageBuffer.Add(new DamageEvent
+                            {
+                                TargetEntity = e,
+                                TargetEntityClass = targetUnit.Class,
+                                DamageAmount =
+                                    shootAttack.ValueRO.damageAmount *
+                                    SystemAPI.Time.DeltaTime
+                            });
+                        }
+
+                        hits.Dispose();
+                        break;
+                    }
             }
-
-
-            var bulletEvents = SystemAPI.GetBuffer<BulletShotEvent>(hub);
-
-            bulletEvents.Add(new BulletShotEvent
-            {
-                From = bulletSpawnWorldPosition,
-                To = hit.Position,
-            });
-
         }
     }
-}
 
-/*[BurstCompile]
-public partial struct ShootAttackJob : IJobEntity
-{
-    public float deltaTime;
-    public LocalTransform targetLocalTransform;
-
-    public void Execute(ref ShootAttack shootAttack, ref LocalTransform localTransform, in Target target, ref UnitMover unitMover) 
+    // ==============================
+    // APPLY DAMAGE HELPER
+    // ==============================
+    private static void ApplyDamage(RaycastHit hit,CollisionWorld physicsWorld,RefRW<ShootAttack> shootAttack,DynamicBuffer<DamageEvent> damageBuffer, Unit targetUnit)
     {
-        if (target.targetEntity == Entity.Null)
+        Entity hitEntity =
+            physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+
+        damageBuffer.Add(new DamageEvent
         {
-            return;
-        }
-
-        //LocalTransform targetLocalTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
-        if (math.distance(localTransform.Position, targetLocalTransform.Position) > shootAttack.ValueRO.attackDistance)
-        {
-            unitMover.ValueRW.targetPosition = targetLocalTransform.Position;
-            continue;
-        }
-        else
-        {
-            unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
-        }
-
-        float3 aimDirection = targetLocalTransform.Position - localTransform.ValueRO.Position;
-        aimDirection = math.normalize(aimDirection);
-
-        quaternion targetRotation = quaternion.LookRotation(aimDirection, math.up());
-        localTransform.ValueRW.Rotation = math.slerp(localTransform.ValueRO.Rotation, targetRotation, SystemAPI.Time.DeltaTime * unitMover.ValueRO.rotationSpeed);
-
-        shootAttack.ValueRW.timer -= SystemAPI.Time.DeltaTime;
-
-        if (shootAttack.ValueRO.timer > 0f)
-        {
-            continue;
-        }
-        shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
-
-        Entity bulletEntity = state.EntityManager.Instantiate(entitiesReferences.bulletPrefabEntity);
-        float3 bulletSpawnWorldPosition = localTransform.ValueRO.TransformPoint(shootAttack.ValueRO.bulletSpawnLocalPosition);
-        SystemAPI.SetComponent(bulletEntity, LocalTransform.FromPosition(bulletSpawnWorldPosition));
-
-        RefRW<Bullet> bulletBullet = SystemAPI.GetComponentRW<Bullet>(bulletEntity);
-        bulletBullet.ValueRW.damageAmount = shootAttack.ValueRO.damageAmount;
-
-        RefRW<Target> bulletTarget = SystemAPI.GetComponentRW<Target>(bulletEntity);
-        bulletTarget.ValueRW.targetEntity = target.ValueRO.targetEntity;
-
-        shootAttack.ValueRW.onShoot.isTriggered = true;
-        shootAttack.ValueRW.onShoot.shootFromPosition = bulletSpawnWorldPosition;
+            TargetEntity = hitEntity,
+            TargetEntityClass = targetUnit.Class,
+            DamageAmount = shootAttack.ValueRO.damageAmount
+        });
     }
 }
-*/

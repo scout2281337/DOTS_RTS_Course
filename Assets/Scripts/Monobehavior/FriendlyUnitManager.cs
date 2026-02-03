@@ -7,8 +7,20 @@ using UnityEngine;
 
 public class FriendlyUnitManager : MonoBehaviour
 {
-    public WeaponConfig weaponConfig;
-    public ClassConfig classConfig;
+    [Header("Огнеметчик")]
+    public WeaponConfig flamethrowerWeaponConfig;
+    public ClassConfig flamethrowerClassConfig;
+    [Header("Танк")]
+    public WeaponConfig tankWeaponConfig;
+    public ClassConfig tankClassConfig;
+    [Header("Рейдер")]
+    public WeaponConfig raiderWeaponConfig;
+    public ClassConfig raiderClassConfig;
+    [Header("Снайпер")]
+    public WeaponConfig sniperWeaponConfig;
+    public ClassConfig sniperClassConfig;
+
+
     public int teamAmount;
     
     private EntitiesReferences entitiesReferences;
@@ -17,9 +29,7 @@ public class FriendlyUnitManager : MonoBehaviour
     private bool isInitialized = false;
     private bool isSpawned = false;
 
-    //public Entity[] Units; мб убрать
     public Dictionary<UnitClass, Entity> EntitiesDictionary = new Dictionary<UnitClass, Entity>();
-    //public static event Action OnUnitSpawn;
     public static FriendlyUnitManager Instance { get; private set; }
     private void Start()
     {
@@ -33,24 +43,8 @@ public class FriendlyUnitManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!isInitialized) 
-        {
-            TryToInitialize();
-        }
-        if (isInitialized && !isSpawned) 
-        {
-            for (int i = 0; i < teamAmount; i++)
-            {
-                Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
-                UnitInitializer(entityManager, weaponConfig, classConfig, spawnPos, entitiesReferences.unitPrefabEntity);
-
-                Debug.Log("Спавн сработал");
-                Debug.Log(entityManager.HasComponent<Prefab>(entitiesReferences.unitPrefabEntity));
-
-            }
-            isSpawned = true;
-            //OnUnitSpawn?.Invoke();
-        }
+        //OneClassSpawn();
+        TeamSpawn();
     }
     void TryToInitialize() 
     {
@@ -110,5 +104,47 @@ public class FriendlyUnitManager : MonoBehaviour
     {
         Vector2 rnd = UnityEngine.Random.insideUnitCircle * radius;
         return new Vector3(center.x + rnd.x, center.y, center.z + rnd.y);
+    }
+
+    private void OneClassSpawn() 
+    {
+        if (!isInitialized)
+        {
+            TryToInitialize();
+        }
+        if (isInitialized && !isSpawned)
+        {
+            for (int i = 0; i < teamAmount; i++)
+            {
+                Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
+                UnitInitializer(entityManager, raiderWeaponConfig, raiderClassConfig, spawnPos, entitiesReferences.unitPrefabEntity);
+
+                Debug.Log("Спавн сработал");
+                Debug.Log(entityManager.HasComponent<Prefab>(entitiesReferences.unitPrefabEntity));
+
+            }
+            isSpawned = true;
+            //OnUnitSpawn?.Invoke();
+        }
+
+    }
+    private void TeamSpawn() 
+    {
+        if (!isInitialized)
+        {
+            TryToInitialize();
+        }
+        if (isInitialized && !isSpawned)
+        {
+            
+            Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
+            
+            UnitInitializer(entityManager, raiderWeaponConfig, raiderClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            UnitInitializer(entityManager, tankWeaponConfig, tankClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            UnitInitializer(entityManager, flamethrowerWeaponConfig, flamethrowerClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            UnitInitializer(entityManager, sniperWeaponConfig, sniperClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            isSpawned = true;
+        }    
+    
     }
 }

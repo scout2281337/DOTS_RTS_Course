@@ -15,5 +15,7 @@ MonoBehaviour:
   damage: 10
   fireRate: 150
   range: 15
-  weaponType: 0
+  weaponType: 4
   typeStat: 0.5
+  explosiveRange: 5
+  maxPierceCount: 5

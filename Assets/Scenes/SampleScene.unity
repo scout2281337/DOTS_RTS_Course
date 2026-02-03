@@ -1858,7 +1858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1199244194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1871,8 +1871,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05786b773143534fafc6ff7e1d61784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponConfig: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
-  classConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
+  flamethrowerWeaponConfig: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
+  flamethrowerClassConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
+  tankWeaponConfig: {fileID: 11400000, guid: 3fd6e373c721b8140967f34c65b6f213, type: 2}
+  tankClassConfig: {fileID: 11400000, guid: 3351b0dd4065dc74a9b2ba0089366623, type: 2}
+  raiderWeaponConfig: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
+  raiderClassConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
+  sniperWeaponConfig: {fileID: 11400000, guid: d17d285e273cf564bb0222b16f7c96d7, type: 2}
+  sniperClassConfig: {fileID: 11400000, guid: 6dcaa75872954d04c9a61d96ad8e1acc, type: 2}
   teamAmount: 1
 --- !u!4 &1199244195
 Transform:

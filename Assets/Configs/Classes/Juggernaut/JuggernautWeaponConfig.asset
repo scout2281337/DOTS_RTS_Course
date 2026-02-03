@@ -17,3 +17,5 @@ MonoBehaviour:
   range: 15
   weaponType: 1
   typeStat: 1
+  explosiveRange: 5
+  maxPierceCount: 5

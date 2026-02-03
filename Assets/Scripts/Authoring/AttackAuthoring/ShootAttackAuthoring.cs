@@ -15,6 +15,9 @@ public class ShootAttackAuthoring : MonoBehaviour
                 timerMax = 60f / authoring.weaponConfig.fireRate,
                 damageAmount = authoring.weaponConfig.damage,
                 attackDistance = authoring.weaponConfig.range,
+                weaponType = authoring.weaponConfig.weaponType,
+                maxPierceCount = authoring.weaponConfig.maxPierceCount,
+                explosiveRange = authoring.weaponConfig.explosiveRange,
             });
         }
     }
@@ -26,4 +29,7 @@ public struct ShootAttack : IComponentData
     public float timerMax;
     public float damageAmount;
     public float attackDistance;
+    public WeaponTypes weaponType;
+    public int maxPierceCount;
+    public float explosiveRange;
 }
