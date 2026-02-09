@@ -26,7 +26,7 @@ partial struct FindTargetSystem : ISystem
                 RefRW<Target>>()) 
         {
             findTarget.ValueRW.timer -= SystemAPI.Time.DeltaTime; 
-            if (findTarget.ValueRO.timer > 0f) 
+            if (findTarget.ValueRO.timer > 0f || target.ValueRO.targetEntity != Entity.Null) 
             {
                 continue;
             }

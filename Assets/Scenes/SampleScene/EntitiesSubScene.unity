@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 44.32898
@@ -198,6 +202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.41448998
@@ -255,6 +263,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.53622437
@@ -311,6 +323,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -374,6 +390,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.1463776
@@ -436,6 +456,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 43.450714
@@ -493,6 +517,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 38.304337
@@ -549,6 +577,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -611,6 +643,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -763,6 +799,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -29.878265
@@ -830,6 +870,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.7318878
@@ -886,6 +930,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -944,6 +992,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.317398
@@ -1000,6 +1052,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1058,6 +1114,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -36.439133
@@ -1114,6 +1174,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1181,6 +1245,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1254,6 +1322,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 40.621735
@@ -1316,6 +1388,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -52.939133
@@ -1373,6 +1449,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.085510254
@@ -1429,6 +1509,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1492,6 +1576,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -46.40291
@@ -1553,6 +1641,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1636,6 +1728,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.317398
@@ -1698,6 +1794,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 18.475357
@@ -1754,6 +1854,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1817,6 +1921,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.231888
@@ -1873,6 +1981,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1931,6 +2043,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.450714
@@ -1987,6 +2103,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2055,6 +2175,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.9029083
@@ -2116,6 +2240,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2189,6 +2317,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.7434692
@@ -2245,6 +2377,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2313,6 +2449,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 42.036224
@@ -2375,6 +2515,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.1463776
@@ -2436,6 +2580,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2576,6 +2724,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -24.75653
@@ -2632,6 +2784,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2695,6 +2851,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.353622
@@ -2751,6 +2911,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2814,6 +2978,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.610153
@@ -2876,6 +3044,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -43.549286
@@ -2932,6 +3104,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2994,6 +3170,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3077,6 +3257,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -29
@@ -3144,6 +3328,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.8289795
@@ -3206,6 +3394,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.5
@@ -3262,6 +3454,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3320,6 +3516,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.439133
@@ -3376,6 +3576,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3608,6 +3812,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -33.610153
@@ -3664,6 +3872,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3727,6 +3939,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.1463776
@@ -3783,6 +3999,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3851,6 +4071,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 39.182602
@@ -3907,6 +4131,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3975,6 +4203,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.1956635
@@ -4032,6 +4264,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.597092
@@ -4088,6 +4324,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4166,6 +4406,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.110153
@@ -4228,6 +4472,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -27.58551
@@ -4284,6 +4532,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4342,6 +4594,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 25.036224
@@ -4398,6 +4654,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4456,6 +4716,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 42.91449
@@ -4512,6 +4776,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4570,6 +4838,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.024643
@@ -4626,6 +4898,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4689,6 +4965,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.3782654
@@ -4745,6 +5025,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4808,6 +5092,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -28.463776
@@ -4864,6 +5152,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4922,6 +5214,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.4637754
@@ -4979,6 +5275,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -47.817398
@@ -5035,6 +5335,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5108,6 +5412,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 21.304337
@@ -5164,6 +5472,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5222,6 +5534,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.439133
@@ -5278,6 +5594,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5466,6 +5786,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.889847
@@ -5563,6 +5887,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.4507141
@@ -5619,6 +5947,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5682,6 +6014,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 27.32898
@@ -5744,6 +6080,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -47.792755
@@ -5800,6 +6140,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5873,6 +6217,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 39.207245
@@ -5929,6 +6277,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5992,6 +6344,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.610153
@@ -6048,6 +6404,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6116,6 +6476,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -49.231888
@@ -6178,6 +6542,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.610153
@@ -6234,6 +6602,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6312,6 +6684,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.1956635
@@ -6374,6 +6750,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.4144897
@@ -6430,6 +6810,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6498,6 +6882,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -35.024643
@@ -6555,6 +6943,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -50.646378
@@ -6611,6 +7003,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6674,6 +7070,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -32.195663
@@ -6730,6 +7130,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6793,6 +7197,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.4029083
@@ -6855,6 +7263,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.9507141
@@ -6916,6 +7328,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7043,6 +7459,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.8289795
@@ -7132,6 +7552,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7194,6 +7618,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -48.695663
@@ -7251,6 +7679,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.2927551
@@ -7307,6 +7739,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7370,6 +7806,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.182602
@@ -7427,6 +7867,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 37.768112
@@ -7483,6 +7927,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7592,6 +8040,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 45.74347
@@ -7669,6 +8121,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -41.25653
@@ -7731,6 +8187,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.8782654
@@ -7787,6 +8247,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7854,6 +8318,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7932,6 +8400,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.8782654
@@ -8004,6 +8476,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -8066,6 +8542,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -44.08551
@@ -8122,6 +8602,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8184,6 +8668,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8252,6 +8740,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.292755
@@ -8308,6 +8800,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8479,6 +8975,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.46377563
@@ -8536,6 +9036,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieUnit (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -44.963776
@@ -8592,6 +9096,10 @@ PrefabInstance:
     - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_Name
       value: ZombieUnit (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2144532805492651053, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2616804381877807525, guid: d9bb3a6adf0c25347bcc9832b6335d4a, type: 3}
       propertyPath: m_LocalPosition.x

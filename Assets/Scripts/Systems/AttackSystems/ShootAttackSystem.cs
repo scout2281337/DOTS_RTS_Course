@@ -176,12 +176,13 @@ partial struct ShootAttackSystem : ISystem
                     {
                         float3 center =
                             bulletSpawnWorldPos + aimDir * 2f;
-
+                        quaternion boxRotation = quaternion.LookRotationSafe(aimDir, math.up());
                         var hits = new NativeList<DistanceHit>(Allocator.Temp);
 
-                        physicsWorld.OverlapSphere(
+                        physicsWorld.OverlapBox(
                             center,
-                            shootAttack.ValueRO.attackDistance,
+                            boxRotation,
+                            new float3 (5f, 1f,shootAttack.ValueRO.attackDistance / 2f ),
                             ref hits,
                             CollisionFilter.Default);
 
