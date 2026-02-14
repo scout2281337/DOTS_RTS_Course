@@ -2654,6 +2654,14 @@ PrefabInstance:
       propertyPath: CooldownLeft
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 4491451597107114579, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
+      propertyPath: healthAmount
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491451597107114579, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
+      propertyPath: healthAmountMax
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 6259251359308725347, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.72

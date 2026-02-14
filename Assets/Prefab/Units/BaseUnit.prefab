@@ -371,8 +371,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a959f2ad88e5c7e4a8cb49d78b6cdc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  CurrentMoveSpeed: 0
+  BaseSpeed: 0
   rotationSpeed: 15
+  separationRadius: 1.2
+  separationForce: 1.5
 --- !u!114 &5144778676629051156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faction: 0
+  Class: 0
 --- !u!114 &3985126877134160891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,6 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthAmount: 100
   healthAmountMax: 100
+  armor: 0
 --- !u!114 &7971606602768127763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,10 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0f9bcf7b58cc544b30af9298f0255d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerMax: 0.2
-  damageAmount: 10
-  attackDistance: 13
-  bulletSpawnPositionTransform: {fileID: 2868186026026959011}
+  weaponConfig: {fileID: 0}
 --- !u!1 &5495291251642513862
 GameObject:
   m_ObjectHideFlags: 0

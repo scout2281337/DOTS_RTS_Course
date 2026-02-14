@@ -7,6 +7,8 @@ public class UnitMoverAuthoring : MonoBehaviour
     public float CurrentMoveSpeed;
     public float BaseSpeed;
     public float rotationSpeed;
+    public float separationRadius;
+    public float separationForce;
 
     public class Baker : Baker<UnitMoverAuthoring>
     {
@@ -16,7 +18,10 @@ public class UnitMoverAuthoring : MonoBehaviour
             AddComponent(entity, new UnitMover {
                 CurrentMoveSpeed = authoring.BaseSpeed,
                 BaseSpeed = authoring.BaseSpeed, 
-                rotationSpeed = authoring.rotationSpeed 
+                rotationSpeed = authoring.rotationSpeed,
+                separationForce = authoring.separationForce,
+                separationRadius = authoring.separationRadius,
+
             });
         }
     }
@@ -28,4 +33,6 @@ public struct UnitMover : IComponentData
     public float BaseSpeed;
     public float rotationSpeed;
     public float3 targetPosition;
+    public float separationRadius;
+    public float separationForce;
 }

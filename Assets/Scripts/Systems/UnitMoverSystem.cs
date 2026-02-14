@@ -48,7 +48,9 @@ public partial struct UnitMoverJob : IJobEntity
         localTransform.Rotation =
             math.slerp(localTransform.Rotation, targetRot, deltaTime * unitMover.rotationSpeed);
 
-        // движение
+        //localTransform.Position += moveDir * unitMover.CurrentMoveSpeed * deltaTime;
+        //localTransform.Position.y = 0f;
+        
         physicsVelocity.Linear = moveDir * unitMover.CurrentMoveSpeed;
         physicsVelocity.Angular = float3.zero;
     }
