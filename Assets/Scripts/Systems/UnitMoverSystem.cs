@@ -42,14 +42,14 @@ public partial struct UnitMoverJob : IJobEntity
         // безопасная нормализация
         float invLen = math.rsqrt(distSq);
         float3 moveDir = toTarget * invLen;
-
+        //float3 freezeRot = new float3(0, 1, 0);
         // поворот
         quaternion targetRot = quaternion.LookRotation(moveDir, math.up());
         localTransform.Rotation =
             math.slerp(localTransform.Rotation, targetRot, deltaTime * unitMover.rotationSpeed);
 
         //localTransform.Position += moveDir * unitMover.CurrentMoveSpeed * deltaTime;
-        //localTransform.Position.y = 0f;
+        localTransform.Position.y = 0f;
         
         physicsVelocity.Linear = moveDir * unitMover.CurrentMoveSpeed;
         physicsVelocity.Angular = float3.zero;

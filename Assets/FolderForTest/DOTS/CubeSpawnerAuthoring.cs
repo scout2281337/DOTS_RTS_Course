@@ -16,7 +16,7 @@ public class CubeSpawnerAuthoring : MonoBehaviour
                 amountToSpawn = authoring.amountToSpawn,
                 cubePrefabEntity = GetEntity(authoring.cubePrefabGameObject, TransformUsageFlags.Dynamic),
                 timerMax = authoring.timerMax,
-                random = new Unity.Mathematics.Random(1),//(uint)Random.Range(1, 100)
+                random = new Unity.Mathematics.Random(1),//(uint)Random.Radius(1, 100)
                 timer = 0f,
             }); 
         }

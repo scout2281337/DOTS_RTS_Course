@@ -24,8 +24,8 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.AntiGravitationBarrier:
                     SpawnObject(entitiesReferences.AntiGravitationBarrier, ref state);
                     break;
-                case AbilityType.Shield:
-                    //ApplyShield(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
+                case AbilityType.Fireball:
+                    
                     break;
                 case AbilityType.Heal:
                     //HealTargets(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
@@ -49,7 +49,7 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.AntiGravitationBarrier:
                     //�����
                     break;
-                case AbilityType.Shield:
+                case AbilityType.Fireball:
                     //ApplyShield(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
                     break;
                 case AbilityType.Heal:
@@ -189,4 +189,6 @@ partial struct AbilityEffectSystem : ISystem
     {
         Entity entityToSpawn = State.EntityManager.Instantiate(EntityToSpawn);
     }
+
+    //void ExecuteFireball()
 }

@@ -60,7 +60,7 @@ public enum AbilityType
 {
     AnabolicStimulator,
     AntiGravitationBarrier,
-    Shield,
+    Fireball,
     Heal,
     None 
 }

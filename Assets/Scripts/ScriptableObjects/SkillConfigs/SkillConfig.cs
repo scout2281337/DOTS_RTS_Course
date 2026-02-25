@@ -9,8 +9,8 @@ public abstract class SkillConfig : ScriptableObject, IInfoBlockUI
     public float duration;
     public float range;
     public float area;
-    [Header("Optional (Damage / Range / other)")] public float PerkParameter1;
-    [Header("Optional (Damage / Range / other)")] public float PerkParameter2;
+    [Header("Optional (Damage / Radius / other)")] public float PerkParameter1;
+    [Header("Optional (Damage / Radius / other)")] public float PerkParameter2;
 
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
     {

@@ -38,7 +38,7 @@ public abstract class WeaponConfig : ScriptableObject, IInfoBlockUI
             var rangeRow = UITK.AddElement(weaponDetails, "rangeRow", "detailRow");
 
                 var rangeText = UITK.AddElement<Label>(rangeRow, "rangeText", "detailText");
-                rangeText.text = "Range:";
+                rangeText.text = "Radius:";
 
                 var rangeAmount = UITK.AddElement<Label>(rangeRow, "rangeAmount", "detailAmount");
                 //rangeAmount.style.color = colorScheme.baseRed;

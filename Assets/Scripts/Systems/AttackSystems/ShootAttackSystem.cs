@@ -153,7 +153,7 @@ partial struct ShootAttackSystem : ISystem
                                 physicsWorld.Bodies[h.RigidBodyIndex].Entity;
                             Unit targetUnit =
                                 SystemAPI.GetComponent<Unit>(e);
-
+                            //rework!!!
                             damageBuffer.Add(new DamageEvent
                             {
                                 TargetEntity = e,
@@ -175,14 +175,14 @@ partial struct ShootAttackSystem : ISystem
                 case WeaponTypes.Dispersive:
                     {
                         float3 center =
-                            bulletSpawnWorldPos + aimDir * 2f;
+                            bulletSpawnWorldPos + aimDir;
                         quaternion boxRotation = quaternion.LookRotationSafe(aimDir, math.up());
                         var hits = new NativeList<DistanceHit>(Allocator.Temp);
 
                         physicsWorld.OverlapBox(
                             center,
                             boxRotation,
-                            new float3 (5f, 1f,shootAttack.ValueRO.attackDistance / 2f ),
+                            new float3 (5f, 1f,5f ), //shootAttack.ValueRO.attackDistance / 2f
                             ref hits,
                             CollisionFilter.Default);
 
@@ -192,14 +192,12 @@ partial struct ShootAttackSystem : ISystem
                                 physicsWorld.Bodies[h.RigidBodyIndex].Entity;
                             Unit targetUnit =
                                 SystemAPI.GetComponent<Unit>(e);
-
+                            //rework!!!
                             damageBuffer.Add(new DamageEvent
                             {
                                 TargetEntity = e,
                                 TargetEntityClass = targetUnit.Class,
-                                DamageAmount =
-                                    shootAttack.ValueRO.damageAmount *
-                                    SystemAPI.Time.DeltaTime
+                                DamageAmount = shootAttack.ValueRO.damageAmount
                             });
                         }
 
