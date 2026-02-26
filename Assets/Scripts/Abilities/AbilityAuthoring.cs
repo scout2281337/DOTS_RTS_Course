@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class AbilityAuthoring : MonoBehaviour 
@@ -46,6 +47,7 @@ public struct Ability : IComponentData
 
     public float Cooldown;
     public float Duration;
+    public float3 TargetPosition;
 }
 
 public enum AbilityTargetType

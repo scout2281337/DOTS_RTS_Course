@@ -9,14 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 594282bf73d492e4ca3bdbd508c7e1ea, type: 3}
-  m_Name: SniperClassConfig
+  m_Script: {fileID: 11500000, guid: daa63861f6b74b04c9e266655ae5becf, type: 3}
+  m_Name: flamethrowerWeaponCFG
   m_EditorClassIdentifier: 
-  speed: 3
-  rotationSpeed: 15
-  maxHealth: 100
-  targetFaction: 1
-  timerMaxForOverlap: 0.2
-  Armor: 15
-  unitClass: 3
-  currentFaction: 0
+  damage: 30
+  fireRate: 40
+  range: 15
+  weaponType: 2
+  typeStat: 3
+  explosiveRange: 0
+  maxPierceCount: 0

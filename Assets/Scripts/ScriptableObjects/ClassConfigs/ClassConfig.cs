@@ -15,6 +15,9 @@ public abstract class ClassConfig : ScriptableObject, IInfoBlockUI
     [Header("armor")]
     public float Armor;
 
+    public UnitClass unitClass;
+    public Faction currentFaction;
+
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
     {
         var classDetails = UITK.AddElement(infoPanel, "classDetails", "infoBlock");

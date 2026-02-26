@@ -18,3 +18,5 @@ MonoBehaviour:
   targetFaction: 1
   timerMaxForOverlap: 0.2
   Armor: 3
+  unitClass: 2
+  currentFaction: 0

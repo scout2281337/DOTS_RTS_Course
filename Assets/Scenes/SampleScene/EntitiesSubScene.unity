@@ -3649,7 +3649,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &936015828
 Transform:
   m_ObjectHideFlags: 0
@@ -5676,7 +5676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2494632845574086114, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: timerMax
@@ -7531,7 +7531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1761290648
 Transform:
   m_ObjectHideFlags: 0
@@ -9211,6 +9211,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7599628180199014603, guid: a901b0679318a7e43a88831f3039bb9f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7599628180199014603, guid: a901b0679318a7e43a88831f3039bb9f, type: 3}
+      propertyPath: FireballPrefab
+      value: 
+      objectReference: {fileID: 5499938022485489458, guid: a67c70d3142b18443b1e1a5b0e0093a6, type: 3}
     - target: {fileID: 7599628180199014603, guid: a901b0679318a7e43a88831f3039bb9f, type: 3}
       propertyPath: AntiGravitationBarrier
       value: 

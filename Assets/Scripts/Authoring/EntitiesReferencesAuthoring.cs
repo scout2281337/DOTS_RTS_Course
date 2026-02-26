@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class EntitiesReferencesAuthoring : MonoBehaviour
 {
-    public GameObject bulletPrefabGameObject;
-    public GameObject zombiePrefabGameObject;//
-    public GameObject shootLightPrefabGameObject;
-    //public GameObject spawnPointPrefabGameObject;
+    public GameObject zombiePrefabGameObject;
     public GameObject unitPrefabGameObject;
     public GameObject AntiGravitationBarrier;
+    public GameObject FireballPrefab;
+
     public class Baker : Baker<EntitiesReferencesAuthoring>
     {
         public override void Bake(EntitiesReferencesAuthoring authoring)
@@ -16,12 +15,10 @@ public class EntitiesReferencesAuthoring : MonoBehaviour
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new EntitiesReferences 
             {
-                bulletPrefabEntity = GetEntity(authoring.bulletPrefabGameObject, TransformUsageFlags.Dynamic),
-                zombiePrefabEntity = GetEntity(authoring.zombiePrefabGameObject, TransformUsageFlags.Dynamic),//
-                shootLightPrefabEntity = GetEntity(authoring.shootLightPrefabGameObject, TransformUsageFlags.Dynamic),
+                zombiePrefabEntity = GetEntity(authoring.zombiePrefabGameObject, TransformUsageFlags.Dynamic),
                 unitPrefabEntity = GetEntity(authoring.unitPrefabGameObject, TransformUsageFlags.Dynamic),
-                AntiGravitationBarrier = GetEntity(authoring.AntiGravitationBarrier, TransformUsageFlags.Dynamic)
-                //spawnPointPrefabEntity = GetEntity(authoring.spawnPointPrefabGameObject, TransformUsageFlags.Dynamic),
+                AntiGravitationBarrier = GetEntity(authoring.AntiGravitationBarrier, TransformUsageFlags.Dynamic),
+                FireballPrefabEntity = GetEntity(authoring.FireballPrefab, TransformUsageFlags.Dynamic),
             });
         }
     }
@@ -29,11 +26,9 @@ public class EntitiesReferencesAuthoring : MonoBehaviour
 
 public struct EntitiesReferences : IComponentData 
 {
-    public Entity bulletPrefabEntity;
     public Entity zombiePrefabEntity; //
-    public Entity shootLightPrefabEntity;
     public Entity unitPrefabEntity;
     public Entity AntiGravitationBarrier;
 
-    //public Entity spawnPointPrefabEntity;
+    public Entity FireballPrefabEntity;
 }

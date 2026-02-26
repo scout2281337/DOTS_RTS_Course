@@ -1,6 +1,8 @@
 using System;
 using Unity.Entities;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
+using Unity.Mathematics;
+using Unity.Transforms;
+
 
 [UpdateInGroup(typeof(PresentationSystemGroup))]
 partial struct AbilityEffectSystem : ISystem
@@ -50,8 +52,21 @@ partial struct AbilityEffectSystem : ISystem
                     //�����
                     break;
                 case AbilityType.Fireball:
-                    //ApplyShield(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
+                {
+                    float3 pos = ability.ValueRO.TargetPosition;
+
+                    
+                    var fireball = em.Instantiate(entitiesReferences.FireballPrefabEntity);
+
+                    em.SetComponentData(fireball, new LocalTransform
+                    {
+                        Position = pos,
+                        Rotation = quaternion.identity,
+                        Scale = 1
+                    });
+
                     break;
+                }
                 case AbilityType.Heal:
                     //HealTargets(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
                     break;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public class FriendlyUnitManager : MonoBehaviour
@@ -20,6 +21,7 @@ public class FriendlyUnitManager : MonoBehaviour
     public WeaponConfig sniperWeaponConfig;
     public ClassConfig sniperClassConfig;
 
+    //List<Entity> SquadMembers = new List<Entity>();
 
     public int teamAmount;
     
@@ -94,8 +96,11 @@ public class FriendlyUnitManager : MonoBehaviour
             healthAmount = classConfig.maxHealth,
             armor = classConfig.Armor,
         });
-        
-        
+        em.SetComponentData(currentEntity, new Unit
+        {
+            Class = classConfig.unitClass,
+            faction = classConfig.currentFaction,
+        });
         // После добавления абилки или просто при спавне решить, здесь думаю нормально , но это так мысли в комментарии я шиз лелелеле
         //EntitiesDictionary.Add(em.GetComponentData<Unit>(currentEntity).Class, currentEntity);
     }
