@@ -1,0 +1,42 @@
+.moduleBoard{
+    align-self: center;
+    top: 220px;
+    width: 1500px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.moduleCase{
+    width: 300px;
+    height: 500px;
+    padding: 15px;
+}
+
+.wideIcon{
+    width: 245px;
+    height: 130px;
+}
+
+.textBox{
+    margin-top: 15px;   
+    width: 245px;
+    height: 325px;
+    justify-content: space-around;
+}
+
+.description{
+    white-space: normal;
+}
+
+.tier{
+    position: absolute;
+    top: 210px;
+    left: 265px;
+}
+
+.buff {
+    position: absolute;
+    rotate: 0 0 1 90;
+    top: 395px;
+    left: 200px;
+}

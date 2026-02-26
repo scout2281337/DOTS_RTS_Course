@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -7,10 +6,8 @@ public class UnitPanelUI : MonoBehaviour
 {
     [Header("UI Toolkit")]
     [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private StyleSheetsSO defaultStyleSheet;
     [SerializeField] private StyleSheet[] styleSheets;
-    [SerializeField] private ColorSchemeSO colorScheme;
-    [SerializeField] private IconsUISO icons;
+    [SerializeField] private UnitPanelTexturesSO texturesSO;
 
     private VisualElement unitPanel;
     private Dictionary<UnitClass, UnitProfile> unitProfilesDict = new();
@@ -25,7 +22,7 @@ public class UnitPanelUI : MonoBehaviour
         VisualElement root = uiDocument.rootVisualElement;
         root.Clear();
 
-        foreach (StyleSheet sheet in defaultStyleSheet.styles)
+        foreach (StyleSheet sheet in UIControllerManager.Instance.defaultStyleSheet.styles)
         {
             root.styleSheets.Add(sheet);
         }
@@ -47,7 +44,7 @@ public class UnitPanelUI : MonoBehaviour
     private void UnitProfileInitHandler(UnitClass unitClass, ClassConfig classConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
     {
         var newUnitProfile = new UnitProfile(unitClass, classConfig, weaponConfig, skillConfig,
-            unitPanel, colorScheme, icons);
+            unitPanel, texturesSO);
 
         unitProfilesDict.Add(unitClass, newUnitProfile);
     }
@@ -66,17 +63,17 @@ public class UnitPanelUI : MonoBehaviour
 
 
         public UnitProfile(UnitClass unitClass, ClassConfig classConfig, WeaponConfig weaponConfig, SkillConfig skillConfig,
-            VisualElement unitPanel, ColorSchemeSO colorScheme, IconsUISO icons)
+            VisualElement unitPanel, UnitPanelTexturesSO icons)
         {
             this.unitClass = unitClass;
             this.classConfig = classConfig;
             this.weaponConfig = weaponConfig;
             this.skillConfig = skillConfig;
 
-            InitializeGeneralProfile(unitPanel, colorScheme, icons);
+            InitializeGeneralProfile(unitPanel, UIControllerManager.Instance.colorScheme, icons);
         }
 
-        private void InitializeGeneralProfile(VisualElement unitPanel, ColorSchemeSO colorScheme, IconsUISO icons)
+        private void InitializeGeneralProfile(VisualElement unitPanel, ColorSchemeSO colorScheme, UnitPanelTexturesSO icons)
         {
             unitProfile = UITK.AddElement(unitPanel, "unitProfile");
             unitProfile.style.backgroundColor = colorScheme.Black;

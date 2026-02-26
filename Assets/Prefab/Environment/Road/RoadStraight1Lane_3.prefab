@@ -246,7 +246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 464640, guid: de00c650a93a7ee42a0bb5ef2d016c52, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 464640, guid: de00c650a93a7ee42a0bb5ef2d016c52, type: 3}
       propertyPath: m_LocalScale.z
@@ -258,7 +258,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 464640, guid: de00c650a93a7ee42a0bb5ef2d016c52, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 464640, guid: de00c650a93a7ee42a0bb5ef2d016c52, type: 3}
       propertyPath: m_LocalPosition.z
@@ -294,7 +294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 464640, guid: de00c650a93a7ee42a0bb5ef2d016c52, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -452,7 +452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 429770, guid: 339398c21c71b0d44a8353a266cb127f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 429770, guid: 339398c21c71b0d44a8353a266cb127f, type: 3}
       propertyPath: m_LocalScale.z
@@ -464,7 +464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 429770, guid: 339398c21c71b0d44a8353a266cb127f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 429770, guid: 339398c21c71b0d44a8353a266cb127f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -500,7 +500,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 429770, guid: 339398c21c71b0d44a8353a266cb127f, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
