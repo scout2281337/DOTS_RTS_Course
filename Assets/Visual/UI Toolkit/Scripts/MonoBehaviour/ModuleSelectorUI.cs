@@ -1,3 +1,4 @@
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +11,9 @@ public class ModuleSelectorUI : MonoBehaviour
 
     private VisualElement moduleBoard;
     private Module[] modules = new Module[4];
+
+    public ModuleBaseSO[] moduleConfigTester;
+
 
 
     private void InitializeUI()
@@ -28,10 +32,10 @@ public class ModuleSelectorUI : MonoBehaviour
 
         moduleBoard = UITK.AddElement(root, "moduleBoard", "P");
 
-        modules[0] = new Module(moduleBoard, texturesSO);
-        modules[1] = new Module(moduleBoard, texturesSO);
-        modules[2] = new Module(moduleBoard, texturesSO);
-        modules[3] = new Module(moduleBoard, texturesSO);
+        modules[0] = new Module(moduleBoard, moduleConfigTester[0], texturesSO);
+        modules[1] = new Module(moduleBoard, moduleConfigTester[1], texturesSO);
+        modules[2] = new Module(moduleBoard, moduleConfigTester[2], texturesSO);
+        modules[3] = new Module(moduleBoard, moduleConfigTester[3], texturesSO);
     }
 
     private class Module
@@ -40,13 +44,15 @@ public class ModuleSelectorUI : MonoBehaviour
         public VisualElement moduleCase;
         public VisualElement[] moduleBGCOLayers = new VisualElement[4];
         public ModuleSelectorTexturesSO texturesSO;
+        public ModuleBaseSO moduleConfig;
 
         public bool isLocked = false;
 
 
-        public Module(VisualElement moduleBoard, ModuleSelectorTexturesSO texturesSO) 
+        public Module(VisualElement moduleBoard, ModuleBaseSO moduleConfig, ModuleSelectorTexturesSO texturesSO) 
         {
             this.moduleBoard = moduleBoard;
+            this.moduleConfig = moduleConfig;
             this.texturesSO = texturesSO;
 
             InitializeModule();
@@ -54,31 +60,78 @@ public class ModuleSelectorUI : MonoBehaviour
 
         public void InitializeModule()
         {
+            Color colorMain = moduleConfig.category switch
+            {
+                ModuleCategory.WeaponPower => UIControllerManager.Instance.colorScheme.WPOrange,
+                ModuleCategory.TacticalSystem => UIControllerManager.Instance.colorScheme.TSBlue,
+                ModuleCategory.DefensiveProtocol => UIControllerManager.Instance.colorScheme.DPGreen,
+                _ => Color.white
+            };
+
+            Color colorBG = moduleConfig.category switch
+            {
+                ModuleCategory.WeaponPower => UIControllerManager.Instance.colorScheme.WPOrangeBG,
+                ModuleCategory.TacticalSystem => UIControllerManager.Instance.colorScheme.TSBlueBG,
+                ModuleCategory.DefensiveProtocol => UIControllerManager.Instance.colorScheme.DPGreenBG,
+                _ => Color.gray
+            };
+
             moduleCase = UITK.AddElement(moduleBoard, "moduleCase");
 
             var moduleBG = UITK.AddElement(moduleCase, "moduleBG");
-            moduleBGCOLayers = UITK.CreateChromaticAberration(moduleBG, texturesSO.moduleCaseMask, 
-                UIControllerManager.Instance.colorScheme.WPOrangeBG, 15f);
-            //moduleBG.style.backgroundImage = texturesSO.moduleCaseMask;
-            //moduleBG.style.unityBackgroundImageTintColor = UIControllerManager.Instance.colorScheme.WPOrangeBG;
+            moduleBGCOLayers = UITK.CreateChromaticAberration(moduleBG, texturesSO.moduleCaseMask, colorBG, 15f);
 
             var wideIcon = UITK.AddElement(moduleCase, "wideIcon");
-            wideIcon.style.backgroundColor = UIControllerManager.Instance.colorScheme.WPOrange;
+            wideIcon.style.backgroundColor = colorMain;
+            wideIcon.style.backgroundImage = moduleConfig.wideIcon;
 
             var textBox = UITK.AddElement(moduleCase, "textBox");
-            textBox.style.backgroundColor = UIControllerManager.Instance.colorScheme.WPOrange;
+            textBox.style.backgroundColor = colorMain;
 
             var description = UITK.AddElement<Label>(textBox, "description");
             description.style.color = UIControllerManager.Instance.colorScheme.white;
-            description.text = "/Триггер/ Здоровье находиться на отметке 0-50%\r\n/Эффект: Постоянный/ Увеличивает урон до 50%. Чем меньше здоровья тем больше бонус.";
+            description.text = moduleConfig.description;
 
             var tier = UITK.AddElement<Label>(moduleCase, "tier", "H2");
             tier.style.color = UIControllerManager.Instance.colorScheme.white;
-            tier.text = "III";
+            tier.text = moduleConfig.tier switch
+            {
+                1 => "I",
+                2 => "II",
+                3 => "III",
+                _ => "0"
+            };
 
             var buff = UITK.AddElement<Label>(moduleCase, "buff", "H2");
             buff.style.color = UIControllerManager.Instance.colorScheme.white;
-            buff.text = "10% УРОН";
+            buff.text = moduleConfig.category switch
+            {
+                ModuleCategory.WeaponPower => moduleConfig.tier switch
+                {
+                    1 => "10% УРОН",
+                    2 => "20% УРОН",
+                    3 => "40% УРОН",
+                    _ => "ERROR"
+                },
+
+                ModuleCategory.TacticalSystem => moduleConfig.tier switch
+                {
+                    1 => "1 МОЩЬ",
+                    2 => "2 МОЩЬ",
+                    3 => "4 МОЩЬ",
+                    _ => "ERROR"
+                },
+
+                ModuleCategory.DefensiveProtocol => moduleConfig.tier switch
+                {
+                    1 => "10% ЗДРВ.",
+                    2 => "20% ЗДРВ.",
+                    3 => "40% ЗДРВ.",
+                    _ => "ERROR"
+                },
+
+                _ => "ERROR"
+            };
         }
     }
 
