@@ -38,6 +38,7 @@ public class ModuleSelectorUI : MonoBehaviour
     {
         public VisualElement moduleBoard;
         public VisualElement moduleCase;
+        public VisualElement[] moduleBGCOLayers = new VisualElement[4];
         public ModuleSelectorTexturesSO texturesSO;
 
         public bool isLocked = false;
@@ -54,8 +55,12 @@ public class ModuleSelectorUI : MonoBehaviour
         public void InitializeModule()
         {
             moduleCase = UITK.AddElement(moduleBoard, "moduleCase");
-            moduleCase.style.backgroundImage = texturesSO.moduleCaseMask;
-            moduleCase.style.unityBackgroundImageTintColor = UIControllerManager.Instance.colorScheme.WPOrangeBG;
+
+            var moduleBG = UITK.AddElement(moduleCase, "moduleBG");
+            moduleBGCOLayers = UITK.CreateChromaticAberration(moduleBG, texturesSO.moduleCaseMask, 
+                UIControllerManager.Instance.colorScheme.WPOrangeBG, 15f);
+            //moduleBG.style.backgroundImage = texturesSO.moduleCaseMask;
+            //moduleBG.style.unityBackgroundImageTintColor = UIControllerManager.Instance.colorScheme.WPOrangeBG;
 
             var wideIcon = UITK.AddElement(moduleCase, "wideIcon");
             wideIcon.style.backgroundColor = UIControllerManager.Instance.colorScheme.WPOrange;
@@ -77,18 +82,6 @@ public class ModuleSelectorUI : MonoBehaviour
         }
     }
 
-    private void ParallaxOffset(VisualElement element, Vector2 mousePos)
-    {
-        Vector2 elementCenterInPanel = element.worldBound.center;
-        Vector2 mousePositionInPanel = new(Input.mousePosition.x, 1080 - Input.mousePosition.y);
-
-        Vector2 offsetFromMouse = mousePositionInPanel - elementCenterInPanel;
-        Vector2 parallaxOffset = offsetFromMouse * -0.01f;
-
-        element.style.left = parallaxOffset.x;
-        element.style.top = parallaxOffset.y;
-    }
-
 
     private void Awake()
     {
@@ -97,6 +90,11 @@ public class ModuleSelectorUI : MonoBehaviour
 
     private void Update()
     {
-        ParallaxOffset(modules[0].moduleCase, Input.mousePosition);
+        for (int i = 0; modules.Length > i; i++)
+        {
+            UITK.ParallaxOffset(modules[i].moduleCase, Input.mousePosition, 0.007f);
+            UITK.ParallaxOffset(modules[i].moduleBGCOLayers[0], Input.mousePosition, 0.007f);
+            UITK.ParallaxOffset(modules[i].moduleBGCOLayers[2], Input.mousePosition, 0.014f);
+        }
     }
 }

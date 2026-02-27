@@ -1,13 +1,17 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public static class UITK
 {
+    #region Constant Variables 
     public const string UITABLE = "UI";
-    public const string CARDTABLE = "Card";
 
+    #endregion
 
+    #region Element Creation
     public static VisualElement AddElement(VisualElement parent, params string[] classNames)
     {
         return AddElement<VisualElement>(parent, classNames);
@@ -33,7 +37,9 @@ public static class UITK
 
         return element;
     }
+    #endregion
 
+    #region Element Utilities
     public static void ToggleScreen(VisualElement element, out bool isVisible)
     {
         isVisible = element.resolvedStyle.display == DisplayStyle.Flex;
@@ -66,6 +72,39 @@ public static class UITK
         }
     }
 
+    public static void ParallaxOffset(VisualElement element, Vector2 mousePos, float intensity)
+    {
+        Vector2 elementCenterInPanel = element.worldBound.center;
+        Vector2 mousePositionInPanel = new(Input.mousePosition.x, 1080 - Input.mousePosition.y);
+
+        Vector2 offsetFromMouse = mousePositionInPanel - elementCenterInPanel;
+        Vector2 parallaxOffset = offsetFromMouse * -intensity;
+
+        element.style.left = parallaxOffset.x;
+        element.style.top = parallaxOffset.y;
+    }
+
+    public static VisualElement[] CreateChromaticAberration(VisualElement target, Texture2D texture, Color baseTint, float intensity = 0f)
+    {
+        string[] names = { "COLayerRed", "COLayerGreen", "COLayerBlue", "COLayerOrigin" };
+        Color[] colors = { Color.red, Color.green, Color.blue, Color.white };
+        VisualElement[] layers = new VisualElement[names.Length];
+
+        for (int i = 0; i < names.Length; i++)
+        {
+            var layer = UITK.AddElement(target, names[i], "COLayer");
+
+            layer.style.position = Position.Absolute;
+            layer.style.backgroundImage = new StyleBackground(texture);
+            layer.style.unityBackgroundImageTintColor = baseTint * colors[i];
+            layers[i] = layer;
+        }
+
+        return layers;
+    }
+    #endregion
+
+    #region Localization 
     public static LocalizedString LocalizeStringUITK(TextElement element, string table, string key)
     {
         var localString = new LocalizedString(table, key);
@@ -116,4 +155,5 @@ public static class UITK
 
         return hintBox;
     }
+    #endregion
 }
