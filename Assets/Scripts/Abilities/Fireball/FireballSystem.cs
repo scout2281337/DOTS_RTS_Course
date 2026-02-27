@@ -5,6 +5,7 @@ using Unity.Physics;
 using Unity.Transforms;
 using UnityEditor.Localization.Plugins.XLIFF.V12;
 
+[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 partial struct FireballSystem : ISystem
 {
     [BurstCompile]
