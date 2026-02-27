@@ -26,7 +26,7 @@ public class FireballActivationMono : MonoBehaviour
 
         if (AbilityUseMode && Input.GetMouseButtonDown(0)) 
         {
-            //LaunchFireball();
+            LaunchFireball();
             Debug.Log("Спавн сработал");
 
         }

@@ -2,6 +2,7 @@ using System;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 
 [UpdateInGroup(typeof(PresentationSystemGroup))]
@@ -27,7 +28,18 @@ partial struct AbilityEffectSystem : ISystem
                     SpawnObject(entitiesReferences.AntiGravitationBarrier, ref state);
                     break;
                 case AbilityType.Fireball:
-                    
+                    float3 pos = ability.ValueRO.TargetPosition;
+
+
+                    var fireball = em.Instantiate(entitiesReferences.FireballPrefabEntity);
+
+                    em.SetComponentData(fireball, new LocalTransform
+                    {
+                        Position = pos,
+                        Rotation = quaternion.identity,
+                        Scale = 1
+                    });
+                    Debug.Log("система сработала");
                     break;
                 case AbilityType.Heal:
                     //HealTargets(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
@@ -53,18 +65,6 @@ partial struct AbilityEffectSystem : ISystem
                     break;
                 case AbilityType.Fireball:
                 {
-                    float3 pos = ability.ValueRO.TargetPosition;
-
-                    
-                    var fireball = em.Instantiate(entitiesReferences.FireballPrefabEntity);
-
-                    em.SetComponentData(fireball, new LocalTransform
-                    {
-                        Position = pos,
-                        Rotation = quaternion.identity,
-                        Scale = 1
-                    });
-
                     break;
                 }
                 case AbilityType.Heal:

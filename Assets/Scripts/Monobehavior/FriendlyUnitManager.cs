@@ -102,7 +102,7 @@ public class FriendlyUnitManager : MonoBehaviour
             faction = classConfig.currentFaction,
         });
         // После добавления абилки или просто при спавне решить, здесь думаю нормально , но это так мысли в комментарии я шиз лелелеле
-        //EntitiesDictionary.Add(em.GetComponentData<Unit>(currentEntity).Class, currentEntity);
+        EntitiesDictionary.Add(em.GetComponentData<Unit>(currentEntity).Class, currentEntity);
     }
 
     Vector3 RandomPointInCircle(Vector3 center, float radius)
