@@ -17,4 +17,6 @@ MonoBehaviour:
   maxHealth: 100
   targetFaction: 1
   timerMaxForOverlap: 0.2
-  Armor: 15
+  Armor: 2
+  unitClass: 0
+  currentFaction: 0

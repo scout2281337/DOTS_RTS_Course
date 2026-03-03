@@ -5,7 +5,7 @@ public class ModuleBaseSO : ScriptableObject
     public int tier;
     public ModuleCategory category;
     public Texture2D wideIcon;
-    public string description;
+    [TextArea] public string description;
 }
 
 public enum ModuleCategory

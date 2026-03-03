@@ -1,19 +1,17 @@
-using System;
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
-public class FriendlyUnitManager : MonoBehaviour
+public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
 {
     [Header("Огнеметчик")]
-    public WeaponConfig flamethrowerWeaponConfig;
-    public ClassConfig flamethrowerClassConfig;
-    [Header("Танк")]
-    public WeaponConfig tankWeaponConfig;
-    public ClassConfig tankClassConfig;
+    public WeaponConfig arsonistWeaponConfig;
+    public ClassConfig arsonistClassConfig;
+    [Header("Джаггернаут")]
+    public WeaponConfig juggernautWeaponConfig;
+    public ClassConfig juggernautClassConfig;
     [Header("Рейдер")]
     public WeaponConfig raiderWeaponConfig;
     public ClassConfig raiderClassConfig;
@@ -31,24 +29,15 @@ public class FriendlyUnitManager : MonoBehaviour
     private bool isInitialized = false;
     private bool isSpawned = false;
 
-    public Dictionary<UnitClass, Entity> EntitiesDictionary = new Dictionary<UnitClass, Entity>();
-    public static FriendlyUnitManager Instance { get; private set; }
-    private void Start()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+    public Dictionary<UnitClass, Entity> unitEntityDict = new();
 
-        Instance = this;
-    }
+
     private void Update()
     {
-        //OneClassSpawn();
         TeamSpawn();
     }
-    void TryToInitialize() 
+
+    private void TryToInitialize() 
     {
         if (World.DefaultGameObjectInjectionWorld == null) 
         {
@@ -63,7 +52,6 @@ public class FriendlyUnitManager : MonoBehaviour
         entitiesReferences = query.GetSingleton<EntitiesReferences>();
         Debug.Log("EntitiesReferences loaded!");
         isInitialized = true;
-
     }
 
     public void UnitInitializer(EntityManager em, WeaponConfig weaponConfig, ClassConfig classConfig, float3 startPos, Entity entityToSpawn) 
@@ -102,7 +90,7 @@ public class FriendlyUnitManager : MonoBehaviour
             faction = classConfig.currentFaction,
         });
         // После добавления абилки или просто при спавне решить, здесь думаю нормально , но это так мысли в комментарии я шиз лелелеле
-        EntitiesDictionary.Add(em.GetComponentData<Unit>(currentEntity).Class, currentEntity);
+        unitEntityDict.Add(em.GetComponentData<Unit>(currentEntity).Class, currentEntity);
     }
 
     Vector3 RandomPointInCircle(Vector3 center, float radius)
@@ -131,8 +119,8 @@ public class FriendlyUnitManager : MonoBehaviour
             isSpawned = true;
             //OnUnitSpawn?.Invoke();
         }
-
     }
+
     private void TeamSpawn() 
     {
         if (!isInitialized)
@@ -145,11 +133,10 @@ public class FriendlyUnitManager : MonoBehaviour
             Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
             
             UnitInitializer(entityManager, raiderWeaponConfig, raiderClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
-            UnitInitializer(entityManager, tankWeaponConfig, tankClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
-            UnitInitializer(entityManager, flamethrowerWeaponConfig, flamethrowerClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            UnitInitializer(entityManager, juggernautWeaponConfig, juggernautClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            UnitInitializer(entityManager, arsonistWeaponConfig, arsonistClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             UnitInitializer(entityManager, sniperWeaponConfig, sniperClassConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             isSpawned = true;
         }    
-    
     }
 }

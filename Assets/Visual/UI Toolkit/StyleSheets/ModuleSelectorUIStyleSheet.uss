@@ -6,9 +6,19 @@
     justify-content: space-between;
 }
 
-.moduleCase{
+.moduleCase {
     width: 300px;
     height: 500px;
+    transition-property: scale;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-out;
+}
+
+.moduleCase:hover{
+    scale: 1.15 1.15;
+    transition-property: scale;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-in;
 }
 
 .moduleBG {
@@ -21,11 +31,22 @@
     position: absolute;
     width: 300px;
     height: 500px;
+}
+
+.COLayerRed {
     opacity: 0.4;
+    filter: blur(2);
+}
+
+.COLayerGreen {
+}
+
+.COLayerBlue {
+    opacity: 0.4;
+    filter: blur(2);
 }
 
 .COLayerOrigin {
-    opacity: 1;
 }
 
 .wideIcon{
@@ -55,6 +76,8 @@
 .buff {
     position: absolute;
     rotate: 0 0 1 90;
-    top: 395px;
-    left: 200px;
+    top: 385px;
+    left: 195px;
+    width: 175px;
+    -unity-text-align: upper-right;
 }

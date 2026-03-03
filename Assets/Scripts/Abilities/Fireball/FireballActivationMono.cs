@@ -35,7 +35,7 @@ public class FireballActivationMono : MonoBehaviour
 
     void LaunchFireball()
     {
-        Entity arsonist = FriendlyUnitManager.Instance.EntitiesDictionary[UnitClass.Arsonist];
+        Entity arsonist = FriendlyUnitManager.Instance.unitEntityDict[UnitClass.Arsonist];
 
         if (!em.Exists(arsonist))
             return;
@@ -81,10 +81,10 @@ public class FireballActivationMono : MonoBehaviour
         if (FriendlyUnitManager.Instance == null)
             return;
 
-        if (!FriendlyUnitManager.Instance.EntitiesDictionary.ContainsKey(UnitClass.Arsonist))
+        if (!FriendlyUnitManager.Instance.unitEntityDict.ContainsKey(UnitClass.Arsonist))
             return;
 
-        Entity arsonist = FriendlyUnitManager.Instance.EntitiesDictionary[UnitClass.Arsonist];
+        Entity arsonist = FriendlyUnitManager.Instance.unitEntityDict[UnitClass.Arsonist];
 
         if (!em.Exists(arsonist))
             return;

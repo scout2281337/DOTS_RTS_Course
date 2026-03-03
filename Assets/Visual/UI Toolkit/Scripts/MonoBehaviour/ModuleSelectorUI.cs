@@ -1,4 +1,4 @@
-using UnityEditor.Localization.Plugins.XLIFF.V20;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,11 +10,8 @@ public class ModuleSelectorUI : MonoBehaviour
     [SerializeField] private ModuleSelectorTexturesSO texturesSO;
 
     private VisualElement moduleBoard;
-    private Module[] modules = new Module[4];
-
-    public ModuleBaseSO[] moduleConfigTester;
-
-
+    private Dictionary<UnitClass, Module> unitDisplayedModules = new();
+    private Dictionary<UnitClass, bool> unitTakenModules = new();
 
     private void InitializeUI()
     {
@@ -32,10 +29,45 @@ public class ModuleSelectorUI : MonoBehaviour
 
         moduleBoard = UITK.AddElement(root, "moduleBoard", "P");
 
-        modules[0] = new Module(moduleBoard, moduleConfigTester[0], texturesSO);
-        modules[1] = new Module(moduleBoard, moduleConfigTester[1], texturesSO);
-        modules[2] = new Module(moduleBoard, moduleConfigTester[2], texturesSO);
-        modules[3] = new Module(moduleBoard, moduleConfigTester[3], texturesSO);
+        var upgradeButton = UITK.AddElement<Button>(moduleBoard, "upgradeButton");
+        upgradeButton.clicked += GenerateModules;
+
+        var recalibrateButton = UITK.AddElement<Button>(moduleBoard, "recalibrateButton");
+
+
+        var stabilizeButton = UITK.AddElement<Button>(moduleBoard, "stabilizeButton");
+    }
+
+    private void ModuleInitHandler(UnitClass TargetUnitClass, ModuleBaseSO moduleSO)
+    {
+        var module = new Module(moduleBoard, moduleSO, texturesSO);
+
+        unitDisplayedModules.Add(TargetUnitClass, module);
+    }
+
+    private void GenerateModules()
+    {
+        //First generation
+        if (unitDisplayedModules.Count == 0)
+        {
+            foreach (var unit in FriendlyUnitManager.Instance.unitEntityDict.Keys)
+            {
+                ModuleInitHandler(unit, ModuleGenerator.Instance.GetRandomModule());
+                unitTakenModules.Add(unit, false);
+            }
+        }
+        //Recalibration
+        else
+        {
+            foreach (var unit in FriendlyUnitManager.Instance.unitEntityDict.Keys)
+            {
+                if (unitTakenModules[unit]) continue;
+
+                unitDisplayedModules[unit].moduleCase.RemoveFromHierarchy();
+                unitDisplayedModules.Remove(unit);
+                ModuleInitHandler(unit, ModuleGenerator.Instance.GetRandomModule());
+            }
+        }
     }
 
     private class Module
@@ -116,9 +148,9 @@ public class ModuleSelectorUI : MonoBehaviour
 
                 ModuleCategory.TacticalSystem => moduleConfig.tier switch
                 {
-                    1 => "1 ÌÎÙÜ",
-                    2 => "2 ÌÎÙÜ",
-                    3 => "4 ÌÎÙÜ",
+                    1 => "10 ÌÎÙÜ",
+                    2 => "20 ÌÎÙÜ",
+                    3 => "40 ÌÎÙÜ",
                     _ => "ERROR"
                 },
 
@@ -143,11 +175,11 @@ public class ModuleSelectorUI : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; modules.Length > i; i++)
+        foreach (var module in unitDisplayedModules.Values)
         {
-            UITK.ParallaxOffset(modules[i].moduleCase, Input.mousePosition, 0.007f);
-            UITK.ParallaxOffset(modules[i].moduleBGCOLayers[0], Input.mousePosition, 0.007f);
-            UITK.ParallaxOffset(modules[i].moduleBGCOLayers[2], Input.mousePosition, 0.014f);
+            UITK.ParallaxOffset(module.moduleCase, Input.mousePosition, 0.007f);
+            UITK.ParallaxOffset(module.moduleBGCOLayers[0], Input.mousePosition, 0.007f);
+            UITK.ParallaxOffset(module.moduleBGCOLayers[2], Input.mousePosition, 0.014f);
         }
     }
 }

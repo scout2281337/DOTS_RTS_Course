@@ -1,8 +1,10 @@
+using Unity.Entities.UniversalDelegates;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.UIElements;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEngine.Rendering.DebugUI;
 
 public static class UITK
 {
@@ -86,19 +88,29 @@ public static class UITK
 
     public static VisualElement[] CreateChromaticAberration(VisualElement target, Texture2D texture, Color baseTint, float intensity = 0f)
     {
-        string[] names = { "COLayerRed", "COLayerGreen", "COLayerBlue", "COLayerOrigin" };
-        Color[] colors = { Color.red, Color.green, Color.blue, Color.white };
-        VisualElement[] layers = new VisualElement[names.Length];
+        string[] names = { "COLayerRed", "COLayerGreen", "COLayerBlue" };
+        Color[] colors = { Color.red, Color.green, Color.blue };
+        VisualElement[] layers = new VisualElement[4];
 
+        //RGB Layers
         for (int i = 0; i < names.Length; i++)
         {
             var layer = UITK.AddElement(target, names[i], "COLayer");
 
             layer.style.position = Position.Absolute;
             layer.style.backgroundImage = new StyleBackground(texture);
-            layer.style.unityBackgroundImageTintColor = baseTint * colors[i];
+            layer.style.unityBackgroundImageTintColor =  new Color(
+                Mathf.Pow(baseTint.r * colors[i].r, 0.3f),
+                Mathf.Pow(baseTint.g * colors[i].g, 0.3f),
+                Mathf.Pow(baseTint.b * colors[i].b, 0.3f));
             layers[i] = layer;
         }
+
+        //Original layer
+        layers[3] = UITK.AddElement(target, "COLayerOrigin", "COLayer");
+        layers[3].style.position = Position.Absolute;
+        layers[3].style.backgroundImage = new StyleBackground(texture);
+        layers[3].style.unityBackgroundImageTintColor = baseTint;
 
         return layers;
     }
