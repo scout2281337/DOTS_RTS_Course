@@ -18,6 +18,7 @@ public class ShootAttackAuthoring : MonoBehaviour
                 weaponType = authoring.weaponConfig.weaponType,
                 maxPierceCount = authoring.weaponConfig.maxPierceCount,
                 explosiveRange = authoring.weaponConfig.explosiveRange,
+                attackMode = AttackMode.Normal,
             });
         }
     }
@@ -32,4 +33,12 @@ public struct ShootAttack : IComponentData
     public WeaponTypes weaponType;
     public int maxPierceCount;
     public float explosiveRange;
+
+    public AttackMode attackMode;
+}
+
+public enum AttackMode
+{
+    Normal,
+    Charged
 }

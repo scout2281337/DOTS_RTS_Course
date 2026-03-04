@@ -4,7 +4,6 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Collections;
-using System.Security.Principal;
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 partial struct ShootAttackSystem : ISystem
@@ -91,9 +90,20 @@ partial struct ShootAttackSystem : ISystem
                 Filter = CollisionFilter.Default
             };
 
+
+
+
             // ==============================
             // СТРЕЛЬБА
             // ==============================
+
+            float damage = shootAttack.ValueRO.damageAmount;
+            if (shootAttack.ValueRO.attackMode == AttackMode.Charged) 
+            {
+                damage *= 4; //множитель добавить потом
+            }
+
+
             switch (shootAttack.ValueRO.weaponType)
             {
                 case WeaponTypes.SingleRay:
@@ -102,7 +112,7 @@ partial struct ShootAttackSystem : ISystem
                         {
                             Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
                             Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
-                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit);
+                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit, damage);
                             bulletEvents.Add(new BulletShotEvent
                             {
                                 From = bulletSpawnWorldPos,
@@ -126,7 +136,7 @@ partial struct ShootAttackSystem : ISystem
 
                             Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
                             Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
-                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit);
+                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit, damage);
                         }
 
                         hits.Dispose();
@@ -151,8 +161,7 @@ partial struct ShootAttackSystem : ISystem
                         {
                             Entity e =
                                 physicsWorld.Bodies[h.RigidBodyIndex].Entity;
-                            Unit targetUnit =
-                                SystemAPI.GetComponent<Unit>(e);
+                            Unit targetUnit = SystemAPI.GetComponent<Unit>(e);
                             //rework!!!
                             damageBuffer.Add(new DamageEvent
                             {
@@ -182,7 +191,7 @@ partial struct ShootAttackSystem : ISystem
                         physicsWorld.OverlapBox(
                             center,
                             boxRotation,
-                            new float3 (5f, 1f,5f ), //shootAttack.ValueRO.attackDistance / 2f
+                            new float3 (5f, 1f,5f), //shootAttack.ValueRO.attackDistance / 2f
                             ref hits,
                             CollisionFilter.Default);
 
@@ -211,7 +220,7 @@ partial struct ShootAttackSystem : ISystem
     // ==============================
     // APPLY DAMAGE HELPER
     // ==============================
-    private static void ApplyDamage(RaycastHit hit,CollisionWorld physicsWorld,RefRW<ShootAttack> shootAttack,DynamicBuffer<DamageEvent> damageBuffer, Unit targetUnit)
+    private static void ApplyDamage(RaycastHit hit,CollisionWorld physicsWorld,RefRW<ShootAttack> shootAttack,DynamicBuffer<DamageEvent> damageBuffer, Unit targetUnit, float Damage)
     {
         Entity hitEntity =
             physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
@@ -220,7 +229,7 @@ partial struct ShootAttackSystem : ISystem
         {
             TargetEntity = hitEntity,
             TargetEntityClass = targetUnit.Class,
-            DamageAmount = shootAttack.ValueRO.damageAmount
+            DamageAmount = Damage
         });
     }
 }

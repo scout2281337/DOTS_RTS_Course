@@ -41,8 +41,9 @@ partial struct AbilityEffectSystem : ISystem
                     });
                     Debug.Log("система сработала");
                     break;
-                case AbilityType.Heal:
-                    //HealTargets(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
+                case AbilityType.ChargedShot:
+                    var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(ent);
+                    shootAttack.ValueRW.attackMode = AttackMode.Charged;
                     break;
                 case AbilityType.None:
                     break;
@@ -67,8 +68,9 @@ partial struct AbilityEffectSystem : ISystem
                 {
                     break;
                 }
-                case AbilityType.Heal:
-                    //HealTargets(em, ability.ValueRO.Owner, ability.ValueRO.TargetType);
+                case AbilityType.ChargedShot:
+                    var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(ent);
+                    shootAttack.ValueRW.attackMode = AttackMode.Normal;
                     break;
                 case AbilityType.None:
                     break;
@@ -205,5 +207,4 @@ partial struct AbilityEffectSystem : ISystem
         Entity entityToSpawn = State.EntityManager.Instantiate(EntityToSpawn);
     }
 
-    //void ExecuteFireball()
 }

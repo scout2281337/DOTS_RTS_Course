@@ -63,7 +63,7 @@ public enum AbilityType
     AnabolicStimulator,
     AntiGravitationBarrier,
     Fireball,
-    Heal,
+    ChargedShot,
     None 
 }
 
