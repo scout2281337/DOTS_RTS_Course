@@ -11,7 +11,7 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
     public event Action<UnitClass, ClassConfig, WeaponConfig, SkillConfig> OnUnitSpawned;
     public event Action<UnitClass, float> OnHealthChanged;
     public event Action<Vector3, Vector3> OnBulletShot;
-
+    public event Action<UnitClass, ModuleBaseSO> OnNewModule;
 
     public void InvokeAbilityStarted(Entity owner, AbilityType type)
     {
@@ -62,5 +62,13 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
         Debug.Log("OnBulletShot \n" +
             start + "\n"
             + end);
+    }
+
+    public void InvokeNewModule(UnitClass unit, ModuleBaseSO module)
+    {
+        OnNewModule?.Invoke(unit, module);
+        Debug.Log("New module \n" +
+            unit + "\n"
+            + module);
     }
 }

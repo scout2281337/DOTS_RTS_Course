@@ -76,7 +76,7 @@ public class UnitPanelUI : MonoBehaviour
         private void InitializeGeneralProfile(VisualElement unitPanel, ColorSchemeSO colorScheme, UnitPanelTexturesSO icons)
         {
             unitProfile = UITK.AddElement(unitPanel, "unitProfile");
-            unitProfile.style.backgroundColor = colorScheme.Black;
+            unitProfile.style.backgroundColor = colorScheme.black;
 
             var statsBoard = UITK.AddElement(unitProfile, "statsBoard", "H2");
             statsBoard.style.backgroundColor = colorScheme.gray;

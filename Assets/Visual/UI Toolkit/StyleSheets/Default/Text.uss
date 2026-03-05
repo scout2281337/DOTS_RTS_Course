@@ -5,6 +5,7 @@
 
 .H1 {
     font-size: 36px;
+    letter-spacing: 15px;
     white-space: normal;
     -unity-font-definition: url("project://database/Assets/Visual/UI Toolkit/Fonts/LibreFranklin/Base/LibreFranklin-Black SDF.asset");
 }

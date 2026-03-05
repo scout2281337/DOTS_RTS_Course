@@ -8,7 +8,7 @@ public class ColorSchemeSO : ScriptableObject
     public Color lightGray;
     public Color gray;
     public Color darkGray;
-    public Color Black;
+    public Color black;
 
     [Header("Accent Colors")]
     public Color accentCyan;
