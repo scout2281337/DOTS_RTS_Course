@@ -33,7 +33,8 @@ partial struct ShootAttackSystem : ISystem
             RefRO<Target> target,
             RefRO<Unit> unit,
             RefRO<BulletSpawnPosition> bulletSpawnPosition,
-            RefRW<UnitMover> unitMover)
+            RefRW<UnitMover> unitMover,
+            Entity entity)
             in SystemAPI.Query<
                 RefRW<ShootAttack>,
                 RefRW<LocalTransform>,
@@ -41,7 +42,7 @@ partial struct ShootAttackSystem : ISystem
                 RefRO<Unit>,
                 RefRO<BulletSpawnPosition>,
                 RefRW<UnitMover>>()
-            .WithDisabled<MoveOverride>())
+            .WithDisabled<MoveOverride>().WithEntityAccess())
         {
             if (target.ValueRO.targetEntity == Entity.Null)
                 continue;
@@ -98,11 +99,26 @@ partial struct ShootAttackSystem : ISystem
             // ==============================
 
             float damage = shootAttack.ValueRO.damageAmount;
-            if (shootAttack.ValueRO.attackMode == AttackMode.Charged) 
+            if (shootAttack.ValueRO.attackMode == AttackMode.Charged)
             {
-                damage *= 4; //множитель добавить потом
+                damage = shootAttack.ValueRO.ChargedAttackDamage;
+            }
+            else 
+            {
+                damage = shootAttack.ValueRO.damageAmount;
             }
 
+            //Абилка берсерк
+            if (SystemAPI.HasComponent<BerserkerICD>(entity))
+            {
+                RefRO<Health> health = SystemAPI.GetComponentRO<Health>(entity);
+                float hpPercent = health.ValueRO.healthAmount / health.ValueRO.healthAmountMax;
+                if (hpPercent <= 0.5f)
+                {
+                    float bonus = (0.5f - hpPercent) * 2f;
+                    damage *= 1f + bonus * 0.5f;
+                }
+            }
 
             switch (shootAttack.ValueRO.weaponType)
             {

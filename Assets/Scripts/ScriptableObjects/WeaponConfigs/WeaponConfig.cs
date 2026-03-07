@@ -12,6 +12,11 @@ public abstract class WeaponConfig : ScriptableObject, IInfoBlockUI
     public float explosiveRange;
     public int maxPierceCount;
 
+
+    //if can charged attack
+    public float ChargedAttackDamage;
+    public float ChargedAttackRange;
+
     public VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
     {
         var weaponDetails = UITK.AddElement(infoPanel, "weaponDetails", "infoBlock");

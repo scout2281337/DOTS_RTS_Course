@@ -202,9 +202,28 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
         bool anySelected = !em.CreateEntityQuery(ComponentType.ReadOnly<Selected>())
             .IsEmptyIgnoreFilter;
 
-        EntityQuery query = anySelected
-            ? new EntityQueryBuilder(Allocator.Temp).WithAll<Selected>().WithPresent<MoveOverride>().Build(em)
-            : new EntityQueryBuilder(Allocator.Temp).WithAll<Unit>().WithPresent<MoveOverride>().Build(em);
+        // Если ничего не выбрано — выбираем всех юнитов
+        if (!anySelected)
+        {
+            EntityQuery allUnitsQuery = new EntityQueryBuilder(Allocator.Temp)
+                .WithAll<Unit>()
+                .Build(em);
+
+            var allUnits = allUnitsQuery.ToEntityArray(Allocator.Temp);
+
+            foreach (var unit in allUnits)
+            {
+                if (!em.HasComponent<Selected>(unit))
+                    em.AddComponent<Selected>(unit);
+            }
+
+            allUnits.Dispose();
+        }
+
+        EntityQuery query = new EntityQueryBuilder(Allocator.Temp)
+            .WithAll<Selected>()
+            .WithPresent<MoveOverride>()
+            .Build(em);
 
         var entities = query.ToEntityArray(Allocator.Temp);
         var moveOverrides = query.ToComponentDataArray<MoveOverride>(Allocator.Temp);
@@ -215,20 +234,17 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
             Entity e = entities[i];
             var move = moveOverrides[i];
 
-            //  1. Сбрасываем старый путь, чтобы NavMeshPathSystem построил новый
+            // Сбрасываем старый путь
             if (em.HasComponent<NavPathProgress>(e))
                 em.RemoveComponent<NavPathProgress>(e);
 
-            //  2. Назначаем новую цель движения
+            // Назначаем новую цель
             move.targetPosition = positions[i];
-            moveOverrides[i] = move;
             em.SetComponentData(e, move);
 
-            //  3. Включаем приказ движения
+            // Включаем движение
             em.SetComponentEnabled<MoveOverride>(e, true);
         }
-
-        query.CopyFromComponentDataArray(moveOverrides);
 
         entities.Dispose();
         moveOverrides.Dispose();
