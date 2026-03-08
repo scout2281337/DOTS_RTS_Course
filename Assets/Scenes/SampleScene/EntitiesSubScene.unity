@@ -2638,6 +2638,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1761290648}
     m_Modifications:
+    - target: {fileID: -2834801412226890806, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
+      propertyPath: CanActivate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -826494588273469841, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
       propertyPath: Owner
       value: 
@@ -2656,11 +2660,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4491451597107114579, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
       propertyPath: healthAmount
-      value: 10000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4491451597107114579, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
       propertyPath: healthAmountMax
-      value: 10000
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4970158125323331808, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6259251359308725347, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7531,7 +7539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1761290648
 Transform:
   m_ObjectHideFlags: 0

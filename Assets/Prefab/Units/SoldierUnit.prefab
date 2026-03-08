@@ -170,6 +170,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       insertIndex: -1
       addedObject: {fileID: -826494588273469841}
+    - targetCorrespondingSourceObject: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2834801412226890806}
   m_SourcePrefab: {fileID: 100100000, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
 --- !u!4 &18740432714998459 stripped
 Transform:
@@ -222,6 +225,19 @@ MonoBehaviour:
   IsTriggered: 0
   TargetType: 0
   ClassSkillConfig: {fileID: 11400000, guid: fec15c96a3996d94f894bf7e6ff4846f, type: 2}
+--- !u!114 &-2834801412226890806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8020765196219228651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34e6ccce95125a6418800b2fca17e7bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EmergencyStabilizationAuthoring
+  CanActivate: 0
 --- !u!1001 &8175049506232043090
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,17 +10,36 @@ partial struct HealthDeadSystem : ISystem
     {
         EntityCommandBuffer entityCommandBuffer = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 
-        foreach ((RefRO<Health> health, Entity entity) in SystemAPI.Query<RefRO<Health>>().WithEntityAccess()) 
+        foreach ((RefRW<Health> health, Entity entity)
+            in SystemAPI.Query<RefRW<Health>>().WithEntityAccess())
         {
-            if (health.ValueRO.healthAmount <= 0) 
-            {
-                entityCommandBuffer.DestroyEntity(entity);
+            if (health.ValueRO.healthAmount > 0)
+                continue;
 
+            if (SystemAPI.HasComponent<EmergencyStabilization>(entity))
+            {
+                var stab = SystemAPI.GetComponentRW<EmergencyStabilization>(entity);
+
+                if (stab.ValueRO.CanActivate)
+                {
+                    stab.ValueRW.CanActivate = false;
+
+                    entityCommandBuffer.AddComponent(entity, new Invulnerable
+                    {
+                        Timer = 2f
+                    });
+
+                    health.ValueRW.healthAmount = 1f;
+
+                    continue;
+                }
             }
+
+            entityCommandBuffer.DestroyEntity(entity);
         }
 
 
-        
+
     }
 
 }

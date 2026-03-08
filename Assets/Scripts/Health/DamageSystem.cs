@@ -16,22 +16,40 @@ public partial struct DamageSystem : ISystem
 
         for (int i = 0; i < damageEvents.Length; i++)
         {
-            var dmg = damageEvents[i];
-            var target = dmg.DamageAmount;
+            
+
+            var dmg = damageEvents[i] ;
+            //var target = dmg.DamageAmount;
+
+
 
             if (!em.HasComponent<Health>(dmg.TargetEntity))
                 continue;
 
+            if (SystemAPI.HasComponent<Invulnerable>(dmg.TargetEntity))
+            {
+                continue;
+            }
+
             float damage = dmg.DamageAmount;
 
             var healthRO = SystemAPI.GetComponentRO<Health>(dmg.TargetEntity);
+
+
 
             // armor
             if (healthRO.ValueRO.armor > 0)
             {
                 damage *= 1f - (healthRO.ValueRO.armor / 100f);
             }
-
+            //модуль двойной панцирь
+            if (em.HasComponent<DoubleShell>(dmg.TargetEntity) && damage / healthRO.ValueRO.healthAmountMax > 0.15f)
+            {
+                damage *= 1f - (healthRO.ValueRO.armor / 100f);
+            }
+            
+            
+            
             var healthRW = SystemAPI.GetComponentRW<Health>(dmg.TargetEntity);
             healthRW.ValueRW.healthAmount -= damage;
         }
