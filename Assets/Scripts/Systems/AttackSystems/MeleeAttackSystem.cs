@@ -24,12 +24,13 @@ partial struct MeleeAttackSystem : ISystem
             RefRO<LocalTransform> localTransform,
             RefRW<MeleeAttack> meleeAttack,
             RefRO<Target> target,
-            RefRW<UnitMover> unitMover
+            RefRW<UnitMover> unitMover,
+            Entity entity
         ) in SystemAPI.Query<
             RefRO<LocalTransform>,
             RefRW<MeleeAttack>,
             RefRO<Target>,
-            RefRW<UnitMover>>()) //.WithDisabled<MoveOverride>()
+            RefRW<UnitMover>>().WithEntityAccess()) //.WithDisabled<MoveOverride>()
         {
             if (target.ValueRO.targetEntity == Entity.Null) continue;
 
@@ -99,10 +100,20 @@ partial struct MeleeAttackSystem : ISystem
 
                 damageBuffer.Add(new DamageEvent
                 {
+                    SourceEntity = entity,
                     TargetEntity = target.ValueRO.targetEntity,
                     TargetEntityClass = SystemAPI.GetComponent<Unit>(target.ValueRO.targetEntity).Class,
                     DamageAmount = meleeAttack.ValueRO.damageAmount
                 });
+                if (SystemAPI.HasComponent<Adrenaline>(target.ValueRO.targetEntity)) 
+                {
+                    RefRW<Adrenaline> adrenaline = SystemAPI.GetComponentRW<Adrenaline>(target.ValueRO.targetEntity);
+                    if (adrenaline.ValueRO.CanActivate) 
+                    {
+                        continue;
+                    }
+                    adrenaline.ValueRW.CanActivate = true;
+                }
             }
         }
 

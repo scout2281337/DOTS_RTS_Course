@@ -59,7 +59,7 @@ partial struct AbilityEffectSystem : ISystem
             switch (ability.ValueRO.Type)
             {
                 case AbilityType.AnabolicStimulator:
-                    EndSpeedBoost(ref state, em, ent, ability.ValueRO.TargetType);
+                    //EndSpeedBoost(ref state, em, ent, ability.ValueRO.TargetType);
                     break;
                 case AbilityType.AntiGravitationBarrier:
                     //�����

@@ -2639,6 +2639,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1761290648}
     m_Modifications:
     - target: {fileID: -2834801412226890806, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2834801412226890806, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
       propertyPath: CanActivate
       value: 1
       objectReference: {fileID: 0}
@@ -2721,7 +2725,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8020765196219228651, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2138925470}
   m_SourcePrefab: {fileID: 100100000, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
 --- !u!4 &699364543 stripped
 Transform:
@@ -9167,6 +9174,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6259251359308725347, guid: 70b61f6c781bd554183e731621e7ec3d, type: 3}
   m_PrefabInstance: {fileID: 697582304}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2138925470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091593195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788a69937d5caba44b29cc48c9471188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AdrenalineAuthoring
+  SpeedMultiplier: 4
+  Timer: 0
+  TimerMax: 8
+  BuffDuration: 5
+  CanActivate: 0
 --- !u!1001 &464246570264925072
 PrefabInstance:
   m_ObjectHideFlags: 0

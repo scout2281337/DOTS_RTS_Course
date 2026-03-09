@@ -108,7 +108,12 @@ partial struct ShootAttackSystem : ISystem
                 damage = shootAttack.ValueRO.damageAmount;
             }
 
-            //Абилка берсерк
+
+
+
+            // ==============================
+            //Модуль берсерк
+
             if (SystemAPI.HasComponent<BerserkerICD>(entity))
             {
                 RefRO<Health> health = SystemAPI.GetComponentRO<Health>(entity);
@@ -119,6 +124,9 @@ partial struct ShootAttackSystem : ISystem
                     damage *= 1f + bonus * 0.5f;
                 }
             }
+            // ==============================
+
+
 
             switch (shootAttack.ValueRO.weaponType)
             {
@@ -128,7 +136,7 @@ partial struct ShootAttackSystem : ISystem
                         {
                             Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
                             Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
-                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit, damage);
+                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit, damage, entity);
                             bulletEvents.Add(new BulletShotEvent
                             {
                                 From = bulletSpawnWorldPos,
@@ -152,7 +160,7 @@ partial struct ShootAttackSystem : ISystem
 
                             Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
                             Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
-                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit, damage);
+                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit, damage, entity);
                         }
 
                         hits.Dispose();
@@ -181,6 +189,7 @@ partial struct ShootAttackSystem : ISystem
                             //rework!!!
                             damageBuffer.Add(new DamageEvent
                             {
+                                SourceEntity = entity,
                                 TargetEntity = e,
                                 TargetEntityClass = targetUnit.Class,
                                 DamageAmount = shootAttack.ValueRO.damageAmount
@@ -220,6 +229,7 @@ partial struct ShootAttackSystem : ISystem
                             //rework!!!
                             damageBuffer.Add(new DamageEvent
                             {
+                                SourceEntity = entity,
                                 TargetEntity = e,
                                 TargetEntityClass = targetUnit.Class,
                                 DamageAmount = shootAttack.ValueRO.damageAmount
@@ -236,13 +246,14 @@ partial struct ShootAttackSystem : ISystem
     // ==============================
     // APPLY DAMAGE HELPER
     // ==============================
-    private static void ApplyDamage(RaycastHit hit,CollisionWorld physicsWorld,RefRW<ShootAttack> shootAttack,DynamicBuffer<DamageEvent> damageBuffer, Unit targetUnit, float Damage)
+    private static void ApplyDamage(RaycastHit hit,CollisionWorld physicsWorld,RefRW<ShootAttack> shootAttack,DynamicBuffer<DamageEvent> damageBuffer, Unit targetUnit, float Damage, Entity SourceEntity)
     {
         Entity hitEntity =
             physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
 
         damageBuffer.Add(new DamageEvent
         {
+            SourceEntity = SourceEntity,
             TargetEntity = hitEntity,
             TargetEntityClass = targetUnit.Class,
             DamageAmount = Damage
