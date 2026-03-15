@@ -78,7 +78,17 @@ partial struct ShootAttackSystem : ISystem
             if (shootAttack.ValueRO.timer > 0f)
                 continue;
 
-            shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
+            if (SystemAPI.HasComponent<MainCharacter>(entity))
+            {
+                RefRO<MainCharacter> MainCharacter = SystemAPI.GetComponentRO<MainCharacter>(entity);
+                shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax / MainCharacter.ValueRO.FireRateBoost;
+
+            }
+            else 
+            {
+                shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
+            
+            }   
 
             float3 bulletSpawnWorldPos =
                 localTransform.ValueRO.TransformPoint(
