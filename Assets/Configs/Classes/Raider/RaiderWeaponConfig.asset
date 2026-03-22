@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151ce8584842a3d4bbbdba9bc866e64f, type: 3}
   m_Name: RaiderWeaponConfig
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 15
   fireRate: 150
   range: 15
-  weaponType: 2
+  weaponType: 4
   typeStat: 0.5
   explosiveRange: 5
   maxPierceCount: 5
+  ChargedAttackDamage: 0
+  ChargedAttackRange: 0

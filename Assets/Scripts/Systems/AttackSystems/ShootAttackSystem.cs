@@ -4,11 +4,13 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Collections;
+using System.Security.Principal;
+
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 partial struct ShootAttackSystem : ISystem
 {
-    [BurstCompile]
+    //[BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         if (!SystemAPI.TryGetSingleton<EntitiesReferences>(out var entitiesReferences))
@@ -81,14 +83,14 @@ partial struct ShootAttackSystem : ISystem
             if (SystemAPI.HasComponent<MainCharacter>(entity))
             {
                 RefRO<MainCharacter> MainCharacter = SystemAPI.GetComponentRO<MainCharacter>(entity);
-                shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax / MainCharacter.ValueRO.FireRateBoost;
-
+                shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax / (1 + MainCharacter.ValueRO.FireRateBoost);
             }
             else 
             {
                 shootAttack.ValueRW.timer = shootAttack.ValueRO.timerMax;
             
             }   
+            UnityEngine.Debug.Log(shootAttack.ValueRW.timer);
 
             float3 bulletSpawnWorldPos =
                 localTransform.ValueRO.TransformPoint(
@@ -196,7 +198,12 @@ partial struct ShootAttackSystem : ISystem
                             Entity e =
                                 physicsWorld.Bodies[h.RigidBodyIndex].Entity;
                             Unit targetUnit = SystemAPI.GetComponent<Unit>(e);
+
+
                             //rework!!!
+                            if (e == entity)
+                                continue;
+
                             damageBuffer.Add(new DamageEvent
                             {
                                 SourceEntity = entity,
@@ -236,7 +243,14 @@ partial struct ShootAttackSystem : ISystem
                                 physicsWorld.Bodies[h.RigidBodyIndex].Entity;
                             Unit targetUnit =
                                 SystemAPI.GetComponent<Unit>(e);
+
+
+
                             //rework!!!
+
+
+                            if (e == entity)
+                                continue;
                             damageBuffer.Add(new DamageEvent
                             {
                                 SourceEntity = entity,
@@ -260,6 +274,9 @@ partial struct ShootAttackSystem : ISystem
     {
         Entity hitEntity =
             physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+
+        if (hitEntity == SourceEntity)
+            return;
 
         damageBuffer.Add(new DamageEvent
         {

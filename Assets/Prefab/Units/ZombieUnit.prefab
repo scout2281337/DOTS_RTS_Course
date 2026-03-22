@@ -36,6 +36,10 @@ PrefabInstance:
       propertyPath: CurrentMoveSpeed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 320467112377160649, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 374689273091133350, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -154,6 +158,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 464629883422359015}
+    - targetCorrespondingSourceObject: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3913574862972017792}
   m_SourcePrefab: {fileID: 100100000, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
 --- !u!1 &2144532805492651053 stripped
 GameObject:
@@ -187,6 +194,19 @@ MonoBehaviour:
   timerMax: 0.5
   damageAmount: 5
   colliderSize: 2
+--- !u!114 &3913574862972017792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144532805492651053}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa176a7e90dbd14988929d57c4ef080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TMG.ECSAnimations.PlayerAnimatorAuthoring
+  PlayerGameObjectPrefab: {fileID: 17503970978315453, guid: 18788d10d4ab85244806fb14ad6b7e0e, type: 3}
 --- !u!4 &8309297851094295363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2761374770735142045, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
