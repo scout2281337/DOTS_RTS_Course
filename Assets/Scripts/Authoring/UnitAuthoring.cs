@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Physics;
 using UnityEngine;
 
 public class UnitAuthoring : MonoBehaviour
@@ -10,6 +11,7 @@ public class UnitAuthoring : MonoBehaviour
         public override void Bake(UnitAuthoring authoring)
         {
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+
             AddComponent(entity, new Unit 
             {
                 faction = authoring.faction,
