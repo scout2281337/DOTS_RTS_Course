@@ -1,0 +1,40 @@
+.setPanel {
+    align-self: center;
+    top: 690px;
+    width: 1880px;
+    height: 350px;
+    margin: 20px;
+    border-width: 4px;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.setElementBox {
+    flex-grow: 1;
+    margin: 10px;
+    padding: 10px;
+    
+}
+
+.buttonBox {
+    flex-direction: row;
+}
+
+.setElementButton {
+    height: 50px;
+    flex-grow: 1;
+    margin-bottom: 5px;
+}
+
+.setElementDescription {
+    height: 120px;
+    padding: 10px;
+    white-space: normal;
+    margin-bottom: 5px;
+}
+
+.miscBox {
+    flex-grow: 1;
+    padding: 10px;
+}

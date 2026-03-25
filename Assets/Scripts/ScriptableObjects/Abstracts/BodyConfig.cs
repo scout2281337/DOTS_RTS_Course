@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class ClassConfig : ScriptableObject, IInfoBlockUI
+public abstract class BodyConfig : BaseSoldierAttribute, IInfoBlockUI
 {
     [Header("Unit mover component")]
     public int speed;
@@ -11,12 +11,12 @@ public abstract class ClassConfig : ScriptableObject, IInfoBlockUI
     [Header("Find Target component")]
     public Faction targetFaction;
     public float timerMaxForOverlap;
-
-    [Header("armor")]
-    public float Armor;
+    [Header("Armor")]
+    public float armor;
 
     public UnitClass unitClass;
     public Faction currentFaction;
+
 
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
     {
@@ -28,12 +28,12 @@ public abstract class ClassConfig : ScriptableObject, IInfoBlockUI
             var armorRow = UITK.AddElement(classDetails, "armorRow", "detailRow");
             
                 var armorText = UITK.AddElement<Label>(armorRow, "armorText", "detailText");
-                armorText.text = "armor:";  
+                armorText.text = "Armor:";  
                 
                 var armorBar = UITK.AddElement<ProgressBar>(armorRow, "armorBar", "detailBar");
                 armorBar.lowValue = 0;
                 armorBar.highValue = 3;
-                armorBar.value = Armor;
+                armorBar.value = armor;
                 
             var speedRow = UITK.AddElement(classDetails, "speedRow", "detailRow");
             
@@ -44,7 +44,6 @@ public abstract class ClassConfig : ScriptableObject, IInfoBlockUI
                 speedBar.lowValue = 0;
                 speedBar.highValue = 3;
                 speedBar.value = speed;
-
 
         return classDetails;
     }

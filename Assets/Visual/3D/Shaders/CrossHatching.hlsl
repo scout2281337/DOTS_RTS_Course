@@ -1,22 +1,15 @@
 #ifndef CrossHatching_INCLUDED
 #define CrossHatching_INCLUDED
 
+#include "Assets/Visual/3D/Shaders/SDFFunctions.hlsl"
+
 float rand(float x)
 {
     return frac(sin(x) * 43732.5453);
 }
 
-void SDFLine_float (float2 p, float2 lineStart, float2 lineEnd, float radius, out float sdf)
+float HatchingSDF(float2 uv, float amount, float width, float length, float smoothness, float2 uvShift)
 {
-	float2 pa = p - lineStart;
-	float2 ba = lineEnd - lineStart;
-	float h = saturate( dot( pa, ba ) / dot( ba, ba ) );
-	sdf = length( pa - ba * h ) - radius;
-}
-
-float Hatching(float2 uv, float amount, float length, float2 uvShift)
-{
-
 	float2 aUV = amount * uv;
 	aUV.y /= length;
 	aUV += uvShift;
@@ -30,7 +23,8 @@ float Hatching(float2 uv, float amount, float length, float2 uvShift)
 							  0.8 + flooredUV.y);
 	float2 lineEnd = float2(0.5 + flooredUV.x + randShift.y,
 							0.2 + flooredUV.y);
-	SDFLine_float(aUV, lineStart, lineEnd, 0.0, SDFLines);
+	float thinning = (1 - frac(aUV.y));
+	SDFLine_float(aUV, lineStart, lineEnd, thinning * 0.05, SDFLines);
 	
 	return SDFLines;
 }
@@ -39,26 +33,25 @@ void HatchingPattern_float(float2 uv, float amount, float width, float length, f
 {
 
 	float SDFLines = min(
-	Hatching(uv, amount - 1.0, length, float2(0.0, 0.0)), 
-	Hatching(uv, amount - 1.0, length, float2(0.5, 0.5)));
+	HatchingSDF(uv, amount - 1.0, width, length, smoothness, float2(0.0, 0.0)), 
+	HatchingSDF(uv, amount - 1.0, width, length, smoothness, float2(0.5, 0.5)));
 
 	// Applying smoothstep with correctly working smoothness
-	float smoothedLine = smoothstep(width / 5 - smoothness / 2,
-					 				width / 5 + smoothness / 2 + 0.001,
+	float smoothedLine = smoothstep((width / 5 - smoothness / 2),
+					 				(width / 5 + smoothness / 2) + 0.001,
 					 				SDFLines);
-
 	// One minus for intuitive width 
 	hatching = 1 - smoothedLine;
 }
 
 void CrossHatchingDithering_float(float value, float2 uv, float width, float smoothness, out float pattern)
 {
-	float amount = 0.5 / width;
+	float amount = 0.6 / width;
 
 	float hatchingX;
 	float hatchingY;
-	HatchingPattern_float(uv.xy, amount, 0.7, 4, smoothness, hatchingX);
-	HatchingPattern_float(uv.yx, amount, 0.7, 4, smoothness, hatchingY);
+	HatchingPattern_float(uv.xy, amount, 0.5, 5, smoothness, hatchingX);
+	HatchingPattern_float(uv.yx, amount, 0.5, 5, smoothness, hatchingY);
 
 	float edge1 = step(0.01,1 - value) * hatchingX;
 	float edge2 = step(0.5,1 - value) * hatchingY;

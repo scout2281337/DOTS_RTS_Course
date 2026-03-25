@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "JuggernautWeaponConfig", menuName = "Scriptable Objects/Classes/WeaponConfig/JuggernautWeaponConfig")]
+[CreateAssetMenu(fileName = "JuggernautWeaponConfig", menuName = "Scriptable Objects/Soldier/WeaponConfig/JuggernautWeaponConfig")]
 public class JuggernautWeaponConfig : WeaponConfig
 {
     

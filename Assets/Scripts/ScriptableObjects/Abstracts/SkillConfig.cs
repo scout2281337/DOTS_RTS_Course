@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CreateAssetMenu(fileName = "SkillConfig", menuName = "Scriptable Objects/Classes/SkillConfig")]
 public abstract class SkillConfig : ScriptableObject, IInfoBlockUI
 {
     public float power;

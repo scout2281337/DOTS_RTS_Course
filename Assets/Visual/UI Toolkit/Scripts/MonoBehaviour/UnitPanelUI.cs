@@ -12,7 +12,7 @@ public class UnitPanelUI : MonoBehaviour
     private VisualElement unitPanel;
     private Dictionary<UnitClass, UnitProfile> unitProfilesDict = new();
 
-    public ClassConfig classConfigTester;
+    public BodyConfig bodyConfigTester;
     public WeaponConfig weaponConfigTester;
     public SkillConfig skillConfigTester;
 
@@ -35,15 +35,15 @@ public class UnitPanelUI : MonoBehaviour
 
         AbilityEventListener.Instance.OnUnitSpawned += UnitProfileInitHandler;
 
-        AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Raider, classConfigTester, weaponConfigTester, skillConfigTester);
-        AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Sniper, classConfigTester, weaponConfigTester, skillConfigTester);
-        AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Juggernaut, classConfigTester, weaponConfigTester, skillConfigTester);
-        AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Arsonist, classConfigTester, weaponConfigTester, skillConfigTester);
+        AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Raider, bodyConfigTester, weaponConfigTester, skillConfigTester);
+        AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Sniper, bodyConfigTester, weaponConfigTester, skillConfigTester);
+        AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Juggernaut, bodyConfigTester, weaponConfigTester, skillConfigTester);
+        AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Arsonist, bodyConfigTester, weaponConfigTester, skillConfigTester);
     }
 
-    private void UnitProfileInitHandler(UnitClass unitClass, ClassConfig classConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
+    private void UnitProfileInitHandler(UnitClass unitClass, BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
     {
-        var newUnitProfile = new UnitProfile(unitClass, classConfig, weaponConfig, skillConfig,
+        var newUnitProfile = new UnitProfile(unitClass, bodyConfig, weaponConfig, skillConfig,
             unitPanel, texturesSO);
 
         unitProfilesDict.Add(unitClass, newUnitProfile);
@@ -53,7 +53,7 @@ public class UnitPanelUI : MonoBehaviour
     private class UnitProfile : VisualElement
     {
         public UnitClass unitClass;
-        public ClassConfig classConfig;
+        public BodyConfig bodyConfig;
         public WeaponConfig weaponConfig;
         public SkillConfig skillConfig;
 
@@ -62,11 +62,11 @@ public class UnitPanelUI : MonoBehaviour
         public bool isInfoPanelOpen = false;
 
 
-        public UnitProfile(UnitClass unitClass, ClassConfig classConfig, WeaponConfig weaponConfig, SkillConfig skillConfig,
+        public UnitProfile(UnitClass unitClass, BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig,
             VisualElement unitPanel, UnitPanelTexturesSO icons)
         {
             this.unitClass = unitClass;
-            this.classConfig = classConfig;
+            this.bodyConfig = bodyConfig;
             this.weaponConfig = weaponConfig;
             this.skillConfig = skillConfig;
 
@@ -125,7 +125,7 @@ public class UnitPanelUI : MonoBehaviour
                 var infoPanelButton = UITK.AddElement<Button>(infoPanel, "infoPanelButton", "RigidButton");
                 infoPanelButton.style.backgroundColor = colorScheme.lightGray;
 
-                infoPanel.Add(classConfig.SetInfoBlockUI(infoPanel, colorScheme));
+                infoPanel.Add(bodyConfig.SetInfoBlockUI(infoPanel, colorScheme));
                 infoPanel.Add(weaponConfig.SetInfoBlockUI(infoPanel, colorScheme));
                 infoPanel.Add(skillConfig.SetInfoBlockUI(infoPanel, colorScheme));
 

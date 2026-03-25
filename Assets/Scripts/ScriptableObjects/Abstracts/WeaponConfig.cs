@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[CreateAssetMenu(fileName = "WeaponConfig", menuName = "Scriptable Objects/Classes/WeaponConfig")]
 public abstract class WeaponConfig : ScriptableObject, IInfoBlockUI
 {
     public float damage;

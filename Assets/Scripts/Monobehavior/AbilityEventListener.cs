@@ -8,7 +8,7 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
     public event Action<Entity, AbilityType> OnAbilityEnded;
     public event Action<Entity, AbilityType> OnCooldownEnded;
 
-    public event Action<UnitClass, ClassConfig, WeaponConfig, SkillConfig> OnUnitSpawned;
+    public event Action<UnitClass, BodyConfig, WeaponConfig, SkillConfig> OnUnitSpawned;
     public event Action<UnitClass, float> OnHealthChanged;
     public event Action<Vector3, Vector3> OnBulletShot;
     public event Action<UnitClass, ModuleBaseSO> OnNewModule;
@@ -38,12 +38,12 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
     }
 
     public void InvokeUnitSpawned(UnitClass unitClass, 
-        ClassConfig classConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
+        BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
     {
-        OnUnitSpawned?.Invoke(unitClass, classConfig, weaponConfig, skillConfig);
+        OnUnitSpawned?.Invoke(unitClass, bodyConfig, weaponConfig, skillConfig);
         Debug.Log("InvokeUnitSpawned \n" +
             unitClass + "\n"
-            + classConfig + "\n"
+            + bodyConfig + "\n"
             + weaponConfig + "\n"
             + skillConfig);
     }
