@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ba4e80c433258f439a4c8d843554c85, type: 3}
-  m_Name: RaiderSetConfig
+  m_Name: RaiderAttributeGroupConfig
   m_EditorClassIdentifier: Assembly-CSharp::ClassSetConfig
-  classConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
+  bodyConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
   weaponConfigs:
   - {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
   skillConfigs:

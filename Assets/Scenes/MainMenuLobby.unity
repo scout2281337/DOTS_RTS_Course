@@ -127,6 +127,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4127096778572331061, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
+      propertyPath: unitPanelUI
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4127096778572331061, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
+      propertyPath: unitSelectorUI
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4127096778572331061, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
+      propertyPath: moduleSelectorUI
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7257192418862899800, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
       propertyPath: m_Name
       value: UIController
@@ -349,7 +361,7 @@ MonoBehaviour:
   uiDocument: {fileID: 817891252}
   styleSheets:
   - {fileID: 7433441132597879392, guid: f267ca09d9dbb09459c5ed39b6d9b997, type: 3}
-  classSets:
+  attributeGroups:
   - {fileID: 11400000, guid: f02a43132c09c8a44a58f1c1e8bddcad, type: 2}
 --- !u!114 &817891252
 MonoBehaviour:

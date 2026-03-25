@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class WeaponConfig : ScriptableObject, IInfoBlockUI
+public abstract class WeaponConfig : BaseSoldierAttribute, IInfoBlockUI
 {
     public float damage;
     public float fireRate;
     public float range;
-    public WeaponTypes weaponType;
+    public WeaponType weaponType;
     public float typeStat;
     public float explosiveRange;
     public int maxPierceCount;
@@ -49,5 +49,34 @@ public abstract class WeaponConfig : ScriptableObject, IInfoBlockUI
                 rangeAmount.text = range.ToString();
 
         return weaponDetails;
+    }
+
+    public override void GetAttributeLobbyBox(Color BG, Color font, out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    {
+        base.GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
+
+        var damageLabel = UITK.AddElement<Label>(miscBox, "damageLabel");
+        damageLabel.style.color = font;
+        damageLabel.text = "Урон: " + damage;
+
+        var fireRateLabel = UITK.AddElement<Label>(miscBox, "fireRateLabel");
+        fireRateLabel.style.color = font;
+        fireRateLabel.text = "Скорострельность: " + fireRate;
+
+        var rangeLabel = UITK.AddElement<Label>(miscBox, "rangeLabel");
+        rangeLabel.style.color = font;
+        rangeLabel.text = "Дальность: " + range;
+
+        string weaponTypeName = weaponType switch
+        {
+            WeaponType.Explosive => "/Разрывное/ Радиус: ",
+            WeaponType.AntiMaterial => "/Антиматериальное/ Пробитие: ",
+            WeaponType.Dispersive => "/Дисперсное/ Радиус: ",
+            _ => "Error"
+        };
+
+        var weaponTypeLabel = UITK.AddElement<Label>(miscBox, "weaponTypeLabel");
+        weaponTypeLabel.style.color = font;
+        weaponTypeLabel.text = weaponTypeName + typeStat;
     }
 }

@@ -3,6 +3,8 @@ using UnityEngine.UIElements;
 
 public abstract class BodyConfig : BaseSoldierAttribute, IInfoBlockUI
 {
+    [Header("Armor")]
+    public float armor;
     [Header("Unit mover component")]
     public int speed;
     public int rotationSpeed;
@@ -11,8 +13,6 @@ public abstract class BodyConfig : BaseSoldierAttribute, IInfoBlockUI
     [Header("Find Target component")]
     public Faction targetFaction;
     public float timerMaxForOverlap;
-    [Header("Armor")]
-    public float armor;
 
     public UnitClass unitClass;
     public Faction currentFaction;
@@ -46,5 +46,18 @@ public abstract class BodyConfig : BaseSoldierAttribute, IInfoBlockUI
                 speedBar.value = speed;
 
         return classDetails;
+    }
+
+    public override void GetAttributeLobbyBox(Color BG, Color font, out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    {
+        base.GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
+
+        var armorLabel = UITK.AddElement<Label>(miscBox, "armorLabel");
+        armorLabel.style.color = font;
+        armorLabel.text = "Броня: " + armor;
+
+        var speedLabel = UITK.AddElement<Label>(miscBox, "speedLabel");
+        speedLabel.style.color = font;
+        speedLabel.text = "Скорость: " + speed;
     }
 }

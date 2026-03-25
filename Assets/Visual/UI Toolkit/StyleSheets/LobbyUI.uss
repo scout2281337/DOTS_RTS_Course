@@ -1,4 +1,4 @@
-.setPanel {
+.soldierPanel {
     align-self: center;
     top: 690px;
     width: 1880px;
@@ -10,8 +10,8 @@
     justify-content: space-between;
 }
 
-.setElementBox {
-    flex-grow: 1;
+.attributeBox {
+    width: 620px;
     margin: 10px;
     padding: 10px;
     
@@ -21,20 +21,24 @@
     flex-direction: row;
 }
 
-.setElementButton {
+.attributeButton {
     height: 50px;
     flex-grow: 1;
     margin-bottom: 5px;
 }
 
-.setElementDescription {
-    height: 120px;
+.attributeDescription {
+    height: 80px;
     padding: 10px;
     white-space: normal;
     margin-bottom: 5px;
+    font-size: 18px;
+    -unity-text-align: middle-left;
 }
 
 .miscBox {
     flex-grow: 1;
     padding: 10px;
+    justify-content: space-evenly;
+    font-size: 18px;
 }

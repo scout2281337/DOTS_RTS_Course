@@ -1,5 +1,5 @@
 
-public enum WeaponTypes
+public enum WeaponType
 {
     Explosive,
     AntiMaterial,

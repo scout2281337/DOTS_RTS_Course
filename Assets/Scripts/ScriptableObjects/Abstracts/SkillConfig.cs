@@ -1,15 +1,13 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class SkillConfig : ScriptableObject, IInfoBlockUI
+public abstract class SkillConfig : BaseSoldierAttribute, IInfoBlockUI
 {
     public float power;
     public float cooldown;
     public float duration;
     public float range;
     public float area;
-    [Header("Optional (Damage / Radius / other)")] public float PerkParameter1;
-    [Header("Optional (Damage / Radius / other)")] public float PerkParameter2;
 
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
     {
@@ -41,5 +39,39 @@ public abstract class SkillConfig : ScriptableObject, IInfoBlockUI
                 effectivenessAmount.text = power.ToString();
 
         return skillDetails;
+    }
+
+    public override void GetAttributeLobbyBox(Color BG, Color font, out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    {
+        base.GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
+
+        var powerLabel = UITK.AddElement<Label>(miscBox, "powerLabel");
+        powerLabel.style.color = font;
+        powerLabel.text = "Мощь: " + power;
+
+        var cooldownLabel = UITK.AddElement<Label>(miscBox, "cooldownLabel");
+        cooldownLabel.style.color = font;
+        cooldownLabel.text = "Перезарядка: " + cooldown;
+
+        if(duration > 0)
+        {
+            var durationLabel = UITK.AddElement<Label>(miscBox, "durationLabel");
+            durationLabel.style.color = font;
+            durationLabel.text = "Длительность: " + duration;
+        }
+
+        if(range > 0)
+        {
+            var rangeLabel = UITK.AddElement<Label>(miscBox, "rangeLabel");
+            rangeLabel.style.color = font;
+            rangeLabel.text = "Дальность: " + range;
+        }
+
+        if (area > 0)
+        {
+            var areaLabel = UITK.AddElement<Label>(miscBox, "areaLabel");
+            areaLabel.style.color = font;
+            areaLabel.text = "Область: " + area;
+        }
     }
 }

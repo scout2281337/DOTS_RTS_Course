@@ -142,7 +142,7 @@ partial struct ShootAttackSystem : ISystem
 
             switch (shootAttack.ValueRO.weaponType)
             {
-                case WeaponTypes.SingleRay:
+                case WeaponType.SingleRay:
                     {
                         if (physicsWorld.CastRay(rayInput, out var hit))
                         {
@@ -158,7 +158,7 @@ partial struct ShootAttackSystem : ISystem
                         break;
                     }
 
-                case WeaponTypes.PiercingRay:
+                case WeaponType.PiercingRay:
                     {
                         var hits = new NativeList<RaycastHit>(Allocator.Temp);
                         physicsWorld.CastRay(rayInput, ref hits);
@@ -179,7 +179,7 @@ partial struct ShootAttackSystem : ISystem
                         break;
                     }
 
-                case WeaponTypes.Explosive:
+                case WeaponType.Explosive:
                     {
                         if (!physicsWorld.CastRay(rayInput, out var hit))
                             break;
@@ -223,7 +223,7 @@ partial struct ShootAttackSystem : ISystem
                         break;
                     }
 
-                case WeaponTypes.Dispersive:
+                case WeaponType.Dispersive:
                     {
                         float3 center =
                             bulletSpawnWorldPos + aimDir;

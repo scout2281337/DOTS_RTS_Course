@@ -14,7 +14,7 @@ public class AGBAuthoring : MonoBehaviour
                 SpeedDebuff = authoring.JuggernautSkillCfg.power,
                 Cooldown = authoring.JuggernautSkillCfg.cooldown,
                 Duration = authoring.JuggernautSkillCfg.duration,
-                Range = authoring.JuggernautSkillCfg.PerkParameter1,
+                Range = authoring.JuggernautSkillCfg.range,
 
             });
 

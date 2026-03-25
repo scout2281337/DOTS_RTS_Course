@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 151ce8584842a3d4bbbdba9bc866e64f, type: 3}
+  m_Name: RaiderWeaponConfig
+  m_EditorClassIdentifier: 
+  attributeName: BW-33
+  attributeDescription: "\u0421\u0430\u043C\u043E\u0435 \u0440\u0430\u0441\u043F\u0440\u043E\u0441\u0442\u0440\u0430\u043D\u0435\u043D\u043D\u043E\u0435
+    \u043E\u0440\u0443\u0436\u0438\u0435 \u0420\u0443\u0431\u0435\u0436\u0430. \u0411\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u044F
+    \u0443\u0434\u043E\u0431\u0441\u0442\u0432\u0443 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u044F
+    \u0438 \u043E\u0433\u043D\u0435\u0432\u043E\u0439 \u043C\u043E\u0449\u0438 \u0431\u044B\u0441\u0442\u0440\u043E
+    \u043F\u043E\u043B\u044E\u0431\u0438\u043B\u0430\u0441\u044C \u043C\u043D\u043E\u0433\u0438\u043C\u0438
+    \u0441\u043E\u043B\u0434\u0430\u0442\u0430\u043C\u0438."
+  damage: 15
+  fireRate: 150
+  range: 15
+  weaponType: 0
+  typeStat: 0.5
+  explosiveRange: 5
+  maxPierceCount: 5
+  ChargedAttackDamage: 0
+  ChargedAttackRange: 0

@@ -31,7 +31,7 @@ public struct ShootAttack : IComponentData
     public float timerMax;
     public float damageAmount;
     public float attackDistance;
-    public WeaponTypes weaponType;
+    public WeaponType weaponType;
     public int maxPierceCount;
     public float explosiveRange;
 

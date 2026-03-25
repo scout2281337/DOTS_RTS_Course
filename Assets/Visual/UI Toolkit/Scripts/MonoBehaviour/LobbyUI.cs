@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,7 +7,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private StyleSheet[] styleSheets;
 
-    [SerializeField] private SoldierAttributeGroupConfig[] classSets;
+    [SerializeField] private SoldierAttributeGroupConfig[] attributeGroups;
 
 
     private void InitializeUI()
@@ -27,54 +26,35 @@ public class LobbyUI : MonoBehaviour
             root.styleSheets.Add(sheet);
         }
 
-        var setPanel = UITK.AddElement(root, "setPanel");
+        var soldierPanel = UITK.AddElement(root, "soldierPanel");
         var clr = UICtrlMng.colorScheme.darkGray;
-        setPanel.style.backgroundColor = new Color(clr.r, clr.g, clr.b, 0.5f);
-        setPanel.style.borderBottomColor = UICtrlMng.colorScheme.lightGray;
-        setPanel.style.borderLeftColor = UICtrlMng.colorScheme.lightGray;
-        setPanel.style.borderRightColor = UICtrlMng.colorScheme.lightGray;
-        setPanel.style.borderTopColor = UICtrlMng.colorScheme.lightGray;
+        soldierPanel.style.backgroundColor = new Color(clr.r, clr.g, clr.b, 0.5f);
+        soldierPanel.style.borderBottomColor = UICtrlMng.colorScheme.lightGray;
+        soldierPanel.style.borderLeftColor = UICtrlMng.colorScheme.lightGray;
+        soldierPanel.style.borderRightColor = UICtrlMng.colorScheme.lightGray;
+        soldierPanel.style.borderTopColor = UICtrlMng.colorScheme.lightGray;
 
-        for (int i = 0; i < 3; i++)
-        {
-            InitializeSetBox(setPanel);
-        }
+        InitializeAttributeBox(soldierPanel, attributeGroups[0].bodyConfig);
+        InitializeAttributeBox(soldierPanel, attributeGroups[0].weaponConfigs);
+        InitializeAttributeBox(soldierPanel, attributeGroups[0].skillConfigs);
+
     }
 
-    private void InitializeSetBox(VisualElement setPanel)
+    private void InitializeAttributeBox(VisualElement soldierPanel, params BaseSoldierAttribute[] attributes)
     {
         var UICtrlMng = UIControllerManager.Instance;
+        attributes[0].GetAttributeLobbyBox(UICtrlMng.colorScheme.DPGreenBG, UICtrlMng.colorScheme.white,
+           out Button attributeButton, out Label attributeDescription, out VisualElement miscBox);  
 
-        var setElementBox = UITK.AddElement(setPanel, "setElementBox");
+        var attributeBox = UITK.AddElement(soldierPanel, "attributeBox");
 
+        var buttonBox = UITK.AddElement(attributeBox, "buttonBox");
 
-        var buttonBox = UITK.AddElement(setElementBox, "buttonBox");
+        buttonBox.Add(attributeButton);
 
-        for (int j = 0; j < 2; j++)
-        {
-            var setElementButton = UITK.AddElement<Button>(buttonBox, "setElementButton");
-            setElementButton.style.backgroundColor = UICtrlMng.colorScheme.DPGreenBG;
-            setElementButton.style.color = UICtrlMng.colorScheme.white;
-            setElementButton.text = classSets[0].bodyConfig.attributeName;
-        }
+        attributeBox.Add(attributeDescription);
 
-
-        var setElementDescription = UITK.AddElement<Label>(setElementBox, "setElementDescription");
-        setElementDescription.style.backgroundColor = UICtrlMng.colorScheme.DPGreenBG;
-        setElementDescription.style.color = UICtrlMng.colorScheme.white;
-        setElementDescription.text = classSets[0].bodyConfig.attributeDescription;
-
-        var miscBox = UITK.AddElement(setElementBox, "miscBox");
-        miscBox.style.backgroundColor = UICtrlMng.colorScheme.DPGreenBG;
-
-
-        var classArmor = UITK.AddElement<Label>(miscBox, "classArmor");
-        classArmor.style.color = UICtrlMng.colorScheme.white;
-        classArmor.text = "Armor: " + classSets[0].bodyConfig.armor;
-
-        var classSpeed = UITK.AddElement<Label>(miscBox, "classSpeed");
-        classSpeed.style.color = UICtrlMng.colorScheme.white;
-        classSpeed.text = "Speed: " + classSets[0].bodyConfig.speed;
+        attributeBox.Add(miscBox);
     }
 
 
