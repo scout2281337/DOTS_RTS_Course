@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9628d1a166ab584bbfbb35b0aebd29a, type: 3}
   m_Name: ArsonistWeaponConfig
   m_EditorClassIdentifier: Assembly-CSharp::ArsonistWeaponConfig
+  attributeName: SHx2LK
+  attributeDescription: 
   damage: 5
   fireRate: 300
   range: 6
@@ -19,3 +21,5 @@ MonoBehaviour:
   typeStat: 5
   explosiveRange: 0
   maxPierceCount: 0
+  ChargedAttackDamage: 0
+  ChargedAttackRange: 0

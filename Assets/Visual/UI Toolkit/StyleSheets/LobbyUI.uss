@@ -1,4 +1,25 @@
-.soldierPanel {
+.soldiersPanel{
+    position: absolute;
+    top: 120px;
+    width: 300px;
+    height: 550px;
+    margin: 20px;
+    border-width: 4px;
+    padding: 16px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.iconColumn{
+    justify-content: space-between;
+}
+
+.soldierIcon{
+    width: 120px;
+    height: 120px;
+}
+
+.attributesPanel {
     align-self: center;
     top: 690px;
     width: 1880px;
@@ -41,4 +62,11 @@
     padding: 10px;
     justify-content: space-evenly;
     font-size: 18px;
+}
+
+.teamPanel {
+    height: 550px;
+    flex-grow: 1;
+    margin: 350px;
+    background-color: rgba(255, 0, 255, 0.2);
 }

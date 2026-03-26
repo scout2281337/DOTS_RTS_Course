@@ -51,9 +51,13 @@ public abstract class WeaponConfig : BaseSoldierAttribute, IInfoBlockUI
         return weaponDetails;
     }
 
-    public override void GetAttributeLobbyBox(Color BG, Color font, out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
     {
-        base.GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
+        var UICtrlMng = UIControllerManager.Instance;
+        Color BG = UICtrlMng.colorScheme.WPOrangeBG;
+        Color font = UICtrlMng.colorScheme.white;
+
+        GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
 
         var damageLabel = UITK.AddElement<Label>(miscBox, "damageLabel");
         damageLabel.style.color = font;

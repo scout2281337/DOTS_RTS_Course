@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3ff76759697cb46b291115a8756813, type: 3}
   m_Name: ArsonistSkillConfig
   m_EditorClassIdentifier: Assembly-CSharp::ArsonistSkillConfig
+  attributeName: "\u0417\u0410\u0416\u0418\u0413\u0410\u041B\u041A\u0410"
+  attributeDescription: "\u0412\u044B\u043F\u0443\u0441\u043A\u0430\u0435\u0442 \u0441\u043D\u0430\u0440\u044F\u0434,
+    \u0432 \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u0443\u044E \u0442\u043E\u0447\u043A\u0443,
+    \u043A\u043E\u0442\u043E\u0440\u044B\u0439 \u043E\u0431\u0436\u0438\u0433\u0430\u0435\u0442
+    \u0432\u0441\u0435\u0445 \u0432 \u0440\u0430\u0434\u0438\u0443\u0441\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044F."
   power: 10
   cooldown: 20
   duration: 4
   range: 15
   area: 4
-  PerkParameter1: 0
-  PerkParameter2: 0

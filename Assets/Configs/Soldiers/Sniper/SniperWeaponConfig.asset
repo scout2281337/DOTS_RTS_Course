@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa63861f6b74b04c9e266655ae5becf, type: 3}
   m_Name: SniperWeaponConfig
   m_EditorClassIdentifier: 
+  attributeName: OS-OK
+  attributeDescription: 
   damage: 30
   fireRate: 40
   range: 15

@@ -48,9 +48,13 @@ public abstract class BodyConfig : BaseSoldierAttribute, IInfoBlockUI
         return classDetails;
     }
 
-    public override void GetAttributeLobbyBox(Color BG, Color font, out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
     {
-        base.GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
+        var UICtrlMng = UIControllerManager.Instance;
+        Color BG = UICtrlMng.colorScheme.DPGreenBG;
+        Color font = UICtrlMng.colorScheme.white;
+
+        GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
 
         var armorLabel = UITK.AddElement<Label>(miscBox, "armorLabel");
         armorLabel.style.color = font;

@@ -41,9 +41,13 @@ public abstract class SkillConfig : BaseSoldierAttribute, IInfoBlockUI
         return skillDetails;
     }
 
-    public override void GetAttributeLobbyBox(Color BG, Color font, out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
     {
-        base.GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
+        var UICtrlMng = UIControllerManager.Instance;
+        Color BG = UICtrlMng.colorScheme.TSBlueBG;
+        Color font = UICtrlMng.colorScheme.white;
+
+        GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
 
         var powerLabel = UITK.AddElement<Label>(miscBox, "powerLabel");
         powerLabel.style.color = font;

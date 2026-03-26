@@ -9,6 +9,15 @@ public abstract class BaseSoldierAttribute : ScriptableObject
     [TextArea] public string attributeDescription;
 
 
+    public virtual void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    {
+        Color BG = new(1, 0, 1, 1);
+        Color font = new(1, 1, 1, 1);
+
+        GetAttributeLobbyBox(BG, font,
+            out attributeButton, out attributeDescription, out miscBox);
+    }
+
     public virtual void GetAttributeLobbyBox(Color BG, Color font, out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
     {
         attributeButton = UITK.CreateElement<Button>("attributeButton");
