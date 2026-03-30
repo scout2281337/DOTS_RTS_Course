@@ -9,10 +9,9 @@ public abstract class SkillConfig : BaseSoldierAttribute, IInfoBlockUI
     public float range;
     public float area;
 
-    public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
+    public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {
         var skillDetails = UITK.AddElement(infoPanel, "skillDetails", "infoBlock");
-        skillDetails.style.color = colorScheme.white;
 
             var cooldownRow = UITK.AddElement(skillDetails, "cooldownRow", "detailRow");
 
@@ -43,38 +42,33 @@ public abstract class SkillConfig : BaseSoldierAttribute, IInfoBlockUI
 
     public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
     {
-        var UICtrlMng = UIControllerManager.Instance;
-        Color BG = UICtrlMng.colorScheme.TSBlueBG;
-        Color font = UICtrlMng.colorScheme.white;
+        base.GetAttributeLobbyBox(out attributeButton, out attributeDescription, out miscBox);
 
-        GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
+        attributeButton.AddToClassList("TS");
+        attributeDescription.AddToClassList("TS");
+        miscBox.AddToClassList("TS");
 
         var powerLabel = UITK.AddElement<Label>(miscBox, "powerLabel");
-        powerLabel.style.color = font;
         powerLabel.text = "Мощь: " + power;
 
         var cooldownLabel = UITK.AddElement<Label>(miscBox, "cooldownLabel");
-        cooldownLabel.style.color = font;
         cooldownLabel.text = "Перезарядка: " + cooldown;
 
         if(duration > 0)
         {
             var durationLabel = UITK.AddElement<Label>(miscBox, "durationLabel");
-            durationLabel.style.color = font;
             durationLabel.text = "Длительность: " + duration;
         }
 
         if(range > 0)
         {
             var rangeLabel = UITK.AddElement<Label>(miscBox, "rangeLabel");
-            rangeLabel.style.color = font;
             rangeLabel.text = "Дальность: " + range;
         }
 
         if (area > 0)
         {
             var areaLabel = UITK.AddElement<Label>(miscBox, "areaLabel");
-            areaLabel.style.color = font;
             areaLabel.text = "Область: " + area;
         }
     }

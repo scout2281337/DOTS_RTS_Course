@@ -306,11 +306,9 @@ public class ModuleSelectorUI : MonoBehaviour
             textBox.style.backgroundColor = colorMain;
 
             description = UITK.AddElement<Label>(textBox, "description");
-            description.style.color = UICtrlMng.colorScheme.white;
             description.text = moduleConfig.description;
 
             tier = UITK.AddElement<Label>(moduleCase, "tier", "H2");
-            tier.style.color = UICtrlMng.colorScheme.white;
             tier.text = moduleConfig.tier switch
             {
                 1 => "I",
@@ -320,7 +318,6 @@ public class ModuleSelectorUI : MonoBehaviour
             };
 
             buff = UITK.AddElement<Label>(moduleCase, "buff", "H2");
-            buff.style.color = UICtrlMng.colorScheme.white;
             buff.text = moduleConfig.category switch
             {
                 ModuleCategory.WeaponPower => moduleConfig.tier switch

@@ -16,10 +16,9 @@ public abstract class WeaponConfig : BaseSoldierAttribute, IInfoBlockUI
     public float ChargedAttackDamage;
     public float ChargedAttackRange;
 
-    public VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
+    public VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {
         var weaponDetails = UITK.AddElement(infoPanel, "weaponDetails", "infoBlock");
-        weaponDetails.style.color = colorScheme.white;
 
             var damageRow = UITK.AddElement(weaponDetails, "damageRow", "detailRow");
 
@@ -53,22 +52,19 @@ public abstract class WeaponConfig : BaseSoldierAttribute, IInfoBlockUI
 
     public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
     {
-        var UICtrlMng = UIControllerManager.Instance;
-        Color BG = UICtrlMng.colorScheme.WPOrangeBG;
-        Color font = UICtrlMng.colorScheme.white;
+        base.GetAttributeLobbyBox(out attributeButton, out attributeDescription, out miscBox);
 
-        GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
+        attributeButton.AddToClassList("WP");
+        attributeDescription.AddToClassList("WP");
+        miscBox.AddToClassList("WP");
 
         var damageLabel = UITK.AddElement<Label>(miscBox, "damageLabel");
-        damageLabel.style.color = font;
         damageLabel.text = "Урон: " + damage;
 
         var fireRateLabel = UITK.AddElement<Label>(miscBox, "fireRateLabel");
-        fireRateLabel.style.color = font;
         fireRateLabel.text = "Скорострельность: " + fireRate;
 
         var rangeLabel = UITK.AddElement<Label>(miscBox, "rangeLabel");
-        rangeLabel.style.color = font;
         rangeLabel.text = "Дальность: " + range;
 
         string weaponTypeName = weaponType switch
@@ -80,7 +76,6 @@ public abstract class WeaponConfig : BaseSoldierAttribute, IInfoBlockUI
         };
 
         var weaponTypeLabel = UITK.AddElement<Label>(miscBox, "weaponTypeLabel");
-        weaponTypeLabel.style.color = font;
         weaponTypeLabel.text = weaponTypeName + typeStat;
     }
 }

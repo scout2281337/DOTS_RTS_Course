@@ -125,9 +125,9 @@ public class UnitPanelUI : MonoBehaviour
                 var infoPanelButton = UITK.AddElement<Button>(infoPanel, "infoPanelButton", "RigidButton");
                 infoPanelButton.style.backgroundColor = colorScheme.lightGray;
 
-                infoPanel.Add(bodyConfig.SetInfoBlockUI(infoPanel, colorScheme));
-                infoPanel.Add(weaponConfig.SetInfoBlockUI(infoPanel, colorScheme));
-                infoPanel.Add(skillConfig.SetInfoBlockUI(infoPanel, colorScheme));
+                infoPanel.Add(bodyConfig.SetInfoBlockUI(infoPanel));
+                infoPanel.Add(weaponConfig.SetInfoBlockUI(infoPanel));
+                infoPanel.Add(skillConfig.SetInfoBlockUI(infoPanel));
 
             infoPanelButton.clicked += () =>
             {

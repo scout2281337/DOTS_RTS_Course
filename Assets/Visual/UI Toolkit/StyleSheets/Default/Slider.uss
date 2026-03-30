@@ -1,8 +1,20 @@
+.unity-scroller{
+    width: 10px;
+}
+
 .unity-slider {
-    margin: 4px;
+    width: 100%;
+    min-width: 0px;
+}
+
+.unity-repeat-button{
+    display: none;
 }
 
 .unity-base-slider__drag-container {
+}
+.unity-base-slider{
+    margin: 0px;
 }
 
 .unity-base-slider__tracker {
@@ -18,13 +30,19 @@
 }
 
 .unity-base-slider__dragger {
+    left: 0px;
     top: 0;
-    width: 24px;
+    width: 10px;
     border-width: 0;
     margin: 0;
     height: 100%;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px;
+}
+
+.unity-scroll-view__content-and-vertical-scroll-container {
+    flex-direction: row-reverse;
+}
+
+.unity-scroll-view__content-container {
+    flex-direction: row;
+    justify-content: space-evenly;
 }

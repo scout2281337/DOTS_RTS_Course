@@ -1,41 +1,129 @@
+.LobbyPanel{
+    background-color: var(--dark-gray-50);
+    margin: 10px;
+    border-width: 5px;
+    border-top-color: var(--light-gray);
+    border-right-color: var(--light-gray);
+    border-bottom-color: var(--light-gray);
+    border-left-color: var(--light-gray);
+}
+
+.topSection{
+    height: 180px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.backButton{
+    height: 60px;
+    width: 240px;
+    margin: 40px;
+    background-color: var(--light-gray);
+}
+
+.startButton{
+    height: 100px;
+    width: 240px;
+    margin: 40px;
+}
+
+
+.midSection{
+    height: 540px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .soldiersPanel{
-    position: absolute;
-    top: 120px;
     width: 300px;
-    height: 550px;
-    margin: 20px;
-    border-width: 4px;
-    padding: 16px;
+    padding: 5px;
     flex-direction: row;
     justify-content: space-between;
 }
 
 .iconColumn{
+    margin-left: 5px;
+    margin-right: 5px;
     justify-content: space-between;
 }
 
 .soldierIcon{
     width: 120px;
     height: 120px;
+    margin: 5px;
+}
+
+.teamPanel {
+    align-self: center;
+    height: 550px;
+    width: 1150px;
+    flex-direction: row;
+    background-color: rgba(255, 0, 255, 0.2);
+}
+
+.memberField{
+    flex-grow: 1;
+}
+
+.difficultyPanel{
+    width: 300px;
+    padding: 5px;
+}
+
+.difficultyButtonBox{
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.difficultyButton{
+    width: 80px;
+    height: 120px;
+    margin: 5px;
+}
+
+.difficultyDescriptionBox{
+    background-color: var(--gray);
+    margin: 5px;
+    flex-grow: 1;
+    color: var(--white);
+}
+
+.difficultyName{
+    background-color: var(--gray);
+}
+
+.difficultyModifiers{
+    margin-top: 5px;
+}
+
+.bottomSection{
+    height: 360px;
+}
+
+.DP {
+    background-color: var(--dp-green-bg);
+}
+
+.WP {
+    background-color: var(--wp-orange-bg);
+}
+
+.TS{
+    background-color: var(--ts-blue-bg);
 }
 
 .attributesPanel {
-    align-self: center;
-    top: 690px;
-    width: 1880px;
-    height: 350px;
-    margin: 20px;
-    border-width: 4px;
-    padding: 10px;
+    flex-grow: 1;
+    height: 360px;
     flex-direction: row;
     justify-content: space-between;
 }
 
 .attributeBox {
-    width: 620px;
-    margin: 10px;
+    width: 600px;
+    margin: 5px;
     padding: 10px;
-    
+    color: var(--white);
 }
 
 .buttonBox {
@@ -45,28 +133,37 @@
 .attributeButton {
     height: 50px;
     flex-grow: 1;
-    margin-bottom: 5px;
 }
+
+.DeactivatedButton{
+    background-color: var(--gray);
+}
+
+    .DeactivatedButton.DP {
+        color: var(--dp-green-bg);
+    }
+    
+    .DeactivatedButton.WP {
+        color: var(--wp-orange-bg);
+    }
+    
+    .DeactivatedButton.TS {
+        color: var(--ts-blue-bg);
+    }
 
 .attributeDescription {
     height: 80px;
+    margin-top: 5px;
     padding: 10px;
-    white-space: normal;
-    margin-bottom: 5px;
     font-size: 18px;
     -unity-text-align: middle-left;
+    white-space: normal;
 }
 
 .miscBox {
     flex-grow: 1;
     padding: 10px;
+    margin-top: 5px;
     justify-content: space-evenly;
     font-size: 18px;
-}
-
-.teamPanel {
-    height: 550px;
-    flex-grow: 1;
-    margin: 350px;
-    background-color: rgba(255, 0, 255, 0.2);
 }

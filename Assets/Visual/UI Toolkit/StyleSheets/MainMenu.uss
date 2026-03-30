@@ -4,4 +4,9 @@
     width: 400px;
     height: 300px;
     justify-content: space-between;
+    color: var(--white);
+}
+
+.menuButton{
+    background-color: var(--dark-gray);
 }

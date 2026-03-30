@@ -18,10 +18,9 @@ public abstract class BodyConfig : BaseSoldierAttribute, IInfoBlockUI
     public Faction currentFaction;
 
 
-    public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel, ColorSchemeSO colorScheme)
+    public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {
         var classDetails = UITK.AddElement(infoPanel, "classDetails", "infoBlock");
-        classDetails.style.color = colorScheme.white;
         
             var classIcon = UITK.AddElement(classDetails, "classIcon");
 
@@ -50,18 +49,16 @@ public abstract class BodyConfig : BaseSoldierAttribute, IInfoBlockUI
 
     public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
     {
-        var UICtrlMng = UIControllerManager.Instance;
-        Color BG = UICtrlMng.colorScheme.DPGreenBG;
-        Color font = UICtrlMng.colorScheme.white;
+        base.GetAttributeLobbyBox(out attributeButton, out attributeDescription, out miscBox);
 
-        GetAttributeLobbyBox(BG, font, out attributeButton, out attributeDescription, out miscBox);
+        attributeButton.AddToClassList("DP");
+        attributeDescription.AddToClassList("DP");
+        miscBox.AddToClassList("DP");
 
         var armorLabel = UITK.AddElement<Label>(miscBox, "armorLabel");
-        armorLabel.style.color = font;
         armorLabel.text = "Броня: " + armor;
 
         var speedLabel = UITK.AddElement<Label>(miscBox, "speedLabel");
-        speedLabel.style.color = font;
         speedLabel.text = "Скорость: " + speed;
     }
 }
