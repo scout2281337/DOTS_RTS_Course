@@ -6,39 +6,52 @@ using UnityEngine;
 
 namespace TMG.ECSAnimations
 {
-    [UpdateInGroup(typeof(PresentationSystemGroup), OrderFirst = true)]
+    [UpdateInGroup(typeof(PresentationSystemGroup))]
     public partial struct PlayerAnimateSystem : ISystem
     {
+        private static readonly int StateHash = Animator.StringToHash("State");
+
         public void OnUpdate(ref SystemState state)
         {
             var ecb = new EntityCommandBuffer(Allocator.Temp);
 
-            foreach (var (playerGameObjectPrefab, entity) in
-                     SystemAPI.Query<PlayerGameObjectPrefab>().WithNone<PlayerAnimatorReference>().WithEntityAccess())
+            // Создание Animator
+            foreach (var (prefab, entity) in
+                     SystemAPI.Query<PlayerGameObjectPrefab>()
+                     .WithNone<PlayerAnimatorReference>()
+                     .WithEntityAccess())
             {
-                var newCompanionGameObject = Object.Instantiate(playerGameObjectPrefab.Value);
-                var newAnimatorReference = new PlayerAnimatorReference
+                var go = Object.Instantiate(prefab.Value);
+
+                var animatorRef = new PlayerAnimatorReference
                 {
-                    Value = newCompanionGameObject.GetComponent<Animator>()
+                    Value = go.GetComponent<Animator>()
                 };
-                ecb.AddComponent(entity, newAnimatorReference);
+
+                ecb.AddComponent(entity, animatorRef);
             }
 
-
-
-            foreach (var (transform, animatorReference, target) in
-                     SystemAPI.Query<LocalTransform, PlayerAnimatorReference, Target>())
+            // Обновление позиции + анимации
+            foreach (var (transform, animatorRef, animState) in
+                     SystemAPI.Query<LocalTransform, PlayerAnimatorReference, AnimationStateComponent>())
             {
-                animatorReference.Value.SetBool("IsMoving", target.targetEntity != null);
-                animatorReference.Value.transform.position = transform.Position;
-                animatorReference.Value.transform.rotation = transform.Rotation;
+                var animator = animatorRef.Value;
+
+                // позиция
+                animator.transform.position = transform.Position;
+                animator.transform.rotation = transform.Rotation;
+
+                // ВАЖНО: один параметр
+                animator.SetInteger(StateHash, (int)animState.Value);
             }
 
-            foreach (var (animatorReference, entity) in
-                     SystemAPI.Query<PlayerAnimatorReference>().WithNone<PlayerGameObjectPrefab, LocalTransform>()
-                         .WithEntityAccess())
+            // Удаление
+            foreach (var (animatorRef, entity) in
+                     SystemAPI.Query<PlayerAnimatorReference>()
+                     .WithNone<PlayerGameObjectPrefab, LocalTransform>()
+                     .WithEntityAccess())
             {
-                Object.Destroy(animatorReference.Value.gameObject);
+                Object.Destroy(animatorRef.Value.gameObject);
                 ecb.RemoveComponent<PlayerAnimatorReference>(entity);
             }
 

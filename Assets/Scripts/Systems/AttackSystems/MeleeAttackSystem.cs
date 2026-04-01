@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
@@ -18,7 +19,8 @@ partial struct MeleeAttackSystem : ISystem
         CollisionWorld collisionWorld = physicsWorldSingleton.CollisionWorld;
 
         NativeList<RaycastHit> raycastHitList = new NativeList<RaycastHit>(Allocator.Temp);
-
+        EntityCommandBuffer ecb =
+            SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
         // Проходимся по всем юнитам с атакой
         foreach ((
             RefRO<LocalTransform> localTransform,
@@ -114,9 +116,17 @@ partial struct MeleeAttackSystem : ISystem
                     }
                     adrenaline.ValueRW.CanActivate = true;
                 }
+
+
+                // ===================
+                //проверка на наличие компонента для анимации атаки
+                //====================
+                if (!SystemAPI.HasComponent<AttackRequest>(entity))
+                {
+                    ecb.AddComponent<AttackRequest>(entity);
+                }
             }
         }
-
         raycastHitList.Dispose();
     }
 }

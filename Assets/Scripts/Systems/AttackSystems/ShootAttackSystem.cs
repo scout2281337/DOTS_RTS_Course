@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Collections;
 using System.Security.Principal;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
@@ -19,7 +20,8 @@ partial struct ShootAttackSystem : ISystem
         var physicsWorld = SystemAPI
             .GetSingleton<PhysicsWorldSingleton>()
             .CollisionWorld;
-
+        EntityCommandBuffer ecb =
+            SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
         var hub = SystemAPI
             .QueryBuilder()
             .WithAll<EventHub>()
@@ -118,6 +120,15 @@ partial struct ShootAttackSystem : ISystem
             else 
             {
                 damage = shootAttack.ValueRO.damageAmount;
+            }
+
+
+            // ===================
+            //проверка на наличие компонента для анимации атаки
+            //====================
+            if (!SystemAPI.HasComponent<AttackRequest>(entity))
+            {
+                ecb.AddComponent<AttackRequest>(entity);
             }
 
 
