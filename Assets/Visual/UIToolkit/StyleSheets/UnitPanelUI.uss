@@ -1,0 +1,89 @@
+.unitPanel {
+    top: 840px;
+    align-self: center;
+    width: 1200px;
+    height: 120px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.unitProfile {
+    background-color: var(--dark-gray-50);
+    flex-direction: column-reverse;
+    transition-property: top;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+.statsBoard {
+    width: 250px;
+    height: 50px;
+    justify-content: space-between;
+}
+
+.statBoard {
+    height: 23px;
+    flex-direction: row;
+    justify-content: space-between;
+    -unity-text-align: middle-center;
+}
+
+.statElement {
+    width: 83px;
+}
+
+.skillHealthBlock {
+    width: 250px;
+    height: 50px;
+    flex-direction: row;
+}
+
+.skillButton {
+    width: 75px;
+    height: 50px;
+    padding: 10px;
+}
+
+.healthBar {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.infoPanel {
+    width: 250px;
+    height: 20px;
+    overflow: hidden;
+    transition-property: height;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+.infoPanelButton{
+    height: 20px;
+}
+
+.infoBlock {
+    height: 80px;
+    flex-shrink: 0;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.detailRow{
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.detailText{
+    width: 100px;
+}
+
+.detailAmount{
+    flex-grow: 0.55;
+}
+
+.detailBar{
+    flex-grow: 1;
+}

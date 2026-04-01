@@ -1,0 +1,42 @@
+.unity-button {
+    padding: 0px;
+    border-width: 0;
+    margin: 0;
+    overflow: visible;
+    transition-duration: 0.2s, 0.2s;
+    transition-timing-function: ease-in-out-cubic, ease-in-out-cubic;
+    transition-property: scale, background-color;
+}
+
+    .unity-button:hover {
+        background-color: var(--light-gray);
+        scale: 1.1 1.1;
+    }
+
+.RigidButton {
+    background-color: rgb(100, 100, 100);
+}
+
+    .RigidButton:hover {
+        background-color: rgb(165, 165, 165);
+        scale: 1 1;
+    }
+
+.ClearButton {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+    .ClearButton:hover {
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+.InvisibleButton{
+    background-color: rgb(0, 0, 0);
+    opacity: 0;
+}
+
+    .InvisibleButton:hover {
+        background-color: rgb(0, 0, 0);
+        opacity: 0;
+        scale: 1 1;
+    }

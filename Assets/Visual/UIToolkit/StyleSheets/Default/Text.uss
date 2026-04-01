@@ -1,0 +1,55 @@
+.unity-label {
+    margin: 0;
+    padding: 5px;
+    color: var(--white);
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
+}
+
+.H1 {
+    font-size: 60px;
+    letter-spacing: 10px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/StalinistOne/StalinistOne-Regular SDF.asset");
+}
+
+.H2 {
+    font-size: 48px;
+    letter-spacing: 0px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/StalinistOne/StalinistOne-Regular SDF.asset");
+}
+
+.H3 {
+    font-size: 60px;
+    letter-spacing: 6px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Black SDF.asset");
+}
+
+.H4 {
+    font-size: 48px;
+    letter-spacing: 5px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Black SDF.asset");
+}
+
+.P1 {
+    font-size: 24px;
+    letter-spacing: 0px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
+}
+
+.P2 {
+    font-size: 20px;
+    letter-spacing: 0px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
+}
+
+.P3 {
+    font-size: 16px;
+    letter-spacing: 0px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
+}

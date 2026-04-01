@@ -1,0 +1,144 @@
+.moduleSelectorScreen {
+    flex-grow: 1;
+}
+
+.moduleScreenBG {
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    background-color: rgba(4, 4, 4, 0.6);
+}
+
+.moduleBoard {
+    align-self: center;
+    top: 220px;
+    width: 1500px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.upgradeButton{
+    position: absolute;
+    align-self: center;
+    width: 600px;
+    height: 75px;
+    background-color: var(--accent-cyan);
+}
+
+.recalibrateButton {
+    position: absolute;
+    left: -165px;
+    top: 440px;
+    rotate: 0 0 1 90;
+    width: 400px;
+    height: 75px;
+    background-color: var(--dark-gray);
+}
+
+.stabilizeButton {
+    position: absolute;
+    right: -165px;
+    top: 440px;
+    rotate: 0 0 1 90;
+    width: 400px;
+    height: 75px;
+    background-color: var(--dark-gray);
+}
+
+.tokenModuleTracker {
+    position: absolute;
+    align-self: center;
+    width: 400px;
+    height: 75px;
+    background-color: var(--dark-gray);
+    -unity-text-align: middle-center;
+}
+
+.moduleCase {
+    width: 300px;
+    height: 500px;
+    transition-property: scale;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-out;
+}
+
+    .moduleCase:hover{
+        scale: 1.15 1.15;
+        transition-timing-function: ease-in;
+    }
+
+    .moduleCase:disabled {
+        scale: 0.9 0.9;
+        opacity: 0.3;
+        transition-timing-function: ease-out;
+    }
+
+.moduleBG {
+    position: absolute;
+    width: 300px;
+    height: 500px;
+}
+
+    .moduleBG.WP{
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .moduleBG.TS{
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    .moduleBG.DP{
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+.COLayer {
+    position: absolute;
+    width: 300px;
+    height: 500px;
+    opacity: 0.1;
+}
+
+.wideIcon{
+    width: 245px;
+    height: 130px;
+    margin: 15px;
+}
+
+.textBox {
+    margin: 15px;
+    margin-top: 0px;
+    width: 245px;
+    height: 325px;
+    justify-content: space-around;
+}
+
+    .textBox.WP{
+        background-color: var(--wp-orange);
+    }
+
+    .textBox.TS{
+        background-color: var(--ts-blue);
+    }
+
+    .textBox.DP{
+        background-color: var(--dp-green);
+    }
+
+.description{
+    white-space: normal;
+}
+
+.tier{
+    position: absolute;
+    top: 210px;
+    left: 265px;
+}
+
+.buff {
+    position: absolute;
+    top: 385px;
+    left: 195px;
+    rotate: 0 0 1 90;
+    width: 175px;
+    -unity-text-align: upper-right;
+}
