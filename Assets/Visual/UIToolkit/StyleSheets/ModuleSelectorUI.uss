@@ -1,48 +1,20 @@
-.moduleSelectorScreen {
-    flex-grow: 1;
-}
-
 .moduleScreenBG {
     position: absolute;
     width: 1920px;
     height: 1080px;
-    background-color: rgba(4, 4, 4, 0.6);
+    background-color: var(--black-50);
 }
 
-.moduleBoard {
-    align-self: center;
-    top: 220px;
-    width: 1500px;
-    flex-direction: row;
-    justify-content: space-between;
+.topSection {
+    height: 120px;
+    padding: 10px;
 }
 
-.upgradeButton{
+.upgradeButton {
     position: absolute;
     align-self: center;
     width: 600px;
     height: 75px;
-    background-color: var(--accent-cyan);
-}
-
-.recalibrateButton {
-    position: absolute;
-    left: -165px;
-    top: 440px;
-    rotate: 0 0 1 90;
-    width: 400px;
-    height: 75px;
-    background-color: var(--dark-gray);
-}
-
-.stabilizeButton {
-    position: absolute;
-    right: -165px;
-    top: 440px;
-    rotate: 0 0 1 90;
-    width: 400px;
-    height: 75px;
-    background-color: var(--dark-gray);
 }
 
 .tokenModuleTracker {
@@ -52,6 +24,44 @@
     height: 75px;
     background-color: var(--dark-gray);
     -unity-text-align: middle-center;
+}
+
+.midSection {
+    height: 720px;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.recalibrateButtonBox{
+    width: 200px;
+}
+
+.recalibrateButton {
+    left: -162px;
+    top: 310px;
+    rotate: 0 0 1 90;
+    width: 400px;
+    height: 75px;
+}
+
+.moduleBoard {
+    align-self: center;
+    width: 1500px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.stabilizeButtonBox {
+    left: -38px;
+    top: 310px;
+    width: 200px;
+}
+
+.stabilizeButton {
+    rotate: 0 0 1 90;
+    width: 400px;
+    height: 75px;
 }
 
 .moduleCase {
@@ -112,16 +122,16 @@
     justify-content: space-around;
 }
 
-    .textBox.WP{
-        background-color: var(--wp-orange);
+    .textBox.WP {
+        background-color: var(--accent-wp);
     }
 
-    .textBox.TS{
-        background-color: var(--ts-blue);
+    .textBox.TS {
+        background-color: var(--accent-ts);
     }
 
-    .textBox.DP{
-        background-color: var(--dp-green);
+    .textBox.DP {
+        background-color: var(--accent-dp);
     }
 
 .description{

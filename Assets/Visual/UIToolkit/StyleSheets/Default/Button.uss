@@ -1,11 +1,12 @@
 .unity-button {
+    color: var(--white);
     padding: 0px;
     border-width: 0;
     margin: 0;
     overflow: visible;
-    transition-duration: 0.2s, 0.2s;
-    transition-timing-function: ease-in-out-cubic, ease-in-out-cubic;
-    transition-property: scale, background-color;
+    transition-duration: 0.2s, 0.2s, 0.2s, 0.2s;
+    transition-timing-function: ease-in-out-cubic, ease-in-out-cubic, ease-in-out-cubic, ease-in-out-cubic;
+    transition-property: scale, color, background-color, border-color;
 }
 
     .unity-button:hover {
@@ -13,12 +14,44 @@
         scale: 1.1 1.1;
     }
 
+.PrimaryButton {
+    background-color: var(--accent-main);
+    border-width: 5px;
+    border-color: var(--white);
+}
+    .PrimaryButton:hover {
+        color: var(--accent-main);
+        background-color: var(--white);
+        border-color: var(--accent-main);
+    }
+
+.SecondaryButton {
+    background-color: var(--dark-gray);
+    border-width: 5px;
+    border-color: var(--accent-main);
+}
+
+    .SecondaryButton:hover {
+        color: var(--accent-main);
+        background-color: var(--white);
+    }
+
+.TertiaryButton {
+    background-color: var(--dark-gray-50);
+    border-width: 5px;
+    border-color: var(--white);
+}
+
+    .TertiaryButton:hover {
+        color: var(--accent-main);
+        background-color: var(--dark-gray-50);
+        border-color: var(--accent-main);
+    }
+
 .RigidButton {
-    background-color: rgb(100, 100, 100);
 }
 
     .RigidButton:hover {
-        background-color: rgb(165, 165, 165);
         scale: 1 1;
     }
 
@@ -31,12 +64,10 @@
     }
 
 .InvisibleButton{
-    background-color: rgb(0, 0, 0);
     opacity: 0;
 }
 
     .InvisibleButton:hover {
-        background-color: rgb(0, 0, 0);
         opacity: 0;
         scale: 1 1;
     }

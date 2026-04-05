@@ -10,7 +10,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private SoldierAttributeGroupConfig[] attributeGroups;
 
 
-    private void BuildUI()
+    private void BuildLobby()
     {
         VisualElement root = uiDocument.rootVisualElement;
         root.Clear();
@@ -26,77 +26,15 @@ public class LobbyUI : MonoBehaviour
             root.styleSheets.Add(sheet);
         }
 
-        // Top Section
         var topSection = UITK.AddElement(root, "topSection");
+        BuildTop(topSection);
 
-        var backButton = UITK.AddElement<Button>(topSection, "backButton");
-
-        var startButton = UITK.AddElement<Button>(topSection, "startButton");
-
-
-        // Middle Section
         var midSection = UITK.AddElement(root, "midSection");
+        BuildMiddle(midSection, out Button[] soldierIcons);
 
-        // SoldiersPanel setup
-        var soldiersPanel = UITK.AddElement<ScrollView>(midSection, "LobbyPanel", "soldiersPanel");
-
-        // Columns for displaying icons 
-        VisualElement[] iconColumns = new VisualElement[2];
-        for (int i = 0; i < 2; i++)
-            iconColumns[i] = UITK.AddElement(soldiersPanel, "iconColumn");
-
-        // Creating buttons and layout
-        Button[] soldierIcons = new Button[attributeGroups.Length];
-        for (int i = 0; i < soldierIcons.Length; i++)
-        {
-            // Placing icons in right column
-            var column = i % 2 == 0 ? iconColumns[0] : iconColumns[1];
-
-            soldierIcons[i] = UITK.AddElement<Button>(column, "RigidButton", "soldierIcon");
-            soldierIcons[i].style.backgroundImage = attributeGroups[i].icon;
-        }
-
-        // TeamPanel setup
-        var teamPanel = UITK.AddElement(midSection, "teamPanel");
-
-        for (int i = 0; i < 4; i++)
-        {
-            var memberField = UITK.AddElement<Button>(teamPanel, "InvisibleButton", "memberField");
-        }
-
-
-        // TO DO rework with configs 
-        var difficultyPanel = UITK.AddElement(midSection, "LobbyPanel", "difficultyPanel");
-
-        var difficultyButtonBox = UITK.AddElement(difficultyPanel, "difficultyButtonBox");
-
-        for (int i = 0; i < 3; i++)
-        {
-            var difficultyButton = UITK.AddElement<Button>(difficultyButtonBox, "difficultyButton");
-        }
-
-        var difficultyDescriptionBox = UITK.AddElement(difficultyPanel, "difficultyDescriptionBox");
-
-        var difficultyName = UITK.AddElement<Label>(difficultyDescriptionBox, "difficultyName");
-        difficultyName.text = "ЛЕГКО";
-
-        var difficultyModifiers = UITK.AddElement<Label>(difficultyDescriptionBox, "difficultyModifiers");
-        difficultyModifiers.text = "Модификатор: +100% \nМодификатор: +100% \nМодификатор: +100% \nМодификатор: +100%";
-
-
-        // Bottom section
         var bottomSection = UITK.AddElement(root, "bottomSection");
+        BuildBottom(bottomSection, out AttributesContainer[] attributesContainers);
 
-        // AttributePanel setup
-        var attributesPanel = UITK.AddElement(bottomSection, "LobbyPanel", "attributesPanel");
-
-        // Creating containers and hiding them, so that there is no overlap between each over
-        AttributesContainer[] attributesContainers = new AttributesContainer[attributeGroups.Length];
-        for (int i = 0; i < attributeGroups.Length; i++)
-        {
-            attributesContainers[i] = new AttributesContainer(attributeGroups[i], attributesPanel);
-            attributesContainers[i].Deactivate();
-        }
 
         // Panel switching
         for (int i = 0; i < attributesContainers.Length; i++)
@@ -111,6 +49,75 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
+    private static void BuildTop(VisualElement topSection)
+    {
+        var startButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H2", "startButton");
+        startButton.text = "ВЫСАДКА";
+
+        var backButton = UITK.AddElement<Button>(topSection, "TertiaryButton", "P1", "backButton");
+        backButton.text = "Назад";
+    }
+
+    private void BuildMiddle(VisualElement midSection, out Button[] soldierIcons)
+    {
+        // TO DO rework with configs 
+        var difficultyPanel = UITK.AddElement(midSection, "LobbyPanel", "difficultyPanel");
+
+        var difficultyButtonBox = UITK.AddElement(difficultyPanel, "difficultyButtonBox");
+
+        for (int i = 0; i < 3; i++)
+        {
+            var difficultyButton = UITK.AddElement<Button>(difficultyButtonBox, "difficultyButton");
+        }
+
+        var difficultyDescriptionBox = UITK.AddElement(difficultyPanel, "difficultyDescriptionBox");
+
+        var difficultyName = UITK.AddElement<Label>(difficultyDescriptionBox, "P1", "difficultyName");
+        difficultyName.text = "ЛЕГКО";
+
+        var difficultyModifiers = UITK.AddElement<Label>(difficultyDescriptionBox, "P3", "difficultyModifiers");
+        difficultyModifiers.text = "Модификатор: +100% \nМодификатор: +100% \nМодификатор: +100% \nМодификатор: +100%";
+
+        // TeamPanel setup
+        var teamPanel = UITK.AddElement(midSection, "teamPanel");
+
+        for (int i = 0; i < 4; i++)
+        {
+            var memberField = UITK.AddElement<Button>(teamPanel, "InvisibleButton", "memberField");
+        }
+        
+        // SoldiersPanel setup
+        var soldiersPanel = UITK.AddElement<ScrollView>(midSection, "LobbyPanel", "soldiersPanel");
+
+        // Columns for displaying icons 
+        VisualElement[] iconColumns = new VisualElement[2];
+        for (int i = 0; i < 2; i++)
+            iconColumns[i] = UITK.AddElement(soldiersPanel, "iconColumn");
+
+        // Creating buttons and layout
+        soldierIcons = new Button[attributeGroups.Length];
+        for (int i = 0; i < soldierIcons.Length; i++)
+        {
+            // Placing icons in right column
+            var column = i % 2 == 0 ? iconColumns[0] : iconColumns[1];
+
+            soldierIcons[i] = UITK.AddElement<Button>(column, "RigidButton", "soldierIcon");
+            soldierIcons[i].style.backgroundImage = attributeGroups[i].icon;
+        }
+    }
+
+    private void BuildBottom(VisualElement bottomSection, out AttributesContainer[] attributesContainers)
+    {
+        var attributesPanel = UITK.AddElement(bottomSection, "LobbyPanel", "attributesPanel");
+
+        // Creating containers and hiding them, so that there is no overlap between each over
+        attributesContainers = new AttributesContainer[attributeGroups.Length];
+        for (int i = 0; i < attributeGroups.Length; i++)
+        {
+            attributesContainers[i] = new AttributesContainer(attributeGroups[i], attributesPanel);
+            attributesContainers[i].Deactivate();
+        }
+    }
 
     private class AttributesContainer
     {
@@ -149,9 +156,7 @@ public class LobbyUI : MonoBehaviour
 
             // Disabling all tabs except first one, so that they do not overlap
             for (int i = 1; i < attributeTabs.Length; i++)
-            {
                 attributeTabs[i].Deactivate();
-            }
 
             // Tab switching
             for (int i = 0; i < attributeTabs.Length; i++)
@@ -211,6 +216,7 @@ public class LobbyUI : MonoBehaviour
             this.attribute = attribute;
             this.attributeBox = attributeBox;
             this.buttonBox = buttonBox;
+
             BuildTab();
         }
 
@@ -222,9 +228,8 @@ public class LobbyUI : MonoBehaviour
             mainColor = attributeButton.style.backgroundColor.value;
 
             buttonBox.Add(attributeButton);
-
-            attributeBox.Add(attributeDescription);
             attributeBox.Add(miscBox);
+            attributeBox.Add(attributeDescription);
 
             attributeButton.AddToClassList("DeactivatedButton");
             attributeButton.EnableInClassList("DeactivatedButton", false);
@@ -256,6 +261,6 @@ public class LobbyUI : MonoBehaviour
 
     private void Awake()
     {
-        BuildUI();
+        BuildLobby();
     }
 }

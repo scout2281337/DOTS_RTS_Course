@@ -9,14 +9,14 @@ public abstract class BaseSoldierAttribute : ScriptableObject
     [TextArea] public string attributeDescription;
 
 
-    public virtual void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    public virtual void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement statsBox)
     {
-        attributeButton = UITK.CreateElement<Button>("RigidButton", "attributeButton");
+        attributeButton = UITK.CreateElement<Button>("RigidButton", "L2", "attributeButton");
         attributeButton.text = attributeName;
 
-        attributeDescription = UITK.CreateElement<Label>("attributeDescription");
-        attributeDescription.text = this.attributeDescription;
+        statsBox = UITK.CreateElement("P2", "statsBox");
 
-        miscBox = UITK.CreateElement("miscBox");
+        attributeDescription = UITK.CreateElement<Label>("P3", "attributeDescription");
+        attributeDescription.text = this.attributeDescription;
     }
 }

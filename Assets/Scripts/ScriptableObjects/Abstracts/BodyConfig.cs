@@ -47,18 +47,24 @@ public abstract class BodyConfig : BaseSoldierAttribute, IInfoBlockUI
         return classDetails;
     }
 
-    public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement statsBox)
     {
-        base.GetAttributeLobbyBox(out attributeButton, out attributeDescription, out miscBox);
+        base.GetAttributeLobbyBox(out attributeButton, out attributeDescription, out statsBox);
 
         attributeButton.AddToClassList("DP");
-        attributeDescription.AddToClassList("DP");
-        miscBox.AddToClassList("DP");
 
-        var armorLabel = UITK.AddElement<Label>(miscBox, "armorLabel");
+
+        statsBox.AddToClassList("DP");
+
+        var horizontalPair = UITK.AddElement(statsBox, "P1", "horizontalPair");
+
+        var armorLabel = UITK.AddElement<Label>(horizontalPair, "armorLabel");
         armorLabel.text = "Броня: " + armor;
 
-        var speedLabel = UITK.AddElement<Label>(miscBox, "speedLabel");
+        var speedLabel = UITK.AddElement<Label>(horizontalPair, "speedLabel");
         speedLabel.text = "Скорость: " + speed;
+
+
+        attributeDescription.AddToClassList("DP");
     }
 }

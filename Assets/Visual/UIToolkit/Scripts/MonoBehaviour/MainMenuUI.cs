@@ -8,7 +8,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private StyleSheet[] styleSheets;
 
 
-    private void InitializeUI()
+    private void BuildMainMenu()
     {
         VisualElement root = uiDocument.rootVisualElement;
         root.Clear();
@@ -24,21 +24,26 @@ public class MainMenuUI : MonoBehaviour
             root.styleSheets.Add(sheet);
         }
 
-        var menu = UITK.AddElement(root, "menu");
+        var bottomSection = UITK.AddElement(root, "bottomSection");
+
+        var menu = UITK.AddElement(bottomSection, "menu");
         
-            var start = UITK.AddElement<Button>(menu, "MainButton", "menuButton", "start");
-            start.text = "Start";
+            var start = UITK.AddElement<Button>(menu, "PrimaryButton", "RigidButton", "H3", "menuButton", "start");
+            start.text = "Высадка";
 
-            var options = UITK.AddElement<Button>(menu, "MainButton", "menuButton", "options");
-            options.text = "Options";
+            var collection = UITK.AddElement<Button>(menu, "SecondaryButton", "RigidButton", "H3", "menuButton", "start");
+            collection.text = "Коллекция";
 
-            var quit = UITK.AddElement<Button>(menu, "MainButton", "menuButton", "quit");
-            quit.text = "Quit";
+            var options = UITK.AddElement<Button>(menu, "TertiaryButton", "RigidButton", "H3", "menuButton", "options");
+            options.text = "Настройки";
+
+            var quit = UITK.AddElement<Button>(menu, "TertiaryButton", "RigidButton", "H3", "menuButton", "quit");
+            quit.text = "Выйти";
     }
 
 
     private void Awake()
     {
-        InitializeUI();
+        BuildMainMenu();
     }
 }

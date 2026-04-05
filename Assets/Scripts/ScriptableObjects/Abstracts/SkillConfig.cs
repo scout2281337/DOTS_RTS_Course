@@ -40,36 +40,46 @@ public abstract class SkillConfig : BaseSoldierAttribute, IInfoBlockUI
         return skillDetails;
     }
 
-    public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement statsBox)
     {
-        base.GetAttributeLobbyBox(out attributeButton, out attributeDescription, out miscBox);
+        base.GetAttributeLobbyBox(out attributeButton, out attributeDescription, out statsBox);
 
         attributeButton.AddToClassList("TS");
-        attributeDescription.AddToClassList("TS");
-        miscBox.AddToClassList("TS");
 
-        var powerLabel = UITK.AddElement<Label>(miscBox, "powerLabel");
+
+        statsBox.AddToClassList("TS");
+
+        var powerLabel = UITK.AddElement<Label>(statsBox, "P1", "powerLabel");
         powerLabel.text = "Мощь: " + power;
 
-        var cooldownLabel = UITK.AddElement<Label>(miscBox, "cooldownLabel");
+        var horizontalPair = UITK.AddElement(statsBox, "horizontalPair");
+
+        var cooldownDurationColumn = UITK.AddElement(horizontalPair, "statsColumn");
+        
+        var cooldownLabel = UITK.AddElement<Label>(cooldownDurationColumn, "cooldownLabel");
         cooldownLabel.text = "Перезарядка: " + cooldown;
 
         if(duration > 0)
         {
-            var durationLabel = UITK.AddElement<Label>(miscBox, "durationLabel");
+            var durationLabel = UITK.AddElement<Label>(cooldownDurationColumn, "durationLabel");
             durationLabel.text = "Длительность: " + duration;
         }
 
-        if(range > 0)
+        var rangeAreaColumn = UITK.AddElement(horizontalPair, "statsColumn");
+
+        if (range > 0)
         {
-            var rangeLabel = UITK.AddElement<Label>(miscBox, "rangeLabel");
+            var rangeLabel = UITK.AddElement<Label>(rangeAreaColumn, "rangeLabel");
             rangeLabel.text = "Дальность: " + range;
         }
 
         if (area > 0)
         {
-            var areaLabel = UITK.AddElement<Label>(miscBox, "areaLabel");
+            var areaLabel = UITK.AddElement<Label>(rangeAreaColumn, "areaLabel");
             areaLabel.text = "Область: " + area;
         }
+
+
+        attributeDescription.AddToClassList("TS");
     }
 }

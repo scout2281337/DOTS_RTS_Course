@@ -1,13 +1,19 @@
-.unity-label {
+unity-text-element {
     margin: 0;
     padding: 5px;
     color: var(--white);
     -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
 }
 
+.unity-label {
+    color: var(--white);
+    margin: 0;
+    padding: 0px;
+}
+
 .H1 {
     font-size: 60px;
-    letter-spacing: 10px;
+    letter-spacing: 4px;
     white-space: normal;
     -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/StalinistOne/StalinistOne-Regular SDF.asset");
 }
@@ -23,33 +29,54 @@
     font-size: 60px;
     letter-spacing: 6px;
     white-space: normal;
-    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Black SDF.asset");
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
 }
 
 .H4 {
     font-size: 48px;
     letter-spacing: 5px;
     white-space: normal;
-    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Black SDF.asset");
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
 }
 
 .P1 {
-    font-size: 24px;
+    font-size: 30px;
     letter-spacing: 0px;
     white-space: normal;
     -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
 }
 
 .P2 {
-    font-size: 20px;
+    font-size: 24px;
     letter-spacing: 0px;
     white-space: normal;
     -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
 }
 
 .P3 {
+    font-size: 20px;
+    letter-spacing: 0px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
+}
+
+.P4 {
     font-size: 16px;
     letter-spacing: 0px;
     white-space: normal;
     -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/Tektur/Tektur-Medium SDF.asset");
+}
+
+.L1 {
+    font-size: 64px;
+    letter-spacing: -11px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/StalinistOne/StalinistOne-Regular SDF.asset");
+}
+
+.L2 {
+    font-size: 42px;
+    letter-spacing: -7px;
+    white-space: normal;
+    -unity-font-definition: url("project://database/Assets/Visual/UIToolkit/Fonts/StalinistOne/StalinistOne-Regular SDF.asset");
 }

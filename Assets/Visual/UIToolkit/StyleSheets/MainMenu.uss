@@ -1,12 +1,15 @@
+.bottomSection{
+    top: 630px;
+    height: 450px;
+    padding: 10px;
+}
+
 .menu{
-    left: 25px;
-    bottom: -700px;
-    width: 400px;
-    height: 300px;
+    width: 460px;
+    height: 340px;
     justify-content: space-between;
-    color: var(--white);
 }
 
 .menuButton{
-    background-color: var(--dark-gray);
+    height: 70px;
 }

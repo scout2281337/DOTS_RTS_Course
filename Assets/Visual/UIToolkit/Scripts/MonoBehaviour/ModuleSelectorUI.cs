@@ -19,7 +19,6 @@ public class ModuleSelectorUI : MonoBehaviour
     private Dictionary<UnitClass, VisualElement> unitAssignedBox = new();
     private Dictionary<UnitClass, Module> unitDisplayedModules = new();
 
-    private VisualElement moduleSelectorScreen;
     private VisualElement moduleScreenBG;
     private VisualElement moduleBoard;
     private VisualElement[] moduleBoxes;
@@ -45,26 +44,30 @@ public class ModuleSelectorUI : MonoBehaviour
             root.styleSheets.Add(sheet);
         }
 
-        moduleSelectorScreen = UITK.AddElement(root, "moduleSelectorScreen", "P");
+        moduleScreenBG = UITK.AddElement(root, "moduleScreenBG");
 
-        moduleScreenBG = UITK.AddElement(moduleSelectorScreen, "moduleScreenBG");
+        var topSection = UITK.AddElement(root, "topSection");
 
-        moduleBoard = UITK.AddElement(moduleSelectorScreen, "moduleBoard");
-
-        upgradeButton = UITK.AddElement<Button>(moduleSelectorScreen, "H1", "upgradeButton");
+        upgradeButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H1", "upgradeButton");
         upgradeButton.text = "UPGRADE";
         upgradeButton.clicked += StartUpgrade;
 
-        recalibrateButton = UITK.AddElement<Button>(moduleSelectorScreen, "H4", "recalibrateButton");
+        tokenModuleTracker = UITK.AddElement<Label>(topSection, "H4", "tokenModuleTracker");
+        tokenModuleTracker.text = "ML: " + modulesPerWave + "   MT: " + modulationTokens;
+
+        var midSection = UITK.AddElement(root, "midSection");
+
+        var recalibrateButtonBox = UITK.AddElement(midSection, "recalibrateButtonBox"); // Need it for proper alignment due to rotation of the button
+        recalibrateButton = UITK.AddElement<Button>(recalibrateButtonBox, "SecondaryButton", "H4", "recalibrateButton");
         recalibrateButton.text = "RECALIBRATE";
         recalibrateButton.clicked += RecalibrateModules;
 
-        stabilizeButton = UITK.AddElement<Button>(moduleSelectorScreen, "H4", "stabilizeButton");
+        moduleBoard = UITK.AddElement(midSection, "moduleBoard");
+
+        var stabilizeButtonBox = UITK.AddElement(midSection, "stabilizeButtonBox");  // Need it for proper alignment due to rotation of the button
+        stabilizeButton = UITK.AddElement<Button>(stabilizeButtonBox, "SecondaryButton", "H4", "stabilizeButton");
         stabilizeButton.text = "STABILIZE";
         stabilizeButton.clicked += StabilizeModules;
-
-        tokenModuleTracker = UITK.AddElement<Label>(moduleSelectorScreen, "H4", "tokenModuleTracker");
-        tokenModuleTracker.text = "ML: " + modulesPerWave + "   MT: " + modulationTokens;
 
         HideModuleBoard();
 
@@ -150,7 +153,7 @@ public class ModuleSelectorUI : MonoBehaviour
             moduleBoxes[i++] = box;
             unitAssignedBox.Add(unit, box);
 
-            ModuleInitHandler(unit, modGen.GetRandomModuleForUnit(unit));
+            ModuleBuilder(unit, modGen.GetRandomModuleForUnit(unit));
         }
 
         Debug.Log(moduleBoxes);
@@ -172,11 +175,11 @@ public class ModuleSelectorUI : MonoBehaviour
             if (unitDisplayedModules[unit].isTaken) continue;
 
             RemoveModule(unit);
-            ModuleInitHandler(unit, modGen.GetRandomModuleForUnit(unit));
+            ModuleBuilder(unit, modGen.GetRandomModuleForUnit(unit));
         }
     }
 
-    private void ModuleInitHandler(UnitClass TargetUnitClass, ModuleBaseSO moduleSO)
+    private void ModuleBuilder(UnitClass TargetUnitClass, ModuleBaseSO moduleSO)
     {
         var box = unitAssignedBox[TargetUnitClass];
         var module = new Module(moduleSO, box, texturesSO);

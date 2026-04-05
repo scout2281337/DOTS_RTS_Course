@@ -1,24 +1,50 @@
-.unitPanel {
+.bottomSection {
     top: 840px;
     align-self: center;
-    width: 1200px;
-    height: 120px;
+    width: 1400px;
+    height: 240px;
+    padding-bottom: 40px;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
 .unitProfile {
+    width: 300px;
+    height: 200px;
+}
+
+.moduleMesh {
+    width: 300px;
+    height:  80px;
+}
+
+.attributesContainer {
+    width: 300px;
+    height: 120px;
     background-color: var(--dark-gray-50);
-    flex-direction: column-reverse;
-    transition-property: top;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-in-out;
+    border-width: 3px;
+    border-color: var(--accent-main);
+    padding: 7px;
+}
+
+.skillHealthBlock {
+    height: 50px;
+    flex-direction: row;
+}
+
+.skillButton {
+    width: 75px;
+    height: 50px;
+}
+
+.healthBar {
+    flex-grow: 1;
 }
 
 .statsBoard {
-    width: 250px;
-    height: 50px;
+    height: 45px;
+    margin-top: 5px;
     justify-content: space-between;
 }
 
@@ -31,59 +57,4 @@
 
 .statElement {
     width: 83px;
-}
-
-.skillHealthBlock {
-    width: 250px;
-    height: 50px;
-    flex-direction: row;
-}
-
-.skillButton {
-    width: 75px;
-    height: 50px;
-    padding: 10px;
-}
-
-.healthBar {
-    padding: 10px;
-    flex-grow: 1;
-}
-
-.infoPanel {
-    width: 250px;
-    height: 20px;
-    overflow: hidden;
-    transition-property: height;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-in-out;
-}
-
-.infoPanelButton{
-    height: 20px;
-}
-
-.infoBlock {
-    height: 80px;
-    flex-shrink: 0;
-    padding: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.detailRow{
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.detailText{
-    width: 100px;
-}
-
-.detailAmount{
-    flex-grow: 0.55;
-}
-
-.detailBar{
-    flex-grow: 1;
 }

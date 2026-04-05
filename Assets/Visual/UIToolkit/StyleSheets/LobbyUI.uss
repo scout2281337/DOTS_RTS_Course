@@ -1,56 +1,72 @@
-.LobbyPanel{
+.LobbyPanel {
     background-color: var(--dark-gray-50);
-    margin: 10px;
     border-width: 5px;
-    border-top-color: var(--light-gray);
-    border-right-color: var(--light-gray);
-    border-bottom-color: var(--light-gray);
-    border-left-color: var(--light-gray);
+    border-top-color: var(--white);
+    border-right-color: var(--white);
+    border-bottom-color: var(--white);
+    border-left-color: var(--white);
 }
 
 .topSection{
-    height: 180px;
-    flex-direction: row;
-    justify-content: space-between;
+    height: 90px;
+    padding: 10px;
 }
 
 .backButton{
-    height: 60px;
-    width: 240px;
-    margin: 40px;
-    background-color: var(--light-gray);
+    height: 70px;
+    width: 140px;
 }
 
 .startButton{
-    height: 100px;
-    width: 240px;
-    margin: 40px;
+    position:absolute;
+    align-self: center;
+    height: 70px;
+    width: 460px;
 }
 
 
-.midSection{
-    height: 540px;
+
+.midSection {
+    height: 630px;
+    padding: 10px;
     flex-direction: row;
     justify-content: space-between;
+    align-items: flex-end;
 }
 
-.soldiersPanel{
+.difficultyPanel {
     width: 300px;
-    padding: 5px;
+    height: 430px;
+    padding: 15px;
+}
+
+.difficultyButtonBox {
     flex-direction: row;
     justify-content: space-between;
 }
 
-.iconColumn{
-    margin-left: 5px;
-    margin-right: 5px;
-    justify-content: space-between;
+.difficultyButton {
+    width: 80px;
+    height: 120px;
 }
 
-.soldierIcon{
-    width: 120px;
-    height: 120px;
-    margin: 5px;
+.difficultyDescriptionBox {
+    flex-grow: 1;
+}
+
+.difficultyName {
+    height: 40px;
+    background-color: var(--gray);
+    margin-top: 10px;
+    padding: 10px;
+    -unity-text-align: middle-center;
+}
+
+.difficultyModifiers {
+    flex-grow: 1;
+    background-color: var(--gray);
+    margin-top: 10px;
+    padding: 10px;
 }
 
 .teamPanel {
@@ -65,39 +81,31 @@
     flex-grow: 1;
 }
 
-.difficultyPanel{
+.soldiersPanel {
     width: 300px;
+    height: 610px;
     padding: 5px;
-}
-
-.difficultyButtonBox{
     flex-direction: row;
     justify-content: space-between;
 }
 
-.difficultyButton{
-    width: 80px;
+.iconColumn {
+    margin-left: 5px;
+    margin-right: 5px;
+    justify-content: space-between;
+}
+
+.soldierIcon {
+    width: 120px;
     height: 120px;
     margin: 5px;
 }
 
-.difficultyDescriptionBox{
-    background-color: var(--gray);
-    margin: 5px;
-    flex-grow: 1;
-    color: var(--white);
-}
 
-.difficultyName{
-    background-color: var(--gray);
-}
 
-.difficultyModifiers{
-    margin-top: 5px;
-}
-
-.bottomSection{
+.bottomSection {
     height: 360px;
+    padding: 10px;
 }
 
 .attributesPanel {
@@ -123,35 +131,42 @@
     flex-grow: 1;
 }
 
+.statsBox {
+    height: 130px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.horizontalPair {
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.statsColumn{
+    flex-grow: 1;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .DeactivatedButton{
     background-color: var(--gray);
 }
 
-    .DeactivatedButton.DP {
-        color: var(--dp-green-bg);
-    }
-    
     .DeactivatedButton.WP {
-        color: var(--wp-orange-bg);
+        color: var(--base-wp);
     }
-    
+
     .DeactivatedButton.TS {
-        color: var(--ts-blue-bg);
+        color: var(--base-ts);
+    }
+
+    .DeactivatedButton.DP {
+        color: var(--base-dp);
     }
 
 .attributeDescription {
-    height: 80px;
-    margin-top: 5px;
-    padding: 10px;
-    font-size: 18px;
-    -unity-text-align: middle-left;
-    white-space: normal;
-}
-
-.miscBox {
     flex-grow: 1;
+    margin-top: 10px;
     padding: 10px;
-    margin-top: 5px;
-    justify-content: space-evenly;
-    font-size: 18px;
+    -unity-text-align: middle-left;
 }

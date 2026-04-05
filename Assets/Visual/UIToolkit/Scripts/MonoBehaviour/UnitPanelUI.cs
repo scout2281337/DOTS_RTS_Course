@@ -9,7 +9,7 @@ public class UnitPanelUI : MonoBehaviour
     [SerializeField] private StyleSheet[] styleSheets;
     [SerializeField] private UnitPanelTexturesSO texturesSO;
 
-    private VisualElement unitPanel;
+    private VisualElement bottomSection;
     private Dictionary<UnitClass, UnitProfile> unitProfilesDict = new();
 
     public BodyConfig bodyConfigTester;
@@ -17,7 +17,7 @@ public class UnitPanelUI : MonoBehaviour
     public SkillConfig skillConfigTester;
 
 
-    private void BuildUI()
+    private void BuildUnitPanel()
     {
         VisualElement root = uiDocument.rootVisualElement;
         root.Clear();
@@ -31,9 +31,9 @@ public class UnitPanelUI : MonoBehaviour
             root.styleSheets.Add(sheet);
         }
 
-        unitPanel = UITK.AddElement(root, "P2", "unitPanel");
+        bottomSection = UITK.AddElement(root, "P2", "bottomSection");
 
-        AbilityEventListener.Instance.OnUnitSpawned += UnitProfileInitHandler;
+        AbilityEventListener.Instance.OnUnitSpawned += UnitProfileBuilder;
 
         AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Raider, bodyConfigTester, weaponConfigTester, skillConfigTester);
         AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Sniper, bodyConfigTester, weaponConfigTester, skillConfigTester);
@@ -41,10 +41,10 @@ public class UnitPanelUI : MonoBehaviour
         AbilityEventListener.Instance.InvokeUnitSpawned(UnitClass.Arsonist, bodyConfigTester, weaponConfigTester, skillConfigTester);
     }
 
-    private void UnitProfileInitHandler(UnitClass unitClass, BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
+    private void UnitProfileBuilder(UnitClass unitClass, BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
     {
         var newUnitProfile = new UnitProfile(unitClass, bodyConfig, weaponConfig, skillConfig,
-            unitPanel, texturesSO);
+            bottomSection, texturesSO);
 
         unitProfilesDict.Add(unitClass, newUnitProfile);
     }
@@ -58,26 +58,54 @@ public class UnitPanelUI : MonoBehaviour
         public SkillConfig skillConfig;
 
         public VisualElement unitProfile;
+        public VisualElement attributesContainer;
 
         public bool isInfoPanelOpen = false;
 
 
         public UnitProfile(UnitClass unitClass, BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig,
-            VisualElement unitPanel, UnitPanelTexturesSO icons)
+            VisualElement bottomSection, UnitPanelTexturesSO icons)
         {
             this.unitClass = unitClass;
             this.bodyConfig = bodyConfig;
             this.weaponConfig = weaponConfig;
             this.skillConfig = skillConfig;
 
-            BuildGeneralProfile(unitPanel, icons);
+            this.unitProfile = UITK.AddElement(bottomSection, "unitProfile");
+            BuildModuleMesh();
+
+            this.attributesContainer = UITK.AddElement(unitProfile, "attributesContainer");
+            BuildSkillHPBar(icons);
+            BuildStatsBoard(icons);
         }
 
-        private void BuildGeneralProfile(VisualElement unitPanel, UnitPanelTexturesSO icons)
+        private void BuildModuleMesh()
         {
-            unitProfile = UITK.AddElement(unitPanel, "unitProfile");
+            var moduleMesh = UITK.AddElement(unitProfile, "moduleMesh");
+        }
 
-            var statsBoard = UITK.AddElement(unitProfile, "P1", "statsBoard");
+        public void BuildSkillHPBar(UnitPanelTexturesSO icons)
+        {
+            var skillHealthBlock = UITK.AddElement(attributesContainer, "skillHealthBlock");
+
+                var skillButton = UITK.AddElement<Button>(skillHealthBlock, "skillButton");
+                skillButton.style.backgroundImage = icons.classAbilityIcons[0];
+
+                var healthBar = UITK.AddElement<ProgressBar>(skillHealthBlock, "healthBar");
+                healthBar.highValue = 100;
+                healthBar.value = 100;
+
+            AbilityEventListener.Instance.OnHealthChanged += (unitClass, health) =>
+            {
+                if (unitClass != this.unitClass) return;
+
+                healthBar.value = health;
+            };
+        }
+
+        private void BuildStatsBoard(UnitPanelTexturesSO icons)
+        {
+            var statsBoard = UITK.AddElement(attributesContainer, "P1", "statsBoard");
             statsBoard.style.backgroundImage = icons.statsBoardBG;
 
                 var weaponBoard = UITK.AddElement(statsBoard, "statBoard");
@@ -103,54 +131,12 @@ public class UnitPanelUI : MonoBehaviour
                     var AREA = UITK.AddElement<Label>(skillBoard, "AREA", "statElement");
                     AREA.text = skillConfig.area.ToString() + "/"
                                 + skillConfig.range.ToString();
-
-
-            var skillHealthBlock = UITK.AddElement(unitProfile, "skillHealthBlock");
-
-                var skillButton = UITK.AddElement<Button>(skillHealthBlock, "skillButton");
-                skillButton.style.backgroundImage = icons.classAbilityIcons[0];
-
-                var healthBar = UITK.AddElement<ProgressBar>(skillHealthBlock, "healthBar");
-                healthBar.highValue = 100;
-                healthBar.value = 100;
-
-
-            var infoPanel = UITK.AddElement(unitProfile, "infoPanel");
-
-                var infoPanelButton = UITK.AddElement<Button>(infoPanel, "infoPanelButton", "RigidButton");
-
-                infoPanel.Add(bodyConfig.SetInfoBlockUI(infoPanel));
-                infoPanel.Add(weaponConfig.SetInfoBlockUI(infoPanel));
-                infoPanel.Add(skillConfig.SetInfoBlockUI(infoPanel));
-
-            infoPanelButton.clicked += () =>
-            {
-                if (isInfoPanelOpen)
-                {
-                    unitProfile.style.top = 0;
-                    infoPanel.style.height = 20;
-                    isInfoPanelOpen = false;
-                }
-                else
-                {
-                    unitProfile.style.top = -40;
-                    infoPanel.style.height = 260;
-                    isInfoPanelOpen = true;
-                }
-            };
-
-            AbilityEventListener.Instance.OnHealthChanged += (unitClass, health) =>
-            {
-                if (unitClass != this.unitClass) return;
-
-                healthBar.value = health;
-            };
         }
     }
 
 
     private void Awake()
     {
-        BuildUI();
+        BuildUnitPanel();
     }
 }

@@ -1,43 +1,38 @@
-:root{
-    --white: #DEDEDE;
-    --light-gray: #9E9E9E;
-    --gray: #636363;
+:root {
+    --white: #EEEEEE;
+    --light-gray: #ABABAB;
+    --gray: #696969;
     --dark-gray: #2E2E2E;
     --black: #040404;
 
-    --accent-cyan: #00DDD4;
-    --accent-purple: #8E06C9;
-    --accent-red: #EA2413;
-    --base-cyan: #15524F;
-    --base-purple: #300D44;
-    --base-red: #541811;
+    --accent-main: #EE1401;
+    --accent-enemy: #357BEE;
 
-    --wp-orange: #E87F25;
-    --wp-orange-bg: #693B18;
-    --ts-blue: #6F9BFF;
-    --ts-blue-bg: #324673;
-    --dp-green: #54B85B;
-    --dp-green-bg: #29532B;
+    --accent-wp: #E09834;
+    --base-wp: #8A5D23;
+    --accent-ts: #9066CE;
+    --base-ts: #4E3472;
+    --accent-dp: #46BB68;
+    --base-dp: #236436;
 
-    
-    --white-50: #DEDEDE80;
-    --light-gray-50: #9E9E9E80;
-    --gray-50: #63636380;
+    --white-50: #EEEEEE80;
+    --light-gray-50: #ABABAB80;
+    --gray-50: #69696980;
     --dark-gray-50: #2E2E2E80;
     --black-50: #04040480;
 }
 
 .WP {
-    background-color: var(--wp-orange-bg);
-    -unity-background-image-tint-color: var(--wp-orange-bg);
+    background-color: var(--base-wp);
+    -unity-background-image-tint-color: var(--base-wp);
 }
 
 .TS {
-    background-color: var(--ts-blue-bg);
-    -unity-background-image-tint-color: var(--ts-blue-bg);
+    background-color: var(--base-ts);
+    -unity-background-image-tint-color: var(--base-ts);
 }
 
 .DP {
-    background-color: var(--dp-green-bg);
-    -unity-background-image-tint-color: var(--dp-green-bg);
+    background-color: var(--base-dp);
+    -unity-background-image-tint-color: var(--base-dp);
 }

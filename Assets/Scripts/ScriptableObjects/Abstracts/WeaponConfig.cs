@@ -50,32 +50,50 @@ public abstract class WeaponConfig : BaseSoldierAttribute, IInfoBlockUI
         return weaponDetails;
     }
 
-    public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement miscBox)
+    public override void GetAttributeLobbyBox(out Button attributeButton, out Label attributeDescription, out VisualElement statsBox)
     {
-        base.GetAttributeLobbyBox(out attributeButton, out attributeDescription, out miscBox);
+        base.GetAttributeLobbyBox(out attributeButton, out attributeDescription, out statsBox);
 
         attributeButton.AddToClassList("WP");
-        attributeDescription.AddToClassList("WP");
-        miscBox.AddToClassList("WP");
 
-        var damageLabel = UITK.AddElement<Label>(miscBox, "damageLabel");
+
+        statsBox.AddToClassList("WP");
+
+        var weaponTypeLabel = UITK.AddElement<Label>(statsBox, "P1", "weaponTypeLabel");
+        weaponTypeLabel.text = weaponType switch
+        {
+            WeaponType.Explosive => "Разрывное",
+            WeaponType.AntiMaterial => "Антиматериальное",
+            WeaponType.Dispersive => "Дисперсное",
+            _ => "Error"
+        }; ;
+
+        var horizontalPair = UITK.AddElement(statsBox, "horizontalPair");
+
+        var damageFireRateColumn = UITK.AddElement(horizontalPair, "statsColumn");
+
+        var damageLabel = UITK.AddElement<Label>(damageFireRateColumn, "damageLabel");
         damageLabel.text = "Урон: " + damage;
 
-        var fireRateLabel = UITK.AddElement<Label>(miscBox, "fireRateLabel");
+        var fireRateLabel = UITK.AddElement<Label>(damageFireRateColumn, "fireRateLabel");
         fireRateLabel.text = "Скорострельность: " + fireRate;
 
-        var rangeLabel = UITK.AddElement<Label>(miscBox, "rangeLabel");
+        var rangeWeaponTypeColumn = UITK.AddElement(horizontalPair, "statsColumn");
+
+        var rangeLabel = UITK.AddElement<Label>(rangeWeaponTypeColumn, "rangeLabel");
         rangeLabel.text = "Дальность: " + range;
 
-        string weaponTypeName = weaponType switch
+        string weaponTypeStatName = weaponType switch
         {
-            WeaponType.Explosive => "/Разрывное/ Радиус: ",
-            WeaponType.AntiMaterial => "/Антиматериальное/ Пробитие: ",
-            WeaponType.Dispersive => "/Дисперсное/ Радиус: ",
+            WeaponType.Explosive => "Радиус: ",
+            WeaponType.AntiMaterial => "Пробитие: ",
+            WeaponType.Dispersive => "Радиус: ",
             _ => "Error"
         };
+        var weaponTypeStatLabel = UITK.AddElement<Label>(rangeWeaponTypeColumn, "weaponTypeStatLabel");
+        weaponTypeStatLabel.text = weaponTypeStatName + typeStat;
 
-        var weaponTypeLabel = UITK.AddElement<Label>(miscBox, "weaponTypeLabel");
-        weaponTypeLabel.text = weaponTypeName + typeStat;
+
+        attributeDescription.AddToClassList("WP");
     }
 }
