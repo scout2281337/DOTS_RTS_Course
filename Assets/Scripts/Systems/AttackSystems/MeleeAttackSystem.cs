@@ -1,10 +1,9 @@
-using Unity.Burst;
+п»їusing Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
@@ -14,14 +13,14 @@ partial struct MeleeAttackSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        // Получаем мир физики
+        // РџРѕР»СѓС‡Р°РµРј РјРёСЂ С„РёР·РёРєРё
         PhysicsWorldSingleton physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
         CollisionWorld collisionWorld = physicsWorldSingleton.CollisionWorld;
 
         NativeList<RaycastHit> raycastHitList = new NativeList<RaycastHit>(Allocator.Temp);
         EntityCommandBuffer ecb =
             SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
-        // Проходимся по всем юнитам с атакой
+        // РџСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ РІСЃРµРј СЋРЅРёС‚Р°Рј СЃ Р°С‚Р°РєРѕР№
         foreach ((
             RefRO<LocalTransform> localTransform,
             RefRW<MeleeAttack> meleeAttack,
@@ -36,10 +35,12 @@ partial struct MeleeAttackSystem : ISystem
         {
             if (target.ValueRO.targetEntity == Entity.Null) continue;
 
+            if (SystemAPI.HasComponent<StunEffect>(entity)) continue;
+
             LocalTransform targetTransform = SystemAPI.GetComponent<LocalTransform>(target.ValueRO.targetEntity);
 
-            // Проверка дистанции (квадрат расстояния)
-            float meleeDistance = meleeAttack.ValueRO.colliderSize; // например 2f
+            // РџСЂРѕРІРµСЂРєР° РґРёСЃС‚Р°РЅС†РёРё (РєРІР°РґСЂР°С‚ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ)
+            float meleeDistance = meleeAttack.ValueRO.colliderSize; // РЅР°РїСЂРёРјРµСЂ 2f
             bool isCloseEnough = math.distancesq(localTransform.ValueRO.Position, targetTransform.Position) < meleeDistance * meleeDistance;
 
             bool isTouchingTarget = false;
@@ -76,7 +77,7 @@ partial struct MeleeAttackSystem : ISystem
                 }
             }
 
-            // Двигаемся к цели или остаёмся на месте
+            // Р”РІРёРіР°РµРјСЃСЏ Рє С†РµР»Рё РёР»Рё РѕСЃС‚Р°С‘РјСЃСЏ РЅР° РјРµСЃС‚Рµ
             if (!isCloseEnough && !isTouchingTarget)
             {
                 unitMover.ValueRW.targetPosition = targetTransform.Position;
@@ -86,13 +87,13 @@ partial struct MeleeAttackSystem : ISystem
             {
                 unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
 
-                // Таймер атаки
+                // РўР°Р№РјРµСЂ Р°С‚Р°РєРё
                 meleeAttack.ValueRW.timer -= SystemAPI.Time.DeltaTime;
                 if (meleeAttack.ValueRW.timer > 0f) continue;
 
                 meleeAttack.ValueRW.timer = meleeAttack.ValueRO.timerMax;
 
-                // Берём EventHub и добавляем DamageEvent
+                // Р‘РµСЂС‘Рј EventHub Рё РґРѕР±Р°РІР»СЏРµРј DamageEvent
                 var hub = SystemAPI
                     .QueryBuilder()
                     .WithAll<EventHub>()
@@ -120,7 +121,7 @@ partial struct MeleeAttackSystem : ISystem
 
 
                 // ===================
-                //проверка на наличие компонента для анимации атаки
+                //РїСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ РєРѕРјРїРѕРЅРµРЅС‚Р° РґР»СЏ Р°РЅРёРјР°С†РёРё Р°С‚Р°РєРё
                 //====================
                 if (!SystemAPI.HasComponent<AttackRequest>(entity))
                 {
@@ -131,3 +132,6 @@ partial struct MeleeAttackSystem : ISystem
         raycastHitList.Dispose();
     }
 }
+
+
+

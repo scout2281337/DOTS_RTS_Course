@@ -19,7 +19,8 @@ class FireballAuthoring : MonoBehaviour
                 Damage = authoring.Damage,
                 Radius = authoring.Radius,
                 MaxDistance = authoring.MaxDistance,
-                TimerMax = authoring.TimerMax
+                TimerMax = authoring.TimerMax,
+                Owner = Entity.Null
             });
             
         } 
@@ -34,6 +35,7 @@ public struct Fireball : IComponentData
     public float MaxDistance;
     public float Timer;
     public float TimerMax;
+    public Entity Owner;
 
 }
 

@@ -1,11 +1,11 @@
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class AbilityAuthoring : MonoBehaviour 
 {
     public AbilityType Type;
-    public GameObject Owner;          // ����, �������� ����������� �����������
+    public GameObject Owner;          // пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public bool Active;
     public bool IsTriggered;
     public AbilityTargetType TargetType;
@@ -29,7 +29,7 @@ public class AbilityAuthoring : MonoBehaviour
                 IsTriggered = authoring.IsTriggered,
                 TargetType = authoring.TargetType,
                 Cooldown = authoring.ClassSkillConfig.cooldown,
-                Duration = authoring.ClassSkillConfig.cooldown,
+                Duration = authoring.ClassSkillConfig.duration,
             });
         }
     }
@@ -52,10 +52,10 @@ public struct Ability : IComponentData
 
 public enum AbilityTargetType
 {
-    Self,       // �� ����
-    Ally,       // �� ���������
-    Enemy,      // �� ������
-    Area        // �������
+    Self,       // пїЅпїЅ пїЅпїЅпїЅпїЅ
+    Ally,       // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    Enemy,      // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    Area        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 }
 
 public enum AbilityType
@@ -66,4 +66,5 @@ public enum AbilityType
     ChargedShot,
     None 
 }
+
 

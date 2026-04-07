@@ -1,11 +1,6 @@
-using Mono.Cecil;
-using Unity.Entities.UniversalDelegates;
-using UnityEditor.ShaderGraph.Internal;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEngine.Rendering.DebugUI;
 
 public static class UITK
 {
@@ -175,3 +170,4 @@ public static class UITK
     }
     #endregion
 }
+

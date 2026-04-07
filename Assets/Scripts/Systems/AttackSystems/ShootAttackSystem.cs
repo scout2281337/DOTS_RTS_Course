@@ -1,11 +1,9 @@
-using Unity.Burst;
+п»їusing Unity.Burst;
 using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Collections;
-using System.Security.Principal;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
@@ -49,6 +47,9 @@ partial struct ShootAttackSystem : ISystem
             .WithDisabled<MoveOverride>().WithEntityAccess())
         {
             if (target.ValueRO.targetEntity == Entity.Null)
+                continue;
+
+            if (SystemAPI.HasComponent<StunEffect>(entity))
                 continue;
 
             LocalTransform targetTransform =
@@ -109,7 +110,7 @@ partial struct ShootAttackSystem : ISystem
 
 
             // ==============================
-            // СТРЕЛЬБА
+            // РЎРўР Р•Р›Р¬Р‘Рђ
             // ==============================
 
             float damage = shootAttack.ValueRO.damageAmount;
@@ -124,7 +125,7 @@ partial struct ShootAttackSystem : ISystem
 
 
             // ===================
-            //проверка на наличие компонента для анимации атаки
+            //РїСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ РєРѕРјРїРѕРЅРµРЅС‚Р° РґР»СЏ Р°РЅРёРјР°С†РёРё Р°С‚Р°РєРё
             //====================
             if (!SystemAPI.HasComponent<AttackRequest>(entity))
             {
@@ -135,7 +136,7 @@ partial struct ShootAttackSystem : ISystem
 
 
             // ==============================
-            //Модуль берсерк
+            //РњРѕРґСѓР»СЊ Р±РµСЂСЃРµСЂРє
 
             if (SystemAPI.HasComponent<BerserkerICD>(entity))
             {
@@ -298,3 +299,6 @@ partial struct ShootAttackSystem : ISystem
         });
     }
 }
+
+
+

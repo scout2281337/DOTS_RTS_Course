@@ -1,4 +1,4 @@
-using Unity.Burst;
+Ôªøusing Unity.Burst;
 using Unity.Entities;
 using UnityEngine;
 
@@ -15,7 +15,7 @@ partial struct AdrenalineSystem : ISystem
             .CreateCommandBuffer(state.WorldUnmanaged);
 
         // =========================
-        // “–»√√≈– ¿¡»À »
+        // –¢–†–ò–ì–ì–ï–† –ê–ë–ò–õ–ö–ò
         // =========================
 
         foreach ((RefRW<Adrenaline> adrenaline, Entity entity)
@@ -26,7 +26,7 @@ partial struct AdrenalineSystem : ISystem
                 adrenaline.ValueRW.Timer -= dt;
                 continue;
             }
-            if (!adrenaline.ValueRO.CanActivate) 
+            if (!adrenaline.ValueRO.CanActivate)
             {
                 continue;
             }
@@ -36,6 +36,7 @@ partial struct AdrenalineSystem : ISystem
             if (!SystemAPI.HasBuffer<SlowDebuff>(entity))
             {
                 ecb.AddBuffer<SlowDebuff>(entity);
+                continue;
             }
 
             var buffer = SystemAPI.GetBuffer<SlowDebuff>(entity);
@@ -49,16 +50,15 @@ partial struct AdrenalineSystem : ISystem
         }
 
         // =========================
-        // Œ¡ÕŒ¬À≈Õ»≈ “¿…Ã≈–Œ¬ ¡¿‘‘Œ¬
+        // –û–ë–ù–û–í–õ–ï–ù–ò–ï –¢–ê–ô–ú–ï–†–û–í –ë–ê–§–§–û–í
         // =========================
-        // Ï· ‚˚ÌÂÒÚË ÓÚ‰ÂÎ¸ÌÓ
+        // –º–± –≤—ã–Ω–µ—Å—Ç–∏ –æ—Ç–¥–µ–ª—å–Ω–æ
         foreach ((RefRO<UnitMover> unitMover, Entity entity)
             in SystemAPI.Query<RefRO<UnitMover>>().WithEntityAccess())
         {
 
             if (!SystemAPI.HasBuffer<SlowDebuff>(entity))
             {
-                ecb.AddBuffer<SlowDebuff>(entity);
                 continue;
             }
 
@@ -73,7 +73,7 @@ partial struct AdrenalineSystem : ISystem
                 if (debuff.Timer <= 0)
                 {
                     buffer.RemoveAt(i);
-                    
+
                 }
                 else
                 {

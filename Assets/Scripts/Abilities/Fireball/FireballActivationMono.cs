@@ -1,4 +1,4 @@
-using TMPro;
+п»їusing TMPro;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -24,10 +24,10 @@ public class FireballActivationMono : MonoBehaviour
             AbilityUseMode = !AbilityUseMode;
         }
 
-        if (AbilityUseMode && Input.GetMouseButtonDown(0)) 
+        if (AbilityUseMode && Input.GetMouseButtonDown(0))
         {
             LaunchFireball();
-            //Debug.Log("Спавн сработал");
+            //Debug.Log("РЎРїР°РІРЅ СЃСЂР°Р±РѕС‚Р°Р»");
 
         }
     }
@@ -59,14 +59,22 @@ public class FireballActivationMono : MonoBehaviour
         var ability = em.GetComponentData<Ability>(arsonist);
         ability.TargetPosition = targetPos;
 
-        // проверка кулдауна
-        if (ability.CooldownLeft > 0 || ability.Active)
+        // РїСЂРѕРІРµСЂРєР° РєСѓР»РґР°СѓРЅР°
+        bool canUseByCooldown = ability.CooldownLeft <= 0f;
+        bool canUseByExtraBattery = false;
+        if (!canUseByCooldown && em.HasComponent<ExtraBatteryModule>(arsonist))
+        {
+            var battery = em.GetComponentData<ExtraBatteryModule>(arsonist);
+            canUseByExtraBattery = battery.Charges > 0;
+        }
+
+        if (ability.Active || (!canUseByCooldown && !canUseByExtraBattery))
             return;
 
         ability.IsTriggered = true;
 
         em.SetComponentData(arsonist, ability);
-        //Debug.Log("отправилась инфа в систему");
+        //Debug.Log("РѕС‚РїСЂР°РІРёР»Р°СЃСЊ РёРЅС„Р° РІ СЃРёСЃС‚РµРјСѓ");
         AbilityUseMode = false;
     }
 #if UNITY_EDITOR
@@ -95,24 +103,24 @@ public class FireballActivationMono : MonoBehaviour
         float3 unitPos = em.GetComponentData<LocalTransform>(arsonist).Position;
         Vector3 worldPos = new Vector3(unitPos.x, unitPos.y, unitPos.z);
 
-        // Радиус способности
+        // Р Р°РґРёСѓСЃ СЃРїРѕСЃРѕР±РЅРѕСЃС‚Рё
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(worldPos, MaxRadius);
 
         if (AbilityUseMode)
         {
-            // Луч из камеры
+            // Р›СѓС‡ РёР· РєР°РјРµСЂС‹
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Vector3 targetPos = hit.point;
 
-                // Точка цели
+                // РўРѕС‡РєР° С†РµР»Рё
                 Gizmos.color = Color.red;
                 Gizmos.DrawSphere(targetPos, 0.4f);
 
-                // Линия к цели
+                // Р›РёРЅРёСЏ Рє С†РµР»Рё
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawLine(worldPos, targetPos);
             }

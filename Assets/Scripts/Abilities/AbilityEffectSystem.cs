@@ -32,6 +32,9 @@ partial struct AbilityEffectSystem : ISystem
 
 
                     var fireball = em.Instantiate(entitiesReferences.FireballPrefabEntity);
+                    var fireballData = em.GetComponentData<Fireball>(fireball);
+                    fireballData.Owner = ability.ValueRO.Owner == Entity.Null ? ent : ability.ValueRO.Owner;
+                    em.SetComponentData(fireball, fireballData);
 
                     em.SetComponentData(fireball, new LocalTransform
                     {

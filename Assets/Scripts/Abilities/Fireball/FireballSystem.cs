@@ -3,7 +3,6 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Physics;
 using Unity.Transforms;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 partial struct FireballSystem : ISystem
@@ -17,10 +16,9 @@ partial struct FireballSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        
         var physicsWorld = SystemAPI
             .GetSingleton<PhysicsWorldSingleton>()
-        .CollisionWorld;
+            .CollisionWorld;
 
 
         var hub = SystemAPI
@@ -31,42 +29,48 @@ partial struct FireballSystem : ISystem
 
         var damageBuffer = SystemAPI.GetBuffer<DamageEvent>(hub);
 
-        foreach ((RefRW<Fireball> Fireball, 
-            RefRO<LocalTransform> LocalTransform) 
+        foreach ((RefRW<Fireball> fireball,
+            RefRO<LocalTransform> localTransform)
             in SystemAPI.Query<
-                RefRW<Fireball>, 
+                RefRW<Fireball>,
                 RefRO<LocalTransform>>()) 
         {
-            Fireball.ValueRW.Timer -= SystemAPI.Time.DeltaTime;
+            fireball.ValueRW.Timer -= SystemAPI.Time.DeltaTime;
 
-            if (Fireball.ValueRO.Timer >= 0) 
+            if (fireball.ValueRO.Timer >= 0f)
             {
-                return;
+                continue;
             }
-            Fireball.ValueRW.Timer = Fireball.ValueRO.TimerMax;
+            fireball.ValueRW.Timer = fireball.ValueRO.TimerMax;
 
             var hits = new NativeList<DistanceHit>(Allocator.Temp);
 
             physicsWorld.OverlapSphere(
-                            LocalTransform.ValueRO.Position,
-                            Fireball.ValueRO.Radius,
-                            ref hits,
-                            CollisionFilter.Default);
+                localTransform.ValueRO.Position,
+                fireball.ValueRO.Radius,
+                ref hits,
+                CollisionFilter.Default);
 
             foreach (var h in hits)
             {
-                Entity e =
-                    physicsWorld.Bodies[h.RigidBodyIndex].Entity;
-                Unit targetUnit =
-                    SystemAPI.GetComponent<Unit>(e);
+                Entity hitEntity = physicsWorld.Bodies[h.RigidBodyIndex].Entity;
+                if (!SystemAPI.HasComponent<Unit>(hitEntity))
+                    continue;
+                if (hitEntity == fireball.ValueRO.Owner)
+                    continue;
 
+                Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
                 damageBuffer.Add(new DamageEvent
                 {
-                    TargetEntity = e,
+                    SourceEntity = fireball.ValueRO.Owner,
+                    TargetEntity = hitEntity,
                     TargetEntityClass = targetUnit.Class,
-                    DamageAmount = Fireball.ValueRO.Radius
+                    DamageAmount = fireball.ValueRO.Damage,
+                    IsAbilityDamage = true
                 });
             }
+
+            hits.Dispose();
         }    
     }
 
