@@ -31,10 +31,16 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
 
     public Dictionary<UnitClass, Entity> unitEntityDict = new();
 
+    private static float CooldownFromFireRate(float fireRate)
+    {
+        return fireRate > 0f ? 60f / fireRate : float.MaxValue;
+    }
+
 
     private void Update()
     {
-        TeamSpawn();
+        //TeamSpawn();
+        OneClassSpawn();
     }
 
     private void TryToInitialize() 
@@ -73,10 +79,15 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
         });
         em.SetComponentData(currentEntity, new ShootAttack
         {
-            timerMax = 60 / weaponConfig.fireRate,
-            timer = 60f / weaponConfig.fireRate,
+            timerMax = CooldownFromFireRate(weaponConfig.fireRate),
+            timer = CooldownFromFireRate(weaponConfig.fireRate),
             damageAmount = weaponConfig.damage,
             attackDistance = weaponConfig.range,
+            weaponType = weaponConfig.weaponType,
+            maxPierceCount = weaponConfig.maxPierceCount,
+            explosiveRange = weaponConfig.explosiveRange,
+            attackMode = AttackMode.Normal,
+            ChargedAttackDamage = weaponConfig.ChargedAttackDamage
         });
         em.SetComponentData(currentEntity, new Health
         {

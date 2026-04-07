@@ -10,6 +10,11 @@ public static class DeveloperCheats
     public static bool Enabled { get; set; }
 }
 
+public static class DeveloperDebugEvents
+{
+    public static bool Enabled { get; set; }
+}
+
 public class DeveloperConsole : MonoBehaviour
 {
     private enum TargetMode
@@ -97,7 +102,7 @@ public class DeveloperConsole : MonoBehaviour
         Rect rect = new Rect(20f, 20f, width, height);
         GUILayout.BeginArea(rect, GUI.skin.box);
 
-        GUILayout.Label($"Developer Console | cheats: {(DeveloperCheats.Enabled ? "ON" : "OFF")} | target: {DescribeTarget()}");
+        GUILayout.Label($"Developer Console | cheats: {(DeveloperCheats.Enabled ? "ON" : "OFF")} | events: {(DeveloperDebugEvents.Enabled ? "ON" : "OFF")} | target: {DescribeTarget()}");
 
         scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Height(height - 90f));
         foreach (string line in outputLines)
@@ -150,10 +155,13 @@ public class DeveloperConsole : MonoBehaviour
                 outputLines.Clear();
                 return;
             case "status":
-                Print($"Cheats: {(DeveloperCheats.Enabled ? "ON" : "OFF")}, target: {DescribeTarget()}");
+                Print($"Cheats: {(DeveloperCheats.Enabled ? "ON" : "OFF")}, events: {(DeveloperDebugEvents.Enabled ? "ON" : "OFF")}, target: {DescribeTarget()}");
                 return;
             case "cheats":
                 HandleCheatsCommand(parts);
+                return;
+            case "events":
+                HandleEventsCommand(parts);
                 return;
             case "target":
                 HandleTargetCommand(parts);
@@ -244,6 +252,35 @@ public class DeveloperConsole : MonoBehaviour
         }
 
         Print("Usage: target selected|all|raider|juggernaut|arsonist|sniper");
+    }
+
+    private void HandleEventsCommand(string[] parts)
+    {
+        if (parts.Length < 2)
+        {
+            Print($"Events are {(DeveloperDebugEvents.Enabled ? "ON" : "OFF")}.");
+            return;
+        }
+
+        string mode = parts[1].ToLowerInvariant();
+        switch (mode)
+        {
+            case "on":
+                DeveloperDebugEvents.Enabled = true;
+                Print("Event debug enabled.");
+                break;
+            case "off":
+                DeveloperDebugEvents.Enabled = false;
+                Print("Event debug disabled.");
+                break;
+            case "toggle":
+                DeveloperDebugEvents.Enabled = !DeveloperDebugEvents.Enabled;
+                Print($"Event debug {(DeveloperDebugEvents.Enabled ? "enabled" : "disabled")}.");
+                break;
+            default:
+                Print("Usage: events on|off|toggle");
+                break;
+        }
     }
 
     private void HandleHealthCommand(string[] parts)
@@ -476,8 +513,18 @@ public class DeveloperConsole : MonoBehaviour
         query.Dispose();
 
         var events = em.GetBuffer<UnitDeathConsoleEvent>(hub);
-        if (events.Length == 0)
+        var ricochetEvents = em.GetBuffer<RicochetConsoleEvent>(hub);
+        bool hasDeathEvents = events.Length > 0;
+        bool hasRicochetEvents = ricochetEvents.Length > 0;
+        if (!hasDeathEvents && !hasRicochetEvents)
             return;
+
+        if (!DeveloperDebugEvents.Enabled)
+        {
+            events.Clear();
+            ricochetEvents.Clear();
+            return;
+        }
 
         for (int i = 0; i < events.Length; i++)
         {
@@ -491,7 +538,14 @@ public class DeveloperConsole : MonoBehaviour
             Print($"DEATH: {victimText} killed by {killerText}");
         }
 
+        for (int i = 0; i < ricochetEvents.Length; i++)
+        {
+            var e = ricochetEvents[i];
+            Print($"RICOCHET: {e.KillerClass} [{e.KillerFaction}] -> {e.TargetClass} [{e.TargetFaction}] dmg={e.DamageAmount:0.##}");
+        }
+
         events.Clear();
+        ricochetEvents.Clear();
     }
 
     private string DescribeTarget()
@@ -512,6 +566,7 @@ public class DeveloperConsole : MonoBehaviour
         Print("clear");
         Print("status");
         Print("cheats on|off|toggle");
+        Print("events on|off|toggle");
         Print("units");
         Print("target selected|all|raider|juggernaut|arsonist|sniper");
         Print("hp add <value>   (cheats ON)");

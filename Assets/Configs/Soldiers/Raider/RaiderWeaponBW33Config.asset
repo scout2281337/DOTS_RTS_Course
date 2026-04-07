@@ -20,9 +20,9 @@ MonoBehaviour:
     \u043F\u043E\u043B\u044E\u0431\u0438\u043B\u0430\u0441\u044C \u043C\u043D\u043E\u0433\u0438\u043C\u0438
     \u0441\u043E\u043B\u0434\u0430\u0442\u0430\u043C\u0438."
   damage: 15
-  fireRate: 150
+  fireRate: 60
   range: 15
-  weaponType: 0
+  weaponType: 3
   typeStat: 0.5
   explosiveRange: 5
   maxPierceCount: 5

@@ -5,14 +5,22 @@ using UnityEngine;
 public class ShootAttackAuthoring : MonoBehaviour
 {
     public WeaponConfig weaponConfig;
+
+    private static float CooldownFromFireRate(float fireRate)
+    {
+        return fireRate > 0f ? 60f / fireRate : float.MaxValue;
+    }
+
     public class Baker : Baker<ShootAttackAuthoring>
     {
         public override void Bake(ShootAttackAuthoring authoring)
         {
             Entity entity  = GetEntity(TransformUsageFlags.Dynamic);
+            float cooldown = CooldownFromFireRate(authoring.weaponConfig.fireRate);
             AddComponent(entity, new ShootAttack
             {
-                timerMax = 60f / authoring.weaponConfig.fireRate,
+                timer = cooldown,
+                timerMax = cooldown,
                 damageAmount = authoring.weaponConfig.damage,
                 attackDistance = authoring.weaponConfig.range,
                 weaponType = authoring.weaponConfig.weaponType,
@@ -20,7 +28,7 @@ public class ShootAttackAuthoring : MonoBehaviour
                 explosiveRange = authoring.weaponConfig.explosiveRange,
                 attackMode = AttackMode.Normal,
                 ChargedAttackDamage = authoring.weaponConfig.ChargedAttackDamage,
-    });
+            });
         }
     }
 }

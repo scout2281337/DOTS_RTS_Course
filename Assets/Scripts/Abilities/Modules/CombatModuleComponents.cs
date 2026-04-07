@@ -17,6 +17,15 @@ public struct UnitDeathConsoleEvent : IBufferElementData
     public bool HasKillerUnit;
 }
 
+public struct RicochetConsoleEvent : IBufferElementData
+{
+    public UnitClass KillerClass;
+    public Faction KillerFaction;
+    public UnitClass TargetClass;
+    public Faction TargetFaction;
+    public float DamageAmount;
+}
+
 public struct RicochetModule : IComponentData
 {
     public float Cooldown;

@@ -47,7 +47,7 @@ partial struct CombatModulesTickSystem : ISystem
 }
 
 [UpdateInGroup(typeof(SimulationSystemGroup))]
-[UpdateAfter(typeof(DamageSystem))]
+[UpdateBefore(typeof(DamageSystem))]
 partial struct ModuleOnKillSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)
@@ -60,6 +60,7 @@ partial struct ModuleOnKillSystem : ISystem
             return;
 
         var damageBuffer = SystemAPI.GetBuffer<DamageEvent>(hub);
+        var ricochetConsoleBuffer = SystemAPI.GetBuffer<RicochetConsoleEvent>(hub);
 
         for (int i = 0; i < killEvents.Length; i++)
         {
@@ -143,12 +144,21 @@ partial struct ModuleOnKillSystem : ISystem
                 continue;
 
             float ricochetDamage = math.max(1f, kill.DamageDealt * ricochet.ValueRO.DamageMultiplier);
+            Unit killerUnit = SystemAPI.GetComponent<Unit>(killer);
             Unit ricochetTargetUnit = SystemAPI.GetComponent<Unit>(nearestTarget);
             damageBuffer.Add(new DamageEvent
             {
                 SourceEntity = killer,
                 TargetEntity = nearestTarget,
                 TargetEntityClass = ricochetTargetUnit.Class,
+                DamageAmount = ricochetDamage
+            });
+            ricochetConsoleBuffer.Add(new RicochetConsoleEvent
+            {
+                KillerClass = killerUnit.Class,
+                KillerFaction = killerUnit.faction,
+                TargetClass = ricochetTargetUnit.Class,
+                TargetFaction = ricochetTargetUnit.faction,
                 DamageAmount = ricochetDamage
             });
 
@@ -159,6 +169,7 @@ partial struct ModuleOnKillSystem : ISystem
 
 [UpdateInGroup(typeof(SimulationSystemGroup))]
 [UpdateAfter(typeof(ModuleOnKillSystem))]
+[UpdateBefore(typeof(DamageSystem))]
 partial struct UnitDeathConsoleEventSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)
@@ -197,7 +208,9 @@ partial struct UnitDeathConsoleEventSystem : ISystem
     }
 }
 
-[UpdateInGroup(typeof(LateSimulationSystemGroup), OrderLast = true)]
+[UpdateInGroup(typeof(SimulationSystemGroup))]
+[UpdateAfter(typeof(UnitDeathConsoleEventSystem))]
+[UpdateBefore(typeof(DamageSystem))]
 partial struct ModuleEventsCleanupSystem : ISystem
 {
     [BurstCompile]

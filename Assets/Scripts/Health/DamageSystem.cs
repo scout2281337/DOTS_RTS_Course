@@ -26,6 +26,16 @@ public partial struct DamageSystem : ISystem
             if (SystemAPI.HasComponent<Invulnerable>(dmg.TargetEntity))
                 continue;
 
+            if (SystemAPI.Exists(dmg.SourceEntity) &&
+                em.HasComponent<Unit>(dmg.SourceEntity) &&
+                em.HasComponent<Unit>(dmg.TargetEntity))
+            {
+                Unit sourceUnit = em.GetComponentData<Unit>(dmg.SourceEntity);
+                Unit targetUnit = em.GetComponentData<Unit>(dmg.TargetEntity);
+                if (sourceUnit.faction == targetUnit.faction)
+                    continue;
+            }
+
             float damage = dmg.DamageAmount;
 
             var healthRO = SystemAPI.GetComponentRO<Health>(dmg.TargetEntity);
