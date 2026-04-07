@@ -7,6 +7,11 @@
     border-left-color: var(--white);
 }
 
+.lobby{
+    width: 1920px;
+    height: 1080px;
+}
+
 .topSection{
     height: 90px;
     padding: 10px;
@@ -71,10 +76,9 @@
 
 .teamPanel {
     align-self: center;
-    height: 550px;
-    width: 1150px;
+    height: 610px;
+    flex-grow: 1;
     flex-direction: row;
-    background-color: rgba(255, 0, 255, 0.2);
 }
 
 .memberField{

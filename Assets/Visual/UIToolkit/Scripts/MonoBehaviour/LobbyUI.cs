@@ -1,13 +1,17 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class LobbyUI : MonoBehaviour
 {
     [Header("UI Toolkit")]
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private StyleSheet[] styleSheets;
+    [SerializeField] private UIControllerMediator UIController;
 
     [SerializeField] private SoldierAttributeGroupConfig[] attributeGroups;
+
+    private VisualElement lobby;
 
 
     private void BuildLobby()
@@ -15,9 +19,7 @@ public class LobbyUI : MonoBehaviour
         VisualElement root = uiDocument.rootVisualElement;
         root.Clear();
 
-        UIControllerManager UICtrlMng = UIControllerManager.Instance;
-
-        foreach (StyleSheet sheet in UICtrlMng.defaultStyleSheet.styles)
+        foreach (StyleSheet sheet in UIController.defaultStyleSheet.styles)
         {
             root.styleSheets.Add(sheet);
         }
@@ -26,13 +28,15 @@ public class LobbyUI : MonoBehaviour
             root.styleSheets.Add(sheet);
         }
 
-        var topSection = UITK.AddElement(root, "topSection");
+        lobby = UITK.AddElement(root, "lobby");
+
+        var topSection = UITK.AddElement(lobby, "topSection");
         BuildTop(topSection);
 
-        var midSection = UITK.AddElement(root, "midSection");
+        var midSection = UITK.AddElement(lobby, "midSection");
         BuildMiddle(midSection, out Button[] soldierIcons);
 
-        var bottomSection = UITK.AddElement(root, "bottomSection");
+        var bottomSection = UITK.AddElement(lobby, "bottomSection");
         BuildBottom(bottomSection, out AttributesContainer[] attributesContainers);
 
 
@@ -49,13 +53,19 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-    private static void BuildTop(VisualElement topSection)
+    private void BuildTop(VisualElement topSection)
     {
         var startButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H2", "startButton");
         startButton.text = "ВЫСАДКА";
+        startButton.clicked += () => {
+            SceneManager.LoadScene("SampleScene");
+        };
 
         var backButton = UITK.AddElement<Button>(topSection, "TertiaryButton", "P1", "backButton");
         backButton.text = "Назад";
+        backButton.clicked += () => {
+            StartCoroutine(CameraMotion.MoveCameraToPoint(new(-28, 0, -25), 1.2f));
+        };
     }
 
     private void BuildMiddle(VisualElement midSection, out Button[] soldierIcons)
@@ -262,5 +272,10 @@ public class LobbyUI : MonoBehaviour
     private void Awake()
     {
         BuildLobby();
+    }
+
+    private void Update()
+    {
+        UITK.TrackUIToWorldPosition(transform.position, lobby, Camera.main, new Vector2(0, 0));
     }
 }

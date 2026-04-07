@@ -7,6 +7,7 @@ public class UnitPanelUI : MonoBehaviour
     [Header("UI Toolkit")]
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private StyleSheet[] styleSheets;
+    [SerializeField] private UIControllerMediator UIController;
     [SerializeField] private UnitPanelTexturesSO texturesSO;
 
     private VisualElement bottomSection;
@@ -22,7 +23,7 @@ public class UnitPanelUI : MonoBehaviour
         VisualElement root = uiDocument.rootVisualElement;
         root.Clear();
 
-        foreach (StyleSheet sheet in UIControllerManager.Instance.defaultStyleSheet.styles)
+        foreach (StyleSheet sheet in UIController.defaultStyleSheet.styles)
         {
             root.styleSheets.Add(sheet);
         }
@@ -44,7 +45,7 @@ public class UnitPanelUI : MonoBehaviour
     private void UnitProfileBuilder(UnitClass unitClass, BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
     {
         var newUnitProfile = new UnitProfile(unitClass, bodyConfig, weaponConfig, skillConfig,
-            bottomSection, texturesSO);
+            bottomSection, texturesSO, UIController);
 
         unitProfilesDict.Add(unitClass, newUnitProfile);
     }
@@ -64,7 +65,7 @@ public class UnitPanelUI : MonoBehaviour
 
 
         public UnitProfile(UnitClass unitClass, BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig,
-            VisualElement bottomSection, UnitPanelTexturesSO icons)
+            VisualElement bottomSection, UnitPanelTexturesSO textures, UIControllerMediator UIController)
         {
             this.unitClass = unitClass;
             this.bodyConfig = bodyConfig;
@@ -72,16 +73,17 @@ public class UnitPanelUI : MonoBehaviour
             this.skillConfig = skillConfig;
 
             this.unitProfile = UITK.AddElement(bottomSection, "unitProfile");
-            BuildModuleMesh();
+            BuildModuleMesh(UIController);
 
             this.attributesContainer = UITK.AddElement(unitProfile, "attributesContainer");
-            BuildSkillHPBar(icons);
-            BuildStatsBoard(icons);
+            BuildSkillHPBar(textures);
+            BuildStatsBoard(textures);
         }
 
-        private void BuildModuleMesh()
+        private void BuildModuleMesh(UIControllerMediator UIController)
         {
             var moduleMesh = UITK.AddElement(unitProfile, "moduleMesh");
+            moduleMesh.style.backgroundImage = UIController.baseTextures.linearGradient;
         }
 
         public void BuildSkillHPBar(UnitPanelTexturesSO icons)

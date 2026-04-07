@@ -7,6 +7,7 @@ public class ModuleSelectorUI : MonoBehaviour
     [Header("UI Toolkit")]
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private StyleSheet[] styleSheets;
+    [SerializeField] private UIControllerMediator UIController;
     [SerializeField] private ModuleSelectorTexturesSO texturesSO;
 
     [SerializeField] private int modulesPerWave = 3;
@@ -33,9 +34,7 @@ public class ModuleSelectorUI : MonoBehaviour
         VisualElement root = uiDocument.rootVisualElement;
         root.Clear();
 
-        var UICtrlMng = UIControllerManager.Instance;
-
-        foreach (StyleSheet sheet in UICtrlMng.defaultStyleSheet.styles)
+        foreach (StyleSheet sheet in UIController.defaultStyleSheet.styles)
         {
             root.styleSheets.Add(sheet);
         }

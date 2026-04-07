@@ -71,12 +71,10 @@ MonoBehaviour:
   uiDocument: {fileID: 2108040730707484828}
   styleSheets:
   - {fileID: 7433441132597879392, guid: 99e5a3497fd6f8348af41613a1f1d0d5, type: 3}
+  UIController: {fileID: 433470566325080890}
   texturesSO: {fileID: 11400000, guid: e2e1fe5a2e8ca58488cbedf82875c568, type: 2}
-  moduleConfigTester:
-  - {fileID: 11400000, guid: a052ecdae52218b4282ac1c53f445d27, type: 2}
-  - {fileID: 11400000, guid: 6c7213d9d715a5e4ba6dd15614e06396, type: 2}
-  - {fileID: 11400000, guid: fc5cc610fe86edb468eeeddd13d7a6ea, type: 2}
-  - {fileID: 11400000, guid: a052ecdae52218b4282ac1c53f445d27, type: 2}
+  modulesPerWave: 3
+  modulationTokens: 3
 --- !u!1 &7257192418862899800
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8394517118689858925}
-  - component: {fileID: 4127096778572331061}
+  - component: {fileID: 433470566325080890}
   m_Layer: 0
   m_Name: UIController
   m_TagString: Untagged
@@ -112,7 +110,7 @@ Transform:
   - {fileID: 3206776029442016696}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4127096778572331061
+--- !u!114 &433470566325080890
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,11 +119,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7257192418862899800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbd4149a2d0d15746aaae1d2829c6cd7, type: 3}
+  m_Script: {fileID: 11500000, guid: ae1bf7c343375ba4a833c6da6e997a4d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIControllerMediator
   defaultStyleSheet: {fileID: 11400000, guid: 7372483320212184c80b40cd99dd39ba, type: 2}
-  colorScheme: {fileID: 11400000, guid: 48a1c6ba502d3a749b558ba9c2df0da5, type: 2}
+  baseTextures: {fileID: 11400000, guid: 8a19d919a96fd5d4daca5057f61f99b9, type: 2}
   unitSelectorUI: {fileID: 8620307527595237067}
   unitPanelUI: {fileID: 3799283179064002903}
   moduleSelectorUI: {fileID: 539264655961494474}
@@ -272,7 +270,8 @@ MonoBehaviour:
   uiDocument: {fileID: 2347858718300394156}
   styleSheets:
   - {fileID: 7433441132597879392, guid: 89612c08a6310cd46858131103faa549, type: 3}
+  UIController: {fileID: 433470566325080890}
   texturesSO: {fileID: 11400000, guid: 6653be4419672ec47838f7bb449661e5, type: 2}
-  classConfigTester: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
+  bodyConfigTester: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
   weaponConfigTester: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
   skillConfigTester: {fileID: 11400000, guid: fec15c96a3996d94f894bf7e6ff4846f, type: 2}

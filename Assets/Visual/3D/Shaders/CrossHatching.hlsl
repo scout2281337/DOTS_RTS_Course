@@ -53,8 +53,8 @@ void CrossHatchingDithering_float(float value, float2 uv, float width, float smo
 	HatchingPattern_float(uv.xy, amount, 0.5, 5, smoothness, hatchingX);
 	HatchingPattern_float(uv.yx, amount, 0.5, 5, smoothness, hatchingY);
 
-	float edge1 = step(0.01,1 - value) * hatchingX;
-	float edge2 = step(0.5,1 - value) * hatchingY;
+	float edge1 = step(0.3,1 - value) * hatchingX;
+	float edge2 = step(0.6,1 - value) * hatchingY;
 	float edge3 = step(0.99,1 - value);
 	pattern = saturate(edge1 + edge2 + edge3);
 }

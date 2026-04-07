@@ -82,6 +82,23 @@ public static class UITK
         element.style.top = parallaxOffset.y;
     }
 
+    public static void TrackUIToWorldPosition(Vector3 position, VisualElement element, Camera cam, Vector2 offset = default)
+    {
+        Vector3 screenPos = cam.WorldToScreenPoint(position);
+
+        if (screenPos.z <= 0)
+        {
+            element.style.display = DisplayStyle.None;
+            return;
+        }
+
+        element.style.display = DisplayStyle.Flex;
+        
+        element.style.left = screenPos.x + offset.x;
+        element.style.top = Screen.height - screenPos.y + offset.y;
+        element.style.translate = new Translate(-960, -540);
+    }
+
     public static VisualElement[] CreateChromaticAberration(VisualElement target, float intensity = 0.5f)
     {
         // Essentials
@@ -170,4 +187,3 @@ public static class UITK
     }
     #endregion
 }
-

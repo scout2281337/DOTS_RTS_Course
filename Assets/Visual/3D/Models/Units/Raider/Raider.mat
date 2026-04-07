@@ -117,7 +117,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EmissionPower: 20
+    - _EmissionPower: 40
     - _EmissionScaleUI: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
@@ -138,13 +138,13 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularEdge: 0.7
     - _SpecularHighlights: 1
-    - _SpecularPower: 10
+    - _SpecularPower: 7
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _Tester: 18
     - _UVSec: 0
-    - _Width: 0.0015
+    - _Width: 0.002
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _a: 0
