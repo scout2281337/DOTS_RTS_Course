@@ -101,7 +101,7 @@ public class UnitPanelUI : MonoBehaviour
             {
                 if (unitClass != this.unitClass) return;
 
-                healthBar.value = health;
+                healthBar.value -= health;
             };
         }
 
