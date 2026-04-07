@@ -14,7 +14,7 @@ public partial struct PlayerAnimationStateSystem : ISystem
         {
 
             // 1. Атака (самый высокий приоритет)
-            if (SystemAPI.HasComponent<AttackRequest>(entity))
+            if (SystemAPI.HasComponent<AttackRequest>(entity) && animState.ValueRW.Value != AnimationState.Attack)
             {
                 animState.ValueRW.Value = AnimationState.Attack;
                 ecb.RemoveComponent<AttackRequest>(entity);

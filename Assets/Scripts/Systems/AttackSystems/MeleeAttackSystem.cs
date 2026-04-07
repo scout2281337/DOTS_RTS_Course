@@ -80,6 +80,7 @@ partial struct MeleeAttackSystem : ISystem
             if (!isCloseEnough && !isTouchingTarget)
             {
                 unitMover.ValueRW.targetPosition = targetTransform.Position;
+                
             }
             else
             {
