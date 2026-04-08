@@ -7,7 +7,7 @@ public class ModuleSelectorUI : MonoBehaviour
     [Header("UI Toolkit")]
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private StyleSheet[] styleSheets;
-    [SerializeField] private UIControllerMediator UIController;
+    [SerializeField] private ViewController UIController;
     [SerializeField] private ModuleSelectorTexturesSO texturesSO;
 
     [SerializeField] private int modulesPerWave = 3;

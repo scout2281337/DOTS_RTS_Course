@@ -3,6 +3,10 @@ using UnityEngine;
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     protected static T instance;
+    [Header("Singleton")]
+    [SerializeField] private bool canOverwrite = false;
+    [SerializeField] private bool isDestroyedOnLoad = false;
+
 
     public static T Instance
     {
@@ -13,7 +17,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
             if (instance == null)
             {
-                GameObject newInstance = new GameObject();
+                GameObject newInstance = new();
                 newInstance.name = typeof(T).Name;
                 instance = newInstance.AddComponent<T>();
                 Debug.LogWarning($"Could not find {typeof(T).Name}, new instance was created");
@@ -24,7 +28,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
-        if (instance != null && instance != this)
+        if (instance != null && !canOverwrite)
         {
             Destroy(gameObject);
             Debug.LogWarning($"Duplicate instance of {typeof(T).Name} was destroyed");
@@ -32,6 +36,10 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         else
         {
             instance = this as T;
+        }
+
+        if (!isDestroyedOnLoad)
+        {
             DontDestroyOnLoad(gameObject);
         }
     }

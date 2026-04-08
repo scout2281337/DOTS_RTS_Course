@@ -13,6 +13,7 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
     public event Action<Vector3, Vector3> OnBulletShot;
     public event Action<UnitClass, ModuleBaseSO> OnNewModule;
 
+
     public void InvokeAbilityStarted(Entity owner, AbilityType type)
     {
         OnAbilityStarted?.Invoke(owner, type);
@@ -48,12 +49,12 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
             + skillConfig);
     }
 
-    public void InvokeHealthChanged(UnitClass TargetUnitClass, float currentHealth)
+    public void InvokeHealthChanged(UnitClass TargetUnitClass, float healthDelta)
     {
-        OnHealthChanged?.Invoke(TargetUnitClass, currentHealth);
+        OnHealthChanged?.Invoke(TargetUnitClass, healthDelta);
         Debug.Log("InvokeHealthChanged \n" +
             TargetUnitClass + "\n"
-            + currentHealth);
+            + healthDelta);
     }
 
     public void InvokeBulletShot(Vector3 start, Vector3 end)

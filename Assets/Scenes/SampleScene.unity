@@ -245,6 +245,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5165178922108397255, guid: 181916f81632948448e986eaf4478288, type: 3}
+      propertyPath: isDestroyedOnLoad
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6812590923571900224, guid: 181916f81632948448e986eaf4478288, type: 3}
       propertyPath: m_Name
       value: VFXManager
@@ -459,6 +463,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4236ccc596c31d44bf7062796743578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canOverwrite: 0
+  isDestroyedOnLoad: 0
 --- !u!4 &329082755
 Transform:
   m_ObjectHideFlags: 0
@@ -1683,7 +1689,12 @@ Transform:
   - {fileID: 330585546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &936671880
+--- !u!4 &948511341 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6434001449724273942, guid: 50a82bad91b8580478c04d91c97b5d3e, type: 3}
+  m_PrefabInstance: {fileID: 167964296}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1080388200
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1691,25 +1702,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3799283179064002903, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
-      propertyPath: bodyConfigTester
-      value: 
-      objectReference: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
     - target: {fileID: 7257192418862899800, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
       propertyPath: m_Name
-      value: UIController
+      value: ViewController
       objectReference: {fileID: 0}
     - target: {fileID: 8394517118689858925, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.60275
       objectReference: {fileID: 0}
     - target: {fileID: 8394517118689858925, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.10459
       objectReference: {fileID: 0}
     - target: {fileID: 8394517118689858925, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.40096
       objectReference: {fileID: 0}
     - target: {fileID: 8394517118689858925, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1744,11 +1751,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 522eaaf82d1013242884a171d32d74d8, type: 3}
---- !u!4 &948511341 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6434001449724273942, guid: 50a82bad91b8580478c04d91c97b5d3e, type: 3}
-  m_PrefabInstance: {fileID: 167964296}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1083460941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1842,6 +1844,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05786b773143534fafc6ff7e1d61784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canOverwrite: 0
+  isDestroyedOnLoad: 0
   arsonistWeaponConfig: {fileID: 11400000, guid: 57c422c11f6634d4c82e0d6943c3ccca, type: 2}
   arsonistBodyConfig: {fileID: 11400000, guid: 06ca1b09c7b9fc240859661fc34c296b, type: 2}
   juggernautWeaponConfig: {fileID: 11400000, guid: 3fd6e373c721b8140967f34c65b6f213, type: 2}
@@ -1878,6 +1882,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6859769e44b4c4949a34651a389c2e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canOverwrite: 0
+  isDestroyedOnLoad: 0
 --- !u!114 &1199244197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2050,6 +2056,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337c577ea024ded48899e045dac31a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canOverwrite: 0
+  isDestroyedOnLoad: 0
 --- !u!4 &1425496721
 Transform:
   m_ObjectHideFlags: 0
@@ -2997,6 +3005,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f8e0f5d9a57b1429828a2bef6737d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canOverwrite: 0
+  isDestroyedOnLoad: 0
 --- !u!4 &2041972614
 Transform:
   m_ObjectHideFlags: 0
@@ -3640,6 +3650,6 @@ SceneRoots:
   - {fileID: 1199244195}
   - {fileID: 53212871}
   - {fileID: 881444884}
-  - {fileID: 936671880}
   - {fileID: 8660996928863870017}
   - {fileID: 2004795113}
+  - {fileID: 1080388200}

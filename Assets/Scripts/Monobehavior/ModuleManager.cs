@@ -18,7 +18,7 @@ public class ModuleManager : Singleton<ModuleManager>
         var chanceTable = waveTierChanceTable[waveNumberTester - 1];
 
         float totalWeight = chanceTable.x + chanceTable.y + chanceTable.z;
-        float randomPoint = UnityEngine.Random.value * totalWeight;
+        float randomPoint = Random.value * totalWeight;
 
         var chosenModuleTier = randomPoint < chanceTable.x ? tierIModules
             : randomPoint < chanceTable.x + chanceTable.y ? tierIIModules
@@ -28,7 +28,7 @@ public class ModuleManager : Singleton<ModuleManager>
 
         for (int i = 0; i < 100; i++)
         {
-            rndModule = chosenModuleTier[UnityEngine.Random.Range(0, chosenModuleTier.Length)];
+            rndModule = chosenModuleTier[Random.Range(0, chosenModuleTier.Length)];
 
             if (!unitEquippedModules.TryGetValue(unit, out var moduleList)) break;
             if (!moduleList.Contains(rndModule)) break;
