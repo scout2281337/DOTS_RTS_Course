@@ -64,7 +64,7 @@ public class LobbyUI : MonoBehaviour
         var backButton = UITK.AddElement<Button>(topSection, "TertiaryButton", "P1", "backButton");
         backButton.text = "Назад";
         backButton.clicked += () => {
-            StartCoroutine(CameraMotion.MoveCameraToPoint(new(-28, 0, -25), 1.2f));
+            StartCoroutine(CameraMotion.MoveCameraToPoint(new(-3.5f, 2.6f, -0.4f), 1.2f));
         };
     }
 

@@ -33,7 +33,7 @@ public class MainMenuUI : MonoBehaviour
             var start = UITK.AddElement<Button>(menu, "PrimaryButton", "RigidButton", "H3", "menuButton", "start");
             start.text = "Высадка";
             start.clicked += () => {
-                StartCoroutine(CameraMotion.MoveCameraToPoint(new(0, 0, -25), 1.2f));
+                StartCoroutine(CameraMotion.MoveCameraToPoint(new(0, 2.6f, -2.85f), 1.2f));
             };
 
             var collection = UITK.AddElement<Button>(menu, "SecondaryButton", "RigidButton", "H3", "menuButton", "start");

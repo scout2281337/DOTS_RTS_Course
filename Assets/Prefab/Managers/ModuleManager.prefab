@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2517958278694684851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5824625443294706612}
+  - component: {fileID: 3439063528249547546}
+  m_Layer: 0
+  m_Name: ModuleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5824625443294706612
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517958278694684851}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3439063528249547546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517958278694684851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e72714f61e3aef49b7c82bd78240f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModuleGenerator
+  canOverwrite: 0
+  isDestroyedOnLoad: 0
+  waveNumberTester: 1
+  tierIModules:
+  - {fileID: 11400000, guid: cb5cb86421bdea04dba42fbf95ed310c, type: 2}
+  - {fileID: 11400000, guid: 836901b078a2b3f4c8cc8e75041de561, type: 2}
+  - {fileID: 11400000, guid: 87a60e73baa00aa47b5eaa184548c419, type: 2}
+  - {fileID: 11400000, guid: 069442916af44aa4fa83ccd2554920af, type: 2}
+  - {fileID: 11400000, guid: 4390f081d4d2a5a449ef857254209cdd, type: 2}
+  - {fileID: 11400000, guid: 38f564525088914469baccaf8eb00ba7, type: 2}
+  - {fileID: 11400000, guid: a3d6696226d19a049a6f2ebfc309a200, type: 2}
+  - {fileID: 11400000, guid: a080ecfcd57327449a8b4e2ca928122b, type: 2}
+  - {fileID: 11400000, guid: 142d035e95340f244bee0717a5ae94fc, type: 2}
+  - {fileID: 11400000, guid: 3b2f1fa5df7522848b8f0ae8062ab4ec, type: 2}
+  - {fileID: 11400000, guid: e2c59230f33984a44938990439cda679, type: 2}
+  tierIIModules: []
+  tierIIIModules: []
+  waveTierChanceTable:
+  - {x: 90, y: 10, z: 0}
+  - {x: 50, y: 40, z: 10}
+  - {x: 25, y: 55, z: 20}
+  - {x: 15, y: 50, z: 35}
+  - {x: 10, y: 35, z: 55}
+  - {x: 5, y: 20, z: 75}

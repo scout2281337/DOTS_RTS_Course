@@ -159,7 +159,7 @@ public class ModuleManager : Singleton<ModuleManager>
                 }
                 break;
 
-            case ModuleEffectType.DeafeningEcho:
+            case ModuleEffectType.DeafeningReverb:
                 if (!em.HasComponent<DeafSoundModule>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new DeafSoundModule
@@ -232,7 +232,7 @@ public class ModuleManager : Singleton<ModuleManager>
         if (key.Contains("battery"))
             return ModuleEffectType.ExtraBattery;
         if (key.Contains("echo") || key.Contains("deaf"))
-            return ModuleEffectType.DeafeningEcho;
+            return ModuleEffectType.DeafeningReverb;
         if (key.Contains("vampirism"))
             return ModuleEffectType.Vampirism;
         if (key.Contains("bloody"))

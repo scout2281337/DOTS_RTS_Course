@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2520080451354282666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4508842654130491617}
+  - component: {fileID: 2413447630228157130}
+  - component: {fileID: 35124568255169965}
+  - component: {fileID: 495059708750408605}
+  m_Layer: 0
+  m_Name: FriendlyUnitManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4508842654130491617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2520080451354282666}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2413447630228157130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2520080451354282666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a05786b773143534fafc6ff7e1d61784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canOverwrite: 0
+  isDestroyedOnLoad: 0
+  arsonistWeaponConfig: {fileID: 11400000, guid: 57c422c11f6634d4c82e0d6943c3ccca, type: 2}
+  arsonistBodyConfig: {fileID: 11400000, guid: 06ca1b09c7b9fc240859661fc34c296b, type: 2}
+  juggernautWeaponConfig: {fileID: 11400000, guid: 3fd6e373c721b8140967f34c65b6f213, type: 2}
+  juggernautBodyConfig: {fileID: 11400000, guid: 3351b0dd4065dc74a9b2ba0089366623, type: 2}
+  raiderWeaponConfig: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
+  raiderBodyConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
+  sniperWeaponConfig: {fileID: 11400000, guid: d17d285e273cf564bb0222b16f7c96d7, type: 2}
+  sniperBodyConfig: {fileID: 11400000, guid: 6dcaa75872954d04c9a61d96ad8e1acc, type: 2}
+  teamAmount: 4
+--- !u!114 &35124568255169965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2520080451354282666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6859769e44b4c4949a34651a389c2e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canOverwrite: 0
+  isDestroyedOnLoad: 0
+--- !u!114 &495059708750408605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2520080451354282666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b1fa695a8e1cd24e90e61ef7d48e38e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxRadius: 50
+  AbilityUseMode: 0

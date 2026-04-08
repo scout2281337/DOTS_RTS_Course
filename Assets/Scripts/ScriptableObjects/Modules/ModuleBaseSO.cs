@@ -1,6 +1,6 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "ModuleBaseSO", menuName = "Scriptable Objects/Modules/ModuleBaseSO")]
-public class ModuleBaseSO : ScriptableObject
+
+public abstract class ModuleBaseSO : ScriptableObject
 {
     public int tier;
     public ModuleCategory category;
@@ -21,11 +21,12 @@ public enum ModuleEffectType
 {
     None,
     Berserker,
+    CenterOfAttention,
     Ricochet,
     AcidBullets,
     EnergyVampire,
     ExtraBattery,
-    DeafeningEcho,
+    DeafeningReverb,
     Vampirism,
     BloodySpeedUp,
     SupplyLines,

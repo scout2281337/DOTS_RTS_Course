@@ -10,7 +10,7 @@
 }
 
 .menu{
-    width: 460px;
+    width: 620px;
     height: 340px;
     justify-content: space-between;
 }
