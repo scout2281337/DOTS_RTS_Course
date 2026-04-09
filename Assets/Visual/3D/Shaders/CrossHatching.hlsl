@@ -50,13 +50,15 @@ void CrossHatchingDithering_float(float value, float2 uv, float width, float smo
 
 	float hatchingX;
 	float hatchingY;
-	HatchingPattern_float(uv.xy, amount, 0.5, 5, smoothness, hatchingX);
-	HatchingPattern_float(uv.yx, amount, 0.5, 5, smoothness, hatchingY);
-
-	float edge1 = step(0.3,1 - value) * hatchingX;
-	float edge2 = step(0.6,1 - value) * hatchingY;
-	float edge3 = step(0.99,1 - value);
-	pattern = saturate(edge1 + edge2 + edge3);
+	HatchingPattern_float(uv.xy, amount, 0.6, 5, smoothness, hatchingX);
+	HatchingPattern_float(uv.yx, amount, 0.7, 5, smoothness, hatchingY);
+	
+    float mod1 = saturate(pow((1 - value) * 2, 2));
+    float mod2 = saturate(pow(((1 - value) * 2) - 0.4, 2));
+    float edge1 = step(0.01, 1 - value) * hatchingX * mod1;
+    float edge2 = step(0.5, 1 - value) * hatchingY * mod2;
+    float edge3 = step(0.99, 1 - value);
+    pattern = saturate(edge1 + edge2 + edge3);
 }
 
 #endif
