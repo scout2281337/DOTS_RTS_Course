@@ -8,6 +8,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private StyleSheet[] styleSheets;
     [SerializeField] private ViewController UIController;
+    [SerializeField] private Vector3 mainMenuPos; 
 
     [SerializeField] private SoldierAttributeGroupConfig[] attributeGroups;
 
@@ -64,7 +65,7 @@ public class LobbyUI : MonoBehaviour
         var backButton = UITK.AddElement<Button>(topSection, "TertiaryButton", "P1", "backButton");
         backButton.text = "Назад";
         backButton.clicked += () => {
-            StartCoroutine(CameraMotion.MoveCameraToPoint(new(-3.5f, 2.6f, -0.4f), 1.2f));
+            StartCoroutine(CameraMotion.MoveCameraToPoint(mainMenuPos, 1.2f));
         };
     }
 

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,30 +51,37 @@ public class CameraController : MonoBehaviour
     {
         moveInput = context.ReadValue<Vector2>();
     }
+
     private void OnCameraMoveCanceled(InputAction.CallbackContext context)
     {
         moveInput = Vector2.zero;
     }
+
     private void OnCameraTurnPerformed(InputAction.CallbackContext context)
     {
         turnInput = context.ReadValue<float>();
     }
+
     private void OnCameraTurnCanceled(InputAction.CallbackContext context)
     {
         turnInput = 0;
     }
+
     private void OnCameraZoomPerformed(InputAction.CallbackContext context) 
     {
         zoomInput = context.ReadValue<Vector2>();   
     }
+
     private void OnCameraZoomCanceled(InputAction.CallbackContext context)
     {
         zoomInput = Vector2.zero ;
     }
+
     private void OnSpeedBoostPreformed(InputAction.CallbackContext context) 
     {
         isPressedLeftShift = true;
     }
+
     private void OnSpeedBoostCanceled(InputAction.CallbackContext context)
     {
         isPressedLeftShift = false;
