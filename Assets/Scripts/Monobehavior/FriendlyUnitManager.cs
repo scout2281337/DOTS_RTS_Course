@@ -39,8 +39,8 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
 
     private void Update()
     {
-        //TeamSpawn();
-        OneClassSpawn();
+        TeamSpawn();
+        //OneClassSpawn();
     }
 
     private void TryToInitialize() 
@@ -112,9 +112,12 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
 
     private void OneClassSpawn() 
     {
+
+        Debug.Log("Не воркает совсем");
         if (!isInitialized)
         {
             TryToInitialize();
+            Debug.Log("Не воркает инициализация");
         }
         if (isInitialized && !isSpawned)
         {
