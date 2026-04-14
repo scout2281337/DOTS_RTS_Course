@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4508842654130491617}
   - component: {fileID: 2413447630228157130}
-  - component: {fileID: 35124568255169965}
   - component: {fileID: 495059708750408605}
   m_Layer: 0
   m_Name: FriendlyUnitManager
@@ -56,21 +55,7 @@ MonoBehaviour:
   raiderBodyConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
   sniperWeaponConfig: {fileID: 11400000, guid: d17d285e273cf564bb0222b16f7c96d7, type: 2}
   sniperBodyConfig: {fileID: 11400000, guid: 6dcaa75872954d04c9a61d96ad8e1acc, type: 2}
-  teamAmount: 4
---- !u!114 &35124568255169965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2520080451354282666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6859769e44b4c4949a34651a389c2e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canOverwrite: 0
-  isDestroyedOnLoad: 0
+  teamAmount: 1
 --- !u!114 &495059708750408605
 MonoBehaviour:
   m_ObjectHideFlags: 0

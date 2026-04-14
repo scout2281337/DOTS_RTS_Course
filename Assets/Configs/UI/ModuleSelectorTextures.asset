@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa21a82dc9c255d4da8cd8e27bc44895, type: 3}
-  m_Name: ModuleSelectorTexturesSO
+  m_Name: ModuleSelectorTextures
   m_EditorClassIdentifier: 
   moduleCaseMask: {fileID: 2800000, guid: 1636d3a0a7d85e444af407425ef4bb9c, type: 3}

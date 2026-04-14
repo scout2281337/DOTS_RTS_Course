@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 559538f9c46b66140957875935582816, type: 3}
-  m_Name: ColorSchemeSO
+  m_Name: ColorScheme
   m_EditorClassIdentifier: 
   white: {r: 0.87058824, g: 0.87058824, b: 0.87058824, a: 1}
   lightGray: {r: 0.61960787, g: 0.61960787, b: 0.61960787, a: 1}

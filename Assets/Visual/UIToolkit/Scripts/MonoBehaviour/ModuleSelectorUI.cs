@@ -289,7 +289,7 @@ public class ModuleSelectorUI : MonoBehaviour
 
             textBox = UITK.AddElement(moduleCase, colorClass, "textBox");
 
-            description = UITK.AddElement<Label>(textBox, "P2", "description");
+            description = UITK.AddElement<Label>(textBox, "P3", "description");
             description.text = moduleConfig.description;
 
             tier = UITK.AddElement<Label>(moduleCase, "tier", "P1");

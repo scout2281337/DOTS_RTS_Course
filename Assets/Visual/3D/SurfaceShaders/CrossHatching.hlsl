@@ -1,7 +1,7 @@
 #ifndef CrossHatching_INCLUDED
 #define CrossHatching_INCLUDED
 
-#include "Assets/Visual/3D/Shaders/SDFFunctions.hlsl"
+#include "Assets/Visual/3D/SurfaceShaders/SDFFunctions.hlsl"
 
 float rand(float x)
 {

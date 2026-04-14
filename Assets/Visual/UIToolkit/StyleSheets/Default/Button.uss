@@ -4,9 +4,9 @@
     border-width: 0;
     margin: 0;
     overflow: visible;
+    transition-property: scale, color, background-color, border-color;
     transition-duration: 0.2s, 0.2s, 0.2s, 0.2s;
     transition-timing-function: ease-in-out-cubic, ease-in-out-cubic, ease-in-out-cubic, ease-in-out-cubic;
-    transition-property: scale, color, background-color, border-color;
 }
 
     .unity-button:hover {

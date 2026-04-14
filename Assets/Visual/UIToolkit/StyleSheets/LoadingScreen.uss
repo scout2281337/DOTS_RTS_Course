@@ -1,0 +1,86 @@
+.Activated {
+
+}
+
+.Slide {
+    flex-grow: 1;
+    align-items: center;
+}
+
+.SlideText {
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    transition-property: letter-spacing;
+    transition-duration: 1.0s;
+    transition-timing-function: ease-out;
+}
+
+    .Activated .SlideText {
+        letter-spacing: 130px;
+    }
+
+.SlideUndertext {
+    opacity: 0;
+    transition-property: opacity;
+    transition-delay: 1.0s; 
+    transition-duration: 3s;
+    transition-timing-function: ease-out;
+}
+
+    .Activated .SlideUndertext {
+        opacity: 1;
+    }
+
+.Frame {
+    width: 1920px;
+    height: 0px;
+    background-color: var(--black);
+    transition-property: height;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+}
+
+    .Activated .Frame {
+        height: 270px;
+    }
+
+.loadingScreen {
+    flex-grow: 1;
+}
+
+
+.firstSlide{
+    background-color: var(--black);
+}
+
+.firstSlideText {
+    color: var(--accent-main);
+}
+
+
+.secondSlide {
+    background-color: var(--accent-main);
+}
+
+.secondSlideText {
+    color: var(--white);
+}
+
+
+.thirdSlide {
+    background-color: var(--accent-main);
+}
+
+.thirdMidSection {
+    flex-grow: 1;
+    align-items: center;
+}
+
+.thirdSlideText {
+    color: var(--white);
+}
+
+.thirdSlideUndertext{
+    position: absolute;
+    top: 75%;
+}
