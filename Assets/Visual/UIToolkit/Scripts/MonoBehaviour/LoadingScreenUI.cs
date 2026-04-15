@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,6 +10,7 @@ public class LoadingScreenUI : MonoBehaviour
     [SerializeField] private LoadingScreenSO[] loadingScreenConfig;
 
     private VisualElement loadingScreen;
+    private VisualElement blackScreen;
     private VisualElement firstSlide;
     private VisualElement secondSlide;
     private VisualElement thirdSlide;
@@ -33,6 +33,9 @@ public class LoadingScreenUI : MonoBehaviour
         loadingScreen = UITK.AddElement(root, "loadingScreen");
 
         LoadingScreenSO randomScreenCFG = loadingScreenConfig[Random.Range(0, loadingScreenConfig.Length)];
+
+        blackScreen = UITK.AddElement(loadingScreen, "blackScreen");
+        blackScreen.style.display = DisplayStyle.None;
 
         firstSlide = BuildFirstSlide(randomScreenCFG);
         firstSlide.style.display = DisplayStyle.None;
@@ -81,20 +84,25 @@ public class LoadingScreenUI : MonoBehaviour
         return thirdSlide;
     }
 
-    private IEnumerator AnimateLoadingScreen()
+    private async void AnimateLoadingScreen()
     {
-        yield return null;
-        yield return null;
-        var duration = new WaitForSeconds(1.0f);
+        await Awaitable.NextFrameAsync();
+        await Awaitable.NextFrameAsync();
+        var duration = 1.0f;
+
+        blackScreen.style.display = DisplayStyle.Flex;
+        blackScreen.AddToClassList("Activated");
+        await Awaitable.WaitForSecondsAsync(duration);
+        blackScreen.style.display = DisplayStyle.None;
 
         firstSlide.style.display = DisplayStyle.Flex;
         firstSlide.AddToClassList("Activated");
-        yield return duration;
+        await Awaitable.WaitForSecondsAsync(duration);
         firstSlide.style.display = DisplayStyle.None;
 
         secondSlide.style.display = DisplayStyle.Flex;
         secondSlide.AddToClassList("Activated");
-        yield return duration;
+        await Awaitable.WaitForSecondsAsync(duration);
         secondSlide.style.display = DisplayStyle.None;
 
         thirdSlide.style.display = DisplayStyle.Flex;
@@ -105,6 +113,6 @@ public class LoadingScreenUI : MonoBehaviour
     private void Awake()
     {
         BuildLoadingScreen();
-        StartCoroutine(AnimateLoadingScreen());
+        AnimateLoadingScreen();
     }
 }

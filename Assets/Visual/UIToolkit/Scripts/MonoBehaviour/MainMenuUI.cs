@@ -7,7 +7,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private StyleSheet[] styleSheets;
     [SerializeField] private ViewController UIController;
-    [SerializeField] private Vector3 lobbyPos;
+    [SerializeField] private Transform lobbyTransform;
 
     private VisualElement mainMenu;
 
@@ -34,7 +34,7 @@ public class MainMenuUI : MonoBehaviour
             var start = UITK.AddElement<Button>(menu, "PrimaryButton", "RigidButton", "H3", "menuButton", "start");
             start.text = "Высадка";
             start.clicked += () => {
-                StartCoroutine(CameraMotion.MoveCameraToPoint(lobbyPos, 1.2f));
+                StartCoroutine(CameraMotion.MoveCameraToPoint(lobbyTransform.position, 1.2f));
             };
 
             var collection = UITK.AddElement<Button>(menu, "SecondaryButton", "RigidButton", "H3", "menuButton", "start");

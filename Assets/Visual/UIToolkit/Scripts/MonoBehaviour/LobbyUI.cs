@@ -8,7 +8,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private StyleSheet[] styleSheets;
     [SerializeField] private ViewController UIController;
-    [SerializeField] private Vector3 mainMenuPos; 
+    [SerializeField] private Transform mainMenuTransform; 
 
     [SerializeField] private SoldierAttributesConfig[] attributeGroups;
 
@@ -59,13 +59,13 @@ public class LobbyUI : MonoBehaviour
         var startButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H2", "startButton");
         startButton.text = "ВЫСАДКА";
         startButton.clicked += () => {
-            SceneManager.LoadScene("SampleScene");
+            SceneDirector.OpenSceneThroughLoadingScreen(SceneDirector.BattleSceneName);
         };
 
         var backButton = UITK.AddElement<Button>(topSection, "TertiaryButton", "P1", "backButton");
         backButton.text = "Назад";
         backButton.clicked += () => {
-            StartCoroutine(CameraMotion.MoveCameraToPoint(mainMenuPos, 1.2f));
+            StartCoroutine(CameraMotion.MoveCameraToPoint(mainMenuTransform.position, 1.2f));
         };
     }
 

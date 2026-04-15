@@ -48,6 +48,18 @@
     flex-grow: 1;
 }
 
+.blackScreen {
+    flex-grow: 1;
+    background-color: var(--black);
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: ease-out;
+}
+
+    .blackScreen.Activated {
+        opacity: 1;
+    }
 
 .firstSlide{
     background-color: var(--black);
