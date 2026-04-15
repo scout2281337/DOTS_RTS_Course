@@ -5,5 +5,4 @@ public class UnitPanelTexturesSO : ScriptableObject
 {
     public Texture2D moduleMesh;
     public Texture2D statsBoardBG;
-    public Texture2D[] classAbilityIcons;
 }

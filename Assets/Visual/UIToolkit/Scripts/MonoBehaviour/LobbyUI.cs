@@ -10,7 +10,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private ViewController UIController;
     [SerializeField] private Vector3 mainMenuPos; 
 
-    [SerializeField] private SoldierAttributeGroupConfig[] attributeGroups;
+    [SerializeField] private SoldierAttributesConfig[] attributeGroups;
 
     private VisualElement lobby;
 
@@ -140,11 +140,11 @@ public class LobbyUI : MonoBehaviour
         public AttributeTab[] skillAttributeTabs;
         public bool isActive = true;
 
-        SoldierAttributeGroupConfig attributeGroup;
+        SoldierAttributesConfig attributeGroup;
         VisualElement attributesPanel;
 
 
-        public AttributesContainer(SoldierAttributeGroupConfig attributeGroup, VisualElement attributesPanel)
+        public AttributesContainer(SoldierAttributesConfig attributeGroup, VisualElement attributesPanel)
         {
             this.attributeGroup = attributeGroup;
             this.attributesPanel = attributesPanel;

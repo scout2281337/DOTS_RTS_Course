@@ -8,7 +8,7 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
     public event Action<Entity, AbilityType> OnAbilityEnded;
     public event Action<Entity, AbilityType> OnCooldownEnded;
 
-    public event Action<UnitClass, BodyConfig, WeaponConfig, SkillConfig> OnUnitSpawned;
+    public event Action<UnitClass, SoldierAttributesConfig> OnUnitSpawned;
     public event Action<UnitClass, float> OnHealthChanged;
     public event Action<Vector3, Vector3> OnBulletShot;
     public event Action<UnitClass, ModuleBaseSO> OnNewModule;
@@ -38,15 +38,14 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
             + type);
     }
 
-    public void InvokeUnitSpawned(UnitClass unitClass, 
-        BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
+    public void InvokeUnitSpawned(UnitClass unitClass, SoldierAttributesConfig soldierConfig)
     {
-        OnUnitSpawned?.Invoke(unitClass, bodyConfig, weaponConfig, skillConfig);
+        OnUnitSpawned?.Invoke(unitClass, soldierConfig);
         Debug.Log("InvokeUnitSpawned \n" +
             unitClass + "\n"
-            + bodyConfig + "\n"
-            + weaponConfig + "\n"
-            + skillConfig);
+            + soldierConfig.bodyConfig + "\n"
+            + soldierConfig.weaponConfigs[0] + "\n"
+            + soldierConfig.skillConfigs[0]);
     }
 
     public void InvokeHealthChanged(UnitClass TargetUnitClass, float healthDelta)
@@ -60,9 +59,9 @@ public class AbilityEventListener : Singleton<AbilityEventListener>
     public void InvokeBulletShot(Vector3 start, Vector3 end)
     {
         OnBulletShot?.Invoke(start, end);
-        Debug.Log("OnBulletShot \n" +
-            start + "\n"
-            + end);
+        //Debug.Log("OnBulletShot \n" +
+        //    start + "\n"
+        //    + end);
     }
 
     public void InvokeNewModule(UnitClass unit, ModuleBaseSO module)

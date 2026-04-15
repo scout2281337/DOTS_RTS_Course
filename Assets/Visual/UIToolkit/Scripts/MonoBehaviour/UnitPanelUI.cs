@@ -14,25 +14,12 @@ public class UnitPanelUI : MonoBehaviour
 
     private VisualElement bottomSection;
 
-    [Header("Testing")]
-    public BodyConfig bodyConfigTester;
-    public WeaponConfig weaponConfigTester;
-    public SkillConfig skillConfigTester;
-
-    private static readonly UnitClass[] PreviewUnits =
-    {
-        UnitClass.Raider,
-        UnitClass.Sniper,
-        UnitClass.Juggernaut,
-        UnitClass.Arsonist
-    };
 
     private void BuildUnitPanel()
     {
         AbilityEventListener abilityEventListener = AbilityEventListener.Instance;
         VisualElement root = uiDocument.rootVisualElement;
 
-        // The panel is rebuilt from code, so we start from a clean visual tree and re-attach styles explicitly.
         root.Clear();
         root.styleSheets.Clear();
 
@@ -48,34 +35,19 @@ public class UnitPanelUI : MonoBehaviour
         bottomSection = UITK.AddElement(root, "P2", "bottomSection");
 
         abilityEventListener.OnUnitSpawned += BuildUnitProfile;
-
-        // Temporary preview data so the panel can be inspected without waiting for gameplay spawning.
-        foreach (UnitClass previewUnit in PreviewUnits)
-        {
-            abilityEventListener.InvokeUnitSpawned(previewUnit, bodyConfigTester, weaponConfigTester, skillConfigTester);
-        }
     }
 
-    private void BuildUnitProfile(UnitClass unitClass, BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig)
+    private void BuildUnitProfile(UnitClass unitClass, SoldierAttributesConfig soldierConfig)
     {
-        // Replacing the existing entry keeps the dictionary aligned with the current visual state for that unit class.
-        if (unitProfilesDict.TryGetValue(unitClass, out UnitProfile existingProfile))
-            DisposeUnitProfile(existingProfile);
-        
-        var newUnitProfile = new UnitProfile(unitClass, bodyConfig, weaponConfig, skillConfig,
-            bottomSection, texturesSO, UIController);
+        var newUnitProfile = new UnitProfile(unitClass, soldierConfig, bottomSection, texturesSO, UIController);
 
-        unitProfilesDict[unitClass] = newUnitProfile;
+        unitProfilesDict.Add(unitClass, newUnitProfile);
 
         AbilityEventListener.Instance.OnHealthChanged += newUnitProfile.OnHealthChanged;
-    }
 
-    private void DisposeUnitProfile(UnitProfile unitProfile)
-    {
-        // Cleanup has to remove both the visual element and the event subscription, otherwise old profiles keep receiving updates.
-        AbilityEventListener.Instance.OnHealthChanged -= unitProfile.OnHealthChanged;
-        unitProfile.unitProfile.RemoveFromHierarchy();
-        unitProfilesDict.Remove(unitProfile.unitClass);
+        int index = unitProfilesDict.Count - 1;
+        newUnitProfile.skillButton.clicked += () =>
+        Presenter.Instance.InvokeAbilityPress(index);
     }
 
 
@@ -83,6 +55,7 @@ public class UnitPanelUI : MonoBehaviour
     {
         // Each UnitProfile owns the full UI block for a single unit class and its related event bindings.
         public readonly UnitClass unitClass;
+        public readonly SoldierAttributesConfig soldierConfig;
         public readonly BodyConfig bodyConfig;
         public readonly WeaponConfig weaponConfig;
         public readonly SkillConfig skillConfig;
@@ -90,22 +63,24 @@ public class UnitPanelUI : MonoBehaviour
         public readonly VisualElement unitProfile;
         public readonly VisualElement attributesContainer;
 
+        public readonly Button skillButton;
         public readonly ProgressBar healthBar;
 
 
-        public UnitProfile(UnitClass unitClass, BodyConfig bodyConfig, WeaponConfig weaponConfig, SkillConfig skillConfig,
+         public UnitProfile(UnitClass unitClass, SoldierAttributesConfig soldierConfig,
             VisualElement bottomSection, UnitPanelTexturesSO textures, ViewController UIController)
         {
             this.unitClass = unitClass;
-            this.bodyConfig = bodyConfig;
-            this.weaponConfig = weaponConfig;
-            this.skillConfig = skillConfig;
+            this.soldierConfig = soldierConfig;
+            bodyConfig = soldierConfig.bodyConfig;
+            weaponConfig = soldierConfig.weaponConfigs[0];
+            skillConfig = soldierConfig.skillConfigs[0];
 
-            this.unitProfile = UITK.AddElement(bottomSection, "unitProfile");
+            unitProfile = UITK.AddElement(bottomSection, "unitProfile");
             BuildModuleMesh(UIController);
 
-            this.attributesContainer = UITK.AddElement(unitProfile, "attributesContainer");
-            healthBar = BuildSkillHPBar(textures);
+            attributesContainer = UITK.AddElement(unitProfile, "attributesContainer");
+            BuildSkillHPBar(soldierConfig, out skillButton, out healthBar);
             BuildStatsBoard(textures);
         }
 
@@ -115,18 +90,16 @@ public class UnitPanelUI : MonoBehaviour
             moduleMesh.style.backgroundImage = UIController.baseTextures.linearGradient;
         }
 
-        private ProgressBar BuildSkillHPBar(UnitPanelTexturesSO icons)
+        private void BuildSkillHPBar(SoldierAttributesConfig soldierConfig, out Button skillButton, out ProgressBar healthBar)
         {
             var skillHealthBlock = UITK.AddElement(attributesContainer, "skillHealthBlock");
 
-            var skillButton = UITK.AddElement<Button>(skillHealthBlock, "skillButton");
-            skillButton.style.backgroundImage = icons.classAbilityIcons[0];
+            skillButton = UITK.AddElement<Button>(skillHealthBlock, "skillButton");
+            skillButton.style.backgroundImage = soldierConfig.icon;
 
-            var healthBar = UITK.AddElement<ProgressBar>(skillHealthBlock, "healthBar");
+            healthBar = UITK.AddElement<ProgressBar>(skillHealthBlock, "healthBar");
             healthBar.highValue = bodyConfig.maxHealth;
             healthBar.value = bodyConfig.maxHealth;
-
-            return healthBar;
         }
 
         private void BuildStatsBoard(UnitPanelTexturesSO icons)

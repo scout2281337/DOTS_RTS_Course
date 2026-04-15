@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ba4e80c433258f439a4c8d843554c85, type: 3}
+  m_Script: {fileID: 11500000, guid: 771d45c142da52a42a9205b7e0ea376a, type: 3}
   m_Name: JuggernautAttributeGroupConfig
   m_EditorClassIdentifier: Assembly-CSharp::SoldierAttributeGroupConfig
   icon: {fileID: 2800000, guid: 063b530ed708cbb42adadc60d5248418, type: 3}

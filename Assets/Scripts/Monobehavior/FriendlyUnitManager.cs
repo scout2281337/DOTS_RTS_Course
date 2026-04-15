@@ -6,18 +6,10 @@ using UnityEngine;
 
 public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
 {
-    [Header("Огнеметчик")]
-    public WeaponConfig arsonistWeaponConfig;
-    public BodyConfig arsonistBodyConfig;
-    [Header("Джаггернаут")]
-    public WeaponConfig juggernautWeaponConfig;
-    public BodyConfig juggernautBodyConfig;
-    [Header("Рейдер")]
-    public WeaponConfig raiderWeaponConfig;
-    public BodyConfig raiderBodyConfig;
-    [Header("Снайпер")]
-    public WeaponConfig sniperWeaponConfig;
-    public BodyConfig sniperBodyConfig;
+    public SoldierAttributesConfig arsonistConfig;
+    public SoldierAttributesConfig juggernautConfig;
+    public SoldierAttributesConfig raiderConfig;
+    public SoldierAttributesConfig sniperConfig;
 
     //List<Entity> SquadMembers = new List<Entity>();
 
@@ -60,48 +52,52 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
         isInitialized = true;
     }
 
-    public void UnitInitializer(EntityManager em, WeaponConfig weaponConfig, BodyConfig bodyConfig, float3 startPos, Entity entityToSpawn) 
+    public void UnitInitializer(EntityManager em, SoldierAttributesConfig soldierConfig, float3 startPos, Entity entityToSpawn) 
     {
         Entity currentEntity = em.Instantiate(entityToSpawn);
         em.SetComponentData(currentEntity, LocalTransform.FromPosition(startPos));
         em.SetComponentData(currentEntity, new UnitMover
         {
-            CurrentMoveSpeed = bodyConfig.speed,
-            BaseSpeed = bodyConfig.speed,
-            rotationSpeed = bodyConfig.rotationSpeed,
+            CurrentMoveSpeed = soldierConfig.bodyConfig.speed,
+            BaseSpeed = soldierConfig.bodyConfig.speed,
+            rotationSpeed = soldierConfig.bodyConfig.rotationSpeed,
         }) ;
         em.SetComponentData(currentEntity, new FindTarget
         {
-            range = weaponConfig.range, 
-            targetFaction = bodyConfig.targetFaction,
+            range = soldierConfig.weaponConfigs[0].range, 
+            targetFaction = soldierConfig.bodyConfig.targetFaction,
             timer = 0,
-            timerMax = bodyConfig.timerMaxForOverlap,
+            timerMax = soldierConfig.bodyConfig.timerMaxForOverlap,
         });
         em.SetComponentData(currentEntity, new ShootAttack
         {
-            timerMax = CooldownFromFireRate(weaponConfig.fireRate),
-            timer = CooldownFromFireRate(weaponConfig.fireRate),
-            damageAmount = weaponConfig.damage,
-            attackDistance = weaponConfig.range,
-            weaponType = weaponConfig.weaponType,
-            maxPierceCount = weaponConfig.maxPierceCount,
-            explosiveRange = weaponConfig.explosiveRange,
+            timerMax = CooldownFromFireRate(soldierConfig.weaponConfigs[0].fireRate),
+            timer = CooldownFromFireRate(soldierConfig.weaponConfigs[0].fireRate),
+            damageAmount = soldierConfig.weaponConfigs[0].damage,
+            attackDistance = soldierConfig.weaponConfigs[0].range,
+            weaponType = soldierConfig.weaponConfigs[0].weaponType,
+            maxPierceCount = soldierConfig.weaponConfigs[0].maxPierceCount,
+            explosiveRange = soldierConfig.weaponConfigs[0].explosiveRange,
             attackMode = AttackMode.Normal,
-            ChargedAttackDamage = weaponConfig.ChargedAttackDamage
+            ChargedAttackDamage = soldierConfig.weaponConfigs[0].ChargedAttackDamage
         });
         em.SetComponentData(currentEntity, new Health
         {
-            healthAmountMax = bodyConfig.maxHealth,
-            healthAmount = bodyConfig.maxHealth,
-            armor = bodyConfig.armor,
+            healthAmountMax = soldierConfig.bodyConfig.maxHealth,
+            healthAmount = soldierConfig.bodyConfig.maxHealth,
+            armor = soldierConfig.bodyConfig.armor,
         });
         em.SetComponentData(currentEntity, new Unit
         {
-            Class = bodyConfig.unitClass,
-            faction = bodyConfig.currentFaction,
+            Class = soldierConfig.bodyConfig.unitClass,
+            faction = soldierConfig.bodyConfig.currentFaction,
         });
+
         // После добавления абилки или просто при спавне решить, здесь думаю нормально , но это так мысли в комментарии я шиз лелелеле
-        unitEntityDict.Add(em.GetComponentData<Unit>(currentEntity).Class, currentEntity);
+        UnitClass unitClass = em.GetComponentData<Unit>(currentEntity).Class;
+        unitEntityDict.Add(unitClass, currentEntity);
+
+        AbilityEventListener.Instance.InvokeUnitSpawned(unitClass, soldierConfig);
     }
 
     Vector3 RandomPointInCircle(Vector3 center, float radius)
@@ -124,7 +120,7 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             for (int i = 0; i < teamAmount; i++)
             {
                 Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
-                UnitInitializer(entityManager, raiderWeaponConfig, raiderBodyConfig, spawnPos, entitiesReferences.unitPrefabEntity);
+                UnitInitializer(entityManager, raiderConfig, spawnPos, entitiesReferences.unitPrefabEntity);
 
                 Debug.Log("Спавн сработал");
                 Debug.Log(entityManager.HasComponent<Prefab>(entitiesReferences.unitPrefabEntity));
@@ -146,10 +142,10 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             
             Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
             
-            UnitInitializer(entityManager, raiderWeaponConfig, raiderBodyConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
-            UnitInitializer(entityManager, juggernautWeaponConfig, juggernautBodyConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
-            UnitInitializer(entityManager, arsonistWeaponConfig, arsonistBodyConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
-            UnitInitializer(entityManager, sniperWeaponConfig, sniperBodyConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            UnitInitializer(entityManager, raiderConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            UnitInitializer(entityManager, juggernautConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            UnitInitializer(entityManager, arsonistConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
+            UnitInitializer(entityManager, sniperConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             isSpawned = true;
         }    
     }

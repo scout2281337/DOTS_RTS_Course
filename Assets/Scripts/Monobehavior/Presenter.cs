@@ -8,24 +8,13 @@ public class Presenter : Singleton<Presenter>
     public readonly List<Action> OnAbilityPress = new();
     private event Action OnEscBuffer;
 
+
     protected override void Awake()
     {
         base.Awake();
         EnsureDefaultAbilityBindings();
     }
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.G) )
-        //{
-        //    ActivateAbility(0);       
-        //}
-    }
 
-
-    public void ActivateAbility(int slotIndex)
-    {
-        InvokeAbilityPress(slotIndex);
-    }
 
     public void InvokeEscBuffer()
     {
@@ -42,7 +31,7 @@ public class Presenter : Singleton<Presenter>
 
         OnAbilityPress[i]?.Invoke();
         Debug.Log("InvokeAbilityPress \n" +
-            i +
+            i + "\n" +
             OnAbilityPress[i]);
     }
 
