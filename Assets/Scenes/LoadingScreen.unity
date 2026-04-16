@@ -187,13 +187,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38271606561ae624c90fecf15f9648b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadingScreenUI
-  uiDocument: {fileID: 1431774040}
-  styleSheets:
+  _uiDocument: {fileID: 1431774040}
+  _styleSheets:
   - {fileID: 7433441132597879392, guid: f13a2a542ca9573488da7a07e4f4410c, type: 3}
-  UIController: {fileID: 2035696746}
-  loadingScreenConfig:
+  _UIController: {fileID: 2035696746}
+  _loadingScreenConfig:
   - {fileID: 11400000, guid: ddc380c13f26707418194ec22e570768, type: 2}
-  - {fileID: 11400000, guid: 2cf03f496911c7c4a8d6c79789ab1a0c, type: 2}
 --- !u!1001 &2035696745
 PrefabInstance:
   m_ObjectHideFlags: 0

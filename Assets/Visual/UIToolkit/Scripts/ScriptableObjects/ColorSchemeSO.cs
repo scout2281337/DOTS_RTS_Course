@@ -4,27 +4,21 @@ using UnityEngine;
 public class ColorSchemeSO : ScriptableObject
 {
     [Header("Neutral Colors")]
-    public Color white;
-    public Color lightGray;
-    public Color gray;
-    public Color darkGray;
-    public Color black;
+    public Color White;
+    public Color LightGray;
+    public Color Gray;
+    public Color DarkGray;
+    public Color Black;
 
     [Header("Accent Colors")]
-    public Color accentCyan;
-    public Color accentPurple;
-    public Color accentRed;
-
-    [Header("Base Colors")]
-    public Color baseCyan;
-    public Color basePurple;
-    public Color baseRed;
+    public Color AccentMain;
+    public Color AccentEnemy;
 
     [Header("Module Colors")]
-    public Color WPOrange;
-    public Color WPOrangeBG;
-    public Color TSBlue;
-    public Color TSBlueBG;
-    public Color DPGreen;
-    public Color DPGreenBG;
+    public Color AccentWP;
+    public Color BaseWP;
+    public Color AccentTS;
+    public Color BaseTS;
+    public Color AccentDP;
+    public Color BaseDP;
 }

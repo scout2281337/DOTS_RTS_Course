@@ -5,105 +5,105 @@ using UnityEngine.UIElements;
 public class ModuleSelectorUI : MonoBehaviour
 {
     [Header("UI Toolkit")]
-    [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private StyleSheet[] styleSheets;
-    [SerializeField] private ViewController UIController;
-    [SerializeField] private ModuleSelectorTexturesSO texturesSO;
+    [SerializeField] private UIDocument _uiDocument;
+    [SerializeField] private StyleSheet[] _styleSheets;
+    [SerializeField] private ModuleSelectorTexturesSO _texturesSO;
 
-    [SerializeField] private int modulesPerWave = 3;
-    [SerializeField] private int modulationTokens = 3;
+    [SerializeField] private int _modulesPerWave = 3;
+    [SerializeField] private int _modulationTokens = 3;
 
-    private bool isUpgradable = true;
+    private bool _isUpgradable = true;
     //private bool isHidden = false;
-    private bool isStabilized = false;
-    private int takenModules = 0;
-    private Dictionary<UnitClass, VisualElement> unitAssignedBox = new();
-    private Dictionary<UnitClass, Module> unitDisplayedModules = new();
+    private bool _isStabilized = false;
+    private int _takenModules = 0;
+    private Dictionary<UnitClass, VisualElement> _unitAssignedBox = new();
+    private Dictionary<UnitClass, Module> _unitDisplayedModules = new();
 
-    private VisualElement moduleScreenBG;
-    private VisualElement moduleBoard;
-    private VisualElement[] moduleBoxes;
-    private Button upgradeButton;
-    private Button recalibrateButton;
-    private Button stabilizeButton;
-    private Label tokenModuleTracker;
+    private VisualElement _moduleScreenBG;
+    private VisualElement _moduleBoard;
+    private VisualElement[] _moduleBoxes;
+    private Button _upgradeButton;
+    private Button _recalibrateButton;
+    private Button _stabilizeButton;
+    private Label _tokenModuleTracker;
 
 
     private void BuildModuleSelector()
     {
-        VisualElement root = uiDocument.rootVisualElement;
+        VisualElement root = _uiDocument.rootVisualElement;
         root.Clear();
 
-        foreach (StyleSheet sheet in UIController.defaultStyleSheet.styles)
+        ViewController _UIController = ViewController.Instance;
+        foreach (StyleSheet sheet in _UIController.DefaultStyleSheet.BaseStyles)
         {
             root.styleSheets.Add(sheet);
         }
-        foreach (StyleSheet sheet in styleSheets)
+        foreach (StyleSheet sheet in _styleSheets)
         {
             root.styleSheets.Add(sheet);
         }
 
-        moduleScreenBG = UITK.AddElement(root, "moduleScreenBG");
+        _moduleScreenBG = UITK.AddElement(root, "moduleScreenBG");
 
         var topSection = UITK.AddElement(root, "topSection");
 
-        upgradeButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H1", "upgradeButton");
-        upgradeButton.text = "UPGRADE";
-        upgradeButton.clicked += StartUpgrade;
+        _upgradeButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H1", "upgradeButton");
+        _upgradeButton.text = "UPGRADE";
+        _upgradeButton.clicked += StartUpgrade;
 
-        tokenModuleTracker = UITK.AddElement<Label>(topSection, "H4", "tokenModuleTracker");
-        tokenModuleTracker.text = "ML: " + modulesPerWave + "   MT: " + modulationTokens;
+        _tokenModuleTracker = UITK.AddElement<Label>(topSection, "H4", "tokenModuleTracker");
+        _tokenModuleTracker.text = "ML: " + _modulesPerWave + "   MT: " + _modulationTokens;
 
         var midSection = UITK.AddElement(root, "midSection");
 
         var recalibrateButtonBox = UITK.AddElement(midSection, "recalibrateButtonBox"); // Need it for proper alignment due to rotation of the button
-        recalibrateButton = UITK.AddElement<Button>(recalibrateButtonBox, "SecondaryButton", "H4", "recalibrateButton");
-        recalibrateButton.text = "RECALIBRATE";
-        recalibrateButton.clicked += RecalibrateModules;
+        _recalibrateButton = UITK.AddElement<Button>(recalibrateButtonBox, "SecondaryButton", "H4", "recalibrateButton");
+        _recalibrateButton.text = "RECALIBRATE";
+        _recalibrateButton.clicked += RecalibrateModules;
 
-        moduleBoard = UITK.AddElement(midSection, "moduleBoard");
+        _moduleBoard = UITK.AddElement(midSection, "moduleBoard");
 
         var stabilizeButtonBox = UITK.AddElement(midSection, "stabilizeButtonBox");  // Need it for proper alignment due to rotation of the button
-        stabilizeButton = UITK.AddElement<Button>(stabilizeButtonBox, "SecondaryButton", "H4", "stabilizeButton");
-        stabilizeButton.text = "STABILIZE";
-        stabilizeButton.clicked += StabilizeModules;
+        _stabilizeButton = UITK.AddElement<Button>(stabilizeButtonBox, "SecondaryButton", "H4", "stabilizeButton");
+        _stabilizeButton.text = "STABILIZE";
+        _stabilizeButton.clicked += StabilizeModules;
 
         HideModuleBoard();
 
-        upgradeButton.style.display = DisplayStyle.Flex;
+        _upgradeButton.style.display = DisplayStyle.Flex;
     }
 
     private void StartUpgrade()
     {
         RevealModuleBoard();
-        upgradeButton.style.display = DisplayStyle.None;
+        _upgradeButton.style.display = DisplayStyle.None;
 
         GenerateModules();
     }
 
     private void RecalibrateModules()
     {
-        if (modulationTokens <= 0) return;
-        if (isStabilized) return;
+        if (_modulationTokens <= 0) return;
+        if (_isStabilized) return;
 
         RecycleModules();
-        modulationTokens--;
+        _modulationTokens--;
 
         UpdateModuleScreen();
     }
 
     private void StabilizeModules()
     {
-        if (isStabilized)
+        if (_isStabilized)
         {
-            isStabilized = false;
-            modulationTokens++;
+            _isStabilized = false;
+            _modulationTokens++;
         }
         else
         {
-            if (modulationTokens <= 0) return;
-            isStabilized = true;
-            modulationTokens--;
+            if (_modulationTokens <= 0) return;
+            _isStabilized = true;
+            _modulationTokens--;
         }
 
         UpdateModuleScreen();
@@ -111,11 +111,11 @@ public class ModuleSelectorUI : MonoBehaviour
 
     private void RevealModuleBoard()
     {
-        moduleBoard.style.display = DisplayStyle.Flex;
-        recalibrateButton.style.display = DisplayStyle.Flex;
-        stabilizeButton.style.display = DisplayStyle.Flex;
-        tokenModuleTracker.style.display = DisplayStyle.Flex;
-        moduleScreenBG.style.display = DisplayStyle.Flex;
+        _moduleBoard.style.display = DisplayStyle.Flex;
+        _recalibrateButton.style.display = DisplayStyle.Flex;
+        _stabilizeButton.style.display = DisplayStyle.Flex;
+        _tokenModuleTracker.style.display = DisplayStyle.Flex;
+        _moduleScreenBG.style.display = DisplayStyle.Flex;
 
         UpdateModuleScreen();
 
@@ -124,45 +124,45 @@ public class ModuleSelectorUI : MonoBehaviour
 
     private void HideModuleBoard()
     {
-        moduleBoard.style.display = DisplayStyle.None;
-        recalibrateButton.style.display = DisplayStyle.None;
-        stabilizeButton.style.display = DisplayStyle.None;
-        tokenModuleTracker.style.display = DisplayStyle.None;
-        moduleScreenBG.style.display = DisplayStyle.None;
+        _moduleBoard.style.display = DisplayStyle.None;
+        _recalibrateButton.style.display = DisplayStyle.None;
+        _stabilizeButton.style.display = DisplayStyle.None;
+        _tokenModuleTracker.style.display = DisplayStyle.None;
+        _moduleScreenBG.style.display = DisplayStyle.None;
 
         //isHidden = true;
     }
 
     private void GenerateModules()
     {
-        if (!isUpgradable) return;
-        isUpgradable = false;
+        if (!_isUpgradable) return;
+        _isUpgradable = false;
 
 
         var unitDict = FriendlyUnitManager.Instance.unitEntityDict;
         var modGen = ModuleManager.Instance;
         
-        moduleBoxes = new VisualElement[unitDict.Count];
+        _moduleBoxes = new VisualElement[unitDict.Count];
 
         int i = 0;
         foreach (var unit in unitDict.Keys)
         {
-            var box = UITK.AddElement(moduleBoard, "moduleBox");
+            var box = UITK.AddElement(_moduleBoard, "moduleBox");
 
-            moduleBoxes[i++] = box;
-            unitAssignedBox.Add(unit, box);
+            _moduleBoxes[i++] = box;
+            _unitAssignedBox.Add(unit, box);
 
             ModuleBuilder(unit, modGen.GetRandomModuleForUnit(unit));
         }
 
-        Debug.Log(moduleBoxes);
+        Debug.Log(_moduleBoxes);
     }
 
     private void RecycleModules()
     {
-        if (isStabilized)
+        if (_isStabilized)
         {
-            isStabilized = false;
+            _isStabilized = false;
             return;
         }
 
@@ -171,7 +171,7 @@ public class ModuleSelectorUI : MonoBehaviour
 
         foreach (var unit in unitDict.Keys)
         {
-            if (unitDisplayedModules[unit].isTaken) continue;
+            if (_unitDisplayedModules[unit].isTaken) continue;
 
             RemoveModule(unit);
             ModuleBuilder(unit, modGen.GetRandomModuleForUnit(unit));
@@ -180,23 +180,23 @@ public class ModuleSelectorUI : MonoBehaviour
 
     private void ModuleBuilder(UnitClass TargetUnitClass, ModuleBaseSO moduleSO)
     {
-        var box = unitAssignedBox[TargetUnitClass];
-        var module = new Module(moduleSO, box, texturesSO);
+        var box = _unitAssignedBox[TargetUnitClass];
+        var module = new Module(moduleSO, box, _texturesSO);
 
         module.moduleCase.clicked += () => SelectModule(module);
-        unitDisplayedModules.Add(TargetUnitClass, module);
+        _unitDisplayedModules.Add(TargetUnitClass, module);
     }
 
     private void RemoveModule(UnitClass unit)
     {
-        unitDisplayedModules[unit].moduleCase.RemoveFromHierarchy();
-        unitDisplayedModules.Remove(unit);
+        _unitDisplayedModules[unit].moduleCase.RemoveFromHierarchy();
+        _unitDisplayedModules.Remove(unit);
     }
 
     private void SelectModule(Module module)
     {
         UnitClass unit = UnitClass.Robot;
-        foreach (var kvp in unitDisplayedModules)
+        foreach (var kvp in _unitDisplayedModules)
         {
             if (kvp.Value == module)
             {
@@ -211,31 +211,31 @@ public class ModuleSelectorUI : MonoBehaviour
         module.moduleCase.SetEnabled(false);
 
         RecycleModules();
-        takenModules++;
+        _takenModules++;
 
         UpdateModuleScreen();
 
-        if (takenModules < modulesPerWave) return;
+        if (_takenModules < _modulesPerWave) return;
         HideModuleBoard();
     }
 
     private void UpdateModuleScreen()
     {
-        tokenModuleTracker.text = "ML: " + (modulesPerWave - takenModules) + "MT: " + modulationTokens;
+        _tokenModuleTracker.text = "ML: " + (_modulesPerWave - _takenModules) + "MT: " + _modulationTokens;
 
-        if (modulationTokens <= 0)
+        if (_modulationTokens <= 0)
         {
-            stabilizeButton.SetEnabled(false);
-            recalibrateButton.SetEnabled(false);
+            _stabilizeButton.SetEnabled(false);
+            _recalibrateButton.SetEnabled(false);
         }
         else
         {
-            stabilizeButton.SetEnabled(true);
+            _stabilizeButton.SetEnabled(true);
 
-            if ((modulesPerWave - takenModules) <= 1)
-                stabilizeButton.SetEnabled(false);
+            if ((_modulesPerWave - _takenModules) <= 1)
+                _stabilizeButton.SetEnabled(false);
             else
-                recalibrateButton.SetEnabled(true);
+                _recalibrateButton.SetEnabled(true);
         }
     }
 
@@ -280,7 +280,7 @@ public class ModuleSelectorUI : MonoBehaviour
             moduleCase = UITK.AddElement<Button>(moduleBox, "ClearButton", "moduleCase");
 
             moduleBG = UITK.AddElement(moduleCase, colorClass, "moduleBG");
-            moduleBG.style.backgroundImage = texturesSO.moduleCaseMask;
+            moduleBG.style.backgroundImage = texturesSO.ModuleCaseMask;
 
             moduleCOLayers = UITK.CreateChromaticAberration(moduleBG, 0.7f);
 
@@ -341,7 +341,7 @@ public class ModuleSelectorUI : MonoBehaviour
 
     private void Update()
     {
-        foreach (var module in unitDisplayedModules.Values)
+        foreach (var module in _unitDisplayedModules.Values)
         {
             UITK.ParallaxOffset(module.moduleCase, Input.mousePosition, 0.008f);
             UITK.ParallaxOffset(module.moduleCOLayers[0], Input.mousePosition, 0.008f);

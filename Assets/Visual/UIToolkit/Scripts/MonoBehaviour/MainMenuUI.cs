@@ -1,40 +1,41 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class MainMenuUI : MonoBehaviour
 {
     [Header("UI Toolkit")]
-    [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private StyleSheet[] styleSheets;
-    [SerializeField] private ViewController UIController;
-    [SerializeField] private Transform lobbyTransform;
+    [SerializeField] private UIDocument _uiDocument;
+    [SerializeField] private StyleSheet[] _styleSheets;
+    [SerializeField] private CinemachineCamera _lobbyCamera;
 
-    private VisualElement mainMenu;
+    private VisualElement _mainMenu;
 
     private void BuildMainMenu()
     {
-        VisualElement root = uiDocument.rootVisualElement;
+        VisualElement root = _uiDocument.rootVisualElement;
         root.Clear();
 
-        foreach (StyleSheet sheet in UIController.defaultStyleSheet.styles)
+        ViewController _UIController = ViewController.Instance;
+        foreach (StyleSheet sheet in _UIController.DefaultStyleSheet.BaseStyles)
         {
             root.styleSheets.Add(sheet);
         }
-        foreach (StyleSheet sheet in styleSheets)
+        foreach (StyleSheet sheet in _styleSheets)
         {
             root.styleSheets.Add(sheet);
         }
 
-        mainMenu = UITK.AddElement(root, "mainMenu");
+        _mainMenu = UITK.AddElement(root, "mainMenu");
 
-        var bottomSection = UITK.AddElement(mainMenu, "bottomSection");
+        var bottomSection = UITK.AddElement(_mainMenu, "bottomSection");
 
         var menu = UITK.AddElement(bottomSection, "menu");
         
             var start = UITK.AddElement<Button>(menu, "PrimaryButton", "RigidButton", "H3", "menuButton", "start");
             start.text = "Высадка";
             start.clicked += () => {
-                StartCoroutine(CameraMotion.MoveCameraToPoint(lobbyTransform.position, 1.2f));
+                _lobbyCamera.Priority += 2;
             };
 
             var collection = UITK.AddElement<Button>(menu, "SecondaryButton", "RigidButton", "H3", "menuButton", "start");
@@ -55,6 +56,6 @@ public class MainMenuUI : MonoBehaviour
 
     private void Update()
     {
-        UITK.TrackUIToWorldPosition(transform.position, mainMenu, Camera.main, new Vector2(0, 0));
+        UITK.TrackUIToWorldPosition(transform.position, _mainMenu, Camera.main, new Vector2(0, 0));
     }
 }

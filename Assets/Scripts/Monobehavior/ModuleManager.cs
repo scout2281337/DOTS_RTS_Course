@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class ModuleManager : Singleton<ModuleManager>
 {
-    public int waveNumberTester = 1;
+    public int WaveNumberTester = 1;
 
-    [SerializeField] private ModuleBaseSO[] tierIModules;
-    [SerializeField] private ModuleBaseSO[] tierIIModules;
-    [SerializeField] private ModuleBaseSO[] tierIIIModules;
-    [SerializeField] private Vector3[] waveTierChanceTable;
+    [SerializeField] private ModuleBaseSO[] _tierIModules;
+    [SerializeField] private ModuleBaseSO[] _tierIIModules;
+    [SerializeField] private ModuleBaseSO[] _tierIIIModules;
+    [SerializeField] private Vector3[] _waveTierChanceTable;
 
-    private readonly Dictionary<UnitClass, List<ModuleBaseSO>> unitEquippedModules = new();
+    private readonly Dictionary<UnitClass, List<ModuleBaseSO>> _unitEquippedModules = new();
 
     public ModuleBaseSO GetRandomModuleForUnit(UnitClass unit)
     {
-        var chanceTable = waveTierChanceTable[waveNumberTester - 1];
+        var chanceTable = _waveTierChanceTable[WaveNumberTester - 1];
 
         float totalWeight = chanceTable.x + chanceTable.y + chanceTable.z;
         float randomPoint = Random.value * totalWeight;
 
-        var chosenModuleTier = randomPoint < chanceTable.x ? tierIModules
-            : randomPoint < chanceTable.x + chanceTable.y ? tierIIModules
-            : tierIIIModules;
+        var chosenModuleTier = randomPoint < chanceTable.x ? _tierIModules
+            : randomPoint < chanceTable.x + chanceTable.y ? _tierIIModules
+            : _tierIIIModules;
 
         ModuleBaseSO rndModule = null;
 
@@ -30,7 +30,7 @@ public class ModuleManager : Singleton<ModuleManager>
         {
             rndModule = chosenModuleTier[Random.Range(0, chosenModuleTier.Length)];
 
-            if (!unitEquippedModules.TryGetValue(unit, out var moduleList)) break;
+            if (!_unitEquippedModules.TryGetValue(unit, out var moduleList)) break;
             if (!moduleList.Contains(rndModule)) break;
         }
 
@@ -39,10 +39,10 @@ public class ModuleManager : Singleton<ModuleManager>
 
     public void AddNewModuleToDict(UnitClass unit, ModuleBaseSO module)
     {
-        if (!unitEquippedModules.TryGetValue(unit, out var moduleList))
+        if (!_unitEquippedModules.TryGetValue(unit, out var moduleList))
         {
             moduleList = new List<ModuleBaseSO>();
-            unitEquippedModules.Add(unit, moduleList);
+            _unitEquippedModules.Add(unit, moduleList);
         }
 
         moduleList.Add(module);

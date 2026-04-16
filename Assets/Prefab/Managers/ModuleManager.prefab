@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e72714f61e3aef49b7c82bd78240f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModuleGenerator
-  canOverwrite: 0
-  isDestroyedOnLoad: 0
-  waveNumberTester: 1
-  tierIModules:
+  _canOverwrite: 0
+  _isDestroyedOnLoad: 0
+  WaveNumberTester: 1
+  _tierIModules:
   - {fileID: 11400000, guid: cb5cb86421bdea04dba42fbf95ed310c, type: 2}
   - {fileID: 11400000, guid: 836901b078a2b3f4c8cc8e75041de561, type: 2}
   - {fileID: 11400000, guid: 87a60e73baa00aa47b5eaa184548c419, type: 2}
@@ -59,12 +59,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 142d035e95340f244bee0717a5ae94fc, type: 2}
   - {fileID: 11400000, guid: 3b2f1fa5df7522848b8f0ae8062ab4ec, type: 2}
   - {fileID: 11400000, guid: e2c59230f33984a44938990439cda679, type: 2}
-  tierIIModules: []
-  tierIIIModules: []
-  waveTierChanceTable:
-  - {x: 90, y: 10, z: 0}
-  - {x: 50, y: 40, z: 10}
-  - {x: 25, y: 55, z: 20}
-  - {x: 15, y: 50, z: 35}
-  - {x: 10, y: 35, z: 55}
-  - {x: 5, y: 20, z: 75}
+  _tierIIModules: []
+  _tierIIIModules: []
+  _waveTierChanceTable:
+  - {x: 100, y: 0, z: 0}

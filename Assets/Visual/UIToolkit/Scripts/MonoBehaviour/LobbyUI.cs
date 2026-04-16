@@ -1,43 +1,43 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 
 public class LobbyUI : MonoBehaviour
 {
     [Header("UI Toolkit")]
-    [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private StyleSheet[] styleSheets;
-    [SerializeField] private ViewController UIController;
-    [SerializeField] private Transform mainMenuTransform; 
+    [SerializeField] private UIDocument _uiDocument;
+    [SerializeField] private StyleSheet[] _styleSheets;
+    [SerializeField] private CinemachineCamera _mainMenuCamera; 
 
-    [SerializeField] private SoldierAttributesConfig[] attributeGroups;
+    [SerializeField] private SoldierAttributesConfig[] _attributeGroups;
 
-    private VisualElement lobby;
+    private VisualElement _lobby;
 
 
     private void BuildLobby()
     {
-        VisualElement root = uiDocument.rootVisualElement;
+        VisualElement root = _uiDocument.rootVisualElement;
         root.Clear();
 
-        foreach (StyleSheet sheet in UIController.defaultStyleSheet.styles)
+        ViewController _UIController = ViewController.Instance;
+        foreach (StyleSheet sheet in _UIController.DefaultStyleSheet.BaseStyles)
         {
             root.styleSheets.Add(sheet);
         }
-        foreach (StyleSheet sheet in styleSheets)
+        foreach (StyleSheet sheet in _styleSheets)
         {
             root.styleSheets.Add(sheet);
         }
 
-        lobby = UITK.AddElement(root, "lobby");
+        _lobby = UITK.AddElement(root, "lobby");
 
-        var topSection = UITK.AddElement(lobby, "topSection");
+        var topSection = UITK.AddElement(_lobby, "topSection");
         BuildTop(topSection);
 
-        var midSection = UITK.AddElement(lobby, "midSection");
+        var midSection = UITK.AddElement(_lobby, "midSection");
         BuildMiddle(midSection, out Button[] soldierIcons);
 
-        var bottomSection = UITK.AddElement(lobby, "bottomSection");
+        var bottomSection = UITK.AddElement(_lobby, "bottomSection");
         BuildBottom(bottomSection, out AttributesContainer[] attributesContainers);
 
 
@@ -59,13 +59,13 @@ public class LobbyUI : MonoBehaviour
         var startButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H2", "startButton");
         startButton.text = "ВЫСАДКА";
         startButton.clicked += () => {
-            SceneDirector.OpenSceneThroughLoadingScreen(SceneDirector.BattleSceneName);
+            SceneDirector.OpenSceneThroughLoadingScreen(SceneDirector.BATTLE);
         };
 
         var backButton = UITK.AddElement<Button>(topSection, "TertiaryButton", "P1", "backButton");
         backButton.text = "Назад";
         backButton.clicked += () => {
-            StartCoroutine(CameraMotion.MoveCameraToPoint(mainMenuTransform.position, 1.2f));
+            _mainMenuCamera.Priority += 2;
         };
     }
 
@@ -106,14 +106,14 @@ public class LobbyUI : MonoBehaviour
             iconColumns[i] = UITK.AddElement(soldiersPanel, "iconColumn");
 
         // Creating buttons and layout
-        soldierIcons = new Button[attributeGroups.Length];
+        soldierIcons = new Button[_attributeGroups.Length];
         for (int i = 0; i < soldierIcons.Length; i++)
         {
             // Placing icons in right column
             var column = i % 2 == 0 ? iconColumns[0] : iconColumns[1];
 
             soldierIcons[i] = UITK.AddElement<Button>(column, "RigidButton", "soldierIcon");
-            soldierIcons[i].style.backgroundImage = attributeGroups[i].icon;
+            soldierIcons[i].style.backgroundImage = _attributeGroups[i].icon;
         }
     }
 
@@ -122,10 +122,10 @@ public class LobbyUI : MonoBehaviour
         var attributesPanel = UITK.AddElement(bottomSection, "LobbyPanel", "attributesPanel");
 
         // Creating containers and hiding them, so that there is no overlap between each over
-        attributesContainers = new AttributesContainer[attributeGroups.Length];
-        for (int i = 0; i < attributeGroups.Length; i++)
+        attributesContainers = new AttributesContainer[_attributeGroups.Length];
+        for (int i = 0; i < _attributeGroups.Length; i++)
         {
-            attributesContainers[i] = new AttributesContainer(attributeGroups[i], attributesPanel);
+            attributesContainers[i] = new AttributesContainer(_attributeGroups[i], attributesPanel);
             attributesContainers[i].Deactivate();
         }
     }
@@ -277,6 +277,6 @@ public class LobbyUI : MonoBehaviour
 
     private void Update()
     {
-        UITK.TrackUIToWorldPosition(transform.position, lobby, Camera.main, new Vector2(0, 0));
+        UITK.TrackUIToWorldPosition(transform.position, _lobby, Camera.main, new Vector2(0, 0));
     }
 }

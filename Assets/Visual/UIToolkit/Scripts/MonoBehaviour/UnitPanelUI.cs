@@ -5,47 +5,49 @@ using UnityEngine.UIElements;
 public class UnitPanelUI : MonoBehaviour
 {
     [Header("UI Toolkit")]
-    [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private StyleSheet[] styleSheets;
-    [SerializeField] private ViewController UIController;
-    [SerializeField] private UnitPanelTexturesSO texturesSO;
+    [SerializeField] private UIDocument _uiDocument;
+    [SerializeField] private StyleSheet[] _styleSheets;
+    [SerializeField] private UnitPanelTexturesSO _texturesSO;
+    
+    private ViewController _UIController;
 
-    private readonly Dictionary<UnitClass, UnitProfile> unitProfilesDict = new();
+    private readonly Dictionary<UnitClass, UnitProfile> _unitProfilesDict = new();
 
-    private VisualElement bottomSection;
+    private VisualElement _bottomSection;
 
 
     private void BuildUnitPanel()
     {
         AbilityEventListener abilityEventListener = AbilityEventListener.Instance;
-        VisualElement root = uiDocument.rootVisualElement;
+        VisualElement root = _uiDocument.rootVisualElement;
 
         root.Clear();
         root.styleSheets.Clear();
 
-        foreach (StyleSheet sheet in UIController.defaultStyleSheet.styles)
+        _UIController = ViewController.Instance;
+        foreach (StyleSheet sheet in _UIController.DefaultStyleSheet.BaseStyles)
         {
             root.styleSheets.Add(sheet);
         }
-        foreach (StyleSheet sheet in styleSheets)
+        foreach (StyleSheet sheet in _styleSheets)
         {
             root.styleSheets.Add(sheet);
         }
 
-        bottomSection = UITK.AddElement(root, "P2", "bottomSection");
+        _bottomSection = UITK.AddElement(root, "P2", "bottomSection");
 
         abilityEventListener.OnUnitSpawned += BuildUnitProfile;
     }
 
     private void BuildUnitProfile(UnitClass unitClass, SoldierAttributesConfig soldierConfig)
     {
-        var newUnitProfile = new UnitProfile(unitClass, soldierConfig, bottomSection, texturesSO, UIController);
+        var newUnitProfile = new UnitProfile(unitClass, soldierConfig, _bottomSection, _texturesSO, _UIController);
 
-        unitProfilesDict.Add(unitClass, newUnitProfile);
+        _unitProfilesDict.Add(unitClass, newUnitProfile);
 
         AbilityEventListener.Instance.OnHealthChanged += newUnitProfile.OnHealthChanged;
 
-        int index = unitProfilesDict.Count - 1;
+        int index = _unitProfilesDict.Count - 1;
         newUnitProfile.skillButton.clicked += () =>
         Presenter.Instance.InvokeAbilityPress(index);
     }
@@ -87,7 +89,7 @@ public class UnitPanelUI : MonoBehaviour
         private void BuildModuleMesh(ViewController UIController)
         {
             var moduleMesh = UITK.AddElement(unitProfile, "moduleMesh");
-            moduleMesh.style.backgroundImage = UIController.baseTextures.linearGradient;
+            moduleMesh.style.backgroundImage = UIController.BaseTextures.LinearGradient;
         }
 
         private void BuildSkillHPBar(SoldierAttributesConfig soldierConfig, out Button skillButton, out ProgressBar healthBar)
@@ -105,7 +107,7 @@ public class UnitPanelUI : MonoBehaviour
         private void BuildStatsBoard(UnitPanelTexturesSO icons)
         {
             var statsBoard = UITK.AddElement(attributesContainer, "P1", "statsBoard");
-            statsBoard.style.backgroundImage = icons.statsBoardBG;
+            statsBoard.style.backgroundImage = icons.StatsBoardBG;
 
             var weaponBoard = UITK.AddElement(statsBoard, "statBoard");
 

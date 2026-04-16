@@ -45,16 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a05786b773143534fafc6ff7e1d61784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canOverwrite: 0
-  isDestroyedOnLoad: 0
-  arsonistWeaponConfig: {fileID: 11400000, guid: 57c422c11f6634d4c82e0d6943c3ccca, type: 2}
-  arsonistBodyConfig: {fileID: 11400000, guid: 06ca1b09c7b9fc240859661fc34c296b, type: 2}
-  juggernautWeaponConfig: {fileID: 11400000, guid: 3fd6e373c721b8140967f34c65b6f213, type: 2}
-  juggernautBodyConfig: {fileID: 11400000, guid: 3351b0dd4065dc74a9b2ba0089366623, type: 2}
-  raiderWeaponConfig: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}
-  raiderBodyConfig: {fileID: 11400000, guid: 9b1a4f50b8e2ffb4b8184c873dc85781, type: 2}
-  sniperWeaponConfig: {fileID: 11400000, guid: d17d285e273cf564bb0222b16f7c96d7, type: 2}
-  sniperBodyConfig: {fileID: 11400000, guid: 6dcaa75872954d04c9a61d96ad8e1acc, type: 2}
+  _canOverwrite: 0
+  _isDestroyedOnLoad: 0
+  arsonistConfig: {fileID: 11400000, guid: 58ca31c614777e0489631858beda6e11, type: 2}
+  juggernautConfig: {fileID: 11400000, guid: ee7e67b14c07c4746ad083ae399b73a6, type: 2}
+  raiderConfig: {fileID: 11400000, guid: f02a43132c09c8a44a58f1c1e8bddcad, type: 2}
+  sniperConfig: {fileID: 11400000, guid: 77a4fc8833e8be34fb4423b43146e16d, type: 2}
   teamAmount: 1
 --- !u!114 &495059708750408605
 MonoBehaviour:

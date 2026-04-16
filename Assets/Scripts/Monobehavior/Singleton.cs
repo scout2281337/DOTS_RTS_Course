@@ -2,56 +2,58 @@ using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    protected static T instance;
-
     [Header("Singleton")]
-    [SerializeField] private bool canOverwrite = false;
-    [SerializeField] private bool isDestroyedOnLoad = false;
+    [SerializeField] private bool _canOverwrite = false;
+    [SerializeField] private bool _isDestroyedOnLoad = false;
+
+    protected static T _instance;
+
 
     public static T Instance
     {
         get
         {
-            if (instance != null)
+            if (_instance != null)
             {
-                return instance;
+                return _instance;
             }
 
-            instance = FindFirstObjectByType<T>();
-            if (instance != null)
+            _instance = FindFirstObjectByType<T>();
+            if (_instance != null)
             {
-                return instance;
+                return _instance;
             }
 
             GameObject singletonObject = new(typeof(T).Name);
-            instance = singletonObject.AddComponent<T>();
+            _instance = singletonObject.AddComponent<T>();
             Debug.LogWarning($"No {typeof(T).Name} was found in the scene, so a new one was created automatically.");
-            return instance;
+            return _instance;
         }
     }
+
 
     protected virtual void Awake()
     {
         T current = this as T;
 
-        if (instance != null && instance != current)
+        if (_instance != null && _instance != current)
         {
-            if (!canOverwrite)
+            if (!_canOverwrite)
             {
                 Debug.LogWarning($"Duplicate instance of {typeof(T).Name} on {name} was destroyed.");
                 Destroy(gameObject);
                 return;
             }
 
-            if (instance.gameObject != null)
+            if (_instance.gameObject != null)
             {
-                Destroy(instance.gameObject);
+                Destroy(_instance.gameObject);
             }
         }
 
-        instance = current;
+        _instance = current;
 
-        if (!isDestroyedOnLoad)
+        if (!_isDestroyedOnLoad)
         {
              DontDestroyOnLoad(gameObject);
         }
@@ -59,9 +61,9 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        if (instance != null)
+        if (_instance != null)
         {
-            instance = null;
+            _instance = null;
         }
     }
 }

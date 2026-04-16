@@ -161,9 +161,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 8165607075834207867, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 772246153503332961}
     - targetCorrespondingSourceObject: {fileID: 2252680472933382021, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 615063715091263184}
@@ -183,11 +180,6 @@ Transform:
 --- !u!4 &4092755399443125661 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2252680472933382021, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
-  m_PrefabInstance: {fileID: 2850571501839163928}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6259251359308725347 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8165607075834207867, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
   m_PrefabInstance: {fileID: 2850571501839163928}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8020765196219228651 stripped
@@ -226,37 +218,3 @@ MonoBehaviour:
   IsTriggered: 0
   TargetType: 0
   ClassSkillConfig: {fileID: 11400000, guid: fec15c96a3996d94f894bf7e6ff4846f, type: 2}
---- !u!1001 &8175049506232043090
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6259251359308725347}
-    m_Modifications:
-    - target: {fileID: 862730621456251416, guid: 9c7bc8ea463160d4e8d977ae0cbadfb9, type: 3}
-      propertyPath: m_Name
-      value: AnabolicVFX
-      objectReference: {fileID: 0}
-    - target: {fileID: 8918268548997700659, guid: 9c7bc8ea463160d4e8d977ae0cbadfb9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8918268548997700659, guid: 9c7bc8ea463160d4e8d977ae0cbadfb9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8918268548997700659, guid: 9c7bc8ea463160d4e8d977ae0cbadfb9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9c7bc8ea463160d4e8d977ae0cbadfb9, type: 3}
---- !u!4 &772246153503332961 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8918268548997700659, guid: 9c7bc8ea463160d4e8d977ae0cbadfb9, type: 3}
-  m_PrefabInstance: {fileID: 8175049506232043090}
-  m_PrefabAsset: {fileID: 0}

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83929f3d5c54aec4ea20f284e63ac54d, type: 3}
   m_Name: BaseUITextures
   m_EditorClassIdentifier: Assembly-CSharp::BaseUITextures
-  linearGradient: {fileID: 2800000, guid: 74a0367a7fbfba3478d576dbc72623b4, type: 3}
+  LinearGradient: {fileID: 2800000, guid: 74a0367a7fbfba3478d576dbc72623b4, type: 3}
