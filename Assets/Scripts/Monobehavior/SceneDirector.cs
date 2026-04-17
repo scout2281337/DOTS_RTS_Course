@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,61 +10,79 @@ public class SceneDirector : Singleton<SceneDirector>
     public static string CORE = "CoreScene";
     public static string BATTLE = "BattleScene";
     public static string MAINMENU = "MainMenuLobby";
+    public static string CITY = "City";
 
     [SerializeField] private bool _isFirstLaunch = true;
-
-    public static string CITY = "City";
 
     private const string LOADINGSCREEN = "LoadingScreen";
 
     private static bool _isLoading = false;
 
 
-
-    public static async void OpenSceneThroughLoadingScreen(string sceneName)
+    public static async void OpenScenesThroughLoadingScreen(params string[] sceneNames)
     {
         if (_isLoading) return;
         _isLoading = true;
 
-        // Load loading screen
-        await Awaitable.FromAsyncOperation(SceneManager.LoadSceneAsync(LOADINGSCREEN, LoadSceneMode.Additive));
-        await Awaitable.WaitForSecondsAsync(1f); // Wait until UI is fully faded in
+        // Loading loading screen
+        await AddScenes(LOADINGSCREEN);
 
-        // Unloading previous scenes
-        await UnloadScenes(sceneName);
+        // Wait for fade in
+        await Awaitable.WaitForSecondsAsync(1f);
 
-        // Start loading target scene
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        loadOp.allowSceneActivation = false; // We don't activate yet, so that we can wait for loading screen animation
+        // Unload previous scenes
+        await UnloadAllScenesExcept(sceneNames);
 
-        // Wait until BOTH: Scene is loaded and Animation is completed
+        // Loading all scenes with timer
         Awaitable timer = Awaitable.WaitForSecondsAsync(5f);
-        while (loadOp.progress < 0.9f || !timer.IsCompleted)
+        Awaitable scenes = AddScenes(sceneNames);
+        while (!timer.IsCompleted || !scenes.IsCompleted)
         {
             await Awaitable.NextFrameAsync();
         }
 
-        // Activate scene and wait one frame so activation completes
-        loadOp.allowSceneActivation = true;
-        await Awaitable.NextFrameAsync();
-
-        var newScene = SceneManager.GetSceneByName(sceneName);
-        SceneManager.SetActiveScene(newScene);
-
-        // Delay before unloading for fading animation,
         await Awaitable.WaitForSecondsAsync(1f);
         await Awaitable.FromAsyncOperation(SceneManager.UnloadSceneAsync(LOADINGSCREEN));
 
         _isLoading = false;
     }
 
-    private static async Task UnloadScenes(string ExceptionScene)
+    private static async Awaitable AddScenes(params string[] sceneNames)
     {
+        List<AsyncOperation> loadOps = new();
+
+        // Start loading all scenes
+        foreach (var scene in sceneNames)
+        {
+            var op = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+            op.allowSceneActivation = false;
+            loadOps.Add(op);
+        }
+
+        // Wait until timer is up and all scenes are ready
+        while (!loadOps.All(op => op.progress >= 0.9f))
+        {
+            await Awaitable.NextFrameAsync();
+        }
+
+        // Activate all scenes
+        foreach (var op in loadOps)
+            op.allowSceneActivation = true;
+
+        await Awaitable.NextFrameAsync(); // wait one frame to make sure all scenes are fully loaded
+
+        // Set first scene as active
+        var newScene = SceneManager.GetSceneByName(sceneNames[0]);
+        SceneManager.SetActiveScene(newScene);
+    }
+
+    private static async Awaitable UnloadAllScenesExcept(params string[] exceptionScenes)
+    {
+        var exceptions = new HashSet<string>(exceptionScenes) { LOADINGSCREEN, CORE };
+
         foreach (var scene in GetAllScenes())
         {
-            if (scene.name == LOADINGSCREEN
-                || scene.name == CORE
-                || scene.name == ExceptionScene) continue;
+            if (exceptions.Contains(scene.name)) continue;
 
             await Awaitable.FromAsyncOperation(SceneManager.UnloadSceneAsync(scene));
         }
@@ -81,30 +101,14 @@ public class SceneDirector : Singleton<SceneDirector>
 
     private async void LoadMainMenu()
     {
-        await UnloadScenes("None");
-
-        AsyncOperation loadMenu = SceneManager.LoadSceneAsync(MAINMENU, LoadSceneMode.Additive);
-        loadMenu.allowSceneActivation = false;
-
-        AsyncOperation loadCity = SceneManager.LoadSceneAsync(CITY, LoadSceneMode.Additive);
-        loadCity.allowSceneActivation = false;
-
-        while (loadMenu.progress < 0.9f || loadCity.progress < 0.9f)
-        {
-            await Awaitable.NextFrameAsync();
-        }
-
-        // Activate scene and wait one frame so activation completes
-        loadMenu.allowSceneActivation = true;
-        loadCity.allowSceneActivation = true;
-        await Awaitable.NextFrameAsync();
+        await AddScenes(MAINMENU, CITY);
     }
+
 
     protected override void Awake()
     {
         base.Awake();
 
-        if (_isFirstLaunch)
-            LoadMainMenu();
+        if (_isFirstLaunch) LoadMainMenu();
     }
 }

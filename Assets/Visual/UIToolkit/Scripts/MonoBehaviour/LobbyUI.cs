@@ -59,7 +59,7 @@ public class LobbyUI : MonoBehaviour
         var startButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H2", "startButton");
         startButton.text = "ВЫСАДКА";
         startButton.clicked += () => {
-            SceneDirector.OpenSceneThroughLoadingScreen(SceneDirector.BATTLE);
+            SceneDirector.OpenScenesThroughLoadingScreen(SceneDirector.BATTLE);
         };
 
         var backButton = UITK.AddElement<Button>(topSection, "TertiaryButton", "P1", "backButton");

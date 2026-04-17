@@ -11,6 +11,7 @@ public class MainMenuUI : MonoBehaviour
 
     private VisualElement _mainMenu;
 
+
     private void BuildMainMenu()
     {
         VisualElement root = _uiDocument.rootVisualElement;
