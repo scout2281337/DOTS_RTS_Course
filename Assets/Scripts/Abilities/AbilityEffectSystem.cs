@@ -4,8 +4,9 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
+[UpdateInGroup(typeof(SimulationSystemGroup))]
+[UpdateAfter(typeof(AbilitySystem))]
 
-[UpdateInGroup(typeof(PresentationSystemGroup))]
 partial struct AbilityEffectSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)
@@ -14,15 +15,17 @@ partial struct AbilityEffectSystem : ISystem
             return;
 
         var em = state.EntityManager;
-        var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
-
+        var ecbSystem = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
+        var ecb = ecbSystem.CreateCommandBuffer(state.WorldUnmanaged);
 
         foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityStartEvent>().WithEntityAccess())
         {
+            Entity owner = ResolveOwner(em, ability.ValueRO, ent);
+
             switch (ability.ValueRO.Type)
             {
                 case AbilityType.AnabolicStimulator:
-                    ApplySpeedBoost(ref state, em, ecb, ent, ability.ValueRO.TargetType, 3f); //ability.ValueRO.Owner
+                    ApplySpeedBoost(ref state, em, ecb, owner, ability.ValueRO.TargetType, ability.ValueRO.Power, ability.ValueRO.Duration);
                     break;
                 case AbilityType.AntiGravitationBarrier:
                     SpawnObject(entitiesReferences.AntiGravitationBarrier, ref state);
@@ -30,10 +33,9 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.Fireball:
                     float3 pos = ability.ValueRO.TargetPosition;
 
-
                     var fireball = em.Instantiate(entitiesReferences.FireballPrefabEntity);
                     var fireballData = em.GetComponentData<Fireball>(fireball);
-                    fireballData.Owner = ability.ValueRO.Owner == Entity.Null ? ent : ability.ValueRO.Owner;
+                    fireballData.Owner = owner;
                     em.SetComponentData(fireball, fireballData);
 
                     em.SetComponentData(fireball, new LocalTransform
@@ -42,58 +44,69 @@ partial struct AbilityEffectSystem : ISystem
                         Rotation = quaternion.identity,
                         Scale = 1
                     });
-                    Debug.Log("СЃРёСЃС‚РµРјР° СЃСЂР°Р±РѕС‚Р°Р»Р°");
                     break;
                 case AbilityType.ChargedShot:
-                    var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(ent);
-                    shootAttack.ValueRW.attackMode = AttackMode.Charged;
+                    if (SystemAPI.HasComponent<ShootAttack>(owner))
+                    {
+                        var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(owner);
+                        shootAttack.ValueRW.attackMode = AttackMode.Charged;
+                    }
                     break;
                 case AbilityType.None:
                     break;
             }
-            AbilityEventListener.Instance?.InvokeAbilityStarted(ent, ability.ValueRO.Type); 
 
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Event
+            AbilityEventListener.Instance?.InvokeAbilityStarted(owner, ability.ValueRO.Type);
             ecb.RemoveComponent<AbilityStartEvent>(ent);
         }
 
-        foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityEndEvent>().WithEntityAccess()) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityEndEvent>().WithEntityAccess())
         {
+            Entity owner = ResolveOwner(em, ability.ValueRO, ent);
+
             switch (ability.ValueRO.Type)
             {
                 case AbilityType.AnabolicStimulator:
-                    //EndSpeedBoost(ref state, em, ent, ability.ValueRO.TargetType);
+                    //EndSpeedBoost(ref state, em, owner, ability.ValueRO.TargetType);
                     break;
                 case AbilityType.AntiGravitationBarrier:
-                    //пїЅпїЅпїЅпїЅпїЅ
                     break;
                 case AbilityType.Fireball:
-                {
                     break;
-                }
                 case AbilityType.ChargedShot:
-                    var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(ent);
-                    shootAttack.ValueRW.attackMode = AttackMode.Normal;
+                    if (SystemAPI.HasComponent<ShootAttack>(owner))
+                    {
+                        var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(owner);
+                        shootAttack.ValueRW.attackMode = AttackMode.Normal;
+                    }
                     break;
                 case AbilityType.None:
                     break;
             }
-            AbilityEventListener.Instance?.InvokeAbilityEnded(ent, ability.ValueRO.Type); // LEGACY but fine right now
-            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Event
+
+            AbilityEventListener.Instance?.InvokeAbilityEnded(owner, ability.ValueRO.Type);
             ecb.RemoveComponent<AbilityEndEvent>(ent);
         }
 
-        foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithAll<CooldownEndEvent>().WithEntityAccess()) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithAll<CooldownEndEvent>().WithEntityAccess())
         {
-            
-            AbilityEventListener.Instance?.InvokeCooldownEnded(ent, ability.ValueRO.Type);
+            Entity owner = ResolveOwner(em, ability.ValueRO, ent);
+            AbilityEventListener.Instance?.InvokeCooldownEnded(owner, ability.ValueRO.Type);
             ecb.RemoveComponent<CooldownEndEvent>(ent);
         }
-        ecb.Playback(state.EntityManager);
-        ecb.Dispose();
+
+        //ecb.Playback(state.EntityManager);
+        //ecb.Dispose();
     }
 
-    void ApplySpeedBoost(ref SystemState state, EntityManager em, EntityCommandBuffer ecb, Entity owner, AbilityTargetType target, float multiplier)
+    private static Entity ResolveOwner(EntityManager em, in Ability ability, Entity fallback)
+    {
+        return ability.Owner != Entity.Null && em.Exists(ability.Owner)
+            ? ability.Owner
+            : fallback;
+    }
+
+    void ApplySpeedBoost(ref SystemState state, EntityManager em, EntityCommandBuffer ecb, Entity owner, AbilityTargetType target, float multiplier, float Timer)
     {
         switch (target)
         {
@@ -114,14 +127,15 @@ partial struct AbilityEffectSystem : ISystem
                     {
                         Multiplier = multiplier,
                         Source = owner,
+                        Timer = Timer
                     });
+                    Debug.Log("Добавляем буфер успешно!  self");
                 }
                 break;
             case AbilityTargetType.Ally:
                 foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit, Entity friendlyEntity) in
                          SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>().WithEntityAccess())
                 {
-                    
                     if (friendlyUnit.ValueRO.faction == SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction && em.HasComponent<UnitMover>(friendlyEntity))
                     {
                         DynamicBuffer<SlowDebuff> buffer;
@@ -138,7 +152,9 @@ partial struct AbilityEffectSystem : ISystem
                         {
                             Multiplier = multiplier,
                             Source = owner,
+                            Timer = Timer
                         });
+                        Debug.Log("Добавляем буфер успешно! ally");
                     }
                 }
                 break;
@@ -156,7 +172,6 @@ partial struct AbilityEffectSystem : ISystem
             case AbilityTargetType.Self:
                 if (em.HasComponent<UnitMover>(owner))
                 {
-
                     if (!SystemAPI.HasBuffer<SlowDebuff>(owner))
                         return;
 
@@ -169,14 +184,12 @@ partial struct AbilityEffectSystem : ISystem
                             buffer.RemoveAt(i);
                         }
                     }
-
                 }
                 break;
             case AbilityTargetType.Ally:
                 foreach ((RefRW<UnitMover> allyMover, RefRO<Unit> friendlyUnit, Entity friendlyEntity) in
                          SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>().WithEntityAccess())
                 {
-
                     if (!SystemAPI.HasBuffer<SlowDebuff>(friendlyEntity))
                         return;
 
@@ -193,21 +206,19 @@ partial struct AbilityEffectSystem : ISystem
                 break;
             case AbilityTargetType.Enemy:
                 foreach ((RefRW<UnitMover> enemyMover, RefRO<Unit> friendlyUnit) in
-                             SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
+                         SystemAPI.Query<RefRW<UnitMover>, RefRO<Unit>>())
                 {
-                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     if (friendlyUnit.ValueRO.faction != SystemAPI.GetComponentRW<Unit>(owner).ValueRO.faction)
                         enemyMover.ValueRW.CurrentMoveSpeed = enemyMover.ValueRO.BaseSpeed;
                 }
                 break;
             case AbilityTargetType.Area:
-                // пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ owner (пїЅпїЅпїЅпїЅпїЅ Position) // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
                 break;
         }
     }
-    void SpawnObject(Entity EntityToSpawn, ref SystemState State) 
-    {
-        Entity entityToSpawn = State.EntityManager.Instantiate(EntityToSpawn);
-    }
 
+    void SpawnObject(Entity entityToSpawn, ref SystemState state)
+    {
+        state.EntityManager.Instantiate(entityToSpawn);
+    }
 }

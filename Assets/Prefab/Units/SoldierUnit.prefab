@@ -212,9 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c4be9c462b8af4a8262a8a79845af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 2
   Owner: {fileID: 8020765196219228651}
   Active: 0
   IsTriggered: 0
-  TargetType: 0
-  ClassSkillConfig: {fileID: 11400000, guid: fec15c96a3996d94f894bf7e6ff4846f, type: 2}
+  ClassSkillConfig: {fileID: 11400000, guid: 735d88483ae20814f93855f3da34716d, type: 2}

@@ -22,3 +22,5 @@ MonoBehaviour:
   duration: 10
   range: 10
   area: 5
+  type: 1
+  targetType: 2

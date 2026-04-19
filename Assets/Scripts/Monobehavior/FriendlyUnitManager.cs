@@ -11,10 +11,8 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
     public SoldierAttributesConfig raiderConfig;
     public SoldierAttributesConfig sniperConfig;
 
-    //List<Entity> SquadMembers = new List<Entity>();
-
     public int teamAmount;
-    
+
     private EntitiesReferences entitiesReferences;
     private EntityManager entityManager;
 
@@ -28,16 +26,15 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
         return fireRate > 0f ? 60f / fireRate : float.MaxValue;
     }
 
-
     private void Update()
     {
         TeamSpawn();
         //OneClassSpawn();
     }
 
-    private void TryToInitialize() 
+    private void TryToInitialize()
     {
-        if (World.DefaultGameObjectInjectionWorld == null) 
+        if (World.DefaultGameObjectInjectionWorld == null)
         {
             return;
         }
@@ -47,12 +44,13 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
         var query = entityManager.CreateEntityQuery(typeof(EntitiesReferences));
         if (query.CalculateEntityCount() == 0)
             return;
+
         entitiesReferences = query.GetSingleton<EntitiesReferences>();
         Debug.Log("EntitiesReferences loaded!");
         isInitialized = true;
     }
 
-    public void UnitInitializer(EntityManager em, SoldierAttributesConfig soldierConfig, float3 startPos, Entity entityToSpawn) 
+    public void UnitInitializer(EntityManager em, SoldierAttributesConfig soldierConfig, float3 startPos, Entity entityToSpawn)
     {
         Entity currentEntity = em.Instantiate(entityToSpawn);
         em.SetComponentData(currentEntity, LocalTransform.FromPosition(startPos));
@@ -61,10 +59,10 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             CurrentMoveSpeed = soldierConfig.bodyConfig.speed,
             BaseSpeed = soldierConfig.bodyConfig.speed,
             rotationSpeed = soldierConfig.bodyConfig.rotationSpeed,
-        }) ;
+        });
         em.SetComponentData(currentEntity, new FindTarget
         {
-            range = soldierConfig.weaponConfigs[0].range, 
+            range = soldierConfig.weaponConfigs[0].range,
             targetFaction = soldierConfig.bodyConfig.targetFaction,
             timer = 0,
             timerMax = soldierConfig.bodyConfig.timerMaxForOverlap,
@@ -93,7 +91,45 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             faction = soldierConfig.bodyConfig.currentFaction,
         });
 
-        // После добавления абилки или просто при спавне решить, здесь думаю нормально , но это так мысли в комментарии я шиз лелелеле
+        Ability abilityData = default;
+        if (em.HasComponent<Ability>(currentEntity))
+        {
+            abilityData = em.GetComponentData<Ability>(currentEntity);
+        }
+
+        if (soldierConfig.skillConfigs != null && soldierConfig.skillConfigs.Length > 0 && soldierConfig.skillConfigs[0] != null)
+        {
+            var skillConfig = soldierConfig.skillConfigs[0];
+            abilityData.Type = skillConfig.type;
+            abilityData.TargetType = skillConfig.targetType;
+            abilityData.Cooldown = skillConfig.cooldown;
+            abilityData.Duration = skillConfig.duration;
+        }
+        else
+        {
+            abilityData.Type = AbilityType.None;
+            abilityData.TargetType = AbilityTargetType.Self;
+            abilityData.Cooldown = 0f;
+            abilityData.Duration = 0f;
+        }
+
+        abilityData.Owner = currentEntity;
+        abilityData.Active = false;
+        abilityData.IsTriggered = false;
+        abilityData.TimeLeft = 0f;
+        abilityData.CooldownLeft = 0f;
+        abilityData.TargetPosition = default;
+        //abilityData.TargetType = soldierConfig.skillConfigs[0].targetType;
+
+        if (em.HasComponent<Ability>(currentEntity))
+        {
+            em.SetComponentData(currentEntity, abilityData);
+        }
+        else
+        {
+            em.AddComponentData(currentEntity, abilityData);
+        }
+
         UnitClass unitClass = em.GetComponentData<Unit>(currentEntity).Class;
         unitEntityDict.Add(unitClass, currentEntity);
 
@@ -106,15 +142,15 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
         return new Vector3(center.x + rnd.x, center.y, center.z + rnd.y);
     }
 
-    private void OneClassSpawn() 
+    private void OneClassSpawn()
     {
-
-        Debug.Log("Не воркает совсем");
+        Debug.Log("OneClassSpawn is running");
         if (!isInitialized)
         {
             TryToInitialize();
-            Debug.Log("Не воркает инициализация");
+            Debug.Log("Initialization was requested");
         }
+
         if (isInitialized && !isSpawned)
         {
             for (int i = 0; i < teamAmount; i++)
@@ -122,31 +158,28 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
                 Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
                 UnitInitializer(entityManager, raiderConfig, spawnPos, entitiesReferences.unitPrefabEntity);
 
-                Debug.Log("Спавн сработал");
+                Debug.Log("Spawn completed");
                 Debug.Log(entityManager.HasComponent<Prefab>(entitiesReferences.unitPrefabEntity));
-
             }
+
             isSpawned = true;
-            //OnUnitSpawn?.Invoke();
         }
     }
 
-    private void TeamSpawn() 
+    private void TeamSpawn()
     {
         if (!isInitialized)
         {
             TryToInitialize();
         }
+
         if (isInitialized && !isSpawned)
         {
-            
-            Vector3 spawnPos = RandomPointInCircle(Vector3.zero, 3f);
-            
             UnitInitializer(entityManager, raiderConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             UnitInitializer(entityManager, juggernautConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             UnitInitializer(entityManager, arsonistConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             UnitInitializer(entityManager, sniperConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             isSpawned = true;
-        }    
+        }
     }
 }

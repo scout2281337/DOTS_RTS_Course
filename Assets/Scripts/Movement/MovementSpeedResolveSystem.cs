@@ -3,6 +3,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 
 [BurstCompile]
+[UpdateInGroup(typeof(LateSimulationSystemGroup))]
 partial struct MovementSpeedResolveSystem : ISystem
 {
     public void OnUpdate(ref SystemState state)

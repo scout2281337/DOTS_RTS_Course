@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class AbilityAuthoring : MonoBehaviour 
 {
-    public AbilityType Type;
-    public GameObject Owner;          // пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    public GameObject Owner;          
     public bool Active;
     public bool IsTriggered;
-    public AbilityTargetType TargetType;
+    
+    //public AbilityType Type;
+    //public AbilityTargetType TargetType;
 
     public SkillConfig ClassSkillConfig;
 
@@ -20,16 +21,17 @@ public class AbilityAuthoring : MonoBehaviour
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new Ability
             {
-                Type = authoring.Type,
+                Type = authoring.ClassSkillConfig.type,
                 Owner = GetEntity(authoring.Owner, TransformUsageFlags.Dynamic),
                 TimeLeft = authoring.ClassSkillConfig.duration,
 
                 CooldownLeft = authoring.ClassSkillConfig.cooldown,
                 Active = authoring.Active,
                 IsTriggered = authoring.IsTriggered,
-                TargetType = authoring.TargetType,
+                TargetType = authoring.ClassSkillConfig.targetType,
                 Cooldown = authoring.ClassSkillConfig.cooldown,
                 Duration = authoring.ClassSkillConfig.duration,
+                Power = authoring.ClassSkillConfig.power,
             });
         }
     }
@@ -48,14 +50,15 @@ public struct Ability : IComponentData
     public float Cooldown;
     public float Duration;
     public float3 TargetPosition;
+    public float Power;
 }
 
 public enum AbilityTargetType
 {
-    Self,       // пїЅпїЅ пїЅпїЅпїЅпїЅ
-    Ally,       // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-    Enemy,      // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
-    Area        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    Self,       
+    Ally,       
+    Enemy,      
+    Area        
 }
 
 public enum AbilityType

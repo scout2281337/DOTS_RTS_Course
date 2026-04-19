@@ -8,6 +8,8 @@ public abstract class SkillConfig : BaseSoldierAttribute, IInfoBlockUI
     public float duration;
     public float range;
     public float area;
+    public AbilityType type;
+    public AbilityTargetType targetType;
 
     public virtual VisualElement SetInfoBlockUI(VisualElement infoPanel)
     {

@@ -15,7 +15,29 @@ public class Presenter : Singleton<Presenter>
         EnsureDefaultAbilityBindings();
     }
 
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1)) 
+        {
+            InvokeAbilityPress(0);
+            Debug.Log(" Абилка рейдера сработала ");
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            InvokeAbilityPress(1);
+            Debug.Log(" Абилка танка сработала ");
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            InvokeAbilityPress(2);
+            Debug.Log(" Абилка огнемеьчика сработала ");
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            InvokeAbilityPress(3);
+            Debug.Log(" Абилка снайпера сработала ");
+        }
+    }
     public void InvokeEscBuffer()
     {
         OnEscBuffer?.Invoke();
@@ -27,7 +49,10 @@ public class Presenter : Singleton<Presenter>
     {
         EnsureDefaultAbilityBindings();
         if (i < 0 || i >= OnAbilityPress.Count)
+        {
+            Debug.LogWarning($"InvokeAbilityPress: invalid slot index {i}");
             return;
+        }
 
         OnAbilityPress[i]?.Invoke();
         Debug.Log("InvokeAbilityPress \n" +
@@ -60,13 +85,20 @@ public class Presenter : Singleton<Presenter>
     private void TriggerSelfAbility(UnitClass unitClass)
     {
         if (!TryGetAbility(unitClass, out var entityManager, out var entity, out var ability))
+        {
+            Debug.LogWarning($"TriggerSelfAbility: failed to resolve ability for {unitClass}");
             return;
+        }
 
         if (ability.Active || ability.CooldownLeft > 0f)
+        {
+            Debug.Log($"TriggerSelfAbility: {unitClass} cannot cast. Active={ability.Active}, CooldownLeft={ability.CooldownLeft}");
             return;
+        }
 
         ability.IsTriggered = true;
         entityManager.SetComponentData(entity, ability);
+        Debug.Log($"TriggerSelfAbility: ability flagged for {unitClass} on entity {entity}");
     }
 
     private void TriggerArsonistAbility()
@@ -75,9 +107,11 @@ public class Presenter : Singleton<Presenter>
         if (fireballActivation != null)
         {
             fireballActivation.AbilityUseMode = true;
+            Debug.Log("TriggerArsonistAbility: targeting mode enabled, left click to cast fireball");
             return;
         }
 
+        Debug.LogWarning("TriggerArsonistAbility: FireballActivationMono not found, falling back to direct trigger");
         TriggerSelfAbility(UnitClass.Arsonist);
     }
 
@@ -88,15 +122,27 @@ public class Presenter : Singleton<Presenter>
         ability = default;
 
         if (World.DefaultGameObjectInjectionWorld == null)
+        {
+            Debug.LogWarning("TryGetAbility: DefaultGameObjectInjectionWorld is null");
             return false;
+        }
         if (FriendlyUnitManager.Instance == null)
+        {
+            Debug.LogWarning("TryGetAbility: FriendlyUnitManager.Instance is null");
             return false;
+        }
         if (!FriendlyUnitManager.Instance.unitEntityDict.TryGetValue(unitClass, out entity))
+        {
+            Debug.LogWarning($"TryGetAbility: entity for {unitClass} not found in unitEntityDict");
             return false;
+        }
 
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         if (!entityManager.Exists(entity) || !entityManager.HasComponent<Ability>(entity))
+        {
+            Debug.LogWarning($"TryGetAbility: entity {entity} for {unitClass} is invalid or has no Ability component");
             return false;
+        }
 
         ability = entityManager.GetComponentData<Ability>(entity);
         return true;
