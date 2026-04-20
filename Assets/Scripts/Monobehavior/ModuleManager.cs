@@ -47,7 +47,7 @@ public class ModuleManager : Singleton<ModuleManager>
 
         moduleList.Add(module);
 
-        AbilityEventListener.Instance.InvokeNewModule(unit, module);
+        EventMediator.Instance.InvokeNewModule(unit, module);
         ApplyModuleToUnit(unit, module);
     }
 

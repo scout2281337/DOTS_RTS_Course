@@ -164,8 +164,8 @@ partial struct ShootAttackSystem : ISystem
 
                             bulletEvents.Add(new BulletShotEvent
                             {
-                                From = bulletSpawnWorldPos,
-                                To = hit.Position
+                                Start = bulletSpawnWorldPos,
+                                End = hit.Position
                             });
                         }
                         break;
@@ -236,8 +236,8 @@ partial struct ShootAttackSystem : ISystem
 
                         bulletEvents.Add(new BulletShotEvent
                         {
-                            From = bulletSpawnWorldPos,
-                            To = hitPos
+                            Start = bulletSpawnWorldPos,
+                            End = hitPos
                         });
                         break;
                     }

@@ -53,21 +53,27 @@ public struct Ability : IComponentData
     public float Power;
 }
 
-public enum AbilityTargetType
-{
-    Self,       
-    Ally,       
-    Enemy,      
-    Area        
-}
-
 public enum AbilityType
 {
-    AnabolicStimulator,
-    AntiGravitationBarrier,
-    Fireball,
-    ChargedShot,
-    None 
+    Stim,
+    Barricade,
+    Scorcher,
+    Gauss,
+    None
 }
 
+public enum AbilityTargetType
+{
+    Self,
+    Ally,
+    Enemy,
+    Area
+}
 
+public enum AbilityPointerType
+{
+    None,
+    PointFromCaster,
+    LineFromCaster,
+    LineFromPointToPoint
+}

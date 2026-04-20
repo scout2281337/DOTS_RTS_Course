@@ -1,16 +1,15 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.VFX;
 
 public class VFXObject : MonoBehaviour
 {
-    public float duration = 1;
+    public float duration = 1f;
     public VisualEffect vfx;
 
-    public IEnumerator PoolVFXObject(IObjectPool<VFXObject> objectPool)
+    public async void PoolVFXObject(IObjectPool<VFXObject> objectPool)
     {
-        yield return new WaitForSeconds(duration);
+        await Awaitable.WaitForSecondsAsync(1f);
 
         objectPool.Release(this);
     }

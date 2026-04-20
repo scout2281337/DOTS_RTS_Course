@@ -24,13 +24,13 @@ partial struct AbilityEffectSystem : ISystem
 
             switch (ability.ValueRO.Type)
             {
-                case AbilityType.AnabolicStimulator:
+                case AbilityType.Stim:
                     ApplySpeedBoost(ref state, em, ecb, owner, ability.ValueRO.TargetType, ability.ValueRO.Power, ability.ValueRO.Duration);
                     break;
-                case AbilityType.AntiGravitationBarrier:
+                case AbilityType.Barricade:
                     SpawnObject(entitiesReferences.AntiGravitationBarrier, ref state);
                     break;
-                case AbilityType.Fireball:
+                case AbilityType.Scorcher:
                     float3 pos = ability.ValueRO.TargetPosition;
 
                     var fireball = em.Instantiate(entitiesReferences.FireballPrefabEntity);
@@ -45,7 +45,7 @@ partial struct AbilityEffectSystem : ISystem
                         Scale = 1
                     });
                     break;
-                case AbilityType.ChargedShot:
+                case AbilityType.Gauss:
                     if (SystemAPI.HasComponent<ShootAttack>(owner))
                     {
                         var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(owner);
@@ -56,7 +56,10 @@ partial struct AbilityEffectSystem : ISystem
                     break;
             }
 
-            AbilityEventListener.Instance?.InvokeAbilityStarted(owner, ability.ValueRO.Type);
+            var evt = new AbilityStartedEvent{
+                Caster = owner,
+                Type = ability.ValueRO.Type};
+            EventMediator.Instance?.InvokeAbilityStarted(evt);
             ecb.RemoveComponent<AbilityStartEvent>(ent);
         }
 
@@ -66,14 +69,14 @@ partial struct AbilityEffectSystem : ISystem
 
             switch (ability.ValueRO.Type)
             {
-                case AbilityType.AnabolicStimulator:
+                case AbilityType.Stim:
                     //EndSpeedBoost(ref state, em, owner, ability.ValueRO.TargetType);
                     break;
-                case AbilityType.AntiGravitationBarrier:
+                case AbilityType.Barricade:
                     break;
-                case AbilityType.Fireball:
+                case AbilityType.Scorcher:
                     break;
-                case AbilityType.ChargedShot:
+                case AbilityType.Gauss:
                     if (SystemAPI.HasComponent<ShootAttack>(owner))
                     {
                         var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(owner);
@@ -83,15 +86,20 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.None:
                     break;
             }
-
-            AbilityEventListener.Instance?.InvokeAbilityEnded(owner, ability.ValueRO.Type);
+            var evt = new AbilityEndedEvent {
+                Caster = owner,
+                Type = ability.ValueRO.Type};
+            EventMediator.Instance?.InvokeAbilityEnded(evt);
             ecb.RemoveComponent<AbilityEndEvent>(ent);
         }
 
         foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithAll<CooldownEndEvent>().WithEntityAccess())
         {
             Entity owner = ResolveOwner(em, ability.ValueRO, ent);
-            AbilityEventListener.Instance?.InvokeCooldownEnded(owner, ability.ValueRO.Type);
+            var evt = new AbilityCooldownEndedEvent {
+                Caster = owner,
+                Type = ability.ValueRO.Type};
+            EventMediator.Instance?.InvokeCooldownEnded(evt);
             ecb.RemoveComponent<CooldownEndEvent>(ent);
         }
 

@@ -20,7 +20,7 @@ public partial struct EventPresentationSystem : ISystem
         for (int i = 0; i < bulletEvents.Length; i++)
         {
             var e = bulletEvents[i];
-            AbilityEventListener.Instance?.InvokeBulletShot(e.From, e.To);
+            EventMediator.Instance?.InvokeBulletShot(e);
             // Debug.Log("BulletShot event processed");
         }
         bulletEvents.Clear();
@@ -30,7 +30,7 @@ public partial struct EventPresentationSystem : ISystem
         for (int i = 0; i < damageEvents.Length; i++)
         {
             var e = damageEvents[i];
-            AbilityEventListener.Instance?.InvokeHealthChanged(e.TargetEntityClass, e.DamageAmount);
+            EventMediator.Instance?.InvokeHealthChanged(e);
 
             // Оставил Debug.Log для отладки (можно закомментировать потом)
             //Debug.Log($"OnHealthChanged  Class: {e.TargetEntityClass} | Damage: {e.DamageAmount} | IsAbility: {e.IsAbilityDamage}");
@@ -42,7 +42,7 @@ public partial struct EventPresentationSystem : ISystem
         for (int i = 0; i < startEvents.Length; i++)
         {
             var e = startEvents[i];
-            AbilityEventListener.Instance?.InvokeAbilityStarted(e.Caster, e.Type);
+            EventMediator.Instance?.InvokeAbilityStarted(e);
             // Debug.Log("AbilityStarted event processed");
         }
         startEvents.Clear();
@@ -52,7 +52,7 @@ public partial struct EventPresentationSystem : ISystem
         for (int i = 0; i < endEvents.Length; i++)
         {
             var e = endEvents[i];
-            AbilityEventListener.Instance?.InvokeAbilityEnded(e.Caster, e.Type);
+            EventMediator.Instance?.InvokeAbilityEnded(e);
             // Debug.Log("AbilityEnded event processed");
         }
         endEvents.Clear();

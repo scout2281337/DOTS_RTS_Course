@@ -133,7 +133,7 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
         UnitClass unitClass = em.GetComponentData<Unit>(currentEntity).Class;
         unitEntityDict.Add(unitClass, currentEntity);
 
-        AbilityEventListener.Instance.InvokeUnitSpawned(unitClass, soldierConfig);
+        EventMediator.Instance.InvokeUnitSpawned(unitClass, soldierConfig);
     }
 
     Vector3 RandomPointInCircle(Vector3 center, float radius)

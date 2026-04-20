@@ -18,7 +18,7 @@ public class UnitPanelUI : MonoBehaviour
 
     private void BuildUnitPanel()
     {
-        AbilityEventListener abilityEventListener = AbilityEventListener.Instance;
+        EventMediator abilityEventListener = EventMediator.Instance;
         VisualElement root = _uiDocument.rootVisualElement;
 
         root.Clear();
@@ -45,7 +45,7 @@ public class UnitPanelUI : MonoBehaviour
 
         _unitProfilesDict.Add(unitClass, newUnitProfile);
 
-        AbilityEventListener.Instance.OnHealthChanged += newUnitProfile.OnHealthChanged;
+        EventMediator.Instance.OnHealthChanged += newUnitProfile.OnHealthChanged;
 
         int index = _unitProfilesDict.Count - 1;
         newUnitProfile.skillButton.clicked += () =>
@@ -134,12 +134,12 @@ public class UnitPanelUI : MonoBehaviour
                         + skillConfig.range.ToString();
         }
 
-        public void OnHealthChanged(UnitClass unitClass, float healthDelta)
+        public void OnHealthChanged(DamageEvent evt)
         {
             // The event is broadcasted globally, so each profile filters for its own unit and updates only its cached bar.
-            if (unitClass != this.unitClass) return;
+            if (evt.TargetEntityClass!= this.unitClass) return;
 
-            healthBar.value = Mathf.Clamp(healthBar.value - healthDelta, 0f, healthBar.highValue);
+            healthBar.value = Mathf.Clamp(healthBar.value - evt.DamageAmount, 0f, healthBar.highValue);
         }
     }
 
