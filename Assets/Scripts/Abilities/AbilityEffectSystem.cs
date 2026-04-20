@@ -58,7 +58,8 @@ partial struct AbilityEffectSystem : ISystem
 
             var evt = new AbilityStartedEvent{
                 Caster = owner,
-                Type = ability.ValueRO.Type};
+                Type = ability.ValueRO.Type,
+                End = ability.ValueRO.TargetPosition};
             EventMediator.Instance?.InvokeAbilityStarted(evt);
             ecb.RemoveComponent<AbilityStartEvent>(ent);
         }
@@ -137,7 +138,7 @@ partial struct AbilityEffectSystem : ISystem
                         Source = owner,
                         Timer = Timer
                     });
-                    Debug.Log("Добавляем буфер успешно!  self");
+                    Debug.Log("Added speed boost buffer to self");
                 }
                 break;
             case AbilityTargetType.Ally:
@@ -162,7 +163,7 @@ partial struct AbilityEffectSystem : ISystem
                             Source = owner,
                             Timer = Timer
                         });
-                        Debug.Log("Добавляем буфер успешно! ally");
+                        Debug.Log("Added speed boost buffer to ally");
                     }
                 }
                 break;

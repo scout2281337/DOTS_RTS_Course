@@ -9,7 +9,7 @@ public class VFXObject : MonoBehaviour
 
     public async void PoolVFXObject(IObjectPool<VFXObject> objectPool)
     {
-        await Awaitable.WaitForSecondsAsync(1f);
+        await Awaitable.WaitForSecondsAsync(duration);
 
         objectPool.Release(this);
     }

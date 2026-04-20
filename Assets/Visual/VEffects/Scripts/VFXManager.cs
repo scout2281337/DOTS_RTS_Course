@@ -1,22 +1,24 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class VFXManager : Singleton<VFXManager>
 {
-    [SerializeField] private TrailVFXSO trailsSO;
-    [SerializeField] private IObjectPool<VFXObject> bulletTrailVFXObjectPool;
+    [SerializeField] private TrailVFXSO _trailsSO;
+    [SerializeField] private BurstVFXSO _burstSO;
+    [SerializeField] private SkillVFXSO _skillsSO;
 
-    [SerializeField] private BurstVFXSO burstSO;
-    [SerializeField] private IObjectPool<VFXObject> explosionVFXObjectPool;
-    [SerializeField] private IObjectPool<VFXObject> bloodBurstVFXObjectPool;
-    [SerializeField] private IObjectPool<VFXObject> sparkBurstVFXObjectPool;
+    private IObjectPool<VFXObject> _bulletTrailVFXObjectPool;
 
-    [SerializeField] private SkillVFXSO skillsSO;
-    [SerializeField] private IObjectPool<VFXObject> anabolicVFXObjectPool;
-    [SerializeField] private IObjectPool<VFXObject> gravityMagnifierVFXObjectPool;
-    [SerializeField] private IObjectPool<VFXObject> railgunVFXObjectPool;
-    [SerializeField] private IObjectPool<VFXObject> scorchingProjectileVFXObjectPool;
+    private IObjectPool<VFXObject> _explosionVFXObjectPool;
+    private IObjectPool<VFXObject> _bloodBurstVFXObjectPool;
+    private IObjectPool<VFXObject> _sparkBurstVFXObjectPool;
+
+    private IObjectPool<VFXObject> _stimVFXObjectPool;
+    private IObjectPool<VFXObject> _barricadeVFXObjectPool;
+    private IObjectPool<VFXObject> _gaussVFXObjectPool;
+    private IObjectPool<VFXObject> _scorcherVFXObjectPool;
 
 
     #region Pooling
@@ -53,6 +55,9 @@ public class VFXManager : Singleton<VFXManager>
     private void CreateVFXTrail(IObjectPool<VFXObject> objectPool, Vector3 start, Vector3 end)
     {
         Vector3 direction = end - start;
+        if (direction.sqrMagnitude <= Mathf.Epsilon)
+            return;
+
         Vector3 midPoint = start + (direction * 0.5f);
         float length = direction.magnitude;
         Quaternion rotation = Quaternion.LookRotation(direction);
@@ -68,21 +73,24 @@ public class VFXManager : Singleton<VFXManager>
         vfxObject.PoolVFXObject(objectPool);
     }
 
-    private void CreateVFXObject(IObjectPool<VFXObject> objectPool, Vector3 start)
+    private VFXObject CreateVFXObject(IObjectPool<VFXObject> objectPool, Vector3 start, float duration = 1f)
     {
         VFXObject vfxObject = objectPool.Get();
         vfxObject.transform.position = start;
 
+        vfxObject.duration = duration;
         vfxObject.PoolVFXObject(objectPool);
+
+        return vfxObject;
     }
 
     private void CreateSoldierShot(BulletShotEvent evt)
     {
         if (evt.WeaponType != WeaponType.Dispersive)
-            CreateVFXTrail(bulletTrailVFXObjectPool, evt.Start, evt.End);
+            CreateVFXTrail(_bulletTrailVFXObjectPool, evt.Start, evt.End);
 
         if (evt.WeaponType == WeaponType.Explosive)
-            CreateVFXObject(explosionVFXObjectPool, evt.End);
+            CreateVFXObject(_explosionVFXObjectPool, evt.End);
     }
 
     private void CreateAbilityEffect(AbilityStartedEvent evt)
@@ -100,44 +108,71 @@ public class VFXManager : Singleton<VFXManager>
         ability?.Invoke(evt);
     }
 
-    private void CreateStimEffect(AbilityStartedEvent evt)
+    private async void CreateStimEffect(AbilityStartedEvent evt)
     {
         Debug.Log("CreateStimEffect Activated" + evt.Type);
-        // Нужно как-то получить расположение всех солдат
+
+        // Spawn
+        float duration = evt.Duration > 0 ? evt.Duration : 1f;
+        var entities = DOTStoMono.GetSoldiersEntities();
+        List<VFXObject> vfxObjects = new();
+        foreach ( var entity in entities)
+        {
+            DOTStoMono.TryGetEntityPosition(entity, out var spawnPos);
+            vfxObjects.Add(CreateVFXObject(_stimVFXObjectPool, spawnPos, duration));
+        }
+
+        // Update position
+        var timer = Awaitable.WaitForSecondsAsync(duration);
+        while (!timer.IsCompleted)
+        {
+            for (int i = 0; i < entities.Count; i++)
+            {
+                DOTStoMono.TryGetEntityPosition(entities[i], out var currentPos);
+                vfxObjects[i].transform.position = currentPos;
+            }
+
+            await Awaitable.NextFrameAsync();
+        }
     }
 
     private void CreateBarricadeEffect(AbilityStartedEvent evt)
     {
         Debug.Log("CreateBarricadeEffect Activated" + evt.Type);
-        // Расположение точки в которой находится баррикада и солдат
+
+        float duration = evt.Duration > 0 ? evt.Duration : 1f;
+        CreateVFXObject(_barricadeVFXObjectPool, evt.End, duration);
     }
 
     private void CreateScorcherEffect(AbilityStartedEvent evt)
     {
         Debug.Log("CreateScorcherEffect Activated" + evt.Type);
-        // Расположение точки в которой находится огниво и солдат
+
+        float duration = evt.Duration > 0 ? evt.Duration : 1f;
+        CreateVFXObject(_scorcherVFXObjectPool, evt.Start, duration);
     }
 
     private void CreateGaussEffect(AbilityStartedEvent evt)
     {
         Debug.Log("CreateGaussEffect Activated" + evt.Type);
-        // Расположение точки в которую направлен гаусс и точка из которой выходят пули
+
+        CreateVFXTrail(_gaussVFXObjectPool, evt.Start, evt.End);
     }
 
     protected override void Awake()
     {
         base.Awake();
 
-        bulletTrailVFXObjectPool = NewObjectPool(trailsSO.bulletTrailVFXObject);
+        _bulletTrailVFXObjectPool = NewObjectPool(_trailsSO.bulletTrailVFXObject);
 
-        explosionVFXObjectPool = NewObjectPool(burstSO.explosionVFXObject);
-        bloodBurstVFXObjectPool = NewObjectPool(burstSO.bloodBurstVFXObject);
-        sparkBurstVFXObjectPool = NewObjectPool(burstSO.sparkBurstVFXObject);
+        _explosionVFXObjectPool = NewObjectPool(_burstSO.explosionVFXObject);
+        _bloodBurstVFXObjectPool = NewObjectPool(_burstSO.bloodBurstVFXObject);
+        _sparkBurstVFXObjectPool = NewObjectPool(_burstSO.sparkBurstVFXObject);
 
-        anabolicVFXObjectPool = NewObjectPool(skillsSO.anabolicVFXObject);
-        gravityMagnifierVFXObjectPool = NewObjectPool(skillsSO.gravityMagnifierVFXObject);
-        railgunVFXObjectPool = NewObjectPool(skillsSO.railgunVFXObject);
-        scorchingProjectileVFXObjectPool = NewObjectPool(skillsSO.scorchingProjectileVFXObject);
+        _stimVFXObjectPool = NewObjectPool(_skillsSO.StimVFXObject);
+        _barricadeVFXObjectPool = NewObjectPool(_skillsSO.BarricadeVFXObject);
+        _gaussVFXObjectPool = NewObjectPool(_skillsSO.GaussVFXObject);
+        _scorcherVFXObjectPool = NewObjectPool(_skillsSO.ScorcherVFXObject);
     }
 
     private void Start()

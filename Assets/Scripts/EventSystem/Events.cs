@@ -26,6 +26,7 @@ public struct AbilityStartedEvent : IBufferElementData
     public AbilityType Type;
     public float3 Start; // TO-DO
     public float3 End; // TO-DO
+    public float Duration; // TO-DO in seconds
 }
 
 public struct AbilityEndedEvent : IBufferElementData

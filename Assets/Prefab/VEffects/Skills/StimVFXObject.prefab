@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8918268548997700659}
   - component: {fileID: 7470854418916721646}
   m_Layer: 0
-  m_Name: AnabolicVFXObject
+  m_Name: StimVFXObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

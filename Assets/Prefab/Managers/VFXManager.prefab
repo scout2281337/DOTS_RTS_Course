@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0833aa689af86494980c3168ae1e2014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trailsSO: {fileID: 11400000, guid: c3ee7180a94c7064fa52e7af2d8ffe15, type: 2}
-  burstSO: {fileID: 11400000, guid: f6ad9af046cd2aa489a5a4ce376e77e6, type: 2}
-  skillsSO: {fileID: 11400000, guid: 61c215dbfbd605c488427931e113bcdf, type: 2}
+  _canOverwrite: 0
+  _isDestroyedOnLoad: 0
+  _trailsSO: {fileID: 11400000, guid: c3ee7180a94c7064fa52e7af2d8ffe15, type: 2}
+  _burstSO: {fileID: 11400000, guid: f6ad9af046cd2aa489a5a4ce376e77e6, type: 2}
+  _skillsSO: {fileID: 11400000, guid: 61c215dbfbd605c488427931e113bcdf, type: 2}

@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 8745855185408943350}
   - component: {fileID: 4191696348809193684}
   m_Layer: 0
-  m_Name: ScorchingProjectileVFXObject
+  m_Name: ScorcherVFXObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

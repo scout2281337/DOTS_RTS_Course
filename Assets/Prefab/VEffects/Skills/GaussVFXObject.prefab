@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 8159112085074011481}
   - component: {fileID: 1985261430352079354}
   m_Layer: 0
-  m_Name: RailgunTrailVFXObject
+  m_Name: GaussVFXObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
