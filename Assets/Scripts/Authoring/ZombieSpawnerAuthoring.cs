@@ -31,6 +31,7 @@ public class ZombieSpawnerAuthoring : MonoBehaviour
     [Header("Spawn Points")]
     public Transform zombieSpawnTransform;
     public Transform[] spawnPoints;
+    [Min(0f)] public float spawnRadius = 3f;
 
     [Header("Legacy")]
     public float randomWalkingDistanceMin;
@@ -69,6 +70,7 @@ public class ZombieSpawnerAuthoring : MonoBehaviour
                 randomWalkingDistanceMax = authoring.randomWalkingDistanceMax,
                 randomWalkingDistanceMin = authoring.randomWalkingDistanceMin,
                 zombieSpawnPosition = authoring.zombieSpawnTransform != null ? authoring.zombieSpawnTransform.position : authoring.transform.position,
+                spawnRadius = math.max(0f, authoring.spawnRadius),
                 isRandomWalkingOnStart = authoring.isRandomWalkingOnStart,
                 startTargetEntity = authoring.startTargetGameObject != null
                     ? GetEntity(authoring.startTargetGameObject, TransformUsageFlags.Dynamic)
@@ -144,6 +146,7 @@ public struct ZombieSpawner : IComponentData
     public float randomWalkingDistanceMin;
     public float randomWalkingDistanceMax;
     public float3 zombieSpawnPosition;
+    public float spawnRadius;
     public bool isRandomWalkingOnStart;
     public bool waveActive;
     public Entity startTargetEntity;

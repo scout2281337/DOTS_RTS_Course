@@ -6,6 +6,17 @@ using Unity.Mathematics;
 [BurstCompile]
 public partial struct DamageSystem : ISystem
 {
+    private static float GetArmorReductionByLevel(float armorLevelRaw)
+    {
+        int armorLevel = math.clamp((int)math.round(armorLevelRaw), 1, 3);
+        return armorLevel switch
+        {
+            2 => 0.15f,
+            3 => 0.35f,
+            _ => 0f,
+        };
+    }
+
     public void OnUpdate(ref SystemState state)
     {
         var em = state.EntityManager;
@@ -41,16 +52,18 @@ public partial struct DamageSystem : ISystem
             var healthRO = SystemAPI.GetComponentRO<Health>(dmg.TargetEntity);
             float healthBefore = healthRO.ValueRO.healthAmount;
 
-            // armor
-            if (healthRO.ValueRO.armor > 0f)
+            // Armor is level-based:
+            // level 1 = 0%, level 2 = 15%, level 3 = 35%.
+            float armorReduction = GetArmorReductionByLevel(healthRO.ValueRO.armor);
+            if (armorReduction > 0f)
             {
-                damage *= 1f - math.saturate(healthRO.ValueRO.armor / 100f);
+                damage *= 1f - armorReduction;
             }
 
             // модуль двойной панцирь
             if (em.HasComponent<DoubleShell>(dmg.TargetEntity) && damage / healthRO.ValueRO.healthAmountMax > 0.15f)
             {
-                damage *= 1f - math.saturate(healthRO.ValueRO.armor / 100f);
+                damage *= 1f - armorReduction;
             }
 
             if (em.HasComponent<AcidBulletsDebuff>(dmg.TargetEntity))

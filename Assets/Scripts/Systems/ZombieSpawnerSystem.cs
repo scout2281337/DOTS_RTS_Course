@@ -14,8 +14,8 @@ partial struct ZombieSpawnerSystem : ISystem
         EntityCommandBuffer entityCommandBuffer = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>()
             .CreateCommandBuffer(state.WorldUnmanaged);
 
-        foreach ((RefRW<ZombieSpawner> zombieSpawner, DynamicBuffer<DirectorEnemyEntryElement> enemyEntries, RefRO<LocalTransform> localTransform) in
-                 SystemAPI.Query<RefRW<ZombieSpawner>, DynamicBuffer<DirectorEnemyEntryElement>, RefRO<LocalTransform>>())
+        foreach ((RefRW<ZombieSpawner> zombieSpawner, DynamicBuffer<DirectorEnemyEntryElement> enemyEntries, DynamicBuffer<SpawnPointElement> spawnPoints, RefRO<LocalTransform> localTransform) in
+                 SystemAPI.Query<RefRW<ZombieSpawner>, DynamicBuffer<DirectorEnemyEntryElement>, DynamicBuffer<SpawnPointElement>, RefRO<LocalTransform>>())
         {
             if (zombieSpawner.ValueRO.currentWave > zombieSpawner.ValueRO.waveAmount)
                 continue;
@@ -33,7 +33,7 @@ partial struct ZombieSpawnerSystem : ISystem
 
                 if (zombieSpawner.ValueRO.timer <= 0f && TrySelectEnemyToSpawn(ref zombieSpawner.ValueRW, enemyEntries, entitiesReferences.zombiePrefabEntity, out var enemyPrefab, out var enemyCost))
                 {
-                    SpawnEnemy(state.EntityManager, entityCommandBuffer, zombieSpawner.ValueRO, localTransform.ValueRO, enemyPrefab);
+                    SpawnEnemy(state.EntityManager, entityCommandBuffer, ref zombieSpawner.ValueRW, spawnPoints, localTransform.ValueRO, enemyPrefab);
                     zombieSpawner.ValueRW.directorPoints -= enemyCost;
                     zombieSpawner.ValueRW.spawnedEntities += 1;
                     zombieSpawner.ValueRW.timer = zombieSpawner.ValueRO.timerMax;
@@ -50,7 +50,7 @@ partial struct ZombieSpawnerSystem : ISystem
                 bool spentRemainingBudget = false;
                 if (zombieSpawner.ValueRO.timer <= 0f && TrySelectEnemyToSpawn(ref zombieSpawner.ValueRW, enemyEntries, entitiesReferences.zombiePrefabEntity, out var enemyPrefab, out var enemyCost))
                 {
-                    SpawnEnemy(state.EntityManager, entityCommandBuffer, zombieSpawner.ValueRO, localTransform.ValueRO, enemyPrefab);
+                    SpawnEnemy(state.EntityManager, entityCommandBuffer, ref zombieSpawner.ValueRW, spawnPoints, localTransform.ValueRO, enemyPrefab);
                     zombieSpawner.ValueRW.directorPoints -= enemyCost;
                     zombieSpawner.ValueRW.spawnedEntities += 1;
                     zombieSpawner.ValueRW.timer = zombieSpawner.ValueRO.timerMax;
@@ -162,10 +162,10 @@ partial struct ZombieSpawnerSystem : ISystem
         return false;
     }
 
-    private static void SpawnEnemy(EntityManager entityManager, EntityCommandBuffer entityCommandBuffer, in ZombieSpawner zombieSpawner, in LocalTransform spawnerTransform, Entity enemyPrefab)
+    private static void SpawnEnemy(EntityManager entityManager, EntityCommandBuffer entityCommandBuffer, ref ZombieSpawner zombieSpawner, DynamicBuffer<SpawnPointElement> spawnPoints, in LocalTransform spawnerTransform, Entity enemyPrefab)
     {
         Entity zombieEntity = entityManager.Instantiate(enemyPrefab);
-        entityManager.SetComponentData(zombieEntity, LocalTransform.FromPosition(zombieSpawner.zombieSpawnPosition));
+        entityManager.SetComponentData(zombieEntity, LocalTransform.FromPosition(GetSpawnPosition(ref zombieSpawner, spawnPoints)));
 
         if (zombieSpawner.isRandomWalkingOnStart)
         {
@@ -185,5 +185,23 @@ partial struct ZombieSpawnerSystem : ISystem
                 targetEntity = zombieSpawner.startTargetEntity,
             });
         }
+    }
+
+    private static float3 GetSpawnPosition(ref ZombieSpawner zombieSpawner, DynamicBuffer<SpawnPointElement> spawnPoints)
+    {
+        float3 basePosition = zombieSpawner.zombieSpawnPosition;
+        if (spawnPoints.Length > 0)
+        {
+            int spawnPointIndex = zombieSpawner.random.NextInt(0, spawnPoints.Length);
+            basePosition = spawnPoints[spawnPointIndex].position;
+        }
+
+        if (zombieSpawner.spawnRadius <= 0f)
+            return basePosition;
+
+        float angle = zombieSpawner.random.NextFloat(0f, math.PI * 2f);
+        float distance = math.sqrt(zombieSpawner.random.NextFloat()) * zombieSpawner.spawnRadius;
+        float2 offset = new float2(math.cos(angle), math.sin(angle)) * distance;
+        return new float3(basePosition.x + offset.x, basePosition.y, basePosition.z + offset.y);
     }
 }

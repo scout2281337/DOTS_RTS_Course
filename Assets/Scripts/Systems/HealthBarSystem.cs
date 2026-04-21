@@ -9,7 +9,7 @@ partial struct HealthBarSystem : ISystem
 {
 
     //[BurstCompile]
-    public void OnUpdate(ref SystemState state)
+    /*public void OnUpdate(ref SystemState state)
     {
         Vector3 cameraForward = Vector3.zero;
         if (Camera.main != null) 
@@ -54,6 +54,6 @@ partial struct HealthBarSystem : ISystem
             //RefRW<LocalTransform> barVisualLocalTransform = SystemAPI.GetComponentRW<LocalTransform>(healthBar.ValueRO.barVisualEntity);
             //barVisualLocalTransform.ValueRW.Scale = healthNormalized;
         } 
-    }
+    }*/
 
 }
