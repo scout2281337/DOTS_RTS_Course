@@ -4,7 +4,7 @@ using Unity.Mathematics;
 public struct BulletShotEvent : IBufferElementData
 {
     //public Entity Shooter;
-    public WeaponType WeaponType; // TO-DO
+    public WeaponType WeaponType; 
     public float3 Start;
     public float3 End;
 }
@@ -24,9 +24,9 @@ public struct AbilityStartedEvent : IBufferElementData
 {
     public Entity Caster;
     public AbilityType Type;
-    public float3 Start; // TO-DO
-    public float3 End; // TO-DO
-    public float Duration; // TO-DO in seconds
+    public float3 Start; 
+    public float3 End; 
+    public float Duration; 
 }
 
 public struct AbilityEndedEvent : IBufferElementData

@@ -165,7 +165,8 @@ partial struct ShootAttackSystem : ISystem
                             bulletEvents.Add(new BulletShotEvent
                             {
                                 Start = bulletSpawnWorldPos,
-                                End = hit.Position
+                                End = hit.Position,
+                                WeaponType = shootAttack.ValueRO.weaponType,
                             });
                         }
                         break;
@@ -237,7 +238,8 @@ partial struct ShootAttackSystem : ISystem
                         bulletEvents.Add(new BulletShotEvent
                         {
                             Start = bulletSpawnWorldPos,
-                            End = hitPos
+                            End = hitPos,
+                            WeaponType = shootAttack.ValueRO.weaponType,
                         });
                         break;
                     }
@@ -256,6 +258,14 @@ partial struct ShootAttackSystem : ISystem
                             ref hits,
                             CollisionFilter.Default);
 
+
+
+                        bulletEvents.Add(new BulletShotEvent
+                        {
+                            Start = bulletSpawnWorldPos,
+                            End = center,
+                            WeaponType = shootAttack.ValueRO.weaponType,
+                        });
                         foreach (var h in hits)
                         {
                             Entity e =

@@ -2,8 +2,7 @@ using Unity.Entities;
 using Unity.Burst;
 
 [UpdateInGroup(typeof(LateSimulationSystemGroup))]
-[UpdateAfter(typeof(EndSimulationEntityCommandBufferSystem))]     // обязательно
-[UpdateAfter(typeof(EndFixedStepSimulationEntityCommandBufferSystem))]  // добавь эту строку!
+
 public partial struct EventPresentationSystem : ISystem
 {
     [BurstCompile]

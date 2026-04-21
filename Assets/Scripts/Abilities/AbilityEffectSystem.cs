@@ -18,7 +18,7 @@ partial struct AbilityEffectSystem : ISystem
         var ecbSystem = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ecb = ecbSystem.CreateCommandBuffer(state.WorldUnmanaged);
 
-        foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityStartEvent>().WithEntityAccess())
+        foreach ((RefRO<Ability> ability, RefRO<LocalTransform> currentTransform, Entity ent) in SystemAPI.Query<RefRO<Ability>, RefRO<LocalTransform>>().WithAll<AbilityStartEvent>().WithEntityAccess())
         {
             Entity owner = ResolveOwner(em, ability.ValueRO, ent);
 
@@ -56,10 +56,14 @@ partial struct AbilityEffectSystem : ISystem
                     break;
             }
 
-            var evt = new AbilityStartedEvent{
+            var evt = new AbilityStartedEvent
+            {
                 Caster = owner,
                 Type = ability.ValueRO.Type,
-                End = ability.ValueRO.TargetPosition};
+                End = ability.ValueRO.TargetPosition,
+                Start = currentTransform.ValueRO.Position,
+                Duration = ability.ValueRO.Duration,
+            };
             EventMediator.Instance?.InvokeAbilityStarted(evt);
             ecb.RemoveComponent<AbilityStartEvent>(ent);
         }
