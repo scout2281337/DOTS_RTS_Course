@@ -15,8 +15,8 @@ MonoBehaviour:
   attributeName: OS-OK
   attributeDescription: 
   damage: 30
-  fireRate: 40
-  range: 15
+  fireRate: 60
+  range: 18
   weaponType: 1
   typeStat: 3
   explosiveRange: 0

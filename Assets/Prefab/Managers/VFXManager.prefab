@@ -47,5 +47,5 @@ MonoBehaviour:
   _canOverwrite: 0
   _isDestroyedOnLoad: 0
   _trailsSO: {fileID: 11400000, guid: c3ee7180a94c7064fa52e7af2d8ffe15, type: 2}
-  _burstSO: {fileID: 11400000, guid: f6ad9af046cd2aa489a5a4ce376e77e6, type: 2}
+  _weaponSO: {fileID: 11400000, guid: f6ad9af046cd2aa489a5a4ce376e77e6, type: 2}
   _skillsSO: {fileID: 11400000, guid: 61c215dbfbd605c488427931e113bcdf, type: 2}

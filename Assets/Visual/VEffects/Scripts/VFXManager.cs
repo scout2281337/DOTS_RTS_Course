@@ -1,24 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class VFXManager : Singleton<VFXManager>
 {
     [SerializeField] private TrailVFXSO _trailsSO;
-    [SerializeField] private BurstVFXSO _burstSO;
+    [SerializeField] private WeaponVFXSO _weaponSO;
     [SerializeField] private SkillVFXSO _skillsSO;
 
-    private IObjectPool<VFXObject> _bulletTrailVFXObjectPool;
+    private IObjectPool<VFXObject> _bulletTrailPool;
 
-    private IObjectPool<VFXObject> _explosionVFXObjectPool;
-    private IObjectPool<VFXObject> _bloodBurstVFXObjectPool;
-    private IObjectPool<VFXObject> _sparkBurstVFXObjectPool;
+    private IObjectPool<VFXObject> _muzzleFlashPool;
+    private IObjectPool<VFXObject> _explosionPool;
+    private IObjectPool<VFXObject> _bloodBurstPool;
+    private IObjectPool<VFXObject> _sparkBurstPool;
 
-    private IObjectPool<VFXObject> _stimVFXObjectPool;
-    private IObjectPool<VFXObject> _barricadeVFXObjectPool;
-    private IObjectPool<VFXObject> _gaussVFXObjectPool;
-    private IObjectPool<VFXObject> _scorcherVFXObjectPool;
+    private IObjectPool<VFXObject> _stimPool;
+    private IObjectPool<VFXObject> _barricadePool;
+    private IObjectPool<VFXObject> _gaussPool;
+    private IObjectPool<VFXObject> _scorcherPool;
 
 
     #region Pooling
@@ -51,32 +53,10 @@ public class VFXManager : Singleton<VFXManager>
             OnGetFromPool, OnReleaseToPool, OnDestroyPooledObject);
     }
     #endregion Pooling
-    
-    private void CreateVFXTrail(IObjectPool<VFXObject> objectPool, Vector3 start, Vector3 end)
-    {
-        Vector3 direction = end - start;
-        if (direction.sqrMagnitude <= Mathf.Epsilon)
-            return;
 
-        Vector3 midPoint = start + (direction * 0.5f);
-        float length = direction.magnitude;
-        Quaternion rotation = Quaternion.LookRotation(direction);
-
-        VFXObject vfxObject = objectPool.Get();
-        vfxObject.transform.SetPositionAndRotation(midPoint, rotation);
-        vfxObject.transform.localScale = new Vector3(
-            vfxObject.transform.localScale.x,
-            vfxObject.transform.localScale.y,
-            length
-        );
-
-        vfxObject.PoolVFXObject(objectPool);
-    }
-
-    private VFXObject CreateVFXObject(IObjectPool<VFXObject> objectPool, Vector3 start, float duration = 1f)
+    private VFXObject CreateVFXObject(IObjectPool<VFXObject> objectPool, float duration = 1f)
     {
         VFXObject vfxObject = objectPool.Get();
-        vfxObject.transform.position = start;
 
         vfxObject.duration = duration;
         vfxObject.PoolVFXObject(objectPool);
@@ -84,13 +64,52 @@ public class VFXManager : Singleton<VFXManager>
         return vfxObject;
     }
 
+    private VFXObject CreateVFXObjectAtPoint(IObjectPool<VFXObject> objectPool, Vector3 start, float duration = 1f)
+    {
+        VFXObject vfxObject = CreateVFXObject(objectPool, duration);
+        vfxObject.transform.position = start;
+
+        return vfxObject;
+    }
+
+    private VFXObject CreateVFXObjectDirected(IObjectPool<VFXObject> objectPool, Vector3 start, Vector3 end, float duration = 1f)
+    {
+        VFXObject vfxObject = CreateVFXObject(objectPool, duration);
+
+        Vector3 direction = end - start;
+        Quaternion rotation = Quaternion.LookRotation(direction);
+
+        vfxObject.transform.SetPositionAndRotation(start, rotation);
+
+        return vfxObject;
+    }
+
+    private VFXObject CreateVFXTrail(IObjectPool<VFXObject> objectPool, Vector3 start, Vector3 end, float duration = 1f)
+    {
+        Vector3 direction = end - start;
+        Vector3 midPoint = start + (direction * 0.5f);
+        float length = direction.magnitude;
+
+        VFXObject vfxObject = CreateVFXObjectDirected(objectPool, midPoint, end, duration);
+        vfxObject.transform.localScale = new Vector3(
+            vfxObject.transform.localScale.x,
+            vfxObject.transform.localScale.y,
+            length
+        );
+
+        return vfxObject;
+    }
+
     private void CreateSoldierShot(BulletShotEvent evt)
     {
         if (evt.WeaponType != WeaponType.Dispersive)
-            CreateVFXTrail(_bulletTrailVFXObjectPool, evt.Start, evt.End);
+        {
+            CreateVFXTrail(_bulletTrailPool, evt.Start, evt.End);
+            CreateVFXObjectDirected(_muzzleFlashPool, evt.Start, evt.End);
+        }
 
         if (evt.WeaponType == WeaponType.Explosive)
-            CreateVFXObject(_explosionVFXObjectPool, evt.End);
+            CreateVFXObjectAtPoint(_explosionPool, evt.End);
     }
 
     private void CreateAbilityEffect(AbilityStartedEvent evt)
@@ -119,7 +138,7 @@ public class VFXManager : Singleton<VFXManager>
         foreach ( var entity in entities)
         {
             DOTStoMono.TryGetEntityPosition(entity, out var spawnPos);
-            vfxObjects.Add(CreateVFXObject(_stimVFXObjectPool, spawnPos, duration));
+            vfxObjects.Add(CreateVFXObjectAtPoint(_stimPool, spawnPos, duration));
         }
 
         // Update position
@@ -141,7 +160,7 @@ public class VFXManager : Singleton<VFXManager>
         Debug.Log("CreateBarricadeEffect Activated" + evt.Type);
 
         float duration = evt.Duration > 0 ? evt.Duration : 1f;
-        CreateVFXObject(_barricadeVFXObjectPool, evt.End, duration);
+        CreateVFXObjectAtPoint(_barricadePool, evt.End, duration);
     }
 
     private void CreateScorcherEffect(AbilityStartedEvent evt)
@@ -149,30 +168,31 @@ public class VFXManager : Singleton<VFXManager>
         Debug.Log("CreateScorcherEffect Activated" + evt.Type);
 
         float duration = evt.Duration > 0 ? evt.Duration : 1f;
-        CreateVFXObject(_scorcherVFXObjectPool, evt.Start, duration);
+        CreateVFXObjectAtPoint(_scorcherPool, evt.Start, duration);
     }
 
     private void CreateGaussEffect(AbilityStartedEvent evt)
     {
         Debug.Log("CreateGaussEffect Activated" + evt.Type);
 
-        CreateVFXTrail(_gaussVFXObjectPool, evt.Start, evt.End);
+        CreateVFXTrail(_gaussPool, evt.Start, evt.End);
     }
 
     protected override void Awake()
     {
         base.Awake();
 
-        _bulletTrailVFXObjectPool = NewObjectPool(_trailsSO.bulletTrailVFXObject);
+        _bulletTrailPool = NewObjectPool(_trailsSO.bulletTrailVFXObject);
 
-        _explosionVFXObjectPool = NewObjectPool(_burstSO.explosionVFXObject);
-        _bloodBurstVFXObjectPool = NewObjectPool(_burstSO.bloodBurstVFXObject);
-        _sparkBurstVFXObjectPool = NewObjectPool(_burstSO.sparkBurstVFXObject);
+        _muzzleFlashPool = NewObjectPool(_weaponSO.MuzzleFlashVFXObject);
+        _explosionPool = NewObjectPool(_weaponSO.ExplosionVFXObject);
+        _bloodBurstPool = NewObjectPool(_weaponSO.BloodBurstVFXObject);
+        _sparkBurstPool = NewObjectPool(_weaponSO.SparkBurstVFXObject);
 
-        _stimVFXObjectPool = NewObjectPool(_skillsSO.StimVFXObject);
-        _barricadeVFXObjectPool = NewObjectPool(_skillsSO.BarricadeVFXObject);
-        _gaussVFXObjectPool = NewObjectPool(_skillsSO.GaussVFXObject);
-        _scorcherVFXObjectPool = NewObjectPool(_skillsSO.ScorcherVFXObject);
+        _stimPool = NewObjectPool(_skillsSO.StimVFXObject);
+        _barricadePool = NewObjectPool(_skillsSO.BarricadeVFXObject);
+        _gaussPool = NewObjectPool(_skillsSO.GaussVFXObject);
+        _scorcherPool = NewObjectPool(_skillsSO.ScorcherVFXObject);
     }
 
     private void Start()
