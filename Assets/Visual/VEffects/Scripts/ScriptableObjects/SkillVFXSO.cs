@@ -4,7 +4,8 @@ using UnityEngine;
 public class SkillVFXSO : ScriptableObject
 {
     public VFXObject PointerVFXObject;
-    public VFXObject AreaVFXObject;
+    public VFXObject RangeVFXObject;
+    public VFXObject LineVFXObject;
     public VFXObject StimVFXObject;
     public VFXObject BarricadeVFXObject;
     public VFXObject GaussVFXObject;

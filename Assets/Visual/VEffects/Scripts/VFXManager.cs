@@ -18,7 +18,8 @@ public class VFXManager : Singleton<VFXManager>
     private IObjectPool<VFXObject> _sparkBurstPool;
 
     private IObjectPool<VFXObject> _pointerPool;
-    private IObjectPool<VFXObject> _pointerAreaPool;
+    private IObjectPool<VFXObject> _rangePool;
+    private IObjectPool<VFXObject> _linePool;
     private IObjectPool<VFXObject> _stimPool;
     private IObjectPool<VFXObject> _barricadePool;
     private IObjectPool<VFXObject> _gaussPool;
@@ -58,6 +59,7 @@ public class VFXManager : Singleton<VFXManager>
     }
     #endregion Pooling
 
+    #region Create VFX
     private VFXObject CreateVFXObject(IObjectPool<VFXObject> objectPool, float duration = 1f)
     {
         VFXObject vfxObject = objectPool.Get();
@@ -103,7 +105,9 @@ public class VFXManager : Singleton<VFXManager>
 
         return vfxObject;
     }
+    #endregion CreateVFX
 
+    #region Weapon
     private void CreateSoldierShot(BulletShotEvent evt)
     {
         if (evt.WeaponType != WeaponType.Dispersive)
@@ -131,37 +135,125 @@ public class VFXManager : Singleton<VFXManager>
             CreateVFXObjectAtPoint(_bloodSplashBurstPool, position, 10f);
         }
     }
+    #endregion Weapon
+
+    #region Ability
+    #region Pointing
+    private interface IAbilityPointer
+    {
+        void Initialize(AbilityPointerEvent evt);
+        void Update(Vector3 mousePos, Vector3 casterPos);
+        void Dispose();
+    }
+
+    private class PointPointer : IAbilityPointer
+    {
+        private readonly IObjectPool<VFXObject> _pool;
+        private VFXObject _vfx;
+        private float _range;
+
+        public PointPointer(IObjectPool<VFXObject> pool)
+        {
+            _pool = pool;
+        }
+
+        public void Initialize(AbilityPointerEvent evt)
+        {
+            _vfx = _pool.Get();
+            _range = evt.Range;
+
+            float scale = evt.Area <= 0 ? 0.5f : evt.Area * 2;
+            _vfx.transform.localScale = new Vector3(scale, 1, scale);
+        }
+
+        public void Update(Vector3 mousePos, Vector3 casterPos)
+        {
+            Vector3 dir = mousePos - casterPos;
+
+            Vector3 clamped = dir.normalized * _range + casterPos;
+            Vector3 finalPos = dir.magnitude <= _range ? mousePos : clamped;
+
+            _vfx.transform.position = finalPos;
+        }
+
+        public void Dispose()
+        {
+            _vfx?.PoolVFXObject(_pool);
+        }
+    }
+
+    private class LinePointer : IAbilityPointer
+    {
+        private readonly IObjectPool<VFXObject> _pool;
+        private VFXObject _vfx;
+
+        public LinePointer(IObjectPool<VFXObject> pool)
+        {
+            _pool = pool;
+        }
+
+        public void Initialize(AbilityPointerEvent evt)
+        {
+            _vfx = _pool.Get();
+
+            float width = evt.Area <= 0 ? 0.5f : evt.Area * 2;
+            float range = evt.Range <= 0 ? 1 : evt.Range;
+
+            _vfx.transform.localScale = new Vector3(width, 1, range);
+        }
+
+        public void Update(Vector3 mousePos, Vector3 casterPos)
+        {
+            Vector3 dir = mousePos - casterPos;
+            Quaternion rot = Quaternion.LookRotation(dir);
+
+            _vfx.transform.SetPositionAndRotation(casterPos, rot);
+        }
+
+        public void Dispose()
+        {
+            _vfx?.PoolVFXObject(_pool);
+        }
+    }
 
     private async void StartPointingAbility(AbilityPointerEvent evt)
     {
+        if (_isPointing) return;
         _isPointing = true;
-        VFXObject vfxObjectPointer = _pointerPool.Get();
-        VFXObject vfxObjectArea = _pointerAreaPool.Get();
+
+        IAbilityPointer pointer = evt.PointerType switch
+        {
+            AbilityPointerType.PointFromCaster => new PointPointer(_pointerPool),
+            AbilityPointerType.LineFromCaster => new LinePointer(_linePool),
+            _ => null
+        };
+
+        pointer?.Initialize(evt);
+
+        var rangeVFX = _rangePool.Get();
+        float rangeScale = evt.Range <= 0 ? 1 : evt.Range * 2;
+        rangeVFX.transform.localScale = new Vector3(rangeScale, 1, rangeScale);
 
         while (_isPointing)
         {
-            vfxObjectPointer.transform.position = Utilities.GetMouseWorldPosition();
-            float pointerScale = evt.Area <= 0 ? 0.5f : evt.Area;
-            vfxObjectPointer.transform.localScale = new Vector3(pointerScale, 1, pointerScale);
+            Vector3 mousePos = Utilities.GetMouseWorldPosition();
+            DOTStoMono.TryGetEntityPosition(evt.Caster, out var casterPos);
 
-            DOTStoMono.TryGetEntityPosition(evt.Caster, out var casterPosition);
-            vfxObjectArea.transform.position = casterPosition;
-            float areaScale = evt.Range <= 0 ? 3 : evt.Range;
-            vfxObjectArea.transform.localScale = new Vector3(areaScale, 1, areaScale);
+            pointer?.Update(mousePos, casterPos);
+            rangeVFX.transform.position = casterPos;
 
             await Awaitable.NextFrameAsync();
         }
 
-        vfxObjectPointer.duration = 0;
-        vfxObjectArea.duration = 0;
-        vfxObjectPointer.PoolVFXObject(_pointerPool);
-        vfxObjectArea.PoolVFXObject(_pointerAreaPool);
+        pointer?.Dispose();
+        rangeVFX.PoolVFXObject(_rangePool);
     }
 
     private void EndPointingAbility()
     {
         _isPointing = false;
     }
+    #endregion Pointing
 
     private void CreateAbilityEffect(AbilityStartedEvent evt)
     {
@@ -228,6 +320,7 @@ public class VFXManager : Singleton<VFXManager>
 
         CreateVFXTrail(_gaussPool, evt.Start, evt.End);
     }
+    #endregion
 
 
     protected override void Awake()
@@ -239,12 +332,12 @@ public class VFXManager : Singleton<VFXManager>
         _muzzleFlashPool = NewObjectPool(_weaponSO.MuzzleFlashVFXObject);
         _explosionPool = NewObjectPool(_weaponSO.ExplosionVFXObject);
         _bloodBurstPool = NewObjectPool(_weaponSO.BloodBurstVFXObject);
-
         _bloodSplashBurstPool = NewObjectPool(_weaponSO.BloodSplashBurstVFXObject);
         _sparkBurstPool = NewObjectPool(_weaponSO.SparkBurstVFXObject);
 
         _pointerPool = NewObjectPool(_skillsSO.PointerVFXObject);
-        _pointerAreaPool = NewObjectPool(_skillsSO.AreaVFXObject);
+        _rangePool = NewObjectPool(_skillsSO.RangeVFXObject);
+        _linePool = NewObjectPool(_skillsSO.LineVFXObject);
         _stimPool = NewObjectPool(_skillsSO.StimVFXObject);
         _barricadePool = NewObjectPool(_skillsSO.BarricadeVFXObject);
         _gaussPool = NewObjectPool(_skillsSO.GaussVFXObject);
@@ -266,6 +359,7 @@ public class VFXManager : Singleton<VFXManager>
             var caster = DOTStoMono.GetSoldiersEntities()[0];
             AbilityPointerEvent evt = new()
             {
+                PointerType = AbilityPointerType.PointFromCaster,
                 Caster = caster,
                 Range = 10,
                 Area = 2
