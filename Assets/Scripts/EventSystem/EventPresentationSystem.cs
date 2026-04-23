@@ -29,7 +29,7 @@ public partial struct EventPresentationSystem : ISystem
         for (int i = 0; i < damageEvents.Length; i++)
         {
             var e = damageEvents[i];
-            EventMediator.Instance?.InvokeHealthChanged(e);
+            EventMediator.Instance?.InvokeDamageReceived(e);
 
             // Оставил Debug.Log для отладки (можно закомментировать потом)
             //Debug.Log($"OnHealthChanged  Class: {e.TargetEntityClass} | Damage: {e.DamageAmount} | IsAbility: {e.IsAbilityDamage}");

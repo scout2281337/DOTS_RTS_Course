@@ -197,7 +197,7 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
     private void HandleMoveCommand()
     {
         EntityManager em = World.DefaultGameObjectInjectionWorld.EntityManager;
-        Vector3 target = MouseWorldPosition.Instance.GetPosition();
+        Vector3 target = Utilities.GetMouseWorldPosition();
 
         bool anySelected = !em.CreateEntityQuery(ComponentType.ReadOnly<Selected>())
             .IsEmptyIgnoreFilter;

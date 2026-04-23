@@ -45,7 +45,7 @@ public class UnitPanelUI : MonoBehaviour
 
         _unitProfilesDict.Add(unitClass, newUnitProfile);
 
-        EventMediator.Instance.OnHealthChanged += newUnitProfile.OnHealthChanged;
+        EventMediator.Instance.OnDamageReceived += newUnitProfile.OnHealthChanged;
 
         int index = _unitProfilesDict.Count - 1;
         newUnitProfile.skillButton.clicked += () =>

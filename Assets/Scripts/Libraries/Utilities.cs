@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class MouseWorldPosition : Singleton<MouseWorldPosition>
+public static class Utilities
 {
-    public Vector3 GetPosition() 
+    public static Vector3 GetMouseWorldPosition() 
     {
         Ray mouseCameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 

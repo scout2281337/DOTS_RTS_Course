@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7820f036ac1b82c45bfd60cfb4e74a1b, type: 3}
   m_Name: SkillVFXSO
   m_EditorClassIdentifier: 
+  PointerVFXObject: {fileID: 7470854418916721646, guid: 9c7bc8ea463160d4e8d977ae0cbadfb9, type: 3}
+  AreaVFXObject: {fileID: 7183472599505340487, guid: 5fb32c6a17647f0459850cabaf9ed352, type: 3}
   StimVFXObject: {fileID: 7470854418916721646, guid: 9c7bc8ea463160d4e8d977ae0cbadfb9, type: 3}
   BarricadeVFXObject: {fileID: 7183472599505340487, guid: 5fb32c6a17647f0459850cabaf9ed352, type: 3}
   GaussVFXObject: {fileID: 1985261430352079354, guid: 26a7989875b69b24ab73f38f9ffa4e28, type: 3}

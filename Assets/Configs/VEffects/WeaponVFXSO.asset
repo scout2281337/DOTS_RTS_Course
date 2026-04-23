@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710c062654a1bab4ba63ad9e984c3b89, type: 3}
   m_Name: WeaponVFXSO
   m_EditorClassIdentifier: 
-  MuzzleFlashVFXObject: {fileID: 0}
-  ExplosionVFXObject: {fileID: 0}
-  BloodBurstVFXObject: {fileID: 0}
-  SparkBurstVFXObject: {fileID: 0}
+  MuzzleFlashVFXObject: {fileID: 7729040623494514805, guid: 7cc809bcf3b510a40be6ae9804c6c9c5, type: 3}
+  ExplosionVFXObject: {fileID: -2868393442025850211, guid: 11676c7ca4e0bb147ade5d774b31a050, type: 3}
+  BloodBurstVFXObject: {fileID: 1550885706446538447, guid: 0843060886088c34fb5698f65d820ab5, type: 3}
+  BloodSplashBurstVFXObject: {fileID: 4369220588159162176, guid: 2168f55ccfa405b40a2dfd2ed11a8d16, type: 3}
+  SparkBurstVFXObject: {fileID: -8665072877193362364, guid: 3a754ece405c3ab47a0e8a0fda23f386, type: 3}

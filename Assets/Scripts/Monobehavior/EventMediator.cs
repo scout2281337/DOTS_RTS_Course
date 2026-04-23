@@ -4,10 +4,11 @@ using UnityEngine;
 public class EventMediator : Singleton<EventMediator>
 {
     public event Action<UnitClass, SoldierAttributesConfig> OnUnitSpawned;
-    public event Action<DamageEvent> OnHealthChanged;
+    public event Action<DamageEvent> OnDamageReceived;
     public event Action<BulletShotEvent> OnBulletShot;
     public event Action<UnitClass, ModuleBaseSO> OnNewModule;
 
+    public event Action<AbilityPointerEvent> OnAbilityPointer;
     public event Action<AbilityStartedEvent> OnAbilityStarted;
     public event Action<AbilityEndedEvent> OnAbilityEnded;
     public event Action<AbilityCooldownEndedEvent> OnCooldownEnded;
@@ -23,10 +24,10 @@ public class EventMediator : Singleton<EventMediator>
             + soldierConfig.skillConfigs[0]);
     }
 
-    public void InvokeHealthChanged(DamageEvent evt)
+    public void InvokeDamageReceived(DamageEvent evt)
     {
-        OnHealthChanged?.Invoke(evt);
-        Debug.Log("InvokeHealthChanged \n" +
+        OnDamageReceived?.Invoke(evt);
+        Debug.Log("InvokeDamageReceived \n" +
             evt.TargetEntityClass + "\n"
             + evt.DamageAmount);
     }
@@ -45,6 +46,14 @@ public class EventMediator : Singleton<EventMediator>
         Debug.Log("New module \n" +
             unit + "\n"
             + module);
+    }
+
+    public void InvokeAbilityPointer(AbilityPointerEvent evt)
+    {
+        OnAbilityPointer?.Invoke(evt);
+        Debug.Log("InvokeAbilityPointer \n" +
+            evt.Caster + "\n"
+            + evt.Type);
     }
 
     public void InvokeAbilityStarted(AbilityStartedEvent evt)

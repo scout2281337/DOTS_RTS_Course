@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -15,12 +14,17 @@ public class VFXManager : Singleton<VFXManager>
     private IObjectPool<VFXObject> _muzzleFlashPool;
     private IObjectPool<VFXObject> _explosionPool;
     private IObjectPool<VFXObject> _bloodBurstPool;
+    private IObjectPool<VFXObject> _bloodSplashBurstPool;
     private IObjectPool<VFXObject> _sparkBurstPool;
 
+    private IObjectPool<VFXObject> _pointerPool;
+    private IObjectPool<VFXObject> _pointerAreaPool;
     private IObjectPool<VFXObject> _stimPool;
     private IObjectPool<VFXObject> _barricadePool;
     private IObjectPool<VFXObject> _gaussPool;
     private IObjectPool<VFXObject> _scorcherPool;
+
+    private bool _isPointing = false;
 
 
     #region Pooling
@@ -112,6 +116,53 @@ public class VFXManager : Singleton<VFXManager>
             CreateVFXObjectAtPoint(_explosionPool, evt.End);
     }
 
+    private void CreateDamageEffect(DamageEvent evt)
+    {
+        if (evt.IsAbilityDamage) return;
+        if (!DOTStoMono.TryGetEntityPosition(evt.TargetEntity, out Vector3 position)) return;
+
+        if (evt.TargetEntityClass == UnitClass.Robot)
+        {
+            CreateVFXObjectAtPoint(_bloodSplashBurstPool, position, 10f);
+            CreateVFXObjectAtPoint(_sparkBurstPool, position + Vector3.up);
+        }
+        else
+        {
+            CreateVFXObjectAtPoint(_bloodSplashBurstPool, position, 10f);
+        }
+    }
+
+    private async void StartPointingAbility(AbilityPointerEvent evt)
+    {
+        _isPointing = true;
+        VFXObject vfxObjectPointer = _pointerPool.Get();
+        VFXObject vfxObjectArea = _pointerAreaPool.Get();
+
+        while (_isPointing)
+        {
+            vfxObjectPointer.transform.position = Utilities.GetMouseWorldPosition();
+            float pointerScale = evt.Area <= 0 ? 0.5f : evt.Area;
+            vfxObjectPointer.transform.localScale = new Vector3(pointerScale, 1, pointerScale);
+
+            DOTStoMono.TryGetEntityPosition(evt.Caster, out var casterPosition);
+            vfxObjectArea.transform.position = casterPosition;
+            float areaScale = evt.Range <= 0 ? 3 : evt.Range;
+            vfxObjectArea.transform.localScale = new Vector3(areaScale, 1, areaScale);
+
+            await Awaitable.NextFrameAsync();
+        }
+
+        vfxObjectPointer.duration = 0;
+        vfxObjectArea.duration = 0;
+        vfxObjectPointer.PoolVFXObject(_pointerPool);
+        vfxObjectArea.PoolVFXObject(_pointerAreaPool);
+    }
+
+    private void EndPointingAbility()
+    {
+        _isPointing = false;
+    }
+
     private void CreateAbilityEffect(AbilityStartedEvent evt)
     {
         Action<AbilityStartedEvent> ability = evt.Type switch
@@ -178,6 +229,7 @@ public class VFXManager : Singleton<VFXManager>
         CreateVFXTrail(_gaussPool, evt.Start, evt.End);
     }
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -187,8 +239,12 @@ public class VFXManager : Singleton<VFXManager>
         _muzzleFlashPool = NewObjectPool(_weaponSO.MuzzleFlashVFXObject);
         _explosionPool = NewObjectPool(_weaponSO.ExplosionVFXObject);
         _bloodBurstPool = NewObjectPool(_weaponSO.BloodBurstVFXObject);
+
+        _bloodSplashBurstPool = NewObjectPool(_weaponSO.BloodSplashBurstVFXObject);
         _sparkBurstPool = NewObjectPool(_weaponSO.SparkBurstVFXObject);
 
+        _pointerPool = NewObjectPool(_skillsSO.PointerVFXObject);
+        _pointerAreaPool = NewObjectPool(_skillsSO.AreaVFXObject);
         _stimPool = NewObjectPool(_skillsSO.StimVFXObject);
         _barricadePool = NewObjectPool(_skillsSO.BarricadeVFXObject);
         _gaussPool = NewObjectPool(_skillsSO.GaussVFXObject);
@@ -198,6 +254,28 @@ public class VFXManager : Singleton<VFXManager>
     private void Start()
     {
         EventMediator.Instance.OnBulletShot += CreateSoldierShot;
+        EventMediator.Instance.OnDamageReceived += CreateDamageEffect;
         EventMediator.Instance.OnAbilityStarted += CreateAbilityEffect;
+        EventMediator.Instance.OnAbilityPointer += StartPointingAbility;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            var caster = DOTStoMono.GetSoldiersEntities()[0];
+            AbilityPointerEvent evt = new()
+            {
+                Caster = caster,
+                Range = 10,
+                Area = 2
+            };
+            EventMediator.Instance.InvokeAbilityPointer(evt);
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            EndPointingAbility();
+        }
     }
 }

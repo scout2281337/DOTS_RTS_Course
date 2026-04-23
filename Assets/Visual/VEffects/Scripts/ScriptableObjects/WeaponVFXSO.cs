@@ -6,5 +6,6 @@ public class WeaponVFXSO : ScriptableObject
     public VFXObject MuzzleFlashVFXObject;
     public VFXObject ExplosionVFXObject;
     public VFXObject BloodBurstVFXObject;
+    public VFXObject BloodSplashBurstVFXObject;
     public VFXObject SparkBurstVFXObject;
 }
