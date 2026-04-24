@@ -92,11 +92,9 @@ public class VFXManager : Singleton<VFXManager>
 
     private VFXObject CreateVFXTrail(IObjectPool<VFXObject> objectPool, Vector3 start, Vector3 end, float duration = 1f)
     {
-        Vector3 direction = end - start;
-        Vector3 midPoint = start + (direction * 0.5f);
-        float length = direction.magnitude;
+        VFXObject vfxObject = CreateVFXObjectDirected(objectPool, start, end, duration);
 
-        VFXObject vfxObject = CreateVFXObjectDirected(objectPool, midPoint, end, duration);
+        float length = (end - start).magnitude;
         vfxObject.transform.localScale = new Vector3(
             vfxObject.transform.localScale.x,
             vfxObject.transform.localScale.y,
@@ -255,6 +253,7 @@ public class VFXManager : Singleton<VFXManager>
     }
     #endregion Pointing
 
+    #region Ability
     private void CreateAbilityEffect(AbilityStartedEvent evt)
     {
         Action<AbilityStartedEvent> ability = evt.Type switch
@@ -320,7 +319,8 @@ public class VFXManager : Singleton<VFXManager>
 
         CreateVFXTrail(_gaussPool, evt.Start, evt.End);
     }
-    #endregion
+    #endregion Ability
+    #endregion Ability
 
 
     protected override void Awake()
@@ -359,7 +359,7 @@ public class VFXManager : Singleton<VFXManager>
             var caster = DOTStoMono.GetSoldiersEntities()[0];
             AbilityPointerEvent evt = new()
             {
-                PointerType = AbilityPointerType.PointFromCaster,
+                PointerType = AbilityPointerType.LineFromCaster,
                 Caster = caster,
                 Range = 10,
                 Area = 2

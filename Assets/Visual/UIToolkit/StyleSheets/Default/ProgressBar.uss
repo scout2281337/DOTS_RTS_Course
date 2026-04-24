@@ -9,9 +9,11 @@
 }
 
 .unity-progress-bar__background {
+    border-width: 0;
     background-color: var(--dark-gray);
 }
 
 .unity-progress-bar__progress {
+    margin: 0;
     background-color: var(--accent-main);
 }

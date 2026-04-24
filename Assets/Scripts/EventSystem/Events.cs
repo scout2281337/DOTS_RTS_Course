@@ -33,6 +33,7 @@ public struct AbilityEndedEvent : IBufferElementData
 {
     public Entity Caster;
     public AbilityType Type;
+    public float Cooldown; // TO-DO
 }
 
 public struct AbilityCooldownEndedEvent : IBufferElementData

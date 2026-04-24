@@ -1,42 +1,55 @@
 .bottomSection {
-    top: 840px;
+    top: 810px;
     align-self: center;
-    width: 1400px;
-    height: 240px;
-    padding-bottom: 40px;
+    width: 1920px;
+    height: 270px;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .unitProfile {
-    width: 300px;
-    height: 200px;
+    width: 320px;
+    height: 180px;
 }
 
 .moduleMesh {
-    width: 300px;
-    height: 80px;
+    height: 75px;
     -unity-background-image-tint-color: var(--accent-main-50);
 }
 
 .attributesContainer {
-    width: 300px;
-    height: 120px;
+    height: 105px;
     background-color: var(--dark-gray-50);
     border-width: 3px;
     border-color: var(--accent-main);
     padding: 7px;
+    flex-direction: row;
 }
 
-.skillHealthBlock {
-    height: 50px;
-    flex-direction: row;
+.skillBlock {
+    height: 85px;
+    width: 75px;
 }
 
 .skillButton {
     width: 75px;
-    height: 50px;
+    height: 75px;
+}
+    .skillButton.Activated {
+        -unity-background-image-tint-color: var(--accent-main-50);
+    }
+    .skillButton.Cooldown {
+        -unity-background-image-tint-color: var(--dark-gray-50);
+    }
+
+.skillCooldownBar .unity-progress-bar__progress {
+    background-color: var(--white);
+}
+
+.healthStatsBoard {
+    flex-grow: 1;
+    margin-left: 5px;
 }
 
 .healthBar {
@@ -49,13 +62,14 @@
     justify-content: space-between;
 }
 
-.statBoard {
-    height: 23px;
+.statsRow {
+    height: 18px;
+    margin-top: 4px;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     -unity-text-align: middle-center;
 }
 
 .statElement {
-    width: 83px;
+
 }
