@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Burst;
 
-[UpdateInGroup(typeof(LateSimulationSystemGroup))]
+[UpdateInGroup(typeof(PresentationSystemGroup))]
 
 public partial struct EventPresentationSystem : ISystem
 {

@@ -18,10 +18,7 @@ public class FireballActivationMono : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            AbilityUseMode = !AbilityUseMode;
-        }
+        
 
         if (AbilityUseMode && Input.GetMouseButtonDown(0))
         {

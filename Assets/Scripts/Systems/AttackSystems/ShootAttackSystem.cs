@@ -173,11 +173,13 @@ partial struct ShootAttackSystem : ISystem
                     }
 
                 case WeaponType.PiercingRay:
+                case WeaponType.AntiMaterial:
                     {
                         var hits = new NativeList<RaycastHit>(Allocator.Temp);
                         physicsWorld.CastRay(rayInput, ref hits);
 
-                        int pierceLeft = shootAttack.ValueRO.maxPierceCount;
+                        // Ensure at least one target can be damaged even if config has 0 pierce count.
+                        int pierceLeft = math.max(1, shootAttack.ValueRO.maxPierceCount);
 
                         foreach (var hit in hits)
                         {
@@ -191,7 +193,12 @@ partial struct ShootAttackSystem : ISystem
                             Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
                             ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit, unit.ValueRO.faction, damage, entity);
                         }
-
+                        bulletEvents.Add(new BulletShotEvent
+                        {
+                            Start = bulletSpawnWorldPos,
+                            End = hits[hits.Length-1].Position,
+                            WeaponType = shootAttack.ValueRO.weaponType,
+                        });
                         hits.Dispose();
                         break;
                     }
@@ -246,15 +253,19 @@ partial struct ShootAttackSystem : ISystem
 
                 case WeaponType.Dispersive:
                     {
+                        float halfDepth = math.max(0.5f, shootAttack.ValueRO.attackDistance * 0.5f);
+                        float halfWidth = math.max(0.5f, shootAttack.ValueRO.attackDistance * 0.35f);
+
+                        // Place the overlap volume in front of the unit to cover full weapon range.
                         float3 center =
-                            bulletSpawnWorldPos + aimDir;
+                            bulletSpawnWorldPos + aimDir * halfDepth;
                         quaternion boxRotation = quaternion.LookRotationSafe(aimDir, math.up());
                         var hits = new NativeList<DistanceHit>(Allocator.Temp);
 
                         physicsWorld.OverlapBox(
                             center,
                             boxRotation,
-                            new float3 (5f, 1f,5f), //shootAttack.ValueRO.attackDistance / 2f
+                            new float3(halfWidth, 1f, halfDepth),
                             ref hits,
                             CollisionFilter.Default);
 

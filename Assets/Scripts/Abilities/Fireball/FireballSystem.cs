@@ -35,7 +35,7 @@ public partial struct FireballSystem : ISystem
                 ref hits,
                 CollisionFilter.Default);
 
-            Debug.Log($"Fireball at {localTransform.ValueRO.Position} | Radius: {fireball.ValueRO.Radius} | Hits found: {hits.Length}"); // <-- отладка
+            Debug.Log($"Fireball at {localTransform.ValueRO.Position} | Radius: {fireball.ValueRO.Radius} | Hits found: {hits.Length}"); 
 
             foreach (var h in hits)
             {

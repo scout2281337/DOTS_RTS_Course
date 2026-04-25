@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Transforms;
 using UnityEngine;
 
 public class Presenter : Singleton<Presenter>
@@ -94,6 +96,20 @@ public class Presenter : Singleton<Presenter>
         {
             Debug.Log($"TriggerSelfAbility: {unitClass} cannot cast. Active={ability.Active}, CooldownLeft={ability.CooldownLeft}");
             return;
+        }
+        
+        if (entityManager.HasComponent<LocalTransform>(entity))
+        {
+            var localTransform = entityManager.GetComponentData<LocalTransform>(entity);
+
+            if (ability.Type == AbilityType.Barricade)
+            {
+                ability.TargetPosition = localTransform.Position + math.forward(localTransform.Rotation) * 2.5f;
+            }
+            else if (ability.TargetType == AbilityTargetType.Self)
+            {
+                ability.TargetPosition = localTransform.Position;
+            }
         }
 
         ability.IsTriggered = true;

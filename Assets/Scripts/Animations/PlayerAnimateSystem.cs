@@ -1,4 +1,4 @@
-using Unity.Mathematics;
+п»їusing Unity.Mathematics;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Transforms;
@@ -15,43 +15,62 @@ namespace TMG.ECSAnimations
         {
             var ecb = new EntityCommandBuffer(Allocator.Temp);
 
-            // Создание Animator
+            // Create Animator
             foreach (var (prefab, entity) in
                      SystemAPI.Query<PlayerGameObjectPrefab>()
                      .WithNone<PlayerAnimatorReference>()
                      .WithEntityAccess())
             {
+                if (prefab.Value == null)
+                    continue;
+
                 var go = Object.Instantiate(prefab.Value);
+                if (go == null)
+                    continue;
+
+                var animator = go.GetComponent<Animator>();
+                if (animator == null)
+                {
+                    Object.Destroy(go);
+                    continue;
+                }
 
                 var animatorRef = new PlayerAnimatorReference
                 {
-                    Value = go.GetComponent<Animator>()
+                    Value = animator
                 };
 
                 ecb.AddComponent(entity, animatorRef);
             }
 
-            // Обновление позиции + анимации
-            foreach (var (transform, animatorRef, animState) in
-                     SystemAPI.Query<LocalTransform, PlayerAnimatorReference, AnimationStateComponent>())
+            // Update position + animation
+            foreach (var (transform, animatorRef, animState, entity) in
+                     SystemAPI.Query<LocalTransform, PlayerAnimatorReference, AnimationStateComponent>()
+                         .WithEntityAccess())
             {
                 var animator = animatorRef.Value;
+                if (animator == null)
+                {
+                    ecb.RemoveComponent<PlayerAnimatorReference>(entity);
+                    continue;
+                }
 
-                // позиция
                 animator.transform.position = transform.Position;
                 animator.transform.rotation = transform.Rotation;
-
-                // ВАЖНО: один параметр
                 animator.SetInteger(StateHash, (int)animState.Value);
             }
 
-            // Удаление
+            // Cleanup visual object for destroyed/invalid entities
             foreach (var (animatorRef, entity) in
                      SystemAPI.Query<PlayerAnimatorReference>()
                      .WithNone<PlayerGameObjectPrefab, LocalTransform>()
                      .WithEntityAccess())
             {
-                Object.Destroy(animatorRef.Value.gameObject);
+                if (animatorRef.Value != null)
+                {
+                    Object.Destroy(animatorRef.Value.gameObject);
+                }
+
                 ecb.RemoveComponent<PlayerAnimatorReference>(entity);
             }
 

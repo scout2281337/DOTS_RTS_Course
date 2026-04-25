@@ -20,6 +20,6 @@ MonoBehaviour:
   weaponType: 2
   typeStat: 5
   explosiveRange: 0
-  maxPierceCount: 0
+  maxPierceCount: 1
   ChargedAttackDamage: 0
   ChargedAttackRange: 0

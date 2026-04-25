@@ -18,7 +18,7 @@ partial struct AbilityEffectSystem : ISystem
         var ecbSystem = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ecb = ecbSystem.CreateCommandBuffer(state.WorldUnmanaged);
 
-        foreach ((RefRO<Ability> ability, RefRO<LocalTransform> currentTransform, Entity ent) in SystemAPI.Query<RefRO<Ability>, RefRO<LocalTransform>>().WithAll<AbilityStartEvent>().WithEntityAccess())
+        foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityStartEvent>().WithEntityAccess())
         {
             Entity owner = ResolveOwner(em, ability.ValueRO, ent);
 
@@ -28,7 +28,31 @@ partial struct AbilityEffectSystem : ISystem
                     ApplySpeedBoost(ref state, em, ecb, owner, ability.ValueRO.TargetType, ability.ValueRO.Power, ability.ValueRO.Duration);
                     break;
                 case AbilityType.Barricade:
-                    SpawnObject(entitiesReferences.AntiGravitationBarrier, ref state);
+                    float3 barricadePos = ability.ValueRO.TargetPosition;
+                    quaternion barricadeRot = quaternion.identity;
+
+                    if (em.HasComponent<LocalTransform>(owner))
+                    {
+                        var ownerTransform = em.GetComponentData<LocalTransform>(owner);
+                        barricadeRot = ownerTransform.Rotation;
+
+                        // Fallback for self-cast scenarios where target wasn't set explicitly.
+                        if (math.lengthsq(barricadePos) < 0.0001f)
+                        {
+                            barricadePos = ownerTransform.Position + math.forward(ownerTransform.Rotation) * 2.5f;
+                        }
+                    }
+
+                    var field = em.Instantiate(entitiesReferences.AntiGravitationBarrier);
+                    if (em.HasComponent<LocalTransform>(field))
+                    {
+                        em.SetComponentData(field, new LocalTransform
+                        {
+                            Position = barricadePos,
+                            Rotation = barricadeRot,
+                            Scale = 1f
+                        });
+                    }
                     break;
                 case AbilityType.Scorcher:
                     float3 pos = ability.ValueRO.TargetPosition;
@@ -56,15 +80,6 @@ partial struct AbilityEffectSystem : ISystem
                     break;
             }
 
-            var evt = new AbilityStartedEvent
-            {
-                Caster = owner,
-                Type = ability.ValueRO.Type,
-                End = ability.ValueRO.TargetPosition,
-                Start = currentTransform.ValueRO.Position,
-                Duration = ability.ValueRO.Duration,
-            };
-            EventMediator.Instance?.InvokeAbilityStarted(evt);
             ecb.RemoveComponent<AbilityStartEvent>(ent);
         }
 
@@ -91,10 +106,6 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.None:
                     break;
             }
-            var evt = new AbilityEndedEvent {
-                Caster = owner,
-                Type = ability.ValueRO.Type};
-            EventMediator.Instance?.InvokeAbilityEnded(evt);
             ecb.RemoveComponent<AbilityEndEvent>(ent);
         }
 

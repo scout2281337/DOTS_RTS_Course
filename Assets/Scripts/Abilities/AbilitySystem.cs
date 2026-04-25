@@ -1,4 +1,6 @@
 ﻿using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Transforms;
 
 partial struct AbilitySystem : ISystem
 {
@@ -6,7 +8,20 @@ partial struct AbilitySystem : ISystem
     {
         var dt = SystemAPI.Time.DeltaTime;
         var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
+        var em = state.EntityManager;
 
+        var hubQuery = SystemAPI.QueryBuilder().WithAll<EventHub>().Build();
+        bool hasEventHub = !hubQuery.IsEmptyIgnoreFilter;
+
+        DynamicBuffer<AbilityStartedEvent> startedEvents = default;
+        DynamicBuffer<AbilityEndedEvent> endedEvents = default;
+
+        if (hasEventHub)
+        {
+            var hubEntity = hubQuery.GetSingletonEntity();
+            startedEvents = SystemAPI.GetBuffer<AbilityStartedEvent>(hubEntity);
+            endedEvents = SystemAPI.GetBuffer<AbilityEndedEvent>(hubEntity);
+        }
 
         foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithEntityAccess())
         {
@@ -46,6 +61,33 @@ partial struct AbilitySystem : ISystem
             if (ability.ValueRO.IsTriggered && !ability.ValueRO.Active && canActivate)
             {
                 ecb.AddComponent<AbilityStartEvent>(ent);
+
+                if (hasEventHub)
+                {
+                    Entity caster = ability.ValueRO.Owner != Entity.Null && em.Exists(ability.ValueRO.Owner)
+                        ? ability.ValueRO.Owner
+                        : ent;
+
+                    float3 startPos = float3.zero;
+                    if (em.HasComponent<LocalTransform>(caster))
+                    {
+                        startPos = em.GetComponentData<LocalTransform>(caster).Position;
+                    }
+                    else if (em.HasComponent<LocalTransform>(ent))
+                    {
+                        startPos = em.GetComponentData<LocalTransform>(ent).Position;
+                    }
+
+                    startedEvents.Add(new AbilityStartedEvent
+                    {
+                        Caster = caster,
+                        Type = ability.ValueRO.Type,
+                        Start = startPos,
+                        End = ability.ValueRO.TargetPosition,
+                        Duration = ability.ValueRO.Duration
+                    });
+                }
+
                 ability.ValueRW.Active = true;
                 ability.ValueRW.TimeLeft = ability.ValueRO.Duration;
                 ability.ValueRW.CooldownLeft = ability.ValueRO.Cooldown;
@@ -58,6 +100,20 @@ partial struct AbilitySystem : ISystem
                 ability.ValueRW.TimeLeft -= dt;
                 if (ability.ValueRO.TimeLeft <= 0)
                 {
+                    if (hasEventHub)
+                    {
+                        Entity caster = ability.ValueRO.Owner != Entity.Null && em.Exists(ability.ValueRO.Owner)
+                            ? ability.ValueRO.Owner
+                            : ent;
+
+                        endedEvents.Add(new AbilityEndedEvent
+                        {
+                            Caster = caster,
+                            Type = ability.ValueRO.Type,
+                            Cooldown = ability.ValueRO.Cooldown
+                        });
+                    }
+
                     ability.ValueRW.Active = false;
                     ecb.AddComponent<AbilityEndEvent>(ent);
                 }
