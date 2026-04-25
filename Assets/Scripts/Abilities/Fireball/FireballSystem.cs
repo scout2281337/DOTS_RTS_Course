@@ -35,7 +35,7 @@ public partial struct FireballSystem : ISystem
                 ref hits,
                 CollisionFilter.Default);
 
-            Debug.Log($"Fireball at {localTransform.ValueRO.Position} | Radius: {fireball.ValueRO.Radius} | Hits found: {hits.Length}"); 
+            //Debug.Log($"Fireball at {localTransform.ValueRO.Position} | Radius: {fireball.ValueRO.Radius} | Hits found: {hits.Length}"); 
 
             foreach (var h in hits)
             {
@@ -55,7 +55,7 @@ public partial struct FireballSystem : ISystem
                     //IsAbilityDamage = true
                 });
 
-                Debug.Log($"Fireball added damage to entity {hitEntity} | Damage: {fireball.ValueRO.Damage}");
+                //Debug.Log($"Fireball added damage to entity {hitEntity} | Damage: {fireball.ValueRO.Damage}");
             }
             hits.Dispose();
         }

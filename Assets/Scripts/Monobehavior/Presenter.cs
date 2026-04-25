@@ -69,11 +69,11 @@ public class Presenter : Singleton<Presenter>
         if (OnAbilityPress[0] == null)
             OnAbilityPress[0] = () => TriggerSelfAbility(UnitClass.Raider);
         if (OnAbilityPress[1] == null)
-            OnAbilityPress[1] = () => TriggerSelfAbility(UnitClass.Juggernaut);
+            OnAbilityPress[1] = () => TriggerTargetedAbility(UnitClass.Juggernaut);
         if (OnAbilityPress[2] == null)
-            OnAbilityPress[2] = TriggerArsonistAbility;
+            OnAbilityPress[2] = () => TriggerTargetedAbility(UnitClass.Arsonist);
         if (OnAbilityPress[3] == null)
-            OnAbilityPress[3] = () => TriggerSelfAbility(UnitClass.Sniper);
+            OnAbilityPress[3] = () => TriggerTargetedAbility(UnitClass.Sniper);
     }
 
     private void EnsureAbilitySlot(int slotIndex)
@@ -117,18 +117,16 @@ public class Presenter : Singleton<Presenter>
         Debug.Log($"TriggerSelfAbility: ability flagged for {unitClass} on entity {entity}");
     }
 
-    private void TriggerArsonistAbility()
+    private void TriggerTargetedAbility(UnitClass unitClass)
     {
-        var fireballActivation = FindFirstObjectByType<FireballActivationMono>();
-        if (fireballActivation != null)
+        var targetingService = AbilityTargetingServiceMono.Instance;
+        if (targetingService != null && targetingService.StartTargeting(unitClass))
         {
-            fireballActivation.AbilityUseMode = true;
-            Debug.Log("TriggerArsonistAbility: targeting mode enabled, left click to cast fireball");
+            Debug.Log($"TriggerTargetedAbility: targeting mode enabled for {unitClass}");
             return;
         }
 
-        Debug.LogWarning("TriggerArsonistAbility: FireballActivationMono not found, falling back to direct trigger");
-        TriggerSelfAbility(UnitClass.Arsonist);
+        Debug.LogWarning($"TriggerTargetedAbility: failed to start targeting mode for {unitClass}");
     }
 
     private static bool TryGetAbility(UnitClass unitClass, out EntityManager entityManager, out Entity entity, out Ability ability)
