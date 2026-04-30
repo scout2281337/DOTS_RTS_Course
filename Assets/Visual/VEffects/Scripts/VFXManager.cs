@@ -310,7 +310,7 @@ public class VFXManager : Singleton<VFXManager>
         Debug.Log("CreateScorcherEffect Activated" + evt.Type);
 
         float duration = evt.Duration > 0 ? evt.Duration : 1f;
-        CreateVFXObjectAtPoint(_scorcherPool, evt.Start, duration);
+        CreateVFXObjectAtPoint(_scorcherPool, evt.End, duration);
     }
 
     private void CreateGaussEffect(AbilityStartedEvent evt)
@@ -326,7 +326,7 @@ public class VFXManager : Singleton<VFXManager>
     protected override void Awake()
     {
         base.Awake();
-
+        
         _bulletTrailPool = NewObjectPool(_trailsSO.bulletTrailVFXObject);
 
         _muzzleFlashPool = NewObjectPool(_weaponSO.MuzzleFlashVFXObject);
