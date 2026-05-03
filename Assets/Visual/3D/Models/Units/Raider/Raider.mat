@@ -57,6 +57,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ERMOTexture:
+        m_Texture: {fileID: 2800000, guid: 3444f4da316143e4ebabd1d1e648bfda, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Emission:
         m_Texture: {fileID: 2800000, guid: aff7a1abc18936946946be51d82b3bad, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -73,6 +77,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 2694a8a870e13f24bb01e4b57dfa8ff7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetalTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -83,6 +91,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _NormalTexture:
         m_Texture: {fileID: 2800000, guid: 0b1df0aaba76ba84fbbde06b3d892454, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ORMETexture:
+        m_Texture: {fileID: 2800000, guid: 044b0b22480e4a54593f287df2a1d778, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -140,9 +152,11 @@ Material:
     - _FresnelPower: 20
     - _GlossMapScale: 0
     - _Glossiness: 0.5
+    - _GlossinessStrength: 0.9
     - _GlossyReflections: 0
     - _HatchWidth: 0.001
     - _HighlightEdge: 0.9
+    - _MetalStrength: 1
     - _Metallic: 0
     - _Mode: 0
     - _NormalStrength: 1
@@ -151,7 +165,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RoughnessStrength: 0.97
+    - _RoughnessStrength: 0.9
     - _ShadowEdge: 0.5
     - _ShadowEdgeAtten: 0.4
     - _ShadowEdgeNormal: 0.1
@@ -175,9 +189,9 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 0.2528302, g: 0, b: 0, a: 0}
+    - _FresnelColor: {r: 0.078431375, g: 0, b: 0, a: 0}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
-    - _ShadowEdges: {r: 0.2, g: 0.6, b: 0.9, a: 0}
+    - _ShadowEdges: {r: 0, g: 0.6, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}

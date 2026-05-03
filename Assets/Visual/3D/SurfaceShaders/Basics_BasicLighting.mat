@@ -24,14 +24,26 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseTexture:
-        m_Texture: {fileID: 2800000, guid: 98f4e238dcb2e4e4baddc3e0e9a70290, type: 3}
+        m_Texture: {fileID: 2800000, guid: d2dd59bbbe7d2fc4594604a53f368be6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ERMOTexture:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetalTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ORMETexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -41,17 +53,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EmissionStrength: 5
+    - _EmissionStrength: 4.77
     - _FresnelPower: 7
     - _FresnelStrength: 0.49
     - _Glossiness: 4.16
+    - _GlossinessStrength: 1
     - _HatchWidth: 0.005
     - _NormalStrength: 1
     - _RoughnessStrength: 0.9
     m_Colors:
     - _AmbientLighting: {r: 0.93207544, g: 0, b: 0, a: 1}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _FresnelColor: {r: 0.4339623, g: 0, b: 0, a: 0}
-    - _ShadowEdges: {r: 0.1, g: 0.5, b: 0.9, a: 1}
+    - _BaseColor: {r: 0.23773581, g: 0.23773581, b: 0.23773581, a: 1}
+    - _FresnelColor: {r: 0, g: 0, b: 0, a: 0}
+    - _ShadowEdges: {r: 0, g: 0.5, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

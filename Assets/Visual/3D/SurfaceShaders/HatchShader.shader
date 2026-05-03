@@ -2,14 +2,13 @@ Shader "Custom/General/HatchShader"
 {
     Properties
     {
-        _BaseColor("Base Color", Color) = (1, 1, 1, 1)
-        _BaseTexture("Base Texture", 2D) = "white" {}
+        [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
+        [MainTexture] _BaseTexture("Base Texture", 2D) = "white" {}
         _EmissionStrength("Emission Strength", Float) = 5.0
-        _EmissionTexture("Emission Texture", 2D) = "black" {}
+        _GlossinessStrength("Glossiness Strength", Range(0.0, 1.0)) = 0.9
+        _ORMETexture("ORME Texture", 2D) = "red" {}
         _NormalStrength("Normal Strength", Range(0.0, 2.0)) = 1.0
-        _NormalTexture("Normal Texture", 2D) = "bump" {}
-        _RoughnessStrength("Roughness Strength", Float) = 3
-        _RoughnessTexture("Roughness Texture", 2D) = "gray" {}
+        [Normal] _NormalTexture("Normal Texture", 2D) = "bump" {}
         _HatchWidth("Hatch Width", Float) = 0.001
         _ShadowEdges("Shadow Edges", Vector) = (0.2, 0.6, 0.9)
         _FresnelPower("Fresnel Power", Range(1.0, 20.0)) = 4.0
@@ -46,7 +45,7 @@ Shader "Custom/General/HatchShader"
                 float4 _BaseTexture_ST;
                 float _EmissionStrength;
                 float _NormalStrength;
-                float _RoughnessStrength;
+                float _GlossinessStrength;
                 float3 _ShadowEdges;
                 float _HatchWidth;
                 float _FresnelPower;
@@ -56,14 +55,11 @@ Shader "Custom/General/HatchShader"
             TEXTURE2D(_BaseTexture);
             SAMPLER(sampler_BaseTexture);
             
-            TEXTURE2D(_EmissionTexture);
-            SAMPLER(sampler_EmissionTexture);
+            TEXTURE2D(_ORMETexture);
+            SAMPLER(sampler_ORMETexture);
 
             TEXTURE2D(_NormalTexture);
             SAMPLER(sampler_NormalTexture);
-
-            TEXTURE2D(_RoughnessTexture);
-            SAMPLER(sampler_RoughnessTexture);
             
             struct appdata
             {
@@ -106,6 +102,13 @@ Shader "Custom/General/HatchShader"
                 float3 viewWS = normalize(i.viewWS);
                 float4 shadowCoord = TransformWorldToShadowCoord(i.positionWS);
                 float4 shadowMask = SAMPLE_SHADOWMASK(i.dynamicLightmapUV);
+                
+                float3 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
+                float4 ORME = SAMPLE_TEXTURE2D(_ORMETexture, sampler_ORMETexture, i.uv);
+                float occlusion = ORME.r;
+                float roughness = 1 - ORME.g;
+                float metalness = ORME.b;
+                float3 emission = ORME.a * _EmissionStrength * baseColor;
 
                 // Sample normal map and convert to world normal.
                 float3 normalTS = UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalTexture, sampler_NormalTexture, i.uv), _NormalStrength);
@@ -119,15 +122,17 @@ Shader "Custom/General/HatchShader"
 
                 // MAIN LIGHT
                 Light mainLight = GetMainLight(shadowCoord);
-                //Shadows
-                float shadows = saturate(dot(normalWS, mainLight.direction)) * mainLight.shadowAttenuation;
-                //Color
+                // Shadows
+                float shadows = saturate(dot(normalWS, mainLight.direction)) * mainLight.shadowAttenuation * occlusion;
+                // Color
                 float3 mainLightColor = mainLight.color * step(_ShadowEdges.x, shadows);
-                //Specular
-                float roughness = 1 - SAMPLE_TEXTURE2D(_RoughnessTexture, sampler_RoughnessTexture, i.uv);
+                // Specular
                 float3 reflectedVector = reflect(-mainLight.direction, normalWS);
-                float specularMask = step(_RoughnessStrength, saturate(dot(reflectedVector, viewWS)));
-                float3 specularLighting = mainLightColor * specularMask * roughness;
+                float specularMask = step(_GlossinessStrength, saturate(dot(reflectedVector, viewWS)));
+                float3 specularLighting = (specularMask * roughness) * mainLightColor;
+                // Specular metalic
+                float3 metalShine = (specularMask * roughness * 5) * baseColor.rgb;
+                specularLighting = lerp(specularLighting, metalShine, metalness);
                 // Fresnel
                 float3 fresnelLighting = pow(1.0f - saturate(dot(normalWS, viewWS)), _FresnelPower) * _FresnelColor.rgb;
                 
@@ -153,11 +158,12 @@ Shader "Custom/General/HatchShader"
 
                         // Specular
                         // reflectedVector = reflect(-light.direction, normalWS);
-                        // specularMask = step(_RoughnessStrength, saturate(dot(reflectedVector, viewWS)));
+                        // specularMask = step(_GlossinessStrength, saturate(dot(reflectedVector, viewWS)));
                         // specularLighting += addLightColor * specularMask * roughness;
                     LIGHT_LOOP_END
                 #endif //_ADDITIONAL_LIGHTS
                 
+                // Hatch Shadow
                 float hatchShadow;
                 float dist = distance(i.positionWS, _WorldSpaceCameraPos);
                 float width = floor(log2(dist + 2)) * _HatchWidth;
@@ -171,12 +177,10 @@ Shader "Custom/General/HatchShader"
                 hatchShadow = 1 - hatchShadow;
 
                 // Combine Base Color with lighting.
-                float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
-                float3 emission = SAMPLE_TEXTURE2D(_EmissionTexture, sampler_EmissionTexture, i.uv) * _EmissionStrength;
                 float3 finalColor = (((mainLightColor + allAddLightColor) * baseColor.rgb)
                     + allAddLightColor * 0.3 + specularLighting) * hatchShadow + fresnelLighting + emission;
 
-                return float4(finalColor, baseColor.a);
+                return float4(finalColor, 1.0);
             }
 
             ENDHLSL
