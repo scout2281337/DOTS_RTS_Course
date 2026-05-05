@@ -14,6 +14,7 @@ Shader "Custom/General/HatchShader"
         _FresnelPower("Fresnel Power", Range(1.0, 20.0)) = 4.0
         _FresnelColor("Fresnel Color", Color) = (0, 0, 0, 0)
     }
+
     SubShader
     {
         Tags{"RenderPipeline" = "UniversalPipeline" "RenderType" = "Opaque" "Queue" = "Geometry"}
@@ -35,6 +36,10 @@ Shader "Custom/General/HatchShader"
             #pragma multi_compile _ _ADDITIONAL_LIGHTS
 			#pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
             #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -68,6 +73,7 @@ Shader "Custom/General/HatchShader"
                 float3 normalOS : NORMAL;
                 float4 tangentOS : TANGENT;
                 float2 dynamicLightmapUV : TEXCOORD2;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -79,11 +85,16 @@ Shader "Custom/General/HatchShader"
                 float3 viewWS : TEXCOORD3;
                 float4 tangentWS : TEXCOORD4;
                 float2 dynamicLightmapUV : TEXCOORD5;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             v2f vert(appdata v)
             {
                 v2f o = (v2f)0;
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.positionCS = TransformObjectToHClip(v.positionOS.xyz);
                 o.uv = TRANSFORM_TEX(v.uv, _BaseTexture);
@@ -98,6 +109,7 @@ Shader "Custom/General/HatchShader"
 
             float4 frag(v2f i) : SV_TARGET
             {
+                UNITY_SETUP_INSTANCE_ID(i);
                 float3 normalWS = NormalizeNormalPerPixel(i.normalWS);
                 float3 viewWS = normalize(i.viewWS);
                 float4 shadowCoord = TransformWorldToShadowCoord(i.positionWS);
@@ -206,6 +218,8 @@ Shader "Custom/General/HatchShader"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 
             #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+            #pragma multi_compile_instancing
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
             float3 _LightDirection;
             float3 _LightPosition;
@@ -214,11 +228,14 @@ Shader "Custom/General/HatchShader"
             {
                 float4 positionOS : POSITION;
                 float3 normalOS : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float4 positionCS : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             float4 GetShadowPositionHClip(float3 positionOS, float3 normalOS)
@@ -241,6 +258,9 @@ Shader "Custom/General/HatchShader"
             v2f shadowPassVert(appdata v)
             {
                 v2f o = (v2f)0;
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.positionCS = GetShadowPositionHClip(v.positionOS, v.normalOS);
 
@@ -249,6 +269,7 @@ Shader "Custom/General/HatchShader"
 
             float4 shadowPassFrag(v2f i) : SV_TARGET
             {
+                UNITY_SETUP_INSTANCE_ID(i);
                 return 0;
             }
 
@@ -268,22 +289,30 @@ Shader "Custom/General/HatchShader"
             HLSLPROGRAM
             #pragma vertex depthOnlyVert
             #pragma fragment depthOnlyFrag
+            #pragma multi_compile_instancing
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
             struct appdata
             {
                 float4 positionOS : POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
             {
                 float4 positionCS : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             v2f depthOnlyVert(appdata v)
             {
                 v2f o = (v2f)0;
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.positionCS = TransformObjectToHClip(v.positionOS.xyz);
 
@@ -292,6 +321,7 @@ Shader "Custom/General/HatchShader"
 
             float depthOnlyFrag(v2f i) : SV_TARGET
             {
+                UNITY_SETUP_INSTANCE_ID(i);
                 return i.positionCS.z;
             }
 
@@ -310,17 +340,21 @@ Shader "Custom/General/HatchShader"
             HLSLPROGRAM
             #pragma vertex depthNormalsVert
             #pragma fragment depthNormalsFrag
+            #pragma multi_compile_instancing
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _BaseColor;
                 float4 _BaseTexture_ST;
+                float _EmissionStrength;
                 float _NormalStrength;
-                float3 _AmbientLighting;
-                float _Glossiness;
+                float _GlossinessStrength;
+                float3 _ShadowEdges;
+                float _HatchWidth;
                 float _FresnelPower;
-                float _FresnelStrength;
+                float4 _FresnelColor;
             CBUFFER_END
 
             TEXTURE2D(_NormalTexture);
@@ -332,6 +366,7 @@ Shader "Custom/General/HatchShader"
                 float2 uv : TEXCOORD0;
                 float3 normalOS : NORMAL;
                 float4 tangentOS : TANGENT;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct v2f
@@ -340,11 +375,16 @@ Shader "Custom/General/HatchShader"
                 float2 uv : TEXCOORD0;
                 float3 normalWS : TEXCOORD1;
                 float4 tangentWS : TEXCOORD2;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             v2f depthNormalsVert(appdata v)
             {
                 v2f o = (v2f)0;
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_TRANSFER_INSTANCE_ID(v, o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.positionCS = TransformObjectToHClip(v.positionOS.xyz);
                 o.uv = TRANSFORM_TEX(v.uv, _BaseTexture);
@@ -357,6 +397,7 @@ Shader "Custom/General/HatchShader"
 
             float4 depthNormalsFrag(v2f i) : SV_TARGET
             {
+                UNITY_SETUP_INSTANCE_ID(i);
                 float3 normalWS = NormalizeNormalPerPixel(i.normalWS);
 
                 float3 normalTS = UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalTexture, sampler_NormalTexture, i.uv), _NormalStrength);
