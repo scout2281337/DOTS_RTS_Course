@@ -31,10 +31,27 @@ public partial struct EventPresentationSystem : ISystem
             var e = damageEvents[i];
             EventMediator.Instance?.InvokeDamageReceived(e);
 
-            // Оставил Debug.Log для отладки (можно закомментировать потом)
+            // РћСЃС‚Р°РІРёР» Debug.Log РґР»СЏ РѕС‚Р»Р°РґРєРё (РјРѕР¶РЅРѕ Р·Р°РєРѕРјРјРµРЅС‚РёСЂРѕРІР°С‚СЊ РїРѕС‚РѕРј)
             //Debug.Log($"OnHealthChanged  Class: {e.TargetEntityClass} | Damage: {e.DamageAmount} | IsAbility: {e.IsAbilityDamage}");
         }
         damageEvents.Clear();
+
+        // ====================== ABILITY POINTER EVENTS ======================
+        var pointerEvents = SystemAPI.GetBuffer<AbilityPointerEvent>(hubEntity);
+        for (int i = 0; i < pointerEvents.Length; i++)
+        {
+            var e = pointerEvents[i];
+            EventMediator.Instance?.InvokeAbilityPointer(e);
+        }
+        pointerEvents.Clear();
+
+        var pointerEndedEvents = SystemAPI.GetBuffer<AbilityPointerEndedEvent>(hubEntity);
+        for (int i = 0; i < pointerEndedEvents.Length; i++)
+        {
+            var e = pointerEndedEvents[i];
+            EventMediator.Instance?.InvokeAbilityPointerEnded(e);
+        }
+        pointerEndedEvents.Clear();
 
         // ====================== ABILITY STARTED EVENTS ======================
         var startEvents = SystemAPI.GetBuffer<AbilityStartedEvent>(hubEntity);
@@ -55,5 +72,14 @@ public partial struct EventPresentationSystem : ISystem
             // Debug.Log("AbilityEnded event processed");
         }
         endEvents.Clear();
+
+        // ====================== ABILITY COOLDOWN ENDED EVENTS ======================
+        var cooldownEndedEvents = SystemAPI.GetBuffer<AbilityCooldownEndedEvent>(hubEntity);
+        for (int i = 0; i < cooldownEndedEvents.Length; i++)
+        {
+            var e = cooldownEndedEvents[i];
+            EventMediator.Instance?.InvokeCooldownEnded(e);
+        }
+        cooldownEndedEvents.Clear();
     }
 }

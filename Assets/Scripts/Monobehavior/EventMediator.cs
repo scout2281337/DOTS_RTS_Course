@@ -9,6 +9,7 @@ public class EventMediator : Singleton<EventMediator>
     public event Action<UnitClass, ModuleBaseSO> OnNewModule;
 
     public event Action<AbilityPointerEvent> OnAbilityPointer;
+    public event Action<AbilityPointerEndedEvent> OnAbilityPointerEnded;
     public event Action<AbilityStartedEvent> OnAbilityStarted;
     public event Action<AbilityEndedEvent> OnAbilityEnded;
     public event Action<AbilityCooldownEndedEvent> OnCooldownEnded;
@@ -52,6 +53,14 @@ public class EventMediator : Singleton<EventMediator>
     {
         OnAbilityPointer?.Invoke(evt);
         Debug.Log("InvokeAbilityPointer \n" +
+            evt.Caster + "\n"
+            + evt.Type);
+    }
+
+    public void InvokeAbilityPointerEnded(AbilityPointerEndedEvent evt)
+    {
+        OnAbilityPointerEnded?.Invoke(evt);
+        Debug.Log("InvokeAbilityPointerEnded \n" +
             evt.Caster + "\n"
             + evt.Type);
     }

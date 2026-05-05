@@ -20,6 +20,12 @@ public struct AbilityPointerEvent : IBufferElementData // TO-DO
     public float3 Start; // For LinesFromPointToPoint 
 }
 
+public struct AbilityPointerEndedEvent : IBufferElementData
+{
+    public Entity Caster;
+    public AbilityType Type;
+}
+
 public struct AbilityStartedEvent : IBufferElementData
 {
     public Entity Caster;

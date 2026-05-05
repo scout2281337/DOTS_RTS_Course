@@ -348,8 +348,20 @@ public class VFXManager : Singleton<VFXManager>
     {
         EventMediator.Instance.OnBulletShot += CreateSoldierShot;
         EventMediator.Instance.OnDamageReceived += CreateDamageEffect;
-        EventMediator.Instance.OnAbilityStarted += CreateAbilityEffect;
+        EventMediator.Instance.OnAbilityStarted += HandleAbilityStarted;
         EventMediator.Instance.OnAbilityPointer += StartPointingAbility;
+        EventMediator.Instance.OnAbilityPointerEnded += HandleAbilityPointerEnded;
+    }
+
+    private void HandleAbilityStarted(AbilityStartedEvent evt)
+    {
+        EndPointingAbility();
+        CreateAbilityEffect(evt);
+    }
+
+    private void HandleAbilityPointerEnded(AbilityPointerEndedEvent evt)
+    {
+        EndPointingAbility();
     }
 
     private void Update()

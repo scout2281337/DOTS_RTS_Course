@@ -1,4 +1,4 @@
-﻿using Unity.Entities;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
@@ -76,17 +76,23 @@ public class AbilityTargetingServiceMono : Singleton<AbilityTargetingServiceMono
 
     public bool StartTargeting(UnitClass unitClass)
     {
-        if (!TryBuildCastContext(unitClass, out _, out _, out _, out _))
+        if (!TryBuildCastContext(unitClass, out var caster, out var ability, out var casterTransform, out var castRange))
             return false;
 
         activeUnitClass = unitClass;
         isTargeting = true;
         EnsureRuntimeVisualObjects();
+        PublishPointerStarted(caster, ability, casterTransform.Position, castRange, ResolveSkillArea(unitClass));
         return true;
     }
 
     public void CancelTargeting()
     {
+        if (isTargeting)
+        {
+            PublishPointerEnded(activeUnitClass);
+        }
+
         isTargeting = false;
         SetRuntimeVisualVisible(false);
     }
@@ -180,6 +186,37 @@ public class AbilityTargetingServiceMono : Singleton<AbilityTargetingServiceMono
         return range > 0f;
     }
 
+    private float ResolveSkillArea(UnitClass unitClass)
+    {
+        if (!TryGetFriendlyUnitManager(out var manager))
+            return 0f;
+
+        SoldierAttributesConfig config = unitClass switch
+        {
+            UnitClass.Raider => manager.raiderConfig,
+            UnitClass.Arsonist => manager.arsonistConfig,
+            UnitClass.Juggernaut => manager.juggernautConfig,
+            UnitClass.Sniper => manager.sniperConfig,
+            _ => null
+        };
+
+        if (config == null || config.skillConfigs == null || config.skillConfigs.Length == 0 || config.skillConfigs[0] == null)
+            return 0f;
+
+        return math.max(0f, config.skillConfigs[0].area);
+    }
+
+    private static AbilityPointerType ResolvePointerType(AbilityType abilityType)
+    {
+        return abilityType switch
+        {
+            AbilityType.Barricade => AbilityPointerType.PointFromCaster,
+            AbilityType.Scorcher => AbilityPointerType.PointFromCaster,
+            AbilityType.Gauss => AbilityPointerType.LineFromCaster,
+            _ => AbilityPointerType.None
+        };
+    }
+
     private bool CanActivateAbility(Entity caster, in Ability ability)
     {
         if (ability.Active)
@@ -205,6 +242,58 @@ public class AbilityTargetingServiceMono : Singleton<AbilityTargetingServiceMono
 
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         return true;
+    }
+
+    private void PublishPointerStarted(Entity caster, in Ability ability, float3 startPosition, float range, float area)
+    {
+        if (!TryInitializeEntityManager())
+            return;
+
+        var hubQuery = entityManager.CreateEntityQuery(typeof(EventHub));
+        if (hubQuery.IsEmptyIgnoreFilter)
+            return;
+
+        AbilityPointerType pointerType = ResolvePointerType(ability.Type);
+        if (pointerType == AbilityPointerType.None)
+            return;
+
+        var hubEntity = hubQuery.GetSingletonEntity();
+        var pointerEvents = entityManager.GetBuffer<AbilityPointerEvent>(hubEntity);
+        pointerEvents.Add(new AbilityPointerEvent
+        {
+            Caster = caster,
+            Type = ability.Type,
+            PointerType = pointerType,
+            Range = range,
+            Area = area,
+            Start = startPosition
+        });
+    }
+
+    private void PublishPointerEnded(UnitClass unitClass)
+    {
+        if (!TryInitializeEntityManager())
+            return;
+
+        var hubQuery = entityManager.CreateEntityQuery(typeof(EventHub));
+        if (hubQuery.IsEmptyIgnoreFilter)
+            return;
+
+        Entity caster = Entity.Null;
+        AbilityType type = AbilityType.None;
+
+        if (TryResolveUnitEntity(unitClass, out caster) && entityManager.Exists(caster) && entityManager.HasComponent<Ability>(caster))
+        {
+            type = entityManager.GetComponentData<Ability>(caster).Type;
+        }
+
+        var hubEntity = hubQuery.GetSingletonEntity();
+        var pointerEndedEvents = entityManager.GetBuffer<AbilityPointerEndedEvent>(hubEntity);
+        pointerEndedEvents.Add(new AbilityPointerEndedEvent
+        {
+            Caster = caster,
+            Type = type
+        });
     }
 
     private bool TryGetFriendlyUnitManager(out FriendlyUnitManager manager)
