@@ -109,6 +109,8 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             abilityData.TargetType = skillConfig.targetType;
             abilityData.Cooldown = skillConfig.cooldown;
             abilityData.Duration = skillConfig.duration;
+            abilityData.Power = skillConfig.power;
+            abilityData.Range = skillConfig.range;
         }
         else
         {
@@ -116,6 +118,8 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             abilityData.TargetType = AbilityTargetType.Self;
             abilityData.Cooldown = 0f;
             abilityData.Duration = 0f;
+            abilityData.Power = 0f;
+            abilityData.Range = 0f;
         }
 
         abilityData.Owner = currentEntity;

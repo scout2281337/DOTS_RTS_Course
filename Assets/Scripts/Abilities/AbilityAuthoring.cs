@@ -32,6 +32,7 @@ public class AbilityAuthoring : MonoBehaviour
                 Cooldown = authoring.ClassSkillConfig.cooldown,
                 Duration = authoring.ClassSkillConfig.duration,
                 Power = authoring.ClassSkillConfig.power,
+                Range = authoring.ClassSkillConfig.range,
             });
         }
     }
@@ -51,6 +52,7 @@ public struct Ability : IComponentData
     public float Duration;
     public float3 TargetPosition;
     public float Power;
+    public float Range;
 }
 
 public enum AbilityType

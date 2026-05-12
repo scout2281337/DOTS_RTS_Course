@@ -165,9 +165,13 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
+      propertyPath: startIntensity
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: zombieSpawnTransform
       value: 
-      objectReference: {fileID: 1354696213}
+      objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: startTargetGameObject
       value: 
@@ -178,7 +182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: spawnPoints.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: startingDirectorPoints

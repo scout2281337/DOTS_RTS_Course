@@ -1,6 +1,8 @@
 using System;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -17,6 +19,14 @@ partial struct AbilityEffectSystem : ISystem
         var em = state.EntityManager;
         var ecbSystem = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ecb = ecbSystem.CreateCommandBuffer(state.WorldUnmanaged);
+        bool hasEventHub = SystemAPI.TryGetSingletonEntity<EventHub>(out Entity hubEntity);
+        DynamicBuffer<DamageEvent> damageBuffer = default;
+        if (hasEventHub)
+        {
+            damageBuffer = SystemAPI.GetBuffer<DamageEvent>(hubEntity);
+        }
+
+        bool hasPhysicsWorld = SystemAPI.TryGetSingleton<PhysicsWorldSingleton>(out PhysicsWorldSingleton physicsWorldSingleton);
 
         foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityStartEvent>().WithEntityAccess())
         {
@@ -70,10 +80,9 @@ partial struct AbilityEffectSystem : ISystem
                     });
                     break;
                 case AbilityType.Gauss:
-                    if (SystemAPI.HasComponent<ShootAttack>(owner))
+                    if (hasEventHub && hasPhysicsWorld)
                     {
-                        var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(owner);
-                        shootAttack.ValueRW.attackMode = AttackMode.Charged;
+                        FireGaussShot(em, owner, ability.ValueRO, damageBuffer, physicsWorldSingleton.CollisionWorld);
                     }
                     break;
                 case AbilityType.None:
@@ -97,11 +106,6 @@ partial struct AbilityEffectSystem : ISystem
                 case AbilityType.Scorcher:
                     break;
                 case AbilityType.Gauss:
-                    if (SystemAPI.HasComponent<ShootAttack>(owner))
-                    {
-                        var shootAttack = SystemAPI.GetComponentRW<ShootAttack>(owner);
-                        shootAttack.ValueRW.attackMode = AttackMode.Normal;
-                    }
                     break;
                 case AbilityType.None:
                     break;
@@ -128,6 +132,171 @@ partial struct AbilityEffectSystem : ISystem
         return ability.Owner != Entity.Null && em.Exists(ability.Owner)
             ? ability.Owner
             : fallback;
+    }
+
+    private static void FireGaussShot(EntityManager em, Entity owner, in Ability ability, DynamicBuffer<DamageEvent> damageBuffer, CollisionWorld physicsWorld)
+    {
+        float3 start = ResolveShotStart(em, owner);
+        float3 forward = ResolveShotForward(em, owner);
+        float3 end = ResolveGaussEnd(ability, start, forward);
+
+        RaycastInput rayInput = new RaycastInput
+        {
+            Start = start,
+            End = end,
+            Filter = CollisionFilter.Default
+        };
+
+        var hits = new NativeList<Unity.Physics.RaycastHit>(Allocator.Temp);
+        var damagedEntities = new NativeList<Entity>(Allocator.Temp);
+
+        try
+        {
+            if (!physicsWorld.CastRay(rayInput, ref hits))
+                return;
+
+            SortHitsByDistance(hits);
+
+            float damage = ResolveGaussDamage(em, owner, ability);
+            int maxPierceCount = ResolveGaussPierceCount(em, owner);
+            int damagedCount = 0;
+            Faction ownerFaction = em.HasComponent<Unit>(owner)
+                ? em.GetComponentData<Unit>(owner).faction
+                : default;
+            bool hasOwnerFaction = em.HasComponent<Unit>(owner);
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                Entity hitEntity = physicsWorld.Bodies[hits[i].RigidBodyIndex].Entity;
+                if (hitEntity == owner)
+                    continue;
+
+                if (!em.HasComponent<Unit>(hitEntity))
+                    continue;
+
+                if (ContainsEntity(damagedEntities, hitEntity))
+                    continue;
+
+                Unit targetUnit = em.GetComponentData<Unit>(hitEntity);
+                if (hasOwnerFaction && targetUnit.faction == ownerFaction)
+                    continue;
+
+                damageBuffer.Add(new DamageEvent
+                {
+                    SourceEntity = owner,
+                    TargetEntity = hitEntity,
+                    TargetEntityClass = targetUnit.Class,
+                    DamageAmount = damage,
+                    IsAbilityDamage = true
+                });
+
+                damagedEntities.Add(hitEntity);
+                damagedCount++;
+
+                if (damagedCount >= maxPierceCount)
+                    break;
+            }
+        }
+        finally
+        {
+            damagedEntities.Dispose();
+            hits.Dispose();
+        }
+    }
+
+    private static float3 ResolveShotStart(EntityManager em, Entity owner)
+    {
+        if (!em.HasComponent<LocalTransform>(owner))
+            return float3.zero;
+
+        LocalTransform ownerTransform = em.GetComponentData<LocalTransform>(owner);
+        if (!em.HasComponent<BulletSpawnPosition>(owner))
+            return ownerTransform.Position;
+
+        BulletSpawnPosition spawnPosition = em.GetComponentData<BulletSpawnPosition>(owner);
+        return ownerTransform.TransformPoint(spawnPosition.bulletSpawnLocalPosition);
+    }
+
+    private static float3 ResolveShotForward(EntityManager em, Entity owner)
+    {
+        if (!em.HasComponent<LocalTransform>(owner))
+            return new float3(0f, 0f, 1f);
+
+        return math.forward(em.GetComponentData<LocalTransform>(owner).Rotation);
+    }
+
+    private static float3 ResolveGaussEnd(in Ability ability, float3 start, float3 fallbackForward)
+    {
+        float3 direction = ability.TargetPosition - start;
+        direction.y = 0f;
+
+        if (math.lengthsq(direction) < 0.0001f)
+        {
+            direction = fallbackForward;
+            direction.y = 0f;
+        }
+
+        if (math.lengthsq(direction) < 0.0001f)
+            direction = new float3(0f, 0f, 1f);
+
+        float range = ability.Range > 0f ? ability.Range : math.length(direction);
+        return start + math.normalize(direction) * range;
+    }
+
+    private static float ResolveGaussDamage(EntityManager em, Entity owner, in Ability ability)
+    {
+        if (ability.Power > 0f)
+            return ability.Power;
+
+        if (em.HasComponent<ShootAttack>(owner))
+        {
+            ShootAttack shootAttack = em.GetComponentData<ShootAttack>(owner);
+            return shootAttack.ChargedAttackDamage > 0f
+                ? shootAttack.ChargedAttackDamage
+                : shootAttack.damageAmount;
+        }
+
+        return 1f;
+    }
+
+    private static int ResolveGaussPierceCount(EntityManager em, Entity owner)
+    {
+        if (!em.HasComponent<ShootAttack>(owner))
+            return int.MaxValue;
+
+        int pierceCount = em.GetComponentData<ShootAttack>(owner).maxPierceCount;
+        return pierceCount > 0 ? pierceCount : int.MaxValue;
+    }
+
+    private static void SortHitsByDistance(NativeList<Unity.Physics.RaycastHit> hits)
+    {
+        for (int i = 0; i < hits.Length - 1; i++)
+        {
+            int closestIndex = i;
+            for (int j = i + 1; j < hits.Length; j++)
+            {
+                if (hits[j].Fraction < hits[closestIndex].Fraction)
+                    closestIndex = j;
+            }
+
+            if (closestIndex == i)
+                continue;
+
+            Unity.Physics.RaycastHit tmp = hits[i];
+            hits[i] = hits[closestIndex];
+            hits[closestIndex] = tmp;
+        }
+    }
+
+    private static bool ContainsEntity(NativeList<Entity> entities, Entity entity)
+    {
+        for (int i = 0; i < entities.Length; i++)
+        {
+            if (entities[i] == entity)
+                return true;
+        }
+
+        return false;
     }
 
     void ApplySpeedBoost(ref SystemState state, EntityManager em, EntityCommandBuffer ecb, Entity owner, AbilityTargetType target, float multiplier, float Timer)

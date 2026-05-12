@@ -176,30 +176,37 @@ partial struct ShootAttackSystem : ISystem
                 case WeaponType.AntiMaterial:
                     {
                         var hits = new NativeList<RaycastHit>(Allocator.Temp);
-                        physicsWorld.CastRay(rayInput, ref hits);
-
-                        // Ensure at least one target can be damaged even if config has 0 pierce count.
-                        int pierceLeft = math.max(1, shootAttack.ValueRO.maxPierceCount);
-
-                        foreach (var hit in hits)
+                        try
                         {
-                            if (pierceLeft-- <= 0)
-                                break;
+                            physicsWorld.CastRay(rayInput, ref hits);
 
-                            Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
-                            if (!SystemAPI.HasComponent<Unit>(hitEntity))
-                                continue;
+                            // Ensure at least one target can be damaged even if config has 0 pierce count.
+                            int pierceLeft = math.max(1, shootAttack.ValueRO.maxPierceCount);
 
-                            Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
-                            ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit, unit.ValueRO.faction, damage, entity);
+                            foreach (var hit in hits)
+                            {
+                                if (pierceLeft-- <= 0)
+                                    break;
+
+                                Entity hitEntity = physicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+                                if (!SystemAPI.HasComponent<Unit>(hitEntity))
+                                    continue;
+
+                                Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
+                                ApplyDamage(hit, physicsWorld, shootAttack, damageBuffer, targetUnit, unit.ValueRO.faction, damage, entity);
+                            }
+
+                            bulletEvents.Add(new BulletShotEvent
+                            {
+                                Start = bulletSpawnWorldPos,
+                                End = hits.Length > 0 ? hits[hits.Length - 1].Position : rayInput.End,
+                                WeaponType = shootAttack.ValueRO.weaponType,
+                            });
                         }
-                        bulletEvents.Add(new BulletShotEvent
+                        finally
                         {
-                            Start = bulletSpawnWorldPos,
-                            End = hits[hits.Length-1].Position,
-                            WeaponType = shootAttack.ValueRO.weaponType,
-                        });
-                        hits.Dispose();
+                            hits.Dispose();
+                        }
                         break;
                     }
 

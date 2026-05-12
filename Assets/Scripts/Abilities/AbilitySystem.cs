@@ -68,22 +68,15 @@ partial struct AbilitySystem : ISystem
                         ? ability.ValueRO.Owner
                         : ent;
 
-                    float3 startPos = float3.zero;
-                    if (em.HasComponent<LocalTransform>(caster))
-                    {
-                        startPos = em.GetComponentData<LocalTransform>(caster).Position;
-                    }
-                    else if (em.HasComponent<LocalTransform>(ent))
-                    {
-                        startPos = em.GetComponentData<LocalTransform>(ent).Position;
-                    }
+                    float3 startPos = ResolveAbilityStartPosition(em, caster, ent);
+                    float3 forward = ResolveAbilityForward(em, caster, ent);
 
                     startedEvents.Add(new AbilityStartedEvent
                     {
                         Caster = caster,
                         Type = ability.ValueRO.Type,
                         Start = startPos,
-                        End = ability.ValueRO.TargetPosition,
+                        End = ResolveAbilityEndPosition(ability.ValueRO, startPos, forward),
                         Duration = ability.ValueRO.Duration
                     });
                 }
@@ -123,5 +116,57 @@ partial struct AbilitySystem : ISystem
         // применяем все структурные изменения после foreach
         ecb.Playback(state.EntityManager);
         ecb.Dispose();
+    }
+
+    private static float3 ResolveAbilityStartPosition(EntityManager em, Entity caster, Entity fallback)
+    {
+        if (em.HasComponent<LocalTransform>(caster))
+        {
+            LocalTransform casterTransform = em.GetComponentData<LocalTransform>(caster);
+            if (em.HasComponent<BulletSpawnPosition>(caster))
+            {
+                BulletSpawnPosition spawn = em.GetComponentData<BulletSpawnPosition>(caster);
+                return casterTransform.TransformPoint(spawn.bulletSpawnLocalPosition);
+            }
+
+            return casterTransform.Position;
+        }
+
+        if (em.HasComponent<LocalTransform>(fallback))
+            return em.GetComponentData<LocalTransform>(fallback).Position;
+
+        return float3.zero;
+    }
+
+    private static float3 ResolveAbilityForward(EntityManager em, Entity caster, Entity fallback)
+    {
+        if (em.HasComponent<LocalTransform>(caster))
+            return math.forward(em.GetComponentData<LocalTransform>(caster).Rotation);
+
+        if (em.HasComponent<LocalTransform>(fallback))
+            return math.forward(em.GetComponentData<LocalTransform>(fallback).Rotation);
+
+        return new float3(0f, 0f, 1f);
+    }
+
+    private static float3 ResolveAbilityEndPosition(in Ability ability, float3 startPos, float3 fallbackForward)
+    {
+        if (ability.Type != AbilityType.Gauss)
+            return ability.TargetPosition;
+
+        float3 direction = ability.TargetPosition - startPos;
+        direction.y = 0f;
+
+        if (math.lengthsq(direction) < 0.0001f)
+        {
+            direction = fallbackForward;
+            direction.y = 0f;
+        }
+
+        if (math.lengthsq(direction) < 0.0001f)
+            direction = new float3(0f, 0f, 1f);
+
+        float range = ability.Range > 0f ? ability.Range : math.length(direction);
+        return startPos + math.normalize(direction) * range;
     }
 }
