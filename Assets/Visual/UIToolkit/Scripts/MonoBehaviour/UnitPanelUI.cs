@@ -50,6 +50,11 @@ public class UnitPanelUI : MonoBehaviour
         EventMediator.Instance.OnAbilityEnded += newUnitProfile.OnAbilityEnded;
         EventMediator.Instance.OnCooldownEnded += newUnitProfile.OnCooldownEnded;
 
+        newUnitProfile.unitProfile.RegisterCallback<ClickEvent>(_ =>
+            UnitSelectionManager.Instance.SelectUnit(unitClass));
+
+        newUnitProfile.SkillButton.RegisterCallback<ClickEvent>(evt => evt.StopPropagation());
+
         int index = _unitProfilesDict.Count - 1;
         newUnitProfile.SkillButton.clicked += () =>
         Presenter.Instance.InvokeAbilityPress(index);

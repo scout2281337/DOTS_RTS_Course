@@ -54,12 +54,17 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
     {
         Entity currentEntity = em.Instantiate(entityToSpawn);
         em.SetComponentData(currentEntity, LocalTransform.FromPosition(startPos));
-        em.SetComponentData(currentEntity, new UnitMover
-        {
-            CurrentMoveSpeed = soldierConfig.bodyConfig.speed,
-            BaseSpeed = soldierConfig.bodyConfig.speed,
-            rotationSpeed = soldierConfig.bodyConfig.rotationSpeed,
-        });
+
+        UnitMover unitMover = em.HasComponent<UnitMover>(currentEntity)
+            ? em.GetComponentData<UnitMover>(currentEntity)
+            : default;
+
+        unitMover.CurrentMoveSpeed = soldierConfig.bodyConfig.speed;
+        unitMover.BaseSpeed = soldierConfig.bodyConfig.speed;
+        unitMover.rotationSpeed = soldierConfig.bodyConfig.rotationSpeed;
+        unitMover.targetPosition = startPos;
+
+        em.SetComponentData(currentEntity, unitMover);
         em.SetComponentData(currentEntity, new FindTarget
         {
             range = soldierConfig.weaponConfigs[0].range,

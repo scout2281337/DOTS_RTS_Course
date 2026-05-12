@@ -11,11 +11,13 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
     public event EventHandler OnSelectionAreaStart;
     public event EventHandler OnSelectionAreaEnd;
 
+    private const float MultipleSelectionThreshold = 40f;
+
     private Vector2 selectionStartMousePosition;
 
-    private enum SelectionMode
+    public enum SelectionMode
     {
-        Replace,
+        Standard,
         Add,
         Remove,
         Invert
@@ -37,23 +39,20 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
 
         if (Input.GetMouseButtonDown(1))
         {
-            
             HandleMoveCommand();
-            //Debug.Log("указание движения отработало");
         }
     }
 
-    // =========================
-    // SELECTION
-    // =========================
-
     private void HandleSelection()
     {
+        if (World.DefaultGameObjectInjectionWorld == null || Camera.main == null)
+            return;
+
         EntityManager em = World.DefaultGameObjectInjectionWorld.EntityManager;
         SelectionMode mode = GetSelectionMode();
 
         Rect selectionRect = GetSelectionAreaRect();
-        bool isMultiple = selectionRect.width + selectionRect.height > 40f;
+        bool isMultiple = selectionRect.width + selectionRect.height > MultipleSelectionThreshold;
 
         if (isMultiple)
         {
@@ -76,26 +75,304 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
         var transforms = query.ToComponentDataArray<LocalTransform>(Allocator.Temp);
         var hits = new NativeArray<bool>(entities.Length, Allocator.Temp);
 
-        for (int i = 0; i < transforms.Length; i++)
+        try
         {
-            Vector2 screenPos = Camera.main.WorldToScreenPoint(transforms[i].Position);
-            hits[i] = rect.Contains(screenPos);
+            for (int i = 0; i < entities.Length; i++)
+            {
+                if (!IsFriendlySelectableUnit(em, entities[i]))
+                    continue;
+
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(transforms[i].Position);
+                hits[i] = screenPos.z > 0f && rect.Contains(screenPos);
+            }
+
+            ApplySelection(em, entities, hits, mode);
         }
-
-        ApplySelection(em, entities, hits, mode);
-
-        entities.Dispose();
-        transforms.Dispose();
-        hits.Dispose();
+        finally
+        {
+            entities.Dispose();
+            transforms.Dispose();
+            hits.Dispose();
+        }
     }
 
     private void HandleSingleSelection(EntityManager em, SelectionMode mode)
     {
+        Entity hitEntity = TryRaycastFriendlyUnit(em, Input.mousePosition);
+
+        EntityQuery query = new EntityQueryBuilder(Allocator.Temp)
+            .WithAll<Unit>()
+            .WithPresent<Selected>()
+            .Build(em);
+
+        var entities = query.ToEntityArray(Allocator.Temp);
+        var hits = new NativeArray<bool>(entities.Length, Allocator.Temp);
+
+        try
+        {
+            for (int i = 0; i < entities.Length; i++)
+            {
+                hits[i] = entities[i] == hitEntity;
+            }
+
+            if (hitEntity == Entity.Null && mode != SelectionMode.Standard)
+                return;
+
+            ApplySelection(em, entities, hits, mode);
+        }
+        finally
+        {
+            entities.Dispose();
+            hits.Dispose();
+        }
+    }
+
+    public void SelectUnit(UnitClass unitClass)
+    {
+        if (FriendlyUnitManager.Instance == null)
+            return;
+
+        if (!FriendlyUnitManager.Instance.unitEntityDict.TryGetValue(unitClass, out Entity entity))
+            return;
+
+        SelectEntity(entity, GetSelectionMode());
+    }
+
+    private void SelectEntity(Entity targetEntity, SelectionMode mode)
+    {
+        if (World.DefaultGameObjectInjectionWorld == null)
+            return;
+
+        EntityManager em = World.DefaultGameObjectInjectionWorld.EntityManager;
+        if (!IsFriendlySelectableUnit(em, targetEntity))
+            return;
+
+        EntityQuery query = new EntityQueryBuilder(Allocator.Temp)
+            .WithAll<Unit>()
+            .WithPresent<Selected>()
+            .Build(em);
+
+        var entities = query.ToEntityArray(Allocator.Temp);
+        var hits = new NativeArray<bool>(entities.Length, Allocator.Temp);
+
+        try
+        {
+            for (int i = 0; i < entities.Length; i++)
+            {
+                hits[i] = entities[i] == targetEntity;
+            }
+
+            ApplySelection(em, entities, hits, mode);
+        }
+        finally
+        {
+            entities.Dispose();
+            hits.Dispose();
+        }
+    }
+
+    public bool HasExplicitSelection()
+    {
+        if (World.DefaultGameObjectInjectionWorld == null)
+            return false;
+
+        EntityManager em = World.DefaultGameObjectInjectionWorld.EntityManager;
+        EntityQuery query = new EntityQueryBuilder(Allocator.Temp)
+            .WithAll<Unit>()
+            .WithPresent<Selected>()
+            .Build(em);
+
+        var entities = query.ToEntityArray(Allocator.Temp);
+        try
+        {
+            for (int i = 0; i < entities.Length; i++)
+            {
+                Entity entity = entities[i];
+                if (!IsFriendlySelectableUnit(em, entity))
+                    continue;
+
+                if (em.IsComponentEnabled<Selected>(entity))
+                    return true;
+            }
+
+            return false;
+        }
+        finally
+        {
+            entities.Dispose();
+        }
+    }
+
+    private void ApplySelection(EntityManager em, NativeArray<Entity> entities, NativeArray<bool> hits, SelectionMode mode)
+    {
+        for (int i = 0; i < entities.Length; i++)
+        {
+            Entity entity = entities[i];
+            if (!IsFriendlySelectableUnit(em, entity))
+                continue;
+
+            bool currentlySelected = em.IsComponentEnabled<Selected>(entity);
+            bool hit = hits[i];
+            bool newSelected = currentlySelected;
+
+            switch (mode)
+            {
+                case SelectionMode.Standard:
+                    newSelected = hit;
+                    break;
+                case SelectionMode.Add:
+                    if (hit) newSelected = true;
+                    break;
+                case SelectionMode.Remove:
+                    if (hit) newSelected = false;
+                    break;
+                case SelectionMode.Invert:
+                    if (hit) newSelected = !currentlySelected;
+                    break;
+            }
+
+            if (newSelected != currentlySelected)
+            {
+                SetSelectionState(em, entity, newSelected);
+            }
+        }
+    }
+
+    private static void SetSelectionState(EntityManager em, Entity entity, bool isSelected)
+    {
+        em.SetComponentEnabled<Selected>(entity, isSelected);
+
+        Selected selected = em.GetComponentData<Selected>(entity);
+        selected.OnSelected = isSelected;
+        selected.OnDeselected = !isSelected;
+        em.SetComponentData(entity, selected);
+    }
+
+    private SelectionMode GetSelectionMode()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            return SelectionMode.Add;
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+            return SelectionMode.Remove;
+        if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+            return SelectionMode.Invert;
+
+        return SelectionMode.Standard;
+    }
+
+    public Rect GetSelectionAreaRect()
+    {
+        Vector2 end = Input.mousePosition;
+        Vector2 min = Vector2.Min(selectionStartMousePosition, end);
+        Vector2 max = Vector2.Max(selectionStartMousePosition, end);
+        return new Rect(min, max - min);
+    }
+
+    private void HandleMoveCommand()
+    {
+        if (World.DefaultGameObjectInjectionWorld == null)
+            return;
+
+        EntityManager em = World.DefaultGameObjectInjectionWorld.EntityManager;
+        float3 target = Utilities.GetMouseWorldPosition();
+        bool hasExplicitSelection = HasExplicitSelection();
+
+        if (!hasExplicitSelection)
+        {
+            SelectAllFriendlyUnits(em);
+            hasExplicitSelection = true;
+        }
+
+        EntityQuery query = new EntityQueryBuilder(Allocator.Temp)
+            .WithAll<Unit>()
+            .WithPresent<MoveOverride>()
+            .Build(em);
+
+        var entities = query.ToEntityArray(Allocator.Temp);
+        var moveOverrides = query.ToComponentDataArray<MoveOverride>(Allocator.Temp);
+
+        int commandableCount = 0;
+        for (int i = 0; i < entities.Length; i++)
+        {
+            Entity entity = entities[i];
+            if (!IsFriendlyUnit(em, entity))
+                continue;
+
+            bool explicitlySelected = em.HasComponent<Selected>(entity) && em.IsComponentEnabled<Selected>(entity);
+            if (hasExplicitSelection && !explicitlySelected)
+                continue;
+
+            commandableCount++;
+        }
+
+        var positions = GenerateMovePositions(target, commandableCount);
+
+        try
+        {
+            int moveIndex = 0;
+            for (int i = 0; i < entities.Length; i++)
+            {
+                Entity entity = entities[i];
+                if (!IsFriendlyUnit(em, entity))
+                    continue;
+
+                bool explicitlySelected = em.HasComponent<Selected>(entity) && em.IsComponentEnabled<Selected>(entity);
+                if (hasExplicitSelection && !explicitlySelected)
+                    continue;
+
+                MoveOverride move = moveOverrides[i];
+
+                if (em.HasComponent<NavPathProgress>(entity))
+                    em.RemoveComponent<NavPathProgress>(entity);
+
+                move.targetPosition = positions[moveIndex++];
+                em.SetComponentData(entity, move);
+                em.SetComponentEnabled<MoveOverride>(entity, true);
+            }
+        }
+        finally
+        {
+            entities.Dispose();
+            moveOverrides.Dispose();
+            positions.Dispose();
+        }
+    }
+
+    private void SelectAllFriendlyUnits(EntityManager em)
+    {
+        EntityQuery query = new EntityQueryBuilder(Allocator.Temp)
+            .WithAll<Unit>()
+            .WithPresent<Selected>()
+            .Build(em);
+
+        var entities = query.ToEntityArray(Allocator.Temp);
+
+        try
+        {
+            for (int i = 0; i < entities.Length; i++)
+            {
+                Entity entity = entities[i];
+                if (!IsFriendlySelectableUnit(em, entity))
+                    continue;
+
+                if (!em.IsComponentEnabled<Selected>(entity))
+                {
+                    SetSelectionState(em, entity, true);
+                }
+            }
+        }
+        finally
+        {
+            entities.Dispose();
+        }
+    }
+
+    private Entity TryRaycastFriendlyUnit(EntityManager em, Vector2 screenPosition)
+    {
         EntityQuery query = em.CreateEntityQuery(typeof(PhysicsWorldSingleton));
-        var physicsWorld = query.GetSingleton<PhysicsWorldSingleton>().CollisionWorld;
+        CollisionWorld physicsWorld = query.GetSingleton<PhysicsWorldSingleton>().CollisionWorld;
 
-        UnityEngine.Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
+        UnityEngine.Ray ray = Camera.main.ScreenPointToRay(screenPosition);
         RaycastInput input = new RaycastInput
         {
             Start = ray.origin,
@@ -108,154 +385,32 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
             }
         };
 
-        if (physicsWorld.CastRay(input, out var hit))
-        {
-            if (!em.HasComponent<Unit>(hit.Entity) ||
-                !em.HasComponent<Selected>(hit.Entity))
-                return;
+        if (!physicsWorld.CastRay(input, out Unity.Physics.RaycastHit hit))
+            return Entity.Null;
 
-            var entities = new NativeArray<Entity>(1, Allocator.Temp);
-            var hits = new NativeArray<bool>(1, Allocator.Temp);
-
-            entities[0] = hit.Entity;
-            hits[0] = true;
-
-            ApplySelection(em, entities, hits, mode);
-
-            entities.Dispose();
-            hits.Dispose();
-        }
+        return IsFriendlySelectableUnit(em, hit.Entity) ? hit.Entity : Entity.Null;
     }
 
-    private void ApplySelection(
-        EntityManager em,
-        NativeArray<Entity> entities,
-        NativeArray<bool> hits,
-        SelectionMode mode)
+    private static bool IsFriendlySelectableUnit(EntityManager em, Entity entity)
     {
-        for (int i = 0; i < entities.Length; i++)
-        {
-            Entity e = entities[i];
-            bool currentlySelected = em.IsComponentEnabled<Selected>(e);
-            bool hit = hits[i];
-
-            bool newSelected = currentlySelected;
-
-            switch (mode)
-            {
-                case SelectionMode.Replace:
-                    newSelected = hit;
-                    break;
-
-                case SelectionMode.Add:
-                    if (hit) newSelected = true;
-                    break;
-
-                case SelectionMode.Remove:
-                    if (hit) newSelected = false;
-                    break;
-
-                case SelectionMode.Invert:
-                    if (hit) newSelected = !currentlySelected;
-                    break;
-            }
-
-            if (newSelected != currentlySelected)
-            {
-                em.SetComponentEnabled<Selected>(e, newSelected);
-
-                var selected = em.GetComponentData<Selected>(e);
-                selected.OnSelected = newSelected;
-                selected.OnDeselected = !newSelected;
-                em.SetComponentData(e, selected);
-            }
-        }
+        return em.Exists(entity)
+            && em.HasComponent<Unit>(entity)
+            && em.HasComponent<Selected>(entity)
+            && em.GetComponentData<Unit>(entity).faction == Faction.Friendly;
     }
 
-    private SelectionMode GetSelectionMode()
+    private static bool IsFriendlyUnit(EntityManager em, Entity entity)
     {
-        if (Input.GetKey(KeyCode.LeftShift)) return SelectionMode.Add;
-        if (Input.GetKey(KeyCode.LeftControl)) return SelectionMode.Remove;
-        if (Input.GetKey(KeyCode.LeftAlt)) return SelectionMode.Invert;
-        return SelectionMode.Replace;
+        return em.Exists(entity)
+            && em.HasComponent<Unit>(entity)
+            && em.GetComponentData<Unit>(entity).faction == Faction.Friendly;
     }
-
-    public Rect GetSelectionAreaRect()
-    {
-        Vector2 end = Input.mousePosition;
-
-        Vector2 min = Vector2.Min(selectionStartMousePosition, end);
-        Vector2 max = Vector2.Max(selectionStartMousePosition, end);
-
-        return new Rect(min, max - min);
-    }
-
-    // =========================
-    // MOVE COMMAND
-    // =========================
-
-    private void HandleMoveCommand()
-    {
-        EntityManager em = World.DefaultGameObjectInjectionWorld.EntityManager;
-        Vector3 target = Utilities.GetMouseWorldPosition();
-
-        bool anySelected = !em.CreateEntityQuery(ComponentType.ReadOnly<Selected>())
-            .IsEmptyIgnoreFilter;
-
-        // Если ничего не выбрано — выбираем всех юнитов
-        if (!anySelected)
-        {
-            EntityQuery allUnitsQuery = new EntityQueryBuilder(Allocator.Temp)
-                .WithAll<Unit>()
-                .Build(em);
-
-            var allUnits = allUnitsQuery.ToEntityArray(Allocator.Temp);
-
-            foreach (var unit in allUnits)
-            {
-                if (!em.HasComponent<Selected>(unit))
-                    em.AddComponent<Selected>(unit);
-            }
-
-            allUnits.Dispose();
-        }
-
-        EntityQuery query = new EntityQueryBuilder(Allocator.Temp)
-            .WithAll<Selected>()
-            .WithPresent<MoveOverride>()
-            .Build(em);
-
-        var entities = query.ToEntityArray(Allocator.Temp);
-        var moveOverrides = query.ToComponentDataArray<MoveOverride>(Allocator.Temp);
-        var positions = GenerateMovePositions(target, entities.Length);
-
-        for (int i = 0; i < entities.Length; i++)
-        {
-            Entity e = entities[i];
-            var move = moveOverrides[i];
-
-            // Сбрасываем старый путь
-            if (em.HasComponent<NavPathProgress>(e))
-                em.RemoveComponent<NavPathProgress>(e);
-
-            // Назначаем новую цель
-            move.targetPosition = positions[i];
-            em.SetComponentData(e, move);
-
-            // Включаем движение
-            em.SetComponentEnabled<MoveOverride>(e, true);
-        }
-
-        entities.Dispose();
-        moveOverrides.Dispose();
-        positions.Dispose();
-    }
-
 
     private NativeArray<float3> GenerateMovePositions(float3 target, int count)
     {
         var array = new NativeArray<float3>(count, Allocator.Temp);
-        if (count == 0) return array;
+        if (count == 0)
+            return array;
 
         array[0] = target;
 
@@ -270,9 +425,7 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
             for (int i = 0; i < ringCount && index < count; i++)
             {
                 float angle = i * math.PI2 / ringCount;
-                float3 offset = math.rotate(quaternion.RotateY(angle),
-                    new float3(spacing * ring, 0, 0));
-
+                float3 offset = math.rotate(quaternion.RotateY(angle), new float3(spacing * ring, 0, 0));
                 array[index++] = target + offset;
             }
             ring++;
