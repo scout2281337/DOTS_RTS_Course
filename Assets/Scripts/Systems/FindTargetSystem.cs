@@ -13,6 +13,10 @@ partial struct FindTargetSystem : ISystem
         var physicsWorld = SystemAPI
             .GetSingleton<PhysicsWorldSingleton>()
             .CollisionWorld;
+        ComponentLookup<FogRevealable> fogRevealableLookup =
+            SystemAPI.GetComponentLookup<FogRevealable>(true);
+        ComponentLookup<FogVisible> fogVisibleLookup =
+            SystemAPI.GetComponentLookup<FogVisible>(true);
 
         NativeList<DistanceHit> hits =
             new NativeList<DistanceHit>(Allocator.Temp);
@@ -32,7 +36,9 @@ partial struct FindTargetSystem : ISystem
 
             if (target.ValueRO.targetEntity != Entity.Null)
             {
-                if (!SystemAPI.Exists(target.ValueRO.targetEntity) || SystemAPI.HasComponent<DeadUnit>(target.ValueRO.targetEntity))
+                if (!SystemAPI.Exists(target.ValueRO.targetEntity) ||
+                    SystemAPI.HasComponent<DeadUnit>(target.ValueRO.targetEntity) ||
+                    IsHiddenByFog(fogRevealableLookup, fogVisibleLookup, target.ValueRO.targetEntity))
                 {
                     target.ValueRW.targetEntity = Entity.Null;
                 }
@@ -97,6 +103,9 @@ partial struct FindTargetSystem : ISystem
                     if (SystemAPI.HasComponent<DeadUnit>(hit.Entity))
                         continue;
 
+                    if (IsHiddenByFog(fogRevealableLookup, fogVisibleLookup, hit.Entity))
+                        continue;
+
                     Unit unit =
                         SystemAPI.GetComponent<Unit>(hit.Entity);
 
@@ -119,5 +128,15 @@ partial struct FindTargetSystem : ISystem
         }
 
         hits.Dispose();
+    }
+
+    private static bool IsHiddenByFog(
+        ComponentLookup<FogRevealable> fogRevealableLookup,
+        ComponentLookup<FogVisible> fogVisibleLookup,
+        Entity entity)
+    {
+        return fogRevealableLookup.HasComponent(entity) &&
+               (!fogVisibleLookup.HasComponent(entity) ||
+                !fogVisibleLookup.IsComponentEnabled(entity));
     }
 }

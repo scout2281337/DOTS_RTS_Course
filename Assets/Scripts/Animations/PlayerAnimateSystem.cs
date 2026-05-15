@@ -56,15 +56,21 @@ namespace TMG.ECSAnimations
                 }
 
                 bool isDead = SystemAPI.HasComponent<DeadUnit>(entity);
-                if (animator.gameObject.activeSelf == isDead)
+                bool hiddenByFog =
+                    SystemAPI.HasComponent<FogRevealable>(entity) &&
+                    SystemAPI.HasComponent<FogVisible>(entity) &&
+                    !SystemAPI.IsComponentEnabled<FogVisible>(entity);
+
+                bool shouldBeActive = !isDead && !hiddenByFog;
+                if (animator.gameObject.activeSelf != shouldBeActive)
                 {
-                    animator.gameObject.SetActive(!isDead);
+                    animator.gameObject.SetActive(shouldBeActive);
                 }
 
                 animator.transform.position = transform.Position;
                 animator.transform.rotation = transform.Rotation;
 
-                if (!isDead)
+                if (shouldBeActive)
                 {
                     animator.SetInteger(StateHash, (int)animState.Value);
                 }

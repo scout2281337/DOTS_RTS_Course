@@ -100,6 +100,12 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             faction = soldierConfig.bodyConfig.currentFaction,
         });
 
+        SetOrAddComponent(em, currentEntity, new VisionSource
+        {
+            Radius = math.max(1f, soldierConfig.weaponConfigs[0].range),
+            AngleDegrees = 130f
+        });
+
         Ability abilityData = default;
         if (em.HasComponent<Ability>(currentEntity))
         {

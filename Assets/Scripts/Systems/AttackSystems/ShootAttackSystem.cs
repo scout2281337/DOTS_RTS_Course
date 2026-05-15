@@ -15,6 +15,10 @@ partial struct ShootAttackSystem : ISystem
         var physicsWorld = SystemAPI
             .GetSingleton<PhysicsWorldSingleton>()
             .CollisionWorld;
+        ComponentLookup<FogRevealable> fogRevealableLookup =
+            SystemAPI.GetComponentLookup<FogRevealable>(true);
+        ComponentLookup<FogVisible> fogVisibleLookup =
+            SystemAPI.GetComponentLookup<FogVisible>(true);
         EntityCommandBuffer ecb =
             SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
         var hub = SystemAPI
@@ -48,7 +52,9 @@ partial struct ShootAttackSystem : ISystem
             if (target.ValueRO.targetEntity == Entity.Null)
                 continue;
 
-            if (!SystemAPI.Exists(target.ValueRO.targetEntity) || SystemAPI.HasComponent<DeadUnit>(target.ValueRO.targetEntity))
+            if (!SystemAPI.Exists(target.ValueRO.targetEntity) ||
+                SystemAPI.HasComponent<DeadUnit>(target.ValueRO.targetEntity) ||
+                IsHiddenByFog(fogRevealableLookup, fogVisibleLookup, target.ValueRO.targetEntity))
             {
                 target.ValueRW.targetEntity = Entity.Null;
                 continue;
@@ -344,6 +350,16 @@ partial struct ShootAttackSystem : ISystem
             TargetEntityClass = targetUnit.Class,
             DamageAmount = Damage
         });
+    }
+
+    private static bool IsHiddenByFog(
+        ComponentLookup<FogRevealable> fogRevealableLookup,
+        ComponentLookup<FogVisible> fogVisibleLookup,
+        Entity entity)
+    {
+        return fogRevealableLookup.HasComponent(entity) &&
+               (!fogVisibleLookup.HasComponent(entity) ||
+                !fogVisibleLookup.IsComponentEnabled(entity));
     }
 }
 

@@ -106,6 +106,10 @@ PrefabInstance:
       propertyPath: CurrentMoveSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 320467112377160649, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1973134487612938542, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -121,6 +125,10 @@ PrefabInstance:
     - target: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: m_Name
       value: SoldierUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7167144379005700856, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: m_Enabled
@@ -183,6 +191,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       insertIndex: -1
       addedObject: {fileID: -826494588273469841}
+    - targetCorrespondingSourceObject: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -185537876097391857}
+    - targetCorrespondingSourceObject: {fileID: 5242252495455978483, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8726937400027690109}
   m_SourcePrefab: {fileID: 100100000, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
 --- !u!4 &18740432714998459 stripped
 Transform:
@@ -228,3 +242,28 @@ MonoBehaviour:
   Active: 0
   IsTriggered: 0
   ClassSkillConfig: {fileID: 11400000, guid: 735d88483ae20814f93855f3da34716d, type: 2}
+--- !u!114 &-185537876097391857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8020765196219228651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f02c9f87825fb341900cb415c4cf920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationStateAuthoring
+--- !u!114 &8726937400027690109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8020765196219228651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa176a7e90dbd14988929d57c4ef080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TMG.ECSAnimations.PlayerAnimatorAuthoring
+  PlayerGameObjectPrefab: {fileID: 17503970978315453, guid: 3778d174ac7daf842974f5691debd257, type: 3}

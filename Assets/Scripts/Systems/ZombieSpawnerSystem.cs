@@ -164,23 +164,25 @@ partial struct ZombieSpawnerSystem : ISystem
 
     private static void SpawnEnemy(EntityManager entityManager, EntityCommandBuffer entityCommandBuffer, ref ZombieSpawner zombieSpawner, DynamicBuffer<SpawnPointElement> spawnPoints, in LocalTransform spawnerTransform, Entity enemyPrefab)
     {
-        Entity zombieEntity = entityManager.Instantiate(enemyPrefab);
-        entityManager.SetComponentData(zombieEntity, LocalTransform.FromPosition(GetSpawnPosition(ref zombieSpawner, spawnPoints)));
+        Entity zombieEntity = entityCommandBuffer.Instantiate(enemyPrefab);
+        entityCommandBuffer.SetComponent(zombieEntity, LocalTransform.FromPosition(GetSpawnPosition(ref zombieSpawner, spawnPoints)));
+        EnsureFogRevealable(entityManager, entityCommandBuffer, zombieEntity, enemyPrefab);
 
         if (zombieSpawner.isRandomWalkingOnStart)
         {
+            uint randomSeed = zombieSpawner.random.NextUInt(1u, uint.MaxValue);
             entityCommandBuffer.AddComponent(zombieEntity, new RandomWalking
             {
                 originPosition = spawnerTransform.Position,
                 targetPosition = spawnerTransform.Position,
                 distanceMin = zombieSpawner.randomWalkingDistanceMin,
                 distanceMax = zombieSpawner.randomWalkingDistanceMax,
-                random = new Unity.Mathematics.Random((uint)zombieEntity.Index + 1u),
+                random = new Unity.Mathematics.Random(randomSeed),
             });
         }
         else if (zombieSpawner.startTargetEntity != Entity.Null)
         {
-            entityManager.SetComponentData(zombieEntity, new Target
+            entityCommandBuffer.SetComponent(zombieEntity, new Target
             {
                 targetEntity = zombieSpawner.startTargetEntity,
             });
@@ -203,5 +205,16 @@ partial struct ZombieSpawnerSystem : ISystem
         float distance = math.sqrt(zombieSpawner.random.NextFloat()) * zombieSpawner.spawnRadius;
         float2 offset = new float2(math.cos(angle), math.sin(angle)) * distance;
         return new float3(basePosition.x + offset.x, basePosition.y, basePosition.z + offset.y);
+    }
+
+    private static void EnsureFogRevealable(EntityManager entityManager, EntityCommandBuffer entityCommandBuffer, Entity entity, Entity prefab)
+    {
+        if (!entityManager.HasComponent<FogRevealable>(prefab))
+            entityCommandBuffer.AddComponent<FogRevealable>(entity);
+
+        if (!entityManager.HasComponent<FogVisible>(prefab))
+            entityCommandBuffer.AddComponent<FogVisible>(entity);
+
+        entityCommandBuffer.SetComponentEnabled<FogVisible>(entity, false);
     }
 }

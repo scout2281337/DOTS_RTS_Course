@@ -16,6 +16,10 @@ partial struct MeleeAttackSystem : ISystem
         // Получаем мир физики
         PhysicsWorldSingleton physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
         CollisionWorld collisionWorld = physicsWorldSingleton.CollisionWorld;
+        ComponentLookup<FogRevealable> fogRevealableLookup =
+            SystemAPI.GetComponentLookup<FogRevealable>(true);
+        ComponentLookup<FogVisible> fogVisibleLookup =
+            SystemAPI.GetComponentLookup<FogVisible>(true);
 
         NativeList<RaycastHit> raycastHitList = new NativeList<RaycastHit>(Allocator.Temp);
         EntityCommandBuffer ecb =
@@ -37,7 +41,9 @@ partial struct MeleeAttackSystem : ISystem
         {
             if (target.ValueRO.targetEntity == Entity.Null) continue;
 
-            if (!SystemAPI.Exists(target.ValueRO.targetEntity) || SystemAPI.HasComponent<DeadUnit>(target.ValueRO.targetEntity))
+            if (!SystemAPI.Exists(target.ValueRO.targetEntity) ||
+                SystemAPI.HasComponent<DeadUnit>(target.ValueRO.targetEntity) ||
+                IsHiddenByFog(fogRevealableLookup, fogVisibleLookup, target.ValueRO.targetEntity))
             {
                 target.ValueRW.targetEntity = Entity.Null;
                 continue;
@@ -138,6 +144,16 @@ partial struct MeleeAttackSystem : ISystem
             }
         }
         raycastHitList.Dispose();
+    }
+
+    private static bool IsHiddenByFog(
+        ComponentLookup<FogRevealable> fogRevealableLookup,
+        ComponentLookup<FogVisible> fogVisibleLookup,
+        Entity entity)
+    {
+        return fogRevealableLookup.HasComponent(entity) &&
+               (!fogVisibleLookup.HasComponent(entity) ||
+                !fogVisibleLookup.IsComponentEnabled(entity));
     }
 }
 
