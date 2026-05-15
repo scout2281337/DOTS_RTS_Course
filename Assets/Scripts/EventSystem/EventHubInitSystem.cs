@@ -14,6 +14,7 @@ public partial struct EventHubInitSystem : ISystem
         state.EntityManager.AddBuffer<AbilityEndedEvent>(hub);
         state.EntityManager.AddBuffer<AbilityCooldownEndedEvent>(hub);
         state.EntityManager.AddBuffer<DamageEvent>(hub);
+        state.EntityManager.AddBuffer<UnitDeathEvent>(hub);
         state.EntityManager.AddBuffer<KillEvent>(hub);
         state.EntityManager.AddBuffer<UnitDeathConsoleEvent>(hub);
         state.EntityManager.AddBuffer<RicochetConsoleEvent>(hub);

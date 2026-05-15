@@ -19,6 +19,7 @@ partial struct UnitMoverSystem : ISystem
 }
 
 [BurstCompile]
+[WithNone(typeof(DeadUnit))]
 public partial struct UnitMoverJob : IJobEntity
 {
     public float deltaTime;
@@ -29,7 +30,7 @@ public partial struct UnitMoverJob : IJobEntity
         ref PhysicsVelocity physicsVelocity)
     {
         float3 toTarget = unitMover.targetPosition - localTransform.Position;
-        toTarget.y = 0; // тест
+        toTarget.y = 0; // С‚РµСЃС‚
         float distSq = math.lengthsq(toTarget);
 
         if (distSq <= UnitMoverSystem.REACHED_TARGET_POSITION_DISTANCE_SQ)
@@ -39,11 +40,11 @@ public partial struct UnitMoverJob : IJobEntity
             return;
         }
 
-        // безопасная нормализация
+        // Р±РµР·РѕРїР°СЃРЅР°СЏ РЅРѕСЂРјР°Р»РёР·Р°С†РёСЏ
         float invLen = math.rsqrt(distSq);
         float3 moveDir = toTarget * invLen;
         //float3 freezeRot = new float3(0, 1, 0);
-        // поворот
+        // РїРѕРІРѕСЂРѕС‚
         quaternion targetRot = quaternion.LookRotation(moveDir, math.up());
         localTransform.Rotation =
             math.slerp(localTransform.Rotation, targetRot, deltaTime * unitMover.rotationSpeed);

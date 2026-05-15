@@ -24,16 +24,24 @@ partial struct MeleeAttackSystem : ISystem
         foreach ((
             RefRO<LocalTransform> localTransform,
             RefRW<MeleeAttack> meleeAttack,
-            RefRO<Target> target,
+            RefRW<Target> target,
             RefRW<UnitMover> unitMover,
             Entity entity
         ) in SystemAPI.Query<
             RefRO<LocalTransform>,
             RefRW<MeleeAttack>,
-            RefRO<Target>,
-            RefRW<UnitMover>>().WithEntityAccess()) //.WithDisabled<MoveOverride>()
+            RefRW<Target>,
+            RefRW<UnitMover>>()
+            .WithNone<DeadUnit>()
+            .WithEntityAccess()) //.WithDisabled<MoveOverride>()
         {
             if (target.ValueRO.targetEntity == Entity.Null) continue;
+
+            if (!SystemAPI.Exists(target.ValueRO.targetEntity) || SystemAPI.HasComponent<DeadUnit>(target.ValueRO.targetEntity))
+            {
+                target.ValueRW.targetEntity = Entity.Null;
+                continue;
+            }
 
             if (SystemAPI.HasComponent<StunEffect>(entity)) continue;
 

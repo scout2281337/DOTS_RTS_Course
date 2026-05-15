@@ -396,6 +396,7 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
         return em.Exists(entity)
             && em.HasComponent<Unit>(entity)
             && em.HasComponent<Selected>(entity)
+            && !em.HasComponent<DeadUnit>(entity)
             && em.GetComponentData<Unit>(entity).faction == Faction.Friendly;
     }
 
@@ -403,6 +404,7 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
     {
         return em.Exists(entity)
             && em.HasComponent<Unit>(entity)
+            && !em.HasComponent<DeadUnit>(entity)
             && em.GetComponentData<Unit>(entity).faction == Faction.Friendly;
     }
 

@@ -34,6 +34,12 @@ public partial struct DamageSystem : ISystem
             if (!em.HasComponent<Health>(dmg.TargetEntity))
                 continue;
 
+            if (em.HasComponent<DeadUnit>(dmg.TargetEntity))
+                continue;
+
+            if (SystemAPI.Exists(dmg.SourceEntity) && em.HasComponent<DeadUnit>(dmg.SourceEntity))
+                continue;
+
             if (SystemAPI.HasComponent<Invulnerable>(dmg.TargetEntity))
                 continue;
 

@@ -24,14 +24,15 @@ partial struct FindTargetSystem : ISystem
             in SystemAPI.Query<
                 RefRO<LocalTransform>,
                 RefRW<FindTarget>,
-                RefRW<Target>>())
+                RefRW<Target>>()
+            .WithNone<DeadUnit>())
         {
             float3 myPos = localTransform.ValueRO.Position;
 
 
             if (target.ValueRO.targetEntity != Entity.Null)
             {
-                if (!SystemAPI.Exists(target.ValueRO.targetEntity))
+                if (!SystemAPI.Exists(target.ValueRO.targetEntity) || SystemAPI.HasComponent<DeadUnit>(target.ValueRO.targetEntity))
                 {
                     target.ValueRW.targetEntity = Entity.Null;
                 }
@@ -62,7 +63,7 @@ partial struct FindTargetSystem : ISystem
             findTarget.ValueRW.timer =
                 findTarget.ValueRO.timerMax;
 
-            // если цель всё ещё есть — не ищем
+            // РµСЃР»Рё С†РµР»СЊ РІСЃС‘ РµС‰С‘ РµСЃС‚СЊ вЂ” РЅРµ РёС‰РµРј
             if (target.ValueRO.targetEntity != Entity.Null)
                 continue;
 
@@ -91,6 +92,9 @@ partial struct FindTargetSystem : ISystem
                         continue;
 
                     if (!SystemAPI.HasComponent<Unit>(hit.Entity))
+                        continue;
+
+                    if (SystemAPI.HasComponent<DeadUnit>(hit.Entity))
                         continue;
 
                     Unit unit =

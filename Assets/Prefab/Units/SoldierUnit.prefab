@@ -123,6 +123,10 @@ PrefabInstance:
       value: SoldierUnit
       objectReference: {fileID: 0}
     - target: {fileID: 7167144379005700856, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7167144379005700856, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: weaponConfig
       value: 
       objectReference: {fileID: 11400000, guid: 079680f870646ec4faa24745ae7371e5, type: 2}

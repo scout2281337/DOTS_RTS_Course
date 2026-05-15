@@ -5,6 +5,7 @@ public class EventMediator : Singleton<EventMediator>
 {
     public event Action<UnitClass, SoldierAttributesConfig> OnUnitSpawned;
     public event Action<DamageEvent> OnDamageReceived;
+    public event Action<UnitDeathEvent> OnUnitDeath;
     public event Action<BulletShotEvent> OnBulletShot;
     public event Action<UnitClass, ModuleBaseSO> OnNewModule;
 
@@ -31,6 +32,14 @@ public class EventMediator : Singleton<EventMediator>
         Debug.Log("InvokeDamageReceived \n" +
             evt.TargetEntityClass + "\n"
             + evt.DamageAmount);
+    }
+
+    public void InvokeUnitDeath(UnitDeathEvent evt)
+    {
+        OnUnitDeath?.Invoke(evt);
+        Debug.Log("InvokeUnitDeath \n" +
+            evt.UnitClass + "\n"
+            + evt.Faction);
     }
 
     public void InvokeBulletShot(BulletShotEvent evt)

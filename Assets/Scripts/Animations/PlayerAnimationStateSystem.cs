@@ -10,6 +10,7 @@ public partial struct PlayerAnimationStateSystem : ISystem
 
         foreach (var (animState, target, entity) in
                  SystemAPI.Query<RefRW<AnimationStateComponent>, Target>()
+                          .WithNone<DeadUnit>()
                           .WithEntityAccess())
         {
 

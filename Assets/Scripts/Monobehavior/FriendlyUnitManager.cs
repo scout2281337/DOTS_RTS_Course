@@ -54,6 +54,10 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
     {
         Entity currentEntity = em.Instantiate(entityToSpawn);
         em.SetComponentData(currentEntity, LocalTransform.FromPosition(startPos));
+        SetOrAddComponent(em, currentEntity, new RespawnPoint
+        {
+            Position = startPos
+        });
 
         UnitMover unitMover = em.HasComponent<UnitMover>(currentEntity)
             ? em.GetComponentData<UnitMover>(currentEntity)
@@ -143,6 +147,18 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
         unitEntityDict.Add(unitClass, currentEntity);
 
         EventMediator.Instance.InvokeUnitSpawned(unitClass, soldierConfig);
+    }
+
+    private static void SetOrAddComponent<T>(EntityManager em, Entity entity, T component) where T : unmanaged, IComponentData
+    {
+        if (em.HasComponent<T>(entity))
+        {
+            em.SetComponentData(entity, component);
+        }
+        else
+        {
+            em.AddComponentData(entity, component);
+        }
     }
 
     Vector3 RandomPointInCircle(Vector3 center, float radius)

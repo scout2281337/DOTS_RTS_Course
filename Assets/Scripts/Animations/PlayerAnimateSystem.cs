@@ -55,9 +55,19 @@ namespace TMG.ECSAnimations
                     continue;
                 }
 
+                bool isDead = SystemAPI.HasComponent<DeadUnit>(entity);
+                if (animator.gameObject.activeSelf == isDead)
+                {
+                    animator.gameObject.SetActive(!isDead);
+                }
+
                 animator.transform.position = transform.Position;
                 animator.transform.rotation = transform.Rotation;
-                animator.SetInteger(StateHash, (int)animState.Value);
+
+                if (!isDead)
+                {
+                    animator.SetInteger(StateHash, (int)animState.Value);
+                }
             }
 
             // Cleanup visual object for destroyed/invalid entities

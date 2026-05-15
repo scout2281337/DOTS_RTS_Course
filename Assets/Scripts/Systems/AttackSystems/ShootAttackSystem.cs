@@ -29,7 +29,7 @@ partial struct ShootAttackSystem : ISystem
         foreach ((
             RefRW<ShootAttack> shootAttack,
             RefRW<LocalTransform> localTransform,
-            RefRO<Target> target,
+            RefRW<Target> target,
             RefRO<Unit> unit,
             RefRO<BulletSpawnPosition> bulletSpawnPosition,
             RefRW<UnitMover> unitMover,
@@ -37,14 +37,22 @@ partial struct ShootAttackSystem : ISystem
             in SystemAPI.Query<
                 RefRW<ShootAttack>,
                 RefRW<LocalTransform>,
-                RefRO<Target>,
+                RefRW<Target>,
                 RefRO<Unit>,
                 RefRO<BulletSpawnPosition>,
                 RefRW<UnitMover>>()
-            .WithDisabled<MoveOverride>().WithEntityAccess())
+            .WithDisabled<MoveOverride>()
+            .WithNone<DeadUnit>()
+            .WithEntityAccess())
         {
             if (target.ValueRO.targetEntity == Entity.Null)
                 continue;
+
+            if (!SystemAPI.Exists(target.ValueRO.targetEntity) || SystemAPI.HasComponent<DeadUnit>(target.ValueRO.targetEntity))
+            {
+                target.ValueRW.targetEntity = Entity.Null;
+                continue;
+            }
 
             if (SystemAPI.HasComponent<StunEffect>(entity))
                 continue;

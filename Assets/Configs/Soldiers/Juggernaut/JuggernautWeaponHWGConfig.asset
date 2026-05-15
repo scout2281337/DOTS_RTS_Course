@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributeName: HWG
   attributeDescription: "\u0411\u043E\u043B\u0448\u0430\u044F \u043F\u0443\u0448\u043A\u0430"
-  damage: 8
+  damage: 0
   fireRate: 300
   range: 12
   weaponType: 1

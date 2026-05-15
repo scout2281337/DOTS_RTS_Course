@@ -36,6 +36,15 @@ public partial struct EventPresentationSystem : ISystem
         }
         damageEvents.Clear();
 
+        // ====================== UNIT DEATH EVENTS ======================
+        var unitDeathEvents = SystemAPI.GetBuffer<UnitDeathEvent>(hubEntity);
+        for (int i = 0; i < unitDeathEvents.Length; i++)
+        {
+            var e = unitDeathEvents[i];
+            EventMediator.Instance?.InvokeUnitDeath(e);
+        }
+        unitDeathEvents.Clear();
+
         // ====================== ABILITY POINTER EVENTS ======================
         var pointerEvents = SystemAPI.GetBuffer<AbilityPointerEvent>(hubEntity);
         for (int i = 0; i < pointerEvents.Length; i++)
