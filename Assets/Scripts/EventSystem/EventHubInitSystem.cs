@@ -13,6 +13,7 @@ public partial struct EventHubInitSystem : ISystem
         state.EntityManager.AddBuffer<AbilityStartedEvent>(hub);
         state.EntityManager.AddBuffer<AbilityEndedEvent>(hub);
         state.EntityManager.AddBuffer<AbilityCooldownEndedEvent>(hub);
+        state.EntityManager.AddBuffer<WorldEvent>(hub);
         state.EntityManager.AddBuffer<DamageEvent>(hub);
         state.EntityManager.AddBuffer<UnitDeathEvent>(hub);
         state.EntityManager.AddBuffer<KillEvent>(hub);

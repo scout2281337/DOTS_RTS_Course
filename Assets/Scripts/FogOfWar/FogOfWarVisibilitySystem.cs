@@ -41,6 +41,28 @@ public partial class FogOfWarVisibilitySystem : SystemBase
                 }
             }
 
+            if (!visible)
+            {
+                var revealSources = FogRevealSource.ActiveSources;
+                for (int i = 0; i < revealSources.Count; i++)
+                {
+                    FogRevealSource source = revealSources[i];
+                    if (source == null || !source.IsRevealing)
+                        continue;
+
+                    if (CanRevealTarget(
+                            source.Position,
+                            targetTransform.ValueRO,
+                            source.Radius,
+                            source.RespectObstacles,
+                            settings))
+                    {
+                        visible = true;
+                        break;
+                    }
+                }
+            }
+
             EntityManager.SetComponentEnabled<FogVisible>(targetEntity, visible);
         }
     }
@@ -112,6 +134,37 @@ public partial class FogOfWarVisibilitySystem : SystemBase
                     return false;
             }
         }
+
+        float3 rayStart = sourcePos + new float3(0f, settings.RayHeight, 0f);
+        float3 rayEnd = targetPos + new float3(0f, settings.RayHeight, 0f);
+
+        return !Physics.Linecast(
+            rayStart,
+            rayEnd,
+            settings.ObstacleLayerMask,
+            QueryTriggerInteraction.Ignore);
+    }
+
+    private static bool CanRevealTarget(
+        Vector3 sourcePosition,
+        in LocalTransform targetTransform,
+        float radius,
+        bool respectObstacles,
+        in FogOfWarSettings settings)
+    {
+        radius = math.max(0f, radius);
+        if (radius <= 0f)
+            return false;
+
+        float3 sourcePos = new float3(sourcePosition.x, sourcePosition.y, sourcePosition.z);
+        float3 targetPos = targetTransform.Position;
+        float3 flatToTarget = new float3(targetPos.x - sourcePos.x, 0f, targetPos.z - sourcePos.z);
+
+        if (math.lengthsq(flatToTarget) > radius * radius)
+            return false;
+
+        if (!respectObstacles)
+            return true;
 
         float3 rayStart = sourcePos + new float3(0f, settings.RayHeight, 0f);
         float3 rayEnd = targetPos + new float3(0f, settings.RayHeight, 0f);

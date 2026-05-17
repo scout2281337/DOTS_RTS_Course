@@ -34,6 +34,11 @@ public class MinimapUI : MonoBehaviour
     [SerializeField] private bool showVisibleEnemies = true;
     [SerializeField] private bool rotateFriendlyMarkers = true;
 
+    [Header("Environment")]
+    [SerializeField] private bool showEnvironmentMarkers = true;
+    [SerializeField] private float environmentRefreshInterval = 0.35f;
+    [SerializeField] private float minimumEnvironmentMarkerSize = 2f;
+
     [Header("Events")]
     [SerializeField] private bool pingUnitDeaths = true;
     [SerializeField] private float defaultPingDuration = 4f;
@@ -44,12 +49,15 @@ public class MinimapUI : MonoBehaviour
     [SerializeField] private Transform cameraTarget;
 
     private readonly List<VisualElement> unitMarkerPool = new();
+    private readonly List<VisualElement> environmentMarkerPool = new();
     private readonly List<MinimapPing> pings = new();
 
     private VisualElement hud;
     private VisualElement minimap;
+    private VisualElement environmentLayer;
     private VisualElement markerLayer;
     private VisualElement pingLayer;
+    private VisualElement eventFeed;
     private Label signalLabel;
 
     private World cachedWorld;
@@ -57,6 +65,7 @@ public class MinimapUI : MonoBehaviour
     private bool hasUnitQuery;
     private bool subscribedToEvents;
     private float refreshTimer;
+    private float environmentRefreshTimer;
 
     private struct MinimapPing
     {
@@ -101,6 +110,13 @@ public class MinimapUI : MonoBehaviour
         {
             refreshTimer = Mathf.Max(0.01f, refreshInterval);
             RefreshUnitMarkers();
+        }
+
+        environmentRefreshTimer -= Time.deltaTime;
+        if (environmentRefreshTimer <= 0f)
+        {
+            environmentRefreshTimer = Mathf.Max(0.05f, environmentRefreshInterval);
+            RefreshEnvironmentMarkers();
         }
 
         UpdatePings();
@@ -206,6 +222,11 @@ public class MinimapUI : MonoBehaviour
         grid.AddToClassList("minimap-grid");
         minimap.Add(grid);
 
+        environmentLayer = new VisualElement();
+        environmentLayer.AddToClassList("minimap-layer");
+        environmentLayer.AddToClassList("minimap-environment-layer");
+        minimap.Add(environmentLayer);
+
         pingLayer = new VisualElement();
         pingLayer.AddToClassList("minimap-layer");
         minimap.Add(pingLayer);
@@ -225,10 +246,44 @@ public class MinimapUI : MonoBehaviour
         footer.Add(new Label("FRIENDLY"));
         footer.Add(new Label("VISIBLE HOSTILES"));
 
+        eventFeed = new VisualElement();
+        eventFeed.AddToClassList("minimap-event-feed");
+        frame.Add(eventFeed);
+
         if (clickToMoveCamera)
         {
             frame.RegisterCallback<PointerDownEvent>(OnMinimapPointerDown);
         }
+    }
+
+    private void RefreshEnvironmentMarkers()
+    {
+        if (environmentLayer == null)
+            return;
+
+        if (!showEnvironmentMarkers)
+        {
+            HideUnusedEnvironmentMarkers(0);
+            return;
+        }
+
+        MinimapEnvironmentMarker[] markers = FindObjectsByType<MinimapEnvironmentMarker>(
+            FindObjectsInactive.Exclude,
+            FindObjectsSortMode.None);
+
+        int usedMarkers = 0;
+        for (int i = 0; i < markers.Length; i++)
+        {
+            MinimapEnvironmentMarker marker = markers[i];
+            if (marker == null || !marker.TryGetFootprint(out MinimapEnvironmentFootprint footprint))
+                continue;
+
+            VisualElement element = GetEnvironmentMarker(usedMarkers++);
+            SetupEnvironmentMarkerClass(element, footprint.Kind);
+            PlaceEnvironmentMarker(element, footprint);
+        }
+
+        HideUnusedEnvironmentMarkers(usedMarkers);
     }
 
     private void RefreshUnitMarkers()
@@ -340,6 +395,29 @@ public class MinimapUI : MonoBehaviour
         return result;
     }
 
+    private VisualElement GetEnvironmentMarker(int index)
+    {
+        while (environmentMarkerPool.Count <= index)
+        {
+            VisualElement marker = new VisualElement();
+            marker.AddToClassList("minimap-environment-marker");
+            environmentLayer.Add(marker);
+            environmentMarkerPool.Add(marker);
+        }
+
+        VisualElement result = environmentMarkerPool[index];
+        result.style.display = DisplayStyle.Flex;
+        return result;
+    }
+
+    private void HideUnusedEnvironmentMarkers(int usedMarkers)
+    {
+        for (int i = usedMarkers; i < environmentMarkerPool.Count; i++)
+        {
+            environmentMarkerPool[i].style.display = DisplayStyle.None;
+        }
+    }
+
     private static bool IsHiddenByFog(EntityManager em, Entity entity)
     {
         return em.HasComponent<FogRevealable>(entity) &&
@@ -367,9 +445,37 @@ public class MinimapUI : MonoBehaviour
         marker.EnableInClassList("selected", selected);
     }
 
+    private void SetupEnvironmentMarkerClass(VisualElement marker, MinimapEnvironmentMarkerKind kind)
+    {
+        marker.RemoveFromClassList("building");
+        marker.RemoveFromClassList("obstacle");
+        marker.RemoveFromClassList("landmark");
+        marker.RemoveFromClassList("road");
+
+        marker.AddToClassList(kind switch
+        {
+            MinimapEnvironmentMarkerKind.Obstacle => "obstacle",
+            MinimapEnvironmentMarkerKind.Landmark => "landmark",
+            MinimapEnvironmentMarkerKind.Road => "road",
+            _ => "building"
+        });
+    }
+
     private void PlaceMarker(VisualElement marker, float3 worldPosition, float size)
     {
         PlaceElement(marker, new Vector3(worldPosition.x, worldPosition.y, worldPosition.z), size);
+    }
+
+    private void PlaceEnvironmentMarker(VisualElement marker, MinimapEnvironmentFootprint footprint)
+    {
+        Vector2 minimapPosition = WorldToMinimapPosition(footprint.Center);
+        Vector2 markerSize = WorldSizeToMinimapSize(footprint.Size);
+
+        marker.style.width = markerSize.x;
+        marker.style.height = markerSize.y;
+        marker.style.left = minimapPosition.x - markerSize.x * 0.5f;
+        marker.style.top = minimapPosition.y - markerSize.y * 0.5f;
+        marker.style.rotate = new Rotate(new Angle(-footprint.RotationY, AngleUnit.Degree));
     }
 
     private void PlaceElement(VisualElement element, Vector3 worldPosition, float size)
@@ -399,6 +505,19 @@ public class MinimapUI : MonoBehaviour
 
         float mapSize = GetResolvedMapSize();
         return new Vector2(u * mapSize, (1f - v) * mapSize);
+    }
+
+    private Vector2 WorldSizeToMinimapSize(Vector2 worldSize)
+    {
+        FogOfWarSettings settings = GetMapSettings();
+        float mapSize = GetResolvedMapSize();
+
+        float width = settings.WorldSize.x > 0f ? worldSize.x / settings.WorldSize.x * mapSize : 0f;
+        float height = settings.WorldSize.y > 0f ? worldSize.y / settings.WorldSize.y * mapSize : 0f;
+
+        return new Vector2(
+            Mathf.Max(minimumEnvironmentMarkerSize, width),
+            Mathf.Max(minimumEnvironmentMarkerSize, height));
     }
 
     private Vector3 MinimapPositionToWorld(Vector2 localPosition)
@@ -524,6 +643,7 @@ public class MinimapUI : MonoBehaviour
             return;
 
         EventMediator.Instance.OnUnitDeath += OnUnitDeath;
+        EventMediator.Instance.OnWorldEvent += OnWorldEvent;
         subscribedToEvents = true;
     }
 
@@ -533,6 +653,7 @@ public class MinimapUI : MonoBehaviour
             return;
 
         EventMediator.Instance.OnUnitDeath -= OnUnitDeath;
+        EventMediator.Instance.OnWorldEvent -= OnWorldEvent;
         subscribedToEvents = false;
     }
 
@@ -546,6 +667,72 @@ public class MinimapUI : MonoBehaviour
             new Vector3(evt.Position.x, evt.Position.y, evt.Position.z),
             friendly ? MinimapPingKind.Danger : MinimapPingKind.Info,
             friendly ? "UNIT LOST" : "HOSTILE DOWN");
+    }
+
+    private void OnWorldEvent(WorldEvent evt)
+    {
+        string label = GetWorldEventLabel(evt);
+        AddPing(
+            new Vector3(evt.Position.x, evt.Position.y, evt.Position.z),
+            ToPingKind(evt.Importance),
+            label,
+            evt.Duration);
+        AddFeedEntry(label, evt.Importance);
+    }
+
+    private void AddFeedEntry(string label, WorldEventImportance importance)
+    {
+        if (eventFeed == null)
+            return;
+
+        Label entry = new Label(label);
+        entry.AddToClassList("minimap-feed-entry");
+        entry.AddToClassList(GetImportanceClass(importance));
+        eventFeed.Insert(0, entry);
+
+        while (eventFeed.childCount > 3)
+            eventFeed.RemoveAt(eventFeed.childCount - 1);
+    }
+
+    private static string GetWorldEventLabel(WorldEvent evt)
+    {
+        if (evt.Label.Length > 0)
+            return evt.Label.ToString();
+
+        return evt.Type switch
+        {
+            WorldEventType.Noise => evt.Knowledge == WorldEventKnowledge.Exact ? "NOISE" : "NOISE AREA",
+            WorldEventType.ZombieHorde => "HORDE",
+            WorldEventType.ResourceFound => "RESOURCE",
+            WorldEventType.ObjectiveUpdated => "OBJECTIVE",
+            WorldEventType.UnitUnderAttack => "UNDER ATTACK",
+            WorldEventType.UnitDeath => "UNIT LOST",
+            WorldEventType.BossSpawn => "MAJOR THREAT",
+            WorldEventType.ExtractionPoint => "EXTRACTION",
+            _ => "SIGNAL"
+        };
+    }
+
+    private static MinimapPingKind ToPingKind(WorldEventImportance importance)
+    {
+        return importance switch
+        {
+            WorldEventImportance.Critical => MinimapPingKind.Danger,
+            WorldEventImportance.High => MinimapPingKind.Danger,
+            WorldEventImportance.Medium => MinimapPingKind.Warning,
+            _ => MinimapPingKind.Info
+        };
+    }
+
+    private static string GetImportanceClass(WorldEventImportance importance)
+    {
+        return importance switch
+        {
+            WorldEventImportance.Critical => "critical",
+            WorldEventImportance.High => "high",
+            WorldEventImportance.Medium => "medium",
+            _ => "low"
+        };
     }
 
     private static string GetPingClass(MinimapPingKind kind)

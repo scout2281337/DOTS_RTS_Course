@@ -222,6 +222,16 @@ public partial class FogOfWarVisionRenderSystem : SystemBase
             AppendVisionFan(transform.ValueRO, visionSource.ValueRO, settings);
         }
 
+        IReadOnlyList<FogRevealSource> revealSources = FogRevealSource.ActiveSources;
+        for (int i = 0; i < revealSources.Count; i++)
+        {
+            FogRevealSource source = revealSources[i];
+            if (source == null || !source.IsRevealing)
+                continue;
+
+            AppendRevealCircle(source.Position, source.Radius, source.RespectObstacles, settings);
+        }
+
         maskMesh.Clear();
         if (maskVertices.Count == 0)
             return;
@@ -263,7 +273,51 @@ public partial class FogOfWarVisionRenderSystem : SystemBase
         {
             float currentAngle = startAngle + angleStep * i;
             float3 dir = new float3(math.sin(currentAngle), 0f, math.cos(currentAngle));
-            float3 edge = CastVisionEdge(origin, dir, radius, settings);
+            float3 edge = CastVisionEdge(origin, dir, radius, settings, true);
+            float3 inner = math.lerp(origin, edge, innerT);
+
+            AddMaskVertex(inner, 1f, settings);
+            AddMaskVertex(edge, 0f, settings);
+
+            if (i == 0)
+                continue;
+
+            int prevInner = centerIndex + 1 + (i - 1) * 2;
+            int prevOuter = prevInner + 1;
+            int innerIndex = centerIndex + 1 + i * 2;
+            int outerIndex = innerIndex + 1;
+
+            triangles.Add(centerIndex);
+            triangles.Add(prevInner);
+            triangles.Add(innerIndex);
+
+            triangles.Add(prevInner);
+            triangles.Add(prevOuter);
+            triangles.Add(outerIndex);
+
+            triangles.Add(prevInner);
+            triangles.Add(outerIndex);
+            triangles.Add(innerIndex);
+        }
+    }
+
+    private void AppendRevealCircle(Vector3 sourcePosition, float radius, bool respectObstacles, in FogOfWarSettings settings)
+    {
+        radius = math.max(0f, radius);
+        if (radius <= 0f)
+            return;
+
+        int centerIndex = maskVertices.Count;
+        float3 origin = new float3(sourcePosition.x, sourcePosition.y, sourcePosition.z);
+        AddMaskVertex(origin, 1f, settings);
+
+        float innerT = 1f - settings.EdgeSoftness;
+
+        for (int i = 0; i <= RayCount; i++)
+        {
+            float currentAngle = math.PI * 2f / RayCount * i;
+            float3 dir = new float3(math.sin(currentAngle), 0f, math.cos(currentAngle));
+            float3 edge = CastVisionEdge(origin, dir, radius, settings, respectObstacles);
             float3 inner = math.lerp(origin, edge, innerT);
 
             AddMaskVertex(inner, 1f, settings);
@@ -301,11 +355,11 @@ public partial class FogOfWarVisionRenderSystem : SystemBase
         colors.Add(new Color(alpha, alpha, alpha, alpha));
     }
 
-    private static float3 CastVisionEdge(float3 origin, float3 dir, float radius, in FogOfWarSettings settings)
+    private static float3 CastVisionEdge(float3 origin, float3 dir, float radius, in FogOfWarSettings settings, bool respectObstacles)
     {
         Vector3 start = new Vector3(origin.x, origin.y + settings.RayHeight, origin.z);
 
-        if (Physics.Raycast(
+        if (respectObstacles && Physics.Raycast(
                 start,
                 new Vector3(dir.x, 0f, dir.z),
                 out RaycastHit hit,
@@ -333,6 +387,18 @@ public partial class FogOfWarVisionRenderSystem : SystemBase
             Debug.DrawLine(center + Vector3.left * 0.5f, center + Vector3.right * 0.5f, Color.cyan);
             Debug.DrawLine(center + Vector3.back * 0.5f, center + Vector3.forward * 0.5f, Color.cyan);
             Debug.DrawLine(center, center + Vector3.forward * math.min(radius, 2f), Color.cyan);
+        }
+
+        IReadOnlyList<FogRevealSource> revealSources = FogRevealSource.ActiveSources;
+        for (int i = 0; i < revealSources.Count; i++)
+        {
+            FogRevealSource source = revealSources[i];
+            if (source == null || !source.IsRevealing)
+                continue;
+
+            Vector3 center = source.Position + Vector3.up * (settings.PlaneY + 0.15f);
+            Debug.DrawLine(center + Vector3.left, center + Vector3.right, Color.yellow);
+            Debug.DrawLine(center + Vector3.back, center + Vector3.forward, Color.yellow);
         }
     }
 

@@ -24,6 +24,15 @@ public partial struct EventPresentationSystem : ISystem
         }
         bulletEvents.Clear();
 
+        // ====================== WORLD EVENTS ======================
+        var worldEvents = SystemAPI.GetBuffer<WorldEvent>(hubEntity);
+        for (int i = 0; i < worldEvents.Length; i++)
+        {
+            var e = worldEvents[i];
+            EventMediator.Instance?.InvokeWorldEvent(e);
+        }
+        worldEvents.Clear();
+
         // ====================== DAMAGE EVENTS ======================
         var damageEvents = SystemAPI.GetBuffer<DamageEvent>(hubEntity);
         for (int i = 0; i < damageEvents.Length; i++)

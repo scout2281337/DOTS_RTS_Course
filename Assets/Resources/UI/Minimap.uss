@@ -66,6 +66,32 @@
     bottom: 0;
 }
 
+.minimap-environment-marker {
+    position: absolute;
+    border-radius: 2px;
+    border-width: 1px;
+}
+
+.minimap-environment-marker.building {
+    background-color: rgba(112, 139, 140, 0.42);
+    border-color: rgba(197, 239, 232, 0.34);
+}
+
+.minimap-environment-marker.obstacle {
+    background-color: rgba(70, 87, 87, 0.56);
+    border-color: rgba(141, 174, 170, 0.34);
+}
+
+.minimap-environment-marker.landmark {
+    background-color: rgba(255, 197, 88, 0.2);
+    border-color: rgba(255, 213, 124, 0.72);
+}
+
+.minimap-environment-marker.road {
+    background-color: rgba(86, 245, 204, 0.08);
+    border-color: rgba(86, 245, 204, 0.2);
+}
+
 .minimap-scanline {
     position: absolute;
     left: -30%;
@@ -82,6 +108,37 @@
     justify-content: space-between;
     color: rgba(221, 255, 249, 0.66);
     font-size: 9px;
+}
+
+.minimap-event-feed {
+    height: 48px;
+    margin-top: 6px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.minimap-feed-entry {
+    height: 15px;
+    color: rgba(221, 255, 249, 0.82);
+    font-size: 9px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-left;
+}
+
+.minimap-feed-entry.low {
+    color: rgba(122, 245, 213, 0.82);
+}
+
+.minimap-feed-entry.medium {
+    color: rgba(255, 197, 88, 0.9);
+}
+
+.minimap-feed-entry.high {
+    color: rgba(255, 118, 76, 0.96);
+}
+
+.minimap-feed-entry.critical {
+    color: rgb(255, 74, 64);
 }
 
 .minimap-marker {

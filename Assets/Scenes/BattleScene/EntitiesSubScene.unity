@@ -138,7 +138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2494632845574086114, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: timerMax
@@ -157,16 +157,32 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
-      propertyPath: waveDelayMax
-      value: 2
+      propertyPath: spawnRadius
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
-      propertyPath: amountToSpawn
+      propertyPath: waveDelayMax
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
+      propertyPath: amountToSpawn
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: startIntensity
-      value: 0.1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
+      propertyPath: directorBankCap
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
+      propertyPath: peakTimeNormalized
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
+      propertyPath: basePointsPerSecond
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: zombieSpawnTransform
@@ -181,12 +197,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
+      propertyPath: pointsPerSecondPerWave
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: spawnPoints.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: startingDirectorPoints
-      value: 12
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6616111497702320335, guid: b1e0af487671d3b469b05b37a684a959, type: 3}
       propertyPath: enemyEntries.Array.size

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3726107aa0b4f3f408be49b22db92ea0, type: 3}
+  m_Name: GeneratorCue
+  m_EditorClassIdentifier: Assembly-CSharp::AudioCueSO
+  clips:
+  - {fileID: 8300000, guid: e0c50889a0031754f94e0d71423a1f57, type: 3}
+  mixerGroup: {fileID: -3716179176498191293, guid: d4b536d1f4af9fc4e884efc5a692395a, type: 2}
+  volume: 1
+  volumeRandom: 0.05
+  pitch: 1
+  pitchRandom: 0.08
+  spatialMode: 1
+  minDistance: 3
+  maxDistance: 35
+  cooldown: 0.05
+  loop: 0

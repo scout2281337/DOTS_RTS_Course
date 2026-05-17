@@ -6,6 +6,7 @@ public class EventMediator : Singleton<EventMediator>
     public event Action<UnitClass, SoldierAttributesConfig> OnUnitSpawned;
     public event Action<DamageEvent> OnDamageReceived;
     public event Action<UnitDeathEvent> OnUnitDeath;
+    public event Action<WorldEvent> OnWorldEvent;
     public event Action<BulletShotEvent> OnBulletShot;
     public event Action<UnitClass, ModuleBaseSO> OnNewModule;
 
@@ -40,6 +41,15 @@ public class EventMediator : Singleton<EventMediator>
         Debug.Log("InvokeUnitDeath \n" +
             evt.UnitClass + "\n"
             + evt.Faction);
+    }
+
+    public void InvokeWorldEvent(WorldEvent evt)
+    {
+        OnWorldEvent?.Invoke(evt);
+        Debug.Log("InvokeWorldEvent \n" +
+            evt.Type + "\n" +
+            evt.Importance + "\n" +
+            evt.Label);
     }
 
     public void InvokeBulletShot(BulletShotEvent evt)
