@@ -29,7 +29,8 @@ public class GeneratorActivity : MonoBehaviour
     private float activationTimer;
 
     [Header("Sounds")]
-
+    [SerializeField] private AudioCueSO GeneratorAudioCue;
+    [SerializeField] private AudioCueSO GeneratorStartAudioCue;
 
     public float ActivationRadius => activationRadius;
     public float RevealRadius => revealRadius;
@@ -145,7 +146,9 @@ public class GeneratorActivity : MonoBehaviour
         revealSource.SetRadius(revealRadius);
         revealSource.SetRevealing(true);
 
-        //GameAudioManager.Instance.Play3D
+        //Generator activation sounds
+        GameAudioManager.Instance.Play3D(GeneratorStartAudioCue, gameObject.transform.position);
+        GameAudioManager.Instance.Play3D(GeneratorAudioCue, gameObject.transform.position);
 
         WorldEventUtility.Report(
             WorldEventType.ObjectiveUpdated,

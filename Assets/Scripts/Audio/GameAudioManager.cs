@@ -11,8 +11,11 @@ public class GameAudioManager : Singleton<GameAudioManager>
     private readonly List<AudioSource> sources = new();
     private readonly Dictionary<AudioCueSO, float> cooldowns = new();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        if (Instance != this)
+            return;
 
         for (int i = 0; i < initialPoolSize; i++)
             CreateSource();

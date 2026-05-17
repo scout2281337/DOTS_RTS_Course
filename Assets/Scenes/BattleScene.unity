@@ -4367,7 +4367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 60.1
+      value: 16.2
       objectReference: {fileID: 0}
     - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4375,7 +4375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 60.3
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4405,6 +4405,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2671060915933294298, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: GeneratorAudioCue
+      value: 
+      objectReference: {fileID: 11400000, guid: fb20fdf1e6956684ba9ef112587deaf1, type: 2}
+    - target: {fileID: 2671060915933294298, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: GeneratorStartAudioCue
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d045bdd1d4a76b4b928d04c4b29cfcb, type: 2}
     - target: {fileID: 8805214532443956578, guid: 0773fa869b82407459fc4c421400510b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
