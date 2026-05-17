@@ -15,6 +15,7 @@ public class FogOfWarSettingsAuthoring : MonoBehaviour
     [Range(0.01f, 0.8f)] public float edgeSoftness = 0.18f;
     [Range(0f, 1f)] public float fogAlpha = 0.78f;
     public bool flipVisibilityY = true;
+    public bool forceFullCircleVision = false;
     public bool drawDebugVisionCenters;
 
     private void OnEnable()
@@ -41,7 +42,8 @@ public class FogOfWarSettingsAuthoring : MonoBehaviour
             EdgeSoftness = edgeSoftness,
             FogAlpha = fogAlpha,
             DrawDebugVisionCenters = drawDebugVisionCenters,
-            FlipVisibilityY = flipVisibilityY
+            FlipVisibilityY = flipVisibilityY,
+            ForceFullCircleVision = forceFullCircleVision
         };
     }
 

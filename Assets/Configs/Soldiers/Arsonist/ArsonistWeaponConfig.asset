@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ArsonistWeaponConfig
   attributeName: SHx2LK
   attributeDescription: 
-  damage: 0
+  damage: 7
   fireRate: 300
   range: 6
   weaponType: 2

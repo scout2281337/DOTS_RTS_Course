@@ -100,7 +100,8 @@ public partial class FogOfWarVisionRenderSystem : SystemBase
             EdgeSoftness = 0.18f,
             FogAlpha = 0.78f,
             DrawDebugVisionCenters = false,
-            FlipVisibilityY = true
+            FlipVisibilityY = true,
+            ForceFullCircleVision = false
         });
     }
 
@@ -237,7 +238,9 @@ public partial class FogOfWarVisionRenderSystem : SystemBase
         if (radius <= 0f)
             return;
 
-        float angle = math.clamp(visionSource.AngleDegrees, 1f, 360f);
+        float angle = settings.ForceFullCircleVision
+            ? 360f
+            : math.clamp(visionSource.AngleDegrees, 1f, 360f);
         int rayCount = angle >= 359f ? RayCount : math.max(6, (int)math.ceil(RayCount * angle / 360f));
         int centerIndex = maskVertices.Count;
 

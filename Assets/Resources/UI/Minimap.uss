@@ -1,0 +1,146 @@
+.minimap-hud {
+    position: absolute;
+    top: 24px;
+    right: 26px;
+    width: 310px;
+    height: 340px;
+    align-items: flex-end;
+}
+
+.minimap-frame {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 12px;
+    background-color: rgba(4, 7, 8, 0.74);
+    border-width: 2px;
+    border-color: rgba(90, 240, 220, 0.72);
+    border-radius: 18px;
+}
+
+.minimap-header {
+    height: 31px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.minimap-title {
+    color: rgb(217, 255, 248);
+    font-size: 14px;
+    -unity-font-style: bold;
+}
+
+.minimap-signal {
+    color: rgb(255, 197, 88);
+    font-size: 10px;
+    -unity-text-align: middle-right;
+}
+
+.minimap-surface {
+    position: relative;
+    flex-grow: 1;
+    border-width: 1px;
+    border-color: rgba(184, 255, 246, 0.46);
+    border-radius: 13px;
+    background-color: rgb(8, 17, 17);
+    overflow: hidden;
+}
+
+.minimap-grid {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(36, 172, 160, 0.14);
+    opacity: 0.9;
+}
+
+.minimap-layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.minimap-scanline {
+    position: absolute;
+    left: -30%;
+    top: 0;
+    width: 35%;
+    height: 100%;
+    background-color: rgba(172, 255, 244, 0.055);
+}
+
+.minimap-footer {
+    height: 20px;
+    margin-top: 8px;
+    flex-direction: row;
+    justify-content: space-between;
+    color: rgba(221, 255, 249, 0.66);
+    font-size: 9px;
+}
+
+.minimap-marker {
+    position: absolute;
+    border-radius: 50%;
+    border-width: 1px;
+}
+
+.minimap-marker.friendly {
+    background-color: rgb(86, 245, 204);
+    border-color: rgb(218, 255, 247);
+}
+
+.minimap-marker.enemy {
+    background-color: rgb(255, 75, 45);
+    border-color: rgb(255, 205, 170);
+}
+
+.minimap-marker.selected {
+    border-width: 2px;
+    border-color: rgb(255, 226, 120);
+    background-color: rgb(255, 226, 120);
+}
+
+.minimap-ping {
+    position: absolute;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+.minimap-ping-ring {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-width: 2px;
+    border-radius: 50%;
+}
+
+.minimap-ping.info .minimap-ping-ring {
+    border-color: rgba(86, 245, 204, 0.95);
+}
+
+.minimap-ping.warning .minimap-ping-ring {
+    border-color: rgba(255, 197, 88, 0.98);
+}
+
+.minimap-ping.danger .minimap-ping-ring {
+    border-color: rgba(255, 66, 58, 0.98);
+}
+
+.minimap-ping-label {
+    position: absolute;
+    top: -16px;
+    width: 96px;
+    color: rgb(255, 230, 155);
+    font-size: 9px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}

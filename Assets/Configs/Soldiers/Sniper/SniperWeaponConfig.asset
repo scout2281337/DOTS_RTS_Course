@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributeName: OS-OK
   attributeDescription: 
-  damage: 0
+  damage: 30
   fireRate: 60
   range: 18
   weaponType: 1

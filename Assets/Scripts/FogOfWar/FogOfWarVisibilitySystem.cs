@@ -64,7 +64,8 @@ public partial class FogOfWarVisibilitySystem : SystemBase
             EdgeSoftness = 0.18f,
             FogAlpha = 0.78f,
             DrawDebugVisionCenters = false,
-            FlipVisibilityY = true
+            FlipVisibilityY = true,
+            ForceFullCircleVision = false
         });
     }
 
@@ -95,7 +96,7 @@ public partial class FogOfWarVisibilitySystem : SystemBase
         if (distanceSq > radius * radius)
             return false;
 
-        if (visionSource.AngleDegrees < 359f && distanceSq > 0.0001f)
+        if (!settings.ForceFullCircleVision && visionSource.AngleDegrees < 359f && distanceSq > 0.0001f)
         {
             float3 forward = math.forward(sourceTransform.Rotation);
             forward.y = 0f;

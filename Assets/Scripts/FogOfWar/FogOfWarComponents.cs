@@ -27,4 +27,5 @@ public struct FogOfWarSettings : IComponentData
     public float FogAlpha;
     public bool DrawDebugVisionCenters;
     public bool FlipVisibilityY;
+    public bool ForceFullCircleVision;
 }
