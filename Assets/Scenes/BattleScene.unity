@@ -2521,6 +2521,53 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!1 &1292023066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1292023067}
+  - component: {fileID: 1292023068}
+  m_Layer: 0
+  m_Name: WeaponAudioPresenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1292023067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292023066}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1292023068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292023066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779590bc7c9c235409c7545c3a97473a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponAudioPresenter
+  defaultShotCue: {fileID: 11400000, guid: 130797545e628bc46a15667010ca710c, type: 2}
+  explosiveShotCue: {fileID: 11400000, guid: 10bbe0a220f5b424da96b95d9b9f75cb, type: 2}
+  dispersiveShotCue: {fileID: 11400000, guid: 130797545e628bc46a15667010ca710c, type: 2}
 --- !u!1001 &1309323504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2861,6 +2908,72 @@ MonoBehaviour:
   manualCenterOffset: {x: 0, y: 0, z: 0}
   manualRotationY: 0
   minimumWorldSize: 1
+--- !u!1 &1509147397
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1509147399}
+  - component: {fileID: 1509147398}
+  m_Layer: 0
+  m_Name: ArtilleryStrikeDirector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1509147398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509147397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e2b0a6d4f914fc6aaf75644b73f9c21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArtilleryStrikeDirector
+  _canOverwrite: 0
+  _isDestroyedOnLoad: 0
+  radius: 5
+  warningDelay: 3
+  damage: 65
+  useDamageFalloff: 1
+  edgeDamageMultiplier: 0.45
+  shellsPerBarrage: 5
+  shellInterval: 1
+  barrageScatterRadius: 12
+  warningDelayRandomOffset: {x: -0.35, y: 0.45}
+  autoRunRandomBarrage: 0
+  useTransformAsRandomAreaCenter: 1
+  randomAreaCenter: {x: 0, y: 0, z: 0}
+  randomAreaSize: {x: 90, y: 90}
+  randomBarrageInterval: {x: 45, y: 90}
+  explosionPrefab: {fileID: 1056904543853562, guid: 4cf45cdce36e66e4a93614abb5ae7821, type: 3}
+  explosionLifetime: 6
+  incomingAudioCue: {fileID: 11400000, guid: db946cd93047d2c49a1ad79417588401, type: 2}
+  explosionAudioCue: {fileID: 11400000, guid: b693f0d3bfefaf94ba4737bb3c63544a, type: 2}
+  shakeCameraOnImpact: 1
+  warningLabel: ARTILLERY
+--- !u!4 &1509147399
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509147397}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1516847437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4815,3 +4928,5 @@ SceneRoots:
   - {fileID: 1862367890529157720}
   - {fileID: 1836347606}
   - {fileID: 1113662932}
+  - {fileID: 1509147399}
+  - {fileID: 1292023067}

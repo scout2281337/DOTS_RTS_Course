@@ -25,6 +25,15 @@ partial struct AbilitySystem : ISystem
 
         foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithEntityAccess())
         {
+            Entity caster = ResolveAbilityOwner(em, ability.ValueRO, ent);
+            if (IsAbilityCasterDead(em, caster, ent))
+            {
+                ability.ValueRW.IsTriggered = false;
+                ability.ValueRW.Active = false;
+                ability.ValueRW.TimeLeft = 0f;
+                continue;
+            }
+
             // cooldown tick
             if (!ability.ValueRO.Active && ability.ValueRO.CooldownLeft > 0)
             {
@@ -64,10 +73,6 @@ partial struct AbilitySystem : ISystem
 
                 if (hasEventHub)
                 {
-                    Entity caster = ability.ValueRO.Owner != Entity.Null && em.Exists(ability.ValueRO.Owner)
-                        ? ability.ValueRO.Owner
-                        : ent;
-
                     float3 startPos = ResolveAbilityStartPosition(em, caster, ent);
                     float3 forward = ResolveAbilityForward(em, caster, ent);
 
@@ -95,10 +100,6 @@ partial struct AbilitySystem : ISystem
                 {
                     if (hasEventHub)
                     {
-                        Entity caster = ability.ValueRO.Owner != Entity.Null && em.Exists(ability.ValueRO.Owner)
-                            ? ability.ValueRO.Owner
-                            : ent;
-
                         endedEvents.Add(new AbilityEndedEvent
                         {
                             Caster = caster,
@@ -116,6 +117,19 @@ partial struct AbilitySystem : ISystem
         // применяем все структурные изменения после foreach
         ecb.Playback(state.EntityManager);
         ecb.Dispose();
+    }
+
+    private static Entity ResolveAbilityOwner(EntityManager em, in Ability ability, Entity fallback)
+    {
+        return ability.Owner != Entity.Null && em.Exists(ability.Owner)
+            ? ability.Owner
+            : fallback;
+    }
+
+    private static bool IsAbilityCasterDead(EntityManager em, Entity caster, Entity fallback)
+    {
+        return (em.Exists(caster) && em.HasComponent<DeadUnit>(caster)) ||
+               (fallback != caster && em.Exists(fallback) && em.HasComponent<DeadUnit>(fallback));
     }
 
     private static float3 ResolveAbilityStartPosition(EntityManager em, Entity caster, Entity fallback)

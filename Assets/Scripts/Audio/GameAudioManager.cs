@@ -10,6 +10,7 @@ public class GameAudioManager : Singleton<GameAudioManager>
 
     private readonly List<AudioSource> sources = new();
     private readonly Dictionary<AudioCueSO, float> cooldowns = new();
+    private readonly List<AudioCueSO> expiredCooldowns = new();
 
     protected override void Awake()
     {
@@ -26,25 +27,16 @@ public class GameAudioManager : Singleton<GameAudioManager>
         if (cooldowns.Count == 0)
             return;
 
-        List<AudioCueSO> finished = null;
+        expiredCooldowns.Clear();
 
         foreach (var pair in cooldowns)
         {
-            float timeLeft = pair.Value - Time.deltaTime;
-            cooldowns[pair.Key] = timeLeft;
-
-            if (timeLeft <= 0f)
-            {
-                finished ??= new List<AudioCueSO>();
-                finished.Add(pair.Key);
-            }
+            if (pair.Value <= Time.time)
+                expiredCooldowns.Add(pair.Key);
         }
 
-        if (finished == null)
-            return;
-
-        for (int i = 0; i < finished.Count; i++)
-            cooldowns.Remove(finished[i]);
+        for (int i = 0; i < expiredCooldowns.Count; i++)
+            cooldowns.Remove(expiredCooldowns[i]);
     }
 
     public void Play2D(AudioCueSO cue)
@@ -101,12 +93,22 @@ public class GameAudioManager : Singleton<GameAudioManager>
         source.Play();
 
         if (cue.cooldown > 0f)
-            cooldowns[cue] = cue.cooldown;
+            cooldowns[cue] = Time.time + cue.cooldown;
     }
 
     private bool IsOnCooldown(AudioCueSO cue)
     {
-        return cue.cooldown > 0f && cooldowns.ContainsKey(cue);
+        if (cue.cooldown <= 0f)
+            return false;
+
+        if (!cooldowns.TryGetValue(cue, out float cooldownEndTime))
+            return false;
+
+        if (cooldownEndTime > Time.time)
+            return true;
+
+        cooldowns.Remove(cue);
+        return false;
     }
 
     private AudioSource GetFreeSource()

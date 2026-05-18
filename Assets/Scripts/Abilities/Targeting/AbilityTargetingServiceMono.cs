@@ -133,8 +133,12 @@ public class AbilityTargetingServiceMono : Singleton<AbilityTargetingServiceMono
         if (!TryResolveUnitEntity(unitClass, out caster))
             return false;
 
-        if (!entityManager.Exists(caster) || !entityManager.HasComponent<Ability>(caster))
+        if (!entityManager.Exists(caster) ||
+            entityManager.HasComponent<DeadUnit>(caster) ||
+            !entityManager.HasComponent<Ability>(caster))
+        {
             return false;
+        }
 
         ability = entityManager.GetComponentData<Ability>(caster);
         if (!CanActivateAbility(caster, ability))

@@ -158,6 +158,12 @@ public class Presenter : Singleton<Presenter>
             return false;
         }
 
+        if (entityManager.HasComponent<DeadUnit>(entity))
+        {
+            Debug.Log($"TryGetAbility: {unitClass} is dead and cannot use abilities");
+            return false;
+        }
+
         ability = entityManager.GetComponentData<Ability>(entity);
         return true;
     }

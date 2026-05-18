@@ -12,7 +12,8 @@ public enum WorldEventType
     UnitUnderAttack,
     UnitDeath,
     BossSpawn,
-    ExtractionPoint
+    ExtractionPoint,
+    ArtilleryStrike
 }
 
 public enum WorldEventImportance

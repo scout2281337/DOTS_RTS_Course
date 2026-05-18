@@ -31,6 +31,11 @@ partial struct AbilityEffectSystem : ISystem
         foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityStartEvent>().WithEntityAccess())
         {
             Entity owner = ResolveOwner(em, ability.ValueRO, ent);
+            if (IsAbilityCasterDead(em, owner, ent))
+            {
+                ecb.RemoveComponent<AbilityStartEvent>(ent);
+                continue;
+            }
 
             switch (ability.ValueRO.Type)
             {
@@ -95,6 +100,11 @@ partial struct AbilityEffectSystem : ISystem
         foreach ((RefRO<Ability> ability, Entity ent) in SystemAPI.Query<RefRO<Ability>>().WithAll<AbilityEndEvent>().WithEntityAccess())
         {
             Entity owner = ResolveOwner(em, ability.ValueRO, ent);
+            if (IsAbilityCasterDead(em, owner, ent))
+            {
+                ecb.RemoveComponent<AbilityEndEvent>(ent);
+                continue;
+            }
 
             switch (ability.ValueRO.Type)
             {
@@ -116,6 +126,12 @@ partial struct AbilityEffectSystem : ISystem
         foreach ((RefRW<Ability> ability, Entity ent) in SystemAPI.Query<RefRW<Ability>>().WithAll<CooldownEndEvent>().WithEntityAccess())
         {
             Entity owner = ResolveOwner(em, ability.ValueRO, ent);
+            if (IsAbilityCasterDead(em, owner, ent))
+            {
+                ecb.RemoveComponent<CooldownEndEvent>(ent);
+                continue;
+            }
+
             var evt = new AbilityCooldownEndedEvent {
                 Caster = owner,
                 Type = ability.ValueRO.Type};
@@ -132,6 +148,12 @@ partial struct AbilityEffectSystem : ISystem
         return ability.Owner != Entity.Null && em.Exists(ability.Owner)
             ? ability.Owner
             : fallback;
+    }
+
+    private static bool IsAbilityCasterDead(EntityManager em, Entity owner, Entity fallback)
+    {
+        return (em.Exists(owner) && em.HasComponent<DeadUnit>(owner)) ||
+               (fallback != owner && em.Exists(fallback) && em.HasComponent<DeadUnit>(fallback));
     }
 
     private static void FireGaussShot(EntityManager em, Entity owner, in Ability ability, DynamicBuffer<DamageEvent> damageBuffer, CollisionWorld physicsWorld)

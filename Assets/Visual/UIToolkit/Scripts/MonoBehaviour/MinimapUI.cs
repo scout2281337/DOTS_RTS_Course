@@ -709,6 +709,7 @@ public class MinimapUI : MonoBehaviour
             WorldEventType.UnitDeath => "UNIT LOST",
             WorldEventType.BossSpawn => "MAJOR THREAT",
             WorldEventType.ExtractionPoint => "EXTRACTION",
+            WorldEventType.ArtilleryStrike => "ARTILLERY",
             _ => "SIGNAL"
         };
     }

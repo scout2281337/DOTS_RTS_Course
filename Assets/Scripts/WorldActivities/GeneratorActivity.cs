@@ -150,6 +150,8 @@ public class GeneratorActivity : MonoBehaviour
         GameAudioManager.Instance.Play3D(GeneratorStartAudioCue, gameObject.transform.position);
         GameAudioManager.Instance.Play3D(GeneratorAudioCue, gameObject.transform.position);
 
+        //Artillery
+
         WorldEventUtility.Report(
             WorldEventType.ObjectiveUpdated,
             transform.position,

@@ -199,6 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 696722062}
   - component: {fileID: 696722061}
+  - component: {fileID: 696722063}
   m_Layer: 0
   m_Name: CinemachineCameraMenu
   m_TagString: Untagged
@@ -264,6 +265,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1904471843}
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+--- !u!114 &696722063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696722060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ccba19f75b2414aafc15948f4e6db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HelicopterCameraStabilizer
+  _mountOverride: {fileID: 0}
+  _snapOnEnable: 1
+  _positionMode: 1
+  _verticalSmoothTime: 0.08
+  _maxVerticalOffset: 0.1
+  _fullPositionSmoothTime: 0.035
+  _maxPositionOffset: 0.12
+  _yawFollowSpeed: 18
+  _tiltFollowSpeed: 5
 --- !u!1 &817891250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1524,7 +1546,7 @@ MonoBehaviour:
     - rid: 221269424926883840
       type: {class: SplineAutoDolly/FixedSpeed, ns: Unity.Cinemachine, asm: Unity.Cinemachine}
       data:
-        Speed: 0.05
+        Speed: 0.03
 --- !u!4 &1904471843
 Transform:
   m_ObjectHideFlags: 0
