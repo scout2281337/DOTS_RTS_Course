@@ -140,10 +140,14 @@ Shader "Custom/General/HatchShader"
                 float3 mainLightColor = mainLight.color * step(_ShadowEdges.x, shadows);
                 // Specular
                 float3 reflectedVector = reflect(-mainLight.direction, normalWS);
-                float specularMask = step(_GlossinessStrength, saturate(dot(reflectedVector, viewWS)));
+                float specularRdotV = saturate(dot(reflectedVector, viewWS));
+                float innerSpecular = step(_GlossinessStrength, specularRdotV);
+                //float innerSpecular = step(lerp(_GlossinessStrength, sqrt(_GlossinessStrength), metalness), specularRdotV);
+                float outerSpecular = step(_GlossinessStrength / lerp(1.4, 1.1, metalness), specularRdotV) / 2 ;
+                float specularMask = max(innerSpecular, outerSpecular);
                 float3 specularLighting = (specularMask * roughness) * mainLightColor;
                 // Specular metalic
-                float3 metalShine = (specularMask * roughness * 5) * baseColor.rgb;
+                float3 metalShine = (specularMask * roughness * 2) * baseColor.rgb;
                 specularLighting = lerp(specularLighting, metalShine, metalness);
                 // Fresnel
                 float3 fresnelLighting = pow(1.0f - saturate(dot(normalWS, viewWS)), _FresnelPower) * _FresnelColor.rgb;

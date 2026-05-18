@@ -152,7 +152,7 @@ Material:
     - _FresnelPower: 20
     - _GlossMapScale: 0
     - _Glossiness: 0.5
-    - _GlossinessStrength: 0.9
+    - _GlossinessStrength: 0.95
     - _GlossyReflections: 0
     - _HatchWidth: 0.001
     - _HighlightEdge: 0.9
