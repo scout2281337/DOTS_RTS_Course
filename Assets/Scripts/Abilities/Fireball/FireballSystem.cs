@@ -22,6 +22,12 @@ public partial struct FireballSystem : ISystem
         foreach (var (fireball, localTransform) in
             SystemAPI.Query<RefRW<Fireball>, RefRO<LocalTransform>>())
         {
+            Entity owner = fireball.ValueRO.Owner;
+            bool hasOwnerFaction = SystemAPI.Exists(owner) && SystemAPI.HasComponent<Unit>(owner);
+            Faction ownerFaction = hasOwnerFaction
+                ? SystemAPI.GetComponent<Unit>(owner).faction
+                : default;
+
             fireball.ValueRW.Timer -= SystemAPI.Time.DeltaTime;
             if (fireball.ValueRO.Timer >= 0f)
                 continue;
@@ -42,17 +48,19 @@ public partial struct FireballSystem : ISystem
                 Entity hitEntity = physicsWorld.Bodies[h.RigidBodyIndex].Entity;
 
                 if (!SystemAPI.HasComponent<Unit>(hitEntity)) continue;
-                if (hitEntity == fireball.ValueRO.Owner) continue;
+                if (hitEntity == owner) continue;
 
                 Unit targetUnit = SystemAPI.GetComponent<Unit>(hitEntity);
+                if (hasOwnerFaction && targetUnit.faction == ownerFaction)
+                    continue;
 
                 damageBuffer.Add(new DamageEvent
                 {
-                    SourceEntity = fireball.ValueRO.Owner,
+                    SourceEntity = owner,
                     TargetEntity = hitEntity,
                     TargetEntityClass = targetUnit.Class,
                     DamageAmount = fireball.ValueRO.Damage,
-                    //IsAbilityDamage = true
+                    IsAbilityDamage = true
                 });
 
                 //Debug.Log($"Fireball added damage to entity {hitEntity} | Damage: {fireball.ValueRO.Damage}");

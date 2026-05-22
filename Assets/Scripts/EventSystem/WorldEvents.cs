@@ -13,7 +13,8 @@ public enum WorldEventType
     UnitDeath,
     BossSpawn,
     ExtractionPoint,
-    ArtilleryStrike
+    ArtilleryStrike,
+    EscortPlatform
 }
 
 public enum WorldEventImportance

@@ -27,6 +27,7 @@ public partial struct DamageSystem : ISystem
         var damageEvents = SystemAPI.GetBuffer<DamageEvent>(hub);
         var killEvents = SystemAPI.GetBuffer<KillEvent>(hub);
 
+        int appliedDamageWriteIndex = 0;
         for (int i = 0; i < damageEvents.Length; i++)
         {
             var dmg = damageEvents[i];
@@ -131,6 +132,14 @@ public partial struct DamageSystem : ISystem
                     DamageDealt = damage
                 });
             }
+
+            dmg.DamageAmount = damage;
+            damageEvents[appliedDamageWriteIndex] = dmg;
+            appliedDamageWriteIndex++;
         }
+
+        int skippedDamageCount = damageEvents.Length - appliedDamageWriteIndex;
+        if (skippedDamageCount > 0)
+            damageEvents.RemoveRange(appliedDamageWriteIndex, skippedDamageCount);
     }
 }

@@ -710,6 +710,7 @@ public class MinimapUI : MonoBehaviour
             WorldEventType.BossSpawn => "MAJOR THREAT",
             WorldEventType.ExtractionPoint => "EXTRACTION",
             WorldEventType.ArtilleryStrike => "ARTILLERY",
+            WorldEventType.EscortPlatform => "ESCORT",
             _ => "SIGNAL"
         };
     }

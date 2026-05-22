@@ -201,3 +201,115 @@
     -unity-text-align: middle-center;
     -unity-font-style: bold;
 }
+
+.session-objective-panel {
+    position: absolute;
+    padding: 13px;
+    background-color: rgba(4, 9, 10, 0.82);
+    border-width: 2px;
+    border-color: rgba(86, 245, 204, 0.62);
+    border-radius: 16px;
+}
+
+.session-objective-header {
+    height: 20px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.session-objective-kicker {
+    color: rgba(86, 245, 204, 0.92);
+    font-size: 10px;
+    -unity-font-style: bold;
+}
+
+.session-objective-threat {
+    color: rgb(255, 197, 88);
+    font-size: 9px;
+    -unity-text-align: middle-right;
+    -unity-font-style: bold;
+}
+
+.session-objective-title {
+    color: rgb(217, 255, 248);
+    font-size: 15px;
+    -unity-font-style: bold;
+}
+
+.session-objective-description {
+    margin-top: 4px;
+    color: rgba(221, 255, 249, 0.74);
+    font-size: 10px;
+}
+
+.session-objective-progress-row {
+    height: 20px;
+    margin-top: 10px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.session-objective-progress-track {
+    height: 7px;
+    flex-grow: 1;
+    margin-right: 10px;
+    background-color: rgba(22, 58, 58, 0.92);
+    border-width: 1px;
+    border-color: rgba(184, 255, 246, 0.28);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.session-objective-progress-fill {
+    height: 100%;
+    width: 0%;
+    background-color: rgb(86, 245, 204);
+    border-radius: 5px;
+}
+
+.session-objective-progress-label {
+    width: 58px;
+    color: rgba(221, 255, 249, 0.88);
+    font-size: 10px;
+    -unity-text-align: middle-right;
+    -unity-font-style: bold;
+}
+
+.session-objective-panel.briefing {
+    border-color: rgba(126, 196, 255, 0.74);
+}
+
+.session-objective-panel.briefing .session-objective-progress-fill {
+    background-color: rgb(126, 196, 255);
+}
+
+.session-objective-panel.extraction {
+    border-color: rgba(255, 197, 88, 0.88);
+}
+
+.session-objective-panel.extraction .session-objective-progress-fill {
+    background-color: rgb(255, 197, 88);
+}
+
+.session-objective-panel.victory {
+    border-color: rgba(86, 245, 204, 0.98);
+}
+
+.session-objective-panel.victory .session-objective-title {
+    color: rgb(118, 255, 215);
+}
+
+.session-objective-panel.defeat {
+    border-color: rgba(255, 66, 58, 0.92);
+}
+
+.session-objective-panel.defeat .session-objective-title,
+.session-objective-panel.defeat .session-objective-progress-label {
+    color: rgb(255, 118, 96);
+}
+
+.session-objective-panel.defeat .session-objective-progress-fill {
+    background-color: rgb(255, 66, 58);
+}
