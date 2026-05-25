@@ -3,13 +3,25 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
+using TMG.ECSAnimations;
 
 public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
 {
+    [System.Serializable]
+    public struct UnitVisualEntry
+    {
+        public UnitClass UnitClass;
+        public GameObject VisualPrefab;
+    }
+
+    [Header("Configs")]
     public SoldierAttributesConfig arsonistConfig;
     public SoldierAttributesConfig juggernautConfig;
     public SoldierAttributesConfig raiderConfig;
     public SoldierAttributesConfig sniperConfig;
+
+    [Header("Visuals")]
+    [SerializeField] private UnitVisualEntry[] unitVisuals;
 
     public int teamAmount;
 
@@ -99,6 +111,7 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             Class = soldierConfig.bodyConfig.unitClass,
             faction = soldierConfig.bodyConfig.currentFaction,
         });
+        ApplyUnitVisual(em, currentEntity, soldierConfig.bodyConfig.unitClass);
 
         SetOrAddComponent(em, currentEntity, new VisionSource
         {
@@ -153,6 +166,42 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
         unitEntityDict.Add(unitClass, currentEntity);
 
         EventMediator.Instance.InvokeUnitSpawned(unitClass, soldierConfig);
+    }
+
+    private void ApplyUnitVisual(EntityManager em, Entity entity, UnitClass unitClass)
+    {
+        if (!TryGetVisualPrefab(unitClass, out GameObject visualPrefab))
+            return;
+
+        PlayerGameObjectPrefab visualComponent = new PlayerGameObjectPrefab
+        {
+            Value = visualPrefab
+        };
+
+        if (em.HasComponent<PlayerGameObjectPrefab>(entity))
+        {
+            em.RemoveComponent<PlayerGameObjectPrefab>(entity);
+        }
+
+        em.AddComponentObject(entity, visualComponent);
+    }
+
+    private bool TryGetVisualPrefab(UnitClass unitClass, out GameObject visualPrefab)
+    {
+        visualPrefab = null;
+        if (unitVisuals == null)
+            return false;
+
+        for (int i = 0; i < unitVisuals.Length; i++)
+        {
+            if (unitVisuals[i].UnitClass != unitClass || unitVisuals[i].VisualPrefab == null)
+                continue;
+
+            visualPrefab = unitVisuals[i].VisualPrefab;
+            return true;
+        }
+
+        return false;
     }
 
     private static void SetOrAddComponent<T>(EntityManager em, Entity entity, T component) where T : unmanaged, IComponentData

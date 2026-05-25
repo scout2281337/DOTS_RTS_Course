@@ -2139,6 +2139,38 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
+      propertyPath: unitVisuals.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
+      propertyPath: unitVisuals.Array.data[1].UnitClass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
+      propertyPath: unitVisuals.Array.data[2].UnitClass
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
+      propertyPath: unitVisuals.Array.data[3].UnitClass
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
+      propertyPath: unitVisuals.Array.data[0].VisualPrefab
+      value: 
+      objectReference: {fileID: 17503970978315453, guid: 1959fd2c5fff10445b9756c86f82913a, type: 3}
+    - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
+      propertyPath: unitVisuals.Array.data[1].VisualPrefab
+      value: 
+      objectReference: {fileID: 17503970978315453, guid: 7b7bede4f5b522b45a553879acba0d7d, type: 3}
+    - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
+      propertyPath: unitVisuals.Array.data[2].VisualPrefab
+      value: 
+      objectReference: {fileID: 17503970978315453, guid: 4295bce8a408a3e4ba917f55045f2ba1, type: 3}
+    - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
+      propertyPath: unitVisuals.Array.data[3].VisualPrefab
+      value: 
+      objectReference: {fileID: 17503970978315453, guid: 3778d174ac7daf842974f5691debd257, type: 3}
     - target: {fileID: 2520080451354282666, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
       propertyPath: m_Name
       value: FriendlyUnitManager

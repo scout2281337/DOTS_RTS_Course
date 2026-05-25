@@ -12,7 +12,8 @@ public class AnimationStateAuthoring : MonoBehaviour
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
             AddComponent(entity, new AnimationStateComponent
             {
-                Value = 0
+                Value = AnimationState.Idle,
+                AttackLockTimer = 0f
             });
         }
     }
@@ -21,6 +22,7 @@ public class AnimationStateAuthoring : MonoBehaviour
 public struct AnimationStateComponent : IComponentData
 {
     public AnimationState Value;
+    public float AttackLockTimer;
 }
 
 public enum AnimationState

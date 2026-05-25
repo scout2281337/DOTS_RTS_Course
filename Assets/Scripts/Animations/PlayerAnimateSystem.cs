@@ -28,7 +28,7 @@ namespace TMG.ECSAnimations
                 if (go == null)
                     continue;
 
-                var animator = go.GetComponent<Animator>();
+                var animator = go.GetComponentInChildren<Animator>(true);
                 if (animator == null)
                 {
                     Object.Destroy(go);
@@ -62,13 +62,14 @@ namespace TMG.ECSAnimations
                     !SystemAPI.IsComponentEnabled<FogVisible>(entity);
 
                 bool shouldBeActive = !isDead && !hiddenByFog;
-                if (animator.gameObject.activeSelf != shouldBeActive)
+                GameObject visualRoot = animator.transform.root.gameObject;
+                if (visualRoot.activeSelf != shouldBeActive)
                 {
-                    animator.gameObject.SetActive(shouldBeActive);
+                    visualRoot.SetActive(shouldBeActive);
                 }
 
-                animator.transform.position = transform.Position;
-                animator.transform.rotation = transform.Rotation;
+                visualRoot.transform.position = transform.Position;
+                visualRoot.transform.rotation = transform.Rotation;
 
                 if (shouldBeActive)
                 {
@@ -84,7 +85,7 @@ namespace TMG.ECSAnimations
             {
                 if (animatorRef.Value != null)
                 {
-                    Object.Destroy(animatorRef.Value.gameObject);
+                    Object.Destroy(animatorRef.Value.transform.root.gameObject);
                 }
 
                 ecb.RemoveComponent<PlayerAnimatorReference>(entity);
