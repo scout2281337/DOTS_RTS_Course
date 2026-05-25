@@ -12,20 +12,22 @@ public class SceneDirector : Singleton<SceneDirector>
     public static string MAINMENU = "MainMenuLobby";
     public static string CITY = "City";
 
-    [SerializeField] private bool _isFirstLaunch = true;
+    public const string LOADINGSCREEN = "LoadingScreen";
+    public const string WINLOADINGSCREEN = "WinLoadingScreen";
+    public const string LOSELOADINGSCREEN = "LoseLoadingScreen";
 
-    private const string LOADINGSCREEN = "LoadingScreen";
+    [SerializeField] private bool _isFirstLaunch = true;
 
     private static bool _isLoading = false;
 
 
-    public static async void OpenScenesThroughLoadingScreen(params string[] sceneNames)
+    public static async void OpenScenesThroughLoadingScreen(string loadingScreen = LOADINGSCREEN, params string[] sceneNames)
     {
         if (_isLoading) return;
         _isLoading = true;
 
         // Loading loading screen
-        await AddScenes(LOADINGSCREEN);
+        await AddScenes(loadingScreen);
 
         // Wait for fade in
         await Awaitable.WaitForSecondsAsync(1f);

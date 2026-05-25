@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a17cb9fbd1b042c49adb5ba0a9fad3bb, type: 3}
-  m_Name: LoadingScreen_1
+  m_Name: LoadingScreen 1
   m_EditorClassIdentifier: Assembly-CSharp::LoadingScreenSO
   FirstSlideText: "\u0418X \u0422\u0415\u041B\u0410"
   SecondSlideText: "\u041D\u0415 \u0414\u041E\u0421\u0422\u041E\u0419\u041D\u042B"

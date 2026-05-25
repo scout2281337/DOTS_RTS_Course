@@ -72,22 +72,22 @@ public class LobbyUI : MonoBehaviour
     private void BuildMiddle(VisualElement midSection, out Button[] soldierIcons)
     {
         // TO DO rework with configs 
-        var difficultyPanel = UITK.AddElement(midSection, "LobbyPanel", "difficultyPanel");
+        //var difficultyPanel = UITK.AddElement(midSection, "LobbyPanel", "difficultyPanel");
 
-        var difficultyButtonBox = UITK.AddElement(difficultyPanel, "difficultyButtonBox");
+        //var difficultyButtonBox = UITK.AddElement(difficultyPanel, "difficultyButtonBox");
 
-        for (int i = 0; i < 3; i++)
-        {
-            var difficultyButton = UITK.AddElement<Button>(difficultyButtonBox, "difficultyButton");
-        }
+        //for (int i = 0; i < 3; i++)
+        //{
+        //    var difficultyButton = UITK.AddElement<Button>(difficultyButtonBox, "difficultyButton");
+        //}
 
-        var difficultyDescriptionBox = UITK.AddElement(difficultyPanel, "difficultyDescriptionBox");
+        //var difficultyDescriptionBox = UITK.AddElement(difficultyPanel, "difficultyDescriptionBox");
 
-        var difficultyName = UITK.AddElement<Label>(difficultyDescriptionBox, "P1", "difficultyName");
-        difficultyName.text = "ЛЕГКО";
+        //var difficultyName = UITK.AddElement<Label>(difficultyDescriptionBox, "P1", "difficultyName");
+        //difficultyName.text = "ЛЕГКО";
 
-        var difficultyModifiers = UITK.AddElement<Label>(difficultyDescriptionBox, "P3", "difficultyModifiers");
-        difficultyModifiers.text = "Модификатор: +100% \nМодификатор: +100% \nМодификатор: +100% \nМодификатор: +100%";
+        //var difficultyModifiers = UITK.AddElement<Label>(difficultyDescriptionBox, "P3", "difficultyModifiers");
+        //difficultyModifiers.text = "Модификатор: +100% \nМодификатор: +100% \nМодификатор: +100% \nМодификатор: +100%";
 
         // TeamPanel setup
         var teamPanel = UITK.AddElement(midSection, "teamPanel");

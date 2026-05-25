@@ -240,6 +240,8 @@ public class GameSessionManager : Singleton<GameSessionManager>
         SetState(GameSessionState.Victory);
         activeTask = null;
         Log("Session victory.");
+
+        SceneDirector.OpenScenesThroughLoadingScreen(SceneDirector.WINLOADINGSCREEN, SceneDirector.BATTLE);
     }
 
     public void FailSession()
@@ -250,6 +252,8 @@ public class GameSessionManager : Singleton<GameSessionManager>
         SetState(GameSessionState.Defeat);
         activeTask = null;
         Log("Session failed.");
+
+        SceneDirector.OpenScenesThroughLoadingScreen(SceneDirector.LOSELOADINGSCREEN, SceneDirector.BATTLE);
     }
 
     private void ResetRuntime()

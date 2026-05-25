@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a17cb9fbd1b042c49adb5ba0a9fad3bb, type: 3}
+  m_Name: WinLoadingScreen 1
+  m_EditorClassIdentifier: Assembly-CSharp::LoadingScreenSO
+  FirstSlideText: "\u041D\u0410\u041C \u0423\u0414\u0410\u041B\u041E\u0421\u042C"
+  SecondSlideText: "\u041E\u0421\u0422\u0410\u041D\u041E\u0412\u0418\u0422\u042C"
+  ThirdSlideText: "\u0418\u0425 \u041E\u0422\u0420\u042F\u0414\u042B"
+  ThirdSlideUndertext: "\u043F\u0443\u0441\u0442\u044C \u0438\u0445 \u0434\u0443\u0448\u0430\u043C
+    \u0431\u0443\u0434\u0435\u0442 \u0434\u0430\u0440\u043E\u0432\u0430\u043D \u0432\u0435\u0447\u043D\u044B\u0439
+    \u043F\u043E\u043A\u043E\u0439"
