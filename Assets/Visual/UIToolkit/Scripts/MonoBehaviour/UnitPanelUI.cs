@@ -125,24 +125,25 @@ public class UnitPanelUI : MonoBehaviour
             healthBar.highValue = BodyConfig.maxHealth;
             healthBar.value = BodyConfig.maxHealth;
 
+            //TO-DO link with in-gmae stats
             var statsBoard = UITK.AddElement(healthStatsBoard, "P1", "statsBoard");
-            statsBoard.style.backgroundImage = icons.StatsBoardBG;
+            //statsBoard.style.backgroundImage = icons.StatsBoardBG;
 
-            var weaponRow = UITK.AddElement(statsBoard, "statsRow");
-            var DMG = UITK.AddElement<Label>(weaponRow, "DMG", "statElement");
-            DMG.text = "x 1.5";
-            var FIRE = UITK.AddElement<Label>(weaponRow, "FIRE", "statElement");
-            FIRE.text = "x 1.5";
-            var DST = UITK.AddElement<Label>(weaponRow, "DST", "statElement");
-            DST.text = "x 1.5";
+            //var weaponRow = UITK.AddElement(statsBoard, "statsRow");
+            //var DMG = UITK.AddElement<Label>(weaponRow, "DMG", "statElement");
+            //DMG.text = "x 1.5";
+            //var FIRE = UITK.AddElement<Label>(weaponRow, "FIRE", "statElement");
+            //FIRE.text = "x 1.5";
+            //var DST = UITK.AddElement<Label>(weaponRow, "DST", "statElement");
+            //DST.text = "x 1.5";
 
-            var skillRow = UITK.AddElement(statsBoard, "statsRow");
-            var PWR = UITK.AddElement<Label>(skillRow, "PWR", "statElement");
-            PWR.text = "x 1.5";
-            var TIME = UITK.AddElement<Label>(skillRow, "TIME", "statElement");
-            TIME.text = "x 1.5";
-            var AREA = UITK.AddElement<Label>(skillRow, "AREA", "statElement");
-            AREA.text = "x 1.5";
+            //var skillRow = UITK.AddElement(statsBoard, "statsRow");
+            //var PWR = UITK.AddElement<Label>(skillRow, "PWR", "statElement");
+            //PWR.text = "x 1.5";
+            //var TIME = UITK.AddElement<Label>(skillRow, "TIME", "statElement");
+            //TIME.text = "x 1.5";
+            //var AREA = UITK.AddElement<Label>(skillRow, "AREA", "statElement");
+            //AREA.text = "x 1.5";
         }
 
         public void OnHealthChanged(DamageEvent evt)
