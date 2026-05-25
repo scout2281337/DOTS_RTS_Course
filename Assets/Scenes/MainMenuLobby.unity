@@ -579,6 +579,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ee7e67b14c07c4746ad083ae399b73a6, type: 2}
   - {fileID: 11400000, guid: f02a43132c09c8a44a58f1c1e8bddcad, type: 2}
   - {fileID: 11400000, guid: 77a4fc8833e8be34fb4423b43146e16d, type: 2}
+  difficultyConfigs:
+  - {fileID: 11400000, guid: 3ec990d5a1a19bd44b388c0e1931a4b7, type: 2}
+  - {fileID: 11400000, guid: faa4d94be09cb8d459927365a2edf50f, type: 2}
 --- !u!114 &817891252
 MonoBehaviour:
   m_ObjectHideFlags: 0

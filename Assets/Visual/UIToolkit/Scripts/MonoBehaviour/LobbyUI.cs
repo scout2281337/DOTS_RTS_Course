@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,6 +11,9 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private CinemachineCamera _mainMenuCamera; 
 
     [SerializeField] private SoldierAttributesConfig[] _attributeGroups;
+    [SerializeField] private DifficultyButtonSO[] difficultyConfigs;
+
+    private Action _chosenDifficultyAction;
 
     private VisualElement _lobby;
 
@@ -37,6 +41,8 @@ public class LobbyUI : MonoBehaviour
         var midSection = UITK.AddElement(_lobby, "midSection");
         BuildMiddle(midSection, out Button[] soldierIcons);
 
+        // Dificulty switching
+
         var bottomSection = UITK.AddElement(_lobby, "bottomSection");
         BuildBottom(bottomSection, out AttributesContainer[] attributesContainers);
 
@@ -58,9 +64,7 @@ public class LobbyUI : MonoBehaviour
     {
         var startButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H2", "startButton");
         startButton.text = "ВЫСАДКА";
-        startButton.clicked += () => {
-            SceneDirector.OpenScenesThroughLoadingScreen(SceneDirector.LOADINGSCREEN, SceneDirector.BATTLE);
-        };
+        startButton.clicked += StartChosenDifficulty;
 
         var backButton = UITK.AddElement<Button>(topSection, "TertiaryButton", "P1", "backButton");
         backButton.text = "Назад";
@@ -71,23 +75,41 @@ public class LobbyUI : MonoBehaviour
 
     private void BuildMiddle(VisualElement midSection, out Button[] soldierIcons)
     {
-        // TO DO rework with configs 
-        //var difficultyPanel = UITK.AddElement(midSection, "LobbyPanel", "difficultyPanel");
+        //TO DO rework with configs
+        var difficultyPanel = UITK.AddElement(midSection, "LobbyPanel", "difficultyPanel");
 
-        //var difficultyButtonBox = UITK.AddElement(difficultyPanel, "difficultyButtonBox");
+        var difficultyButtonBox = UITK.AddElement(difficultyPanel, "difficultyButtonBox");
+        int difficultyCount = difficultyConfigs == null ? 0 : difficultyConfigs.Length;
+        Button[] difficultyButtons = new Button[difficultyCount];
+        for (int i = 0; i < difficultyButtons.Length; i++)
+        {
+            difficultyButtons[i] = UITK.AddElement<Button>(difficultyButtonBox, "difficultyButton");
+        }
 
-        //for (int i = 0; i < 3; i++)
-        //{
-        //    var difficultyButton = UITK.AddElement<Button>(difficultyButtonBox, "difficultyButton");
-        //}
+        var difficultyInfoBox = UITK.AddElement(difficultyPanel, "difficultyInfoBox");
 
-        //var difficultyDescriptionBox = UITK.AddElement(difficultyPanel, "difficultyDescriptionBox");
+        var difficultyName = UITK.AddElement<Label>(difficultyInfoBox, "P1", "difficultyName");
 
-        //var difficultyName = UITK.AddElement<Label>(difficultyDescriptionBox, "P1", "difficultyName");
-        //difficultyName.text = "ЛЕГКО";
+        var difficultyDescription = UITK.AddElement<Label>(difficultyInfoBox, "P3", "difficultyDescription");
 
-        //var difficultyModifiers = UITK.AddElement<Label>(difficultyDescriptionBox, "P3", "difficultyModifiers");
-        //difficultyModifiers.text = "Модификатор: +100% \nМодификатор: +100% \nМодификатор: +100% \nМодификатор: +100%";
+        var difficultyModifiers = UITK.AddElement<Label>(difficultyInfoBox, "P3", "difficultyModifiers");
+
+        for (int i = 0; i < difficultyButtons.Length; i++)
+        {
+            var difCon = difficultyConfigs[i];
+            var button = difficultyButtons[i];
+
+            if (difCon.DifficultyIcon != null)
+                button.style.backgroundImage = new StyleBackground(difCon.DifficultyIcon);
+
+            button.clicked += () =>
+            {
+                SelectDifficulty(difCon, button, difficultyButtons, difficultyName, difficultyDescription, difficultyModifiers);
+            };
+        }
+
+        SelectDifficulty(difficultyConfigs[0], difficultyButtons[0], difficultyButtons, difficultyName, difficultyDescription, difficultyModifiers);
+
 
         // TeamPanel setup
         var teamPanel = UITK.AddElement(midSection, "teamPanel");
@@ -115,6 +137,36 @@ public class LobbyUI : MonoBehaviour
             soldierIcons[i] = UITK.AddElement<Button>(column, "RigidButton", "soldierIcon");
             soldierIcons[i].style.backgroundImage = _attributeGroups[i].icon;
         }
+    }
+
+    private void SelectDifficulty(
+        DifficultyButtonSO difficultyConfig,
+        Button selectedButton,
+        Button[] difficultyButtons,
+        Label difficultyName,
+        Label difficultyDescription,
+        Label difficultyModifiers)
+    {
+        difficultyName.text = difficultyConfig.DifficultyName;
+        difficultyDescription.text = difficultyConfig.DifficultyDescription;
+        difficultyModifiers.text = difficultyConfig.DifficultyModifiers;
+
+        for (int i = 0; i < difficultyButtons.Length; i++)
+            difficultyButtons[i].EnableInClassList("SelectedDifficultyButton", difficultyButtons[i] == selectedButton);
+
+        _chosenDifficultyAction = () =>
+            SceneDirector.OpenScenesThroughLoadingScreen(SceneDirector.LOADINGSCREEN, difficultyConfig.SceneName);
+    }
+
+    private void StartChosenDifficulty()
+    {
+        if (_chosenDifficultyAction == null)
+        {
+            Debug.LogWarning($"{nameof(LobbyUI)} has no selected difficulty to start.");
+            return;
+        }
+
+        _chosenDifficultyAction.Invoke();
     }
 
     private void BuildBottom(VisualElement bottomSection, out AttributesContainer[] attributesContainers)

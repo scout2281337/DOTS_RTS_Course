@@ -55,7 +55,15 @@
     height: 120px;
 }
 
-.difficultyDescriptionBox {
+.SelectedDifficultyButton {
+    border-width: 4px;
+    border-top-color: var(--white);
+    border-right-color: var(--white);
+    border-bottom-color: var(--white);
+    border-left-color: var(--white);
+}
+
+.difficultyInfoBox {
     flex-grow: 1;
 }
 
@@ -65,6 +73,10 @@
     margin-top: 10px;
     padding: 10px;
     -unity-text-align: middle-center;
+}
+
+.difficultyDescription{
+
 }
 
 .difficultyModifiers {
