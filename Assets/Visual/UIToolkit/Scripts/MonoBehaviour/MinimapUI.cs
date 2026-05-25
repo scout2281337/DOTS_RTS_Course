@@ -503,17 +503,17 @@ public class MinimapUI : MonoBehaviour
             v = Mathf.Clamp01(v);
         }
 
-        float mapSize = GetResolvedMapSize();
-        return new Vector2(u * mapSize, (1f - v) * mapSize);
+        Vector2 mapSize = GetResolvedMapDimensions();
+        return new Vector2(u * mapSize.x, (1f - v) * mapSize.y);
     }
 
     private Vector2 WorldSizeToMinimapSize(Vector2 worldSize)
     {
         FogOfWarSettings settings = GetMapSettings();
-        float mapSize = GetResolvedMapSize();
+        Vector2 mapSize = GetResolvedMapDimensions();
 
-        float width = settings.WorldSize.x > 0f ? worldSize.x / settings.WorldSize.x * mapSize : 0f;
-        float height = settings.WorldSize.y > 0f ? worldSize.y / settings.WorldSize.y * mapSize : 0f;
+        float width = settings.WorldSize.x > 0f ? worldSize.x / settings.WorldSize.x * mapSize.x : 0f;
+        float height = settings.WorldSize.y > 0f ? worldSize.y / settings.WorldSize.y * mapSize.y : 0f;
 
         return new Vector2(
             Mathf.Max(minimumEnvironmentMarkerSize, width),
@@ -523,9 +523,9 @@ public class MinimapUI : MonoBehaviour
     private Vector3 MinimapPositionToWorld(Vector2 localPosition)
     {
         FogOfWarSettings settings = GetMapSettings();
-        float mapSize = GetResolvedMapSize();
-        float u = Mathf.Clamp01(localPosition.x / mapSize);
-        float v = 1f - Mathf.Clamp01(localPosition.y / mapSize);
+        Vector2 mapSize = GetResolvedMapDimensions();
+        float u = Mathf.Clamp01(mapSize.x > 0f ? localPosition.x / mapSize.x : 0f);
+        float v = 1f - Mathf.Clamp01(mapSize.y > 0f ? localPosition.y / mapSize.y : 0f);
 
         Vector2 half = new(settings.WorldSize.x * 0.5f, settings.WorldSize.y * 0.5f);
         Vector2 min = new(settings.WorldCenter.x - half.x, settings.WorldCenter.y - half.y);
@@ -536,18 +536,18 @@ public class MinimapUI : MonoBehaviour
             min.y + v * settings.WorldSize.y);
     }
 
-    private float GetResolvedMapSize()
+    private Vector2 GetResolvedMapDimensions()
     {
         if (minimap == null)
-            return minimapSize;
+            return new Vector2(minimapSize, minimapSize);
 
         float width = minimap.resolvedStyle.width;
         float height = minimap.resolvedStyle.height;
 
         if (width <= 1f || height <= 1f)
-            return minimapSize - 52f;
+            return new Vector2(minimapSize - 52f, minimapSize - 52f);
 
-        return Mathf.Min(width, height);
+        return new Vector2(width, height);
     }
 
     private FogOfWarSettings GetMapSettings()

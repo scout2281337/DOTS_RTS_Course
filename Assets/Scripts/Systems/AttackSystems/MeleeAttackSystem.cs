@@ -29,16 +29,24 @@ partial struct MeleeAttackSystem : ISystem
             RefRO<LocalTransform> localTransform,
             RefRW<MeleeAttack> meleeAttack,
             RefRW<Target> target,
+            RefRO<Unit> unit,
             RefRW<UnitMover> unitMover,
             Entity entity
         ) in SystemAPI.Query<
             RefRO<LocalTransform>,
             RefRW<MeleeAttack>,
             RefRW<Target>,
+            RefRO<Unit>,
             RefRW<UnitMover>>()
             .WithNone<DeadUnit>()
             .WithEntityAccess()) //.WithDisabled<MoveOverride>()
         {
+            if (IsFriendlyMoving(unit.ValueRO, localTransform.ValueRO, unitMover.ValueRO))
+            {
+                target.ValueRW.targetEntity = Entity.Null;
+                continue;
+            }
+
             if (target.ValueRO.targetEntity == Entity.Null) continue;
 
             if (!SystemAPI.Exists(target.ValueRO.targetEntity) ||
@@ -94,6 +102,13 @@ partial struct MeleeAttackSystem : ISystem
             // Двигаемся к цели или остаёмся на месте
             if (!isCloseEnough && !isTouchingTarget)
             {
+                if (unit.ValueRO.faction == Faction.Friendly)
+                {
+                    target.ValueRW.targetEntity = Entity.Null;
+                    unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
+                    continue;
+                }
+
                 unitMover.ValueRW.targetPosition = targetTransform.Position;
                 
             }
@@ -154,6 +169,16 @@ partial struct MeleeAttackSystem : ISystem
         return fogRevealableLookup.HasComponent(entity) &&
                (!fogVisibleLookup.HasComponent(entity) ||
                 !fogVisibleLookup.IsComponentEnabled(entity));
+    }
+
+    private static bool IsFriendlyMoving(in Unit unit, in LocalTransform localTransform, in UnitMover unitMover)
+    {
+        if (unit.faction != Faction.Friendly)
+            return false;
+
+        float3 delta = unitMover.targetPosition - localTransform.Position;
+        delta.y = 0f;
+        return math.lengthsq(delta) > UnitMoverSystem.REACHED_TARGET_POSITION_DISTANCE_SQ;
     }
 }
 

@@ -14,7 +14,10 @@ public class ZombieSpawnerAuthoring : MonoBehaviour
     }
 
     [Header("Director")]
+    [Min(0f)] public float startDelay = 0f;
     public float timerMax = 1.5f;
+    [Min(0f)] public float spawnIntervalDecreasePerWave = 0f;
+    [Min(0.05f)] public float minSpawnInterval = 0.35f;
     public float waveDelayMax = 8f;
     public int waveAmount = 5;
     public int currentWave = 1;
@@ -25,6 +28,7 @@ public class ZombieSpawnerAuthoring : MonoBehaviour
     [Range(0f, 1f)] public float startIntensity = 0.2f;
     [Range(0.1f, 0.95f)] public float peakTimeNormalized = 0.66f;
     public float directorBankCap = 30f;
+    [Min(0f)] public float directorBankCapPerWave = 0f;
     public float startingDirectorPoints = 0f;
     public DirectorEnemyEntry[] enemyEntries;
 
@@ -32,6 +36,9 @@ public class ZombieSpawnerAuthoring : MonoBehaviour
     public Transform zombieSpawnTransform;
     public Transform[] spawnPoints;
     [Min(0f)] public float spawnRadius = 3f;
+
+    [Header("Spawn Aggro")]
+    public bool targetFriendlyUnitsOnSpawn = true;
 
     [Header("Legacy")]
     public float randomWalkingDistanceMin;
@@ -53,6 +60,9 @@ public class ZombieSpawnerAuthoring : MonoBehaviour
             {
                 timer = authoring.timerMax,
                 timerMax = authoring.timerMax,
+                startDelay = math.max(0f, authoring.startDelay),
+                spawnIntervalDecreasePerWave = math.max(0f, authoring.spawnIntervalDecreasePerWave),
+                minSpawnInterval = math.max(0.05f, authoring.minSpawnInterval),
                 waveAmount = math.max(1, authoring.waveAmount),
                 currentWave = math.max(1, authoring.currentWave),
                 waveDelayMax = math.max(0f, authoring.waveDelayMax),
@@ -67,10 +77,12 @@ public class ZombieSpawnerAuthoring : MonoBehaviour
                 peakTimeNormalized = math.clamp(authoring.peakTimeNormalized, 0.1f, 0.95f),
                 directorPoints = math.max(0f, authoring.startingDirectorPoints),
                 directorBankCap = authoring.directorBankCap > 0f ? authoring.directorBankCap : 30f,
+                directorBankCapPerWave = math.max(0f, authoring.directorBankCapPerWave),
                 randomWalkingDistanceMax = authoring.randomWalkingDistanceMax,
                 randomWalkingDistanceMin = authoring.randomWalkingDistanceMin,
                 zombieSpawnPosition = authoring.zombieSpawnTransform != null ? authoring.zombieSpawnTransform.position : authoring.transform.position,
                 spawnRadius = math.max(0f, authoring.spawnRadius),
+                targetFriendlyUnitsOnSpawn = authoring.targetFriendlyUnitsOnSpawn,
                 isRandomWalkingOnStart = authoring.isRandomWalkingOnStart,
                 startTargetEntity = authoring.startTargetGameObject != null
                     ? GetEntity(authoring.startTargetGameObject, TransformUsageFlags.Dynamic)
@@ -129,6 +141,9 @@ public struct ZombieSpawner : IComponentData
 {
     public float timer;
     public float timerMax;
+    public float startDelay;
+    public float spawnIntervalDecreasePerWave;
+    public float minSpawnInterval;
     public float waveDelayMax;
     public float waveDelay;
     public int waveAmount;
@@ -143,10 +158,12 @@ public struct ZombieSpawner : IComponentData
     public float peakTimeNormalized;
     public float directorPoints;
     public float directorBankCap;
+    public float directorBankCapPerWave;
     public float randomWalkingDistanceMin;
     public float randomWalkingDistanceMax;
     public float3 zombieSpawnPosition;
     public float spawnRadius;
+    public bool targetFriendlyUnitsOnSpawn;
     public bool isRandomWalkingOnStart;
     public bool waveActive;
     public Entity startTargetEntity;

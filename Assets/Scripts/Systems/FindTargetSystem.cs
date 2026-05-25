@@ -23,16 +23,25 @@ partial struct FindTargetSystem : ISystem
 
         foreach ((
             RefRO<LocalTransform> localTransform,
+            RefRO<Unit> ownerUnit,
+            RefRO<UnitMover> unitMover,
             RefRW<FindTarget> findTarget,
             RefRW<Target> target)
             in SystemAPI.Query<
                 RefRO<LocalTransform>,
+                RefRO<Unit>,
+                RefRO<UnitMover>,
                 RefRW<FindTarget>,
                 RefRW<Target>>()
             .WithNone<DeadUnit>())
         {
             float3 myPos = localTransform.ValueRO.Position;
 
+            if (IsFriendlyMoving(ownerUnit.ValueRO, localTransform.ValueRO, unitMover.ValueRO))
+            {
+                target.ValueRW.targetEntity = Entity.Null;
+                continue;
+            }
 
             if (target.ValueRO.targetEntity != Entity.Null)
             {
@@ -138,5 +147,15 @@ partial struct FindTargetSystem : ISystem
         return fogRevealableLookup.HasComponent(entity) &&
                (!fogVisibleLookup.HasComponent(entity) ||
                 !fogVisibleLookup.IsComponentEnabled(entity));
+    }
+
+    private static bool IsFriendlyMoving(in Unit unit, in LocalTransform localTransform, in UnitMover unitMover)
+    {
+        if (unit.faction != Faction.Friendly)
+            return false;
+
+        float3 delta = unitMover.targetPosition - localTransform.Position;
+        delta.y = 0f;
+        return math.lengthsq(delta) > UnitMoverSystem.REACHED_TARGET_POSITION_DISTANCE_SQ;
     }
 }

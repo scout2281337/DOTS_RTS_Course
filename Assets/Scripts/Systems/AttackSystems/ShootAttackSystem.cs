@@ -49,6 +49,12 @@ partial struct ShootAttackSystem : ISystem
             .WithNone<DeadUnit>()
             .WithEntityAccess())
         {
+            if (IsFriendlyMoving(unit.ValueRO, localTransform.ValueRO, unitMover.ValueRO))
+            {
+                target.ValueRW.targetEntity = Entity.Null;
+                continue;
+            }
+
             if (target.ValueRO.targetEntity == Entity.Null)
                 continue;
 
@@ -72,6 +78,13 @@ partial struct ShootAttackSystem : ISystem
 
             if (distance > shootAttack.ValueRO.attackDistance)
             {
+                if (unit.ValueRO.faction == Faction.Friendly)
+                {
+                    target.ValueRW.targetEntity = Entity.Null;
+                    unitMover.ValueRW.targetPosition = localTransform.ValueRO.Position;
+                    continue;
+                }
+
                 unitMover.ValueRW.targetPosition = targetTransform.Position;
                 continue;
             }
@@ -360,6 +373,16 @@ partial struct ShootAttackSystem : ISystem
         return fogRevealableLookup.HasComponent(entity) &&
                (!fogVisibleLookup.HasComponent(entity) ||
                 !fogVisibleLookup.IsComponentEnabled(entity));
+    }
+
+    private static bool IsFriendlyMoving(in Unit unit, in LocalTransform localTransform, in UnitMover unitMover)
+    {
+        if (unit.faction != Faction.Friendly)
+            return false;
+
+        float3 delta = unitMover.targetPosition - localTransform.Position;
+        delta.y = 0f;
+        return math.lengthsq(delta) > UnitMoverSystem.REACHED_TARGET_POSITION_DISTANCE_SQ;
     }
 }
 

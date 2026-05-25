@@ -325,6 +325,13 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
                 if (em.HasComponent<NavPathProgress>(entity))
                     em.RemoveComponent<NavPathProgress>(entity);
 
+                if (em.HasComponent<Target>(entity))
+                {
+                    Target targetComponent = em.GetComponentData<Target>(entity);
+                    targetComponent.targetEntity = Entity.Null;
+                    em.SetComponentData(entity, targetComponent);
+                }
+
                 move.targetPosition = positions[moveIndex++];
                 em.SetComponentData(entity, move);
                 em.SetComponentEnabled<MoveOverride>(entity, true);

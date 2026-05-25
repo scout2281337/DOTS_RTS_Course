@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &17236988 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+  m_PrefabInstance: {fileID: 1835869443}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &52871102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +135,10 @@ PrefabInstance:
     - target: {fileID: 159456, guid: d1da2fd6f6ce20b41b40577aa0d59d55, type: 3}
       propertyPath: m_Name
       value: SA_Bld_Mall_Damaged_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 159456, guid: d1da2fd6f6ce20b41b40577aa0d59d55, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 464564, guid: d1da2fd6f6ce20b41b40577aa0d59d55, type: 3}
       propertyPath: m_LocalScale.x
@@ -481,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ba26ee8c7e34003b672f45d116589e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonologueManager
-  playOnStart: {fileID: 11400000, guid: 186645ea74f37d8499686e1163461d00, type: 2}
+  playOnStart: {fileID: 0}
   playOnStartDelay: 3
   audioSource: {fileID: 0}
   logDebug: 0
@@ -500,6 +509,96 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &209744992
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 132309914023486070, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: radius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 360929596634798620, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_Name
+      value: Generator
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 60.069702
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.259
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 60.309338
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2671060915933294298, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: GeneratorAudioCue
+      value: 
+      objectReference: {fileID: 11400000, guid: fb20fdf1e6956684ba9ef112587deaf1, type: 2}
+    - target: {fileID: 2671060915933294298, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: GeneratorStartAudioCue
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d045bdd1d4a76b4b928d04c4b29cfcb, type: 2}
+    - target: {fileID: 8805214532443956578, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8805214532443956578, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 360929596634798620, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1209850404}
+  m_SourcePrefab: {fileID: 100100000, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+--- !u!4 &209744993 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1619118322106696796, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+  m_PrefabInstance: {fileID: 209744992}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &219470380 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+  m_PrefabInstance: {fileID: 620258695}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &295773409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -818,6 +917,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CityBlock (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32.5
@@ -861,7 +964,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1093395643}
   m_SourcePrefab: {fileID: 100100000, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
 --- !u!4 &469512620 stripped
 Transform:
@@ -954,6 +1060,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CityBlock (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
       value: 87.5
@@ -997,7 +1107,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 864700499}
   m_SourcePrefab: {fileID: 100100000, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
 --- !u!4 &549001511 stripped
 Transform:
@@ -1244,6 +1357,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CityBlock (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32.5
@@ -1287,13 +1404,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 620258698}
   m_SourcePrefab: {fileID: 100100000, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
 --- !u!4 &620258696 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
   m_PrefabInstance: {fileID: 620258695}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &620258698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219470380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9141d3190212478c854192e93fcd1bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapEnvironmentMarker
+  kind: 0
+  footprintSource: 0
+  visibleOnMinimap: 1
+  includeChildren: 1
+  manualSize: {x: 4, y: 4}
+  manualCenterOffset: {x: 0, y: 0, z: 0}
+  manualRotationY: 0
+  minimumWorldSize: 1
 --- !u!1 &626184989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,7 +1479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FogOfWarSettingsAuthoring
   worldCenter: {x: 0, y: 0}
-  worldSize: {x: 120, y: 120}
+  worldSize: {x: 320, y: 320}
   textureSize: 1024
   obstacleLayerMask:
     serializedVersion: 2
@@ -1362,6 +1502,10 @@ PrefabInstance:
     - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_Name
       value: CityBlock (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1406,7 +1550,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 861158262}
   m_SourcePrefab: {fileID: 100100000, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
 --- !u!4 &645691255 stripped
 Transform:
@@ -1424,6 +1571,10 @@ PrefabInstance:
     - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_Name
       value: CityBlock (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1468,7 +1619,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1652350968}
   m_SourcePrefab: {fileID: 100100000, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
 --- !u!4 &678373408 stripped
 Transform:
@@ -1662,6 +1816,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CityBlock (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
       value: 87.5
@@ -1705,7 +1863,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1048166745}
   m_SourcePrefab: {fileID: 100100000, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
 --- !u!4 &742379030 stripped
 Transform:
@@ -2133,6 +2294,56 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 341cd2be8721668468581f35a32b0513, type: 3}
+--- !u!1 &861158260 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+  m_PrefabInstance: {fileID: 645691254}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &861158262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861158260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9141d3190212478c854192e93fcd1bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapEnvironmentMarker
+  kind: 0
+  footprintSource: 0
+  visibleOnMinimap: 1
+  includeChildren: 1
+  manualSize: {x: 4, y: 4}
+  manualCenterOffset: {x: 0, y: 0, z: 0}
+  manualRotationY: 0
+  minimumWorldSize: 1
+--- !u!1 &864700497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+  m_PrefabInstance: {fileID: 549001510}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &864700499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864700497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9141d3190212478c854192e93fcd1bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapEnvironmentMarker
+  kind: 0
+  footprintSource: 0
+  visibleOnMinimap: 1
+  includeChildren: 1
+  manualSize: {x: 4, y: 4}
+  manualCenterOffset: {x: 0, y: 0, z: 0}
+  manualRotationY: 0
+  minimumWorldSize: 1
 --- !u!1 &881444883
 GameObject:
   m_ObjectHideFlags: 0
@@ -2284,6 +2495,11 @@ Transform:
   - {fileID: 1126982596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &904796990 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+  m_PrefabInstance: {fileID: 2093984526}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &948511341 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6434001449724273942, guid: 50a82bad91b8580478c04d91c97b5d3e, type: 3}
@@ -2402,6 +2618,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1048166743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+  m_PrefabInstance: {fileID: 742379029}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1048166745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048166743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9141d3190212478c854192e93fcd1bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapEnvironmentMarker
+  kind: 0
+  footprintSource: 0
+  visibleOnMinimap: 1
+  includeChildren: 1
+  manualSize: {x: 4, y: 4}
+  manualCenterOffset: {x: 0, y: 0, z: 0}
+  manualRotationY: 0
+  minimumWorldSize: 1
 --- !u!1 &1077793419 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
@@ -2469,6 +2710,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6434001449724273942, guid: 50a82bad91b8580478c04d91c97b5d3e, type: 3}
   m_PrefabInstance: {fileID: 1083460941}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1093395641 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+  m_PrefabInstance: {fileID: 469512619}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1093395643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093395641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9141d3190212478c854192e93fcd1bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapEnvironmentMarker
+  kind: 0
+  footprintSource: 0
+  visibleOnMinimap: 1
+  includeChildren: 1
+  manualSize: {x: 4, y: 4}
+  manualCenterOffset: {x: 0, y: 0, z: 0}
+  manualRotationY: 0
+  minimumWorldSize: 1
 --- !u!1 &1113662930
 GameObject:
   m_ObjectHideFlags: 0
@@ -2624,6 +2890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonologueUI
   uiDocument: {fileID: 1191291504}
   styleSheet: {fileID: 7433441132597879392, guid: 131a3a4f7a4e437abf563fe698f72951, type: 3}
+  placement: 1
   panelLeft: 34
   panelBottom: 34
   panelWidth: 560
@@ -2666,6 +2933,44 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1209850403 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 360929596634798620, guid: 0773fa869b82407459fc4c421400510b, type: 3}
+  m_PrefabInstance: {fileID: 209744992}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1209850404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209850403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a93bbd06632481e80647a24375e6a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeneratorVisualEffect
+  idleColor: {r: 1, g: 0.48, b: 0.08, a: 0.55}
+  chargeColor: {r: 1, g: 0.78, b: 0.16, a: 0.95}
+  activeColor: {r: 0.16, g: 0.88, b: 1, a: 0.95}
+  ringHeight: 0.08
+  coreLightHeight: 1.25
+  ringSegments: 96
+  activationRingWidth: 0.08
+  revealRingWidth: 0.16
+  sweepLineWidth: 0.08
+  activationPulseDuration: 0.9
+  activePulseInterval: 2.75
+  activationSparkBurst: 42
+  enablePointLight: 1
+  idleLightIntensity: 0.45
+  chargeLightIntensity: 1.55
+  activeLightIntensity: 2.2
+  flickerSpeed: 9
+  flickerAmount: 0.12
+  idleSparkRate: 0.5
+  chargeSparkRate: 28
+  activeSparkRate: 9
 --- !u!1 &1292023066
 GameObject:
   m_ObjectHideFlags: 0
@@ -2724,6 +3029,10 @@ PrefabInstance:
     - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_Name
       value: CityBlock (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2980,6 +3289,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CityBlock (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
       value: -32.5
@@ -3222,6 +3535,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SA_Bld_Mall_Damaged_01
       objectReference: {fileID: 0}
+    - target: {fileID: 159456, guid: d1da2fd6f6ce20b41b40577aa0d59d55, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 464564, guid: d1da2fd6f6ce20b41b40577aa0d59d55, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -3463,6 +3780,31 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50a82bad91b8580478c04d91c97b5d3e, type: 3}
+--- !u!1 &1652350966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+  m_PrefabInstance: {fileID: 678373407}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1652350968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652350966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9141d3190212478c854192e93fcd1bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapEnvironmentMarker
+  kind: 0
+  footprintSource: 0
+  visibleOnMinimap: 1
+  includeChildren: 1
+  manualSize: {x: 4, y: 4}
+  manualCenterOffset: {x: 0, y: 0, z: 0}
+  manualRotationY: 0
+  minimumWorldSize: 1
 --- !u!1001 &1667574339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3823,6 +4165,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CityBlock (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
       value: 32.5
@@ -3866,13 +4212,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1835869446}
   m_SourcePrefab: {fileID: 100100000, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
 --- !u!4 &1835869444 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
   m_PrefabInstance: {fileID: 1835869443}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1835869446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17236988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9141d3190212478c854192e93fcd1bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapEnvironmentMarker
+  kind: 0
+  footprintSource: 0
+  visibleOnMinimap: 1
+  includeChildren: 1
+  manualSize: {x: 4, y: 4}
+  manualCenterOffset: {x: 0, y: 0, z: 0}
+  manualRotationY: 0
+  minimumWorldSize: 1
 --- !u!1 &1878042788
 GameObject:
   m_ObjectHideFlags: 0
@@ -3992,7 +4361,9 @@ MonoBehaviour:
   _canOverwrite: 0
   _isDestroyedOnLoad: 0
   config: {fileID: 11400000, guid: cf9d6d6aca26f3f47973203856b873f1, type: 2}
-  anchors: []
+  anchors:
+  - Id: generator_1
+    Transform: {fileID: 209744993}
   sessionAreaCenter: {x: 0, y: 0, z: 0}
   sessionAreaSize: {x: 100, y: 100}
   logDebug: 1
@@ -4293,6 +4664,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CityBlock (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
       value: 87.5
@@ -4336,13 +4711,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2093984529}
   m_SourcePrefab: {fileID: 100100000, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
 --- !u!4 &2093984527 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
   m_PrefabInstance: {fileID: 2093984526}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2093984529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904796990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9141d3190212478c854192e93fcd1bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapEnvironmentMarker
+  kind: 0
+  footprintSource: 0
+  visibleOnMinimap: 1
+  includeChildren: 1
+  manualSize: {x: 4, y: 4}
+  manualCenterOffset: {x: 0, y: 0, z: 0}
+  manualRotationY: 0
+  minimumWorldSize: 1
 --- !u!1001 &896884217314467232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4468,6 +4866,10 @@ PrefabInstance:
     - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_Name
       value: CityBlock
+      objectReference: {fileID: 0}
+    - target: {fileID: 4390167712359321198, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4858724794549454437, guid: e8841d99bb190c445944b7a437ae9151, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4847,3 +5249,4 @@ SceneRoots:
   - {fileID: 1883663832}
   - {fileID: 1610686554}
   - {fileID: 206236563}
+  - {fileID: 209744992}
