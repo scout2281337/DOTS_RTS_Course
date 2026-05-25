@@ -10,6 +10,7 @@ public class UnitPanelUI : MonoBehaviour
     [SerializeField] private UnitPanelTexturesSO _texturesSO;
     
     private ViewController _UIController;
+    private EventMediator _eventMediator;
 
     private readonly Dictionary<UnitClass, UnitProfile> _unitProfilesDict = new();
 
@@ -18,8 +19,10 @@ public class UnitPanelUI : MonoBehaviour
 
     private void BuildUnitPanel()
     {
-        EventMediator abilityEventListener = EventMediator.Instance;
+        _eventMediator = EventMediator.Instance;
         VisualElement root = _uiDocument.rootVisualElement;
+
+        ClearUnitProfiles();
 
         root.Clear();
         root.styleSheets.Clear();
@@ -36,28 +39,79 @@ public class UnitPanelUI : MonoBehaviour
 
         _bottomSection = UITK.AddElement(root, "P2", "bottomSection");
 
-        abilityEventListener.OnUnitSpawned += BuildUnitProfile;
+        if (_eventMediator != null)
+        {
+            _eventMediator.OnUnitSpawned -= BuildUnitProfile;
+            _eventMediator.OnUnitSpawned += BuildUnitProfile;
+        }
     }
 
     private void BuildUnitProfile(UnitClass unitClass, SoldierAttributesConfig soldierConfig)
     {
+        if (_bottomSection == null || soldierConfig == null)
+            return;
+
+        if (_unitProfilesDict.TryGetValue(unitClass, out UnitProfile oldUnitProfile))
+        {
+            UnbindUnitProfile(oldUnitProfile);
+            oldUnitProfile.unitProfile.RemoveFromHierarchy();
+            _unitProfilesDict.Remove(unitClass);
+        }
+
         var newUnitProfile = new UnitProfile(unitClass, soldierConfig, _bottomSection, _texturesSO, _UIController);
 
-        _unitProfilesDict.Add(unitClass, newUnitProfile);
+        _unitProfilesDict[unitClass] = newUnitProfile;
 
-        EventMediator.Instance.OnDamageReceived += newUnitProfile.OnHealthChanged;
-        EventMediator.Instance.OnAbilityStarted += newUnitProfile.OnAbilityStarted;
-        EventMediator.Instance.OnAbilityEnded += newUnitProfile.OnAbilityEnded;
-        EventMediator.Instance.OnCooldownEnded += newUnitProfile.OnCooldownEnded;
+        if (_eventMediator != null)
+        {
+            _eventMediator.OnDamageReceived += newUnitProfile.OnHealthChanged;
+            _eventMediator.OnAbilityStarted += newUnitProfile.OnAbilityStarted;
+            _eventMediator.OnAbilityEnded += newUnitProfile.OnAbilityEnded;
+            _eventMediator.OnCooldownEnded += newUnitProfile.OnCooldownEnded;
+        }
 
         newUnitProfile.unitProfile.RegisterCallback<ClickEvent>(_ =>
             UnitSelectionManager.Instance.SelectUnit(unitClass));
 
         newUnitProfile.SkillButton.RegisterCallback<ClickEvent>(evt => evt.StopPropagation());
 
-        int index = _unitProfilesDict.Count - 1;
+        int index = GetAbilitySlotIndex(unitClass);
         newUnitProfile.SkillButton.clicked += () =>
         Presenter.Instance.InvokeAbilityPress(index);
+    }
+
+    private void ClearUnitProfiles()
+    {
+        foreach (UnitProfile unitProfile in _unitProfilesDict.Values)
+        {
+            UnbindUnitProfile(unitProfile);
+            unitProfile.unitProfile.RemoveFromHierarchy();
+        }
+
+        _unitProfilesDict.Clear();
+    }
+
+    private void UnbindUnitProfile(UnitProfile unitProfile)
+    {
+        if (_eventMediator == null || unitProfile == null)
+            return;
+
+        _eventMediator.OnDamageReceived -= unitProfile.OnHealthChanged;
+        _eventMediator.OnAbilityStarted -= unitProfile.OnAbilityStarted;
+        _eventMediator.OnAbilityEnded -= unitProfile.OnAbilityEnded;
+        _eventMediator.OnCooldownEnded -= unitProfile.OnCooldownEnded;
+    }
+
+    private static int GetAbilitySlotIndex(UnitClass unitClass)
+    {
+        return unitClass switch
+        {
+            UnitClass.Raider => 0,
+            UnitClass.Juggernaut => 1,
+            UnitClass.Arsonist => 2,
+            UnitClass.Sniper => 3,
+            _ => 0
+        };
     }
 
 
@@ -195,5 +249,13 @@ public class UnitPanelUI : MonoBehaviour
     private void Awake()
     {
         BuildUnitPanel();
+    }
+
+    private void OnDestroy()
+    {
+        if (_eventMediator != null)
+            _eventMediator.OnUnitSpawned -= BuildUnitProfile;
+
+        ClearUnitProfiles();
     }
 }

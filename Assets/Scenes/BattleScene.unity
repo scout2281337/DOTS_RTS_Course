@@ -2289,6 +2289,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1239176857152488205, guid: 341cd2be8721668468581f35a32b0513, type: 3}
+      propertyPath: _isDestroyedOnLoad
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2816376500862355859, guid: 341cd2be8721668468581f35a32b0513, type: 3}
       propertyPath: m_Name
       value: AbilityEventListener
@@ -2809,7 +2813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameAudioManager
   _canOverwrite: 0
-  _isDestroyedOnLoad: 0
+  _isDestroyedOnLoad: 1
   initialPoolSize: 24
   maxPoolSize: 96
 --- !u!4 &1113662932
@@ -4068,6 +4072,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5165178922108397255, guid: 181916f81632948448e986eaf4478288, type: 3}
+      propertyPath: _isDestroyedOnLoad
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6812590923571900224, guid: 181916f81632948448e986eaf4478288, type: 3}
       propertyPath: m_Name
       value: VFXManager
@@ -5003,6 +5011,10 @@ PrefabInstance:
     - target: {fileID: 6200304647231100861, guid: bae0aefe944f1c64f85c39b3dd213863, type: 3}
       propertyPath: m_Name
       value: AbilityTargetingManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6276333253794067126, guid: bae0aefe944f1c64f85c39b3dd213863, type: 3}
+      propertyPath: _isDestroyedOnLoad
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8176058687955759621, guid: bae0aefe944f1c64f85c39b3dd213863, type: 3}
       propertyPath: m_LocalPosition.x
