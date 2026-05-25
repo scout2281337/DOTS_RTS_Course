@@ -1,6 +1,7 @@
 .mainMenu{
     width: 1920px;
     height: 1080px;
+    position: absolute;
 }
 
 .bottomSection{
@@ -17,4 +18,106 @@
 
 .menuButton{
     height: 70px;
+}
+
+.settingsOverlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.settingsPanel {
+    width: 780px;
+    min-height: 620px;
+    padding: 42px;
+    justify-content: flex-start;
+    background-color: rgba(8, 10, 12, 0.94);
+    border-width: 4px;
+    border-color: var(--accent-main);
+}
+
+.settingsTitle {
+    -unity-text-align: middle-center;
+    margin-bottom: 8px;
+    color: var(--white);
+}
+
+.settingsSubtitle {
+    -unity-text-align: middle-center;
+    margin-bottom: 28px;
+    color: var(--light-gray);
+}
+
+.settingsBlock {
+    width: 100%;
+    margin-bottom: 22px;
+}
+
+.settingsRow {
+    width: 100%;
+    min-height: 48px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settingsToggleRow {
+    margin-bottom: 22px;
+}
+
+.settingsLabel {
+    width: 360px;
+    color: var(--white);
+}
+
+.settingsValue {
+    min-width: 96px;
+    -unity-text-align: middle-right;
+    color: var(--accent-main);
+}
+
+.settingsSlider {
+    height: 26px;
+    margin-top: 8px;
+}
+
+.settingsToggle {
+    width: 72px;
+}
+
+.qualityControls {
+    width: 310px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.qualityButton {
+    width: 54px;
+    height: 48px;
+}
+
+.qualityValue {
+    width: 190px;
+    margin-left: 10px;
+    margin-right: 10px;
+    -unity-text-align: middle-center;
+    color: var(--white);
+}
+
+.settingsActions {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 26px;
+}
+
+.settingsButton {
+    width: 300px;
+    height: 64px;
 }

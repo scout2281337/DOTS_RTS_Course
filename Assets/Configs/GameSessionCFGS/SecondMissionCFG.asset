@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f29a553cb5c4d34a8d2c2091f9a607c, type: 3}
+  m_Name: SecondMissionCFG
+  m_EditorClassIdentifier: Assembly-CSharp::GameSessionConfig
+  SessionName: Operation
+  AutoStart: 1
+  StartDelay: 0
+  DefeatWhenSquadIsDead: 1
+  StartingThreat: 0
+  MaxThreat: 100
+  ThreatGainPerMinute: 3
+  Tasks:
+  - Id: 
+    Title: "\u0423\u0431\u0435\u0439\u0442\u0435 \u0441\u043A\u043E\u043B\u044C\u043A\u043E
+      \u0441\u043C\u043E\u0436\u0435\u0442\u0435..."
+    Description: "\u0412\u0440\u0430\u0433\u0438 \u043F\u0440\u0443\u0442 \u0441\u043E
+      \u0432\u0441\u0435\u0445 \u0441\u0442\u043E\u0440\u043E\u043D."
+    Type: 5
+    AutoAdvance: 1
+    CompleteSessionOnFinish: 1
+    TargetAnchorId: 
+    ActivityId: 
+    Duration: 0
+    Radius: 0
+    RequiredFriendlyUnits: 0
+    RequiredKillCount: 999
+    KillTargetFaction: 1
+    MonologueOnStart: {fileID: 0}
+    MonologueOnComplete: {fileID: 0}
+    ReportOnStart: 0
+    Importance: 1
+    Knowledge: 0
+    ReportDuration: 3
+  EventRules: []
