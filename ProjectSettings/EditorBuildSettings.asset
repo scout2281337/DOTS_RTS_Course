@@ -12,8 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenuLobby.unity
     guid: 57c21d485c020284a9eb7b219a913367
   - enabled: 1
-    path: Assets/Scenes/LoadingScreen.unity
+    path: Assets/Scenes/LoadingScreens/LoadingScreen.unity
     guid: 424d59bc3a57d2942929903087bd3c0d
+  - enabled: 1
+    path: Assets/Scenes/LoadingScreens/LoseLoadingScreen.unity
+    guid: 6bf43b814449f17499af568d0012b5b2
+  - enabled: 1
+    path: Assets/Scenes/LoadingScreens/WinLoadingScreen.unity
+    guid: 80401cae0f0367f41a48bdeb8180809b
   - enabled: 1
     path: Assets/Scenes/BattleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05

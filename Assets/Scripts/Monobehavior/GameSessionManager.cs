@@ -241,7 +241,8 @@ public class GameSessionManager : Singleton<GameSessionManager>
         activeTask = null;
         Log("Session victory.");
 
-        SceneDirector.OpenScenesThroughLoadingScreen(SceneDirector.WINLOADINGSCREEN, SceneDirector.BATTLE);
+        SceneDirector.OpenScenesThroughLoadingScreen(SceneDirector.WINLOADINGSCREEN,
+            SceneDirector.MAINMENU, SceneDirector.CITY);
     }
 
     public void FailSession()
@@ -253,7 +254,8 @@ public class GameSessionManager : Singleton<GameSessionManager>
         activeTask = null;
         Log("Session failed.");
 
-        SceneDirector.OpenScenesThroughLoadingScreen(SceneDirector.LOSELOADINGSCREEN, SceneDirector.BATTLE);
+        SceneDirector.OpenScenesThroughLoadingScreen(SceneDirector.LOSELOADINGSCREEN,
+            SceneDirector.MAINMENU, SceneDirector.CITY);
     }
 
     private void ResetRuntime()

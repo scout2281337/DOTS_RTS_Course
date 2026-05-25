@@ -21,10 +21,10 @@ public class SceneDirector : Singleton<SceneDirector>
     private static bool _isLoading = false;
 
 
-    public static async void OpenScenesThroughLoadingScreen(string loadingScreen = LOADINGSCREEN, params string[] sceneNames)
+    public static async void OpenScenesThroughLoadingScreen(string loadingScreen, params string[] sceneNames)
     {
-        if (_isLoading) return;
-        _isLoading = true;
+        //if (_isLoading) return;
+        //_isLoading = true;
 
         // Loading loading screen
         await AddScenes(loadingScreen);
@@ -44,7 +44,7 @@ public class SceneDirector : Singleton<SceneDirector>
         }
 
         await Awaitable.WaitForSecondsAsync(1f);
-        await Awaitable.FromAsyncOperation(SceneManager.UnloadSceneAsync(LOADINGSCREEN));
+        await Awaitable.FromAsyncOperation(SceneManager.UnloadSceneAsync(loadingScreen));
 
         _isLoading = false;
     }
@@ -80,7 +80,7 @@ public class SceneDirector : Singleton<SceneDirector>
 
     private static async Awaitable UnloadAllScenesExcept(params string[] exceptionScenes)
     {
-        var exceptions = new HashSet<string>(exceptionScenes) { LOADINGSCREEN, CORE };
+        var exceptions = new HashSet<string>(exceptionScenes) { CORE, LOADINGSCREEN, WINLOADINGSCREEN, LOSELOADINGSCREEN };
 
         foreach (var scene in GetAllScenes())
         {
