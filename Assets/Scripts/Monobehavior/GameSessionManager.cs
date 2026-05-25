@@ -871,6 +871,9 @@ public class GameSessionManager : Singleton<GameSessionManager>
                 if (!em.Exists(entity) || em.HasComponent<DeadUnit>(entity))
                     continue;
 
+                if (em.HasComponent<Health>(entity) && em.GetComponentData<Health>(entity).healthAmount <= 0f)
+                    continue;
+
                 if (em.GetComponentData<Unit>(entity).faction == Faction.Friendly)
                     count++;
             }
@@ -930,6 +933,20 @@ public class GameSessionManager : Singleton<GameSessionManager>
 
     private void OnUnitDeath(UnitDeathEvent evt)
     {
+        if (evt.Faction == Faction.Friendly)
+        {
+            hasSeenFriendlyUnit = true;
+
+            if (IsSessionRunning() &&
+                config != null &&
+                config.DefeatWhenSquadIsDead &&
+                CountAliveFriendlyUnits() == 0)
+            {
+                FailSession();
+                return;
+            }
+        }
+
         if (!IsSessionRunning() || activeTask == null)
             return;
 

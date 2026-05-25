@@ -1,11 +1,9 @@
 using Unity.Entities;
-using Unity.Burst;
 
 [UpdateInGroup(typeof(PresentationSystemGroup))]
 
 public partial struct EventPresentationSystem : ISystem
 {
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         var hubEntity = SystemAPI
