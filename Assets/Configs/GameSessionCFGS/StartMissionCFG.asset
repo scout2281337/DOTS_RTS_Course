@@ -27,11 +27,14 @@ MonoBehaviour:
     AutoAdvance: 1
     CompleteSessionOnFinish: 0
     TargetAnchorId: 
+    ActivityId: 
     Duration: 0
     Radius: 0
     RequiredFriendlyUnits: 0
     RequiredKillCount: 5
     KillTargetFaction: 1
+    MonologueOnStart: {fileID: 0}
+    MonologueOnComplete: {fileID: 0}
     ReportOnStart: 1
     Importance: 2
     Knowledge: 0
@@ -43,11 +46,14 @@ MonoBehaviour:
     AutoAdvance: 1
     CompleteSessionOnFinish: 1
     TargetAnchorId: 
+    ActivityId: 
     Duration: 0
     Radius: 0
     RequiredFriendlyUnits: 0
     RequiredKillCount: 1488
     KillTargetFaction: 1
+    MonologueOnStart: {fileID: 0}
+    MonologueOnComplete: {fileID: 0}
     ReportOnStart: 1
     Importance: 2
     Knowledge: 0

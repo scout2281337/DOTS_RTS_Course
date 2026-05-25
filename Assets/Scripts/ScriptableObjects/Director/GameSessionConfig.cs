@@ -41,6 +41,8 @@ public class GameSessionTaskDefinition
     public Faction KillTargetFaction = Faction.Zombie;
 
     [Header("Presentation")]
+    public MonologueSequence MonologueOnStart;
+    public MonologueSequence MonologueOnComplete;
     public bool ReportOnStart = true;
     public WorldEventImportance Importance = WorldEventImportance.Medium;
     public WorldEventKnowledge Knowledge = WorldEventKnowledge.Exact;

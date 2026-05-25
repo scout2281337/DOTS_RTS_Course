@@ -305,6 +305,7 @@ public class GameSessionManager : Singleton<GameSessionManager>
 
         SetState(ResolveStateForTask(activeTask));
         ReportTaskStarted(activeTask);
+        PlayTaskMonologue(activeTask.MonologueOnStart);
         OnTaskStarted?.Invoke(activeTask);
         TriggerRules(GameSessionEventTiming.TaskStarted, activeTask);
 
@@ -319,6 +320,7 @@ public class GameSessionManager : Singleton<GameSessionManager>
 
         OnTaskCompleted?.Invoke(completedTask);
         TriggerRules(GameSessionEventTiming.TaskCompleted, completedTask);
+        PlayTaskMonologue(completedTask.MonologueOnComplete);
         Log($"Task completed: {completedTask.Title}");
 
         StopActiveTaskActivity();
@@ -590,6 +592,24 @@ public class GameSessionManager : Singleton<GameSessionManager>
             rule.EventRadius,
             rule.EventDuration,
             rule.Label);
+    }
+
+    private static void PlayTaskMonologue(MonologueSequence sequence)
+    {
+        if (sequence == null)
+            return;
+
+        MonologueManager manager = MonologueManager.Instance;
+        if (manager == null)
+            manager = FindFirstObjectByType<MonologueManager>();
+
+        if (manager == null)
+        {
+            Debug.LogWarning($"{nameof(GameSessionManager)} tried to play a monologue, but no {nameof(MonologueManager)} was found.");
+            return;
+        }
+
+        manager.PlaySequence(sequence);
     }
 
     private Vector3 ResolveTaskPosition(GameSessionTaskDefinition task)
