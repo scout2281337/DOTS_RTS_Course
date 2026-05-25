@@ -860,6 +860,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ModuleManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3439063528249547546, guid: 8cde0d1039047d34c85c18e3f2c8a36c, type: 3}
+      propertyPath: _isDestroyedOnLoad
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5824625443294706612, guid: 8cde0d1039047d34c85c18e3f2c8a36c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1296,6 +1300,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3063501870594466403, guid: c69027c57dce0154889b9280a8607284, type: 3}
+      propertyPath: _isDestroyedOnLoad
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3689974057243308785, guid: c69027c57dce0154889b9280a8607284, type: 3}
       propertyPath: m_Name
       value: UnitSelectionManager
@@ -2140,6 +2148,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
+      propertyPath: _isDestroyedOnLoad
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2413447630228157130, guid: a547e06c333dc0046b1a89d637bf19ec, type: 3}
       propertyPath: unitVisuals.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -2634,7 +2646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RespawnManager
   _canOverwrite: 0
-  _isDestroyedOnLoad: 0
+  _isDestroyedOnLoad: 1
 --- !u!4 &1043784715
 Transform:
   m_ObjectHideFlags: 0
@@ -3428,7 +3440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArtilleryStrikeDirector
   _canOverwrite: 0
-  _isDestroyedOnLoad: 0
+  _isDestroyedOnLoad: 1
   radius: 5
   warningDelay: 3
   damage: 65
@@ -3911,6 +3923,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameAssets
       objectReference: {fileID: 0}
+    - target: {fileID: 6234148459857657328, guid: b4dcfd75e87c1a84ca987fe8dc2336a3, type: 3}
+      propertyPath: _isDestroyedOnLoad
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6784208649580863384, guid: b4dcfd75e87c1a84ca987fe8dc2336a3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4391,7 +4407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSessionManager
   _canOverwrite: 0
-  _isDestroyedOnLoad: 0
+  _isDestroyedOnLoad: 1
   config: {fileID: 11400000, guid: cf9d6d6aca26f3f47973203856b873f1, type: 2}
   anchors:
   - Id: generator_1

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -163,9 +164,21 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
         }
 
         UnitClass unitClass = em.GetComponentData<Unit>(currentEntity).Class;
-        unitEntityDict.Add(unitClass, currentEntity);
+        RegisterUnit(em, unitClass, currentEntity);
 
         EventMediator.Instance.InvokeUnitSpawned(unitClass, soldierConfig);
+    }
+
+    private void RegisterUnit(EntityManager em, UnitClass unitClass, Entity entity)
+    {
+        if (unitEntityDict.TryGetValue(unitClass, out Entity existingEntity) &&
+            existingEntity != entity &&
+            em.Exists(existingEntity))
+        {
+            Debug.LogWarning($"{nameof(FriendlyUnitManager)} replaced already registered {unitClass} entity. Check scene restart flow or duplicated unit configs.");
+        }
+
+        unitEntityDict[unitClass] = entity;
     }
 
     private void ApplyUnitVisual(EntityManager em, Entity entity, UnitClass unitClass)
@@ -255,11 +268,41 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
 
         if (isInitialized && !isSpawned)
         {
+            ClearPreviousFriendlyUnits(entityManager);
+            unitEntityDict.Clear();
+
             UnitInitializer(entityManager, raiderConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             UnitInitializer(entityManager, juggernautConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             UnitInitializer(entityManager, arsonistConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             UnitInitializer(entityManager, sniperConfig, RandomPointInCircle(Vector3.zero, 3f), entitiesReferences.unitPrefabEntity);
             isSpawned = true;
+        }
+    }
+
+    private static void ClearPreviousFriendlyUnits(EntityManager em)
+    {
+        EntityQuery query = em.CreateEntityQuery(ComponentType.ReadOnly<Unit>());
+        NativeArray<Entity> entities = query.ToEntityArray(Allocator.Temp);
+
+        try
+        {
+            for (int i = 0; i < entities.Length; i++)
+            {
+                Entity entity = entities[i];
+                if (!em.Exists(entity))
+                    continue;
+
+                Unit unit = em.GetComponentData<Unit>(entity);
+                if (unit.faction != Faction.Friendly)
+                    continue;
+
+                em.DestroyEntity(entity);
+            }
+        }
+        finally
+        {
+            entities.Dispose();
+            query.Dispose();
         }
     }
 }
