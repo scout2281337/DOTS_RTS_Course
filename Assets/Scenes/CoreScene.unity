@@ -481,8 +481,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicPlaylistPlayer
   playlist:
   - {fileID: 8300000, guid: ad431fc67b2bbc9458957447fb5c1b69, type: 3}
-  - {fileID: 8300000, guid: 1979b6eba427930419caef5f337065de, type: 3}
-  - {fileID: 8300000, guid: efe24a3dbb22c7a45b2a5219942a4481, type: 3}
+  - {fileID: 8300000, guid: 5d87bb9d74be62e4bb977bc297a777ab, type: 3}
+  - {fileID: 8300000, guid: f30dafa112b5b284fbaca5667d8466c5, type: 3}
+  - {fileID: 8300000, guid: 43b92738f3e16b740896328c776b0d03, type: 3}
+  - {fileID: 8300000, guid: c9725df890c5f83458d33e695c9c497c, type: 3}
+  - {fileID: 8300000, guid: fe0312cf5a7d7c24790d859ef33c74e5, type: 3}
+  - {fileID: 8300000, guid: 95b9e883a6ae6e34099cd164f80f0b4b, type: 3}
+  - {fileID: 8300000, guid: 4b71232c074744e4cb28adc0ab416e24, type: 3}
+  - {fileID: 8300000, guid: c6ab7c250b7e9ae49a884b44e76fa5a1, type: 3}
+  - {fileID: 8300000, guid: 02197754f12627646823e9057aebf67a, type: 3}
+  - {fileID: 8300000, guid: d76becd83105a124ab350d5c2e5580c7, type: 3}
   musicMixerGroup: {fileID: -5389625824340456753, guid: d4b536d1f4af9fc4e884efc5a692395a, type: 2}
   playOnStart: 1
   loopPlaylist: 1
