@@ -192,9 +192,11 @@ Shader "Custom/General/HatchShader"
                 CrossHatchingDithering_float(shadows, rotatedUV, width, _ShadowEdges, 0.1, hatchShadow);
                 hatchShadow = 1 - hatchShadow;
 
+                allAddLightColor = log(allAddLightColor + 1);
+
                 // Combine Base Color with lighting.
                 float3 finalColor = (((mainLightColor + allAddLightColor) * baseColor.rgb)
-                    + allAddLightColor * 0.3 + specularLighting) * hatchShadow + fresnelLighting + emission;
+                    + allAddLightColor + specularLighting) * hatchShadow + fresnelLighting + emission;
 
                 return float4(finalColor, 1.0);
             }
