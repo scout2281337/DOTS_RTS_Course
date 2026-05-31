@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Marionette
+  m_Name: Assassin
   m_Shader: {fileID: 4800000, guid: 46c1d634080357f48b94782d264aaa7c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -42,7 +42,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseTexture:
-        m_Texture: {fileID: 2800000, guid: a5cc1fe2c4ff74f42b4be7bc73562115, type: 3}
+        m_Texture: {fileID: 2800000, guid: cbab6a2c51b59ec42bb21b454436031b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -74,11 +74,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTexture:
-        m_Texture: {fileID: 2800000, guid: c4a1fe4f5e9ee1c4c8448b776b4e0d73, type: 3}
+        m_Texture: {fileID: 2800000, guid: 421058e61d261bf4aa422292936f39fa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ORMETexture:
-        m_Texture: {fileID: 2800000, guid: fb38b191e740bca4ead58eba8e98b3de, type: 3}
+        m_Texture: {fileID: 2800000, guid: 423197696986e4a4bb2b1d9aa92878bc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
