@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa176a7e90dbd14988929d57c4ef080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TMG.ECSAnimations.PlayerAnimatorAuthoring
-  PlayerGameObjectPrefab: {fileID: 17503970978315453, guid: 18788d10d4ab85244806fb14ad6b7e0e, type: 3}
+  PlayerGameObjectPrefab: {fileID: 17503970978315453, guid: 7a0c3830a5ccca949b3531511673e96b, type: 3}
 --- !u!114 &-8281367780102204008
 MonoBehaviour:
   m_ObjectHideFlags: 0

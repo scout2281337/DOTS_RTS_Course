@@ -20,6 +20,25 @@ MonoBehaviour:
   MaxThreat: 100
   ThreatGainPerMinute: 3
   Tasks:
+  - Id: Tutorial_Selection
+    Title: "\u041E\u0431\u0443\u0447\u0435\u043D\u0438\u0435 \u0432\u044B\u0434\u0435\u043B\u0435\u043D\u0438\u0435"
+    Description: "\u0412\u044B\u0434\u0435\u043B\u0435\u043D\u0438\u0435"
+    Type: 0
+    AutoAdvance: 0
+    CompleteSessionOnFinish: 0
+    TargetAnchorId: 
+    ActivityId: 
+    Duration: 0
+    Radius: 6
+    RequiredFriendlyUnits: 0
+    RequiredKillCount: 1
+    KillTargetFaction: 1
+    MonologueOnStart: {fileID: 11400000, guid: ed4f154b3803393449a5d4e4f69571ed, type: 2}
+    MonologueOnComplete: {fileID: 0}
+    ReportOnStart: 0
+    Importance: 2
+    Knowledge: 0
+    ReportDuration: 1
   - Id: Generator_Activation
     Title: "\u0410\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u044F \u0433\u0435\u043D\u0435\u0440\u0430\u0442\u043E\u0440\u0430"
     Description: "\u0423\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0439\u0442\u0435

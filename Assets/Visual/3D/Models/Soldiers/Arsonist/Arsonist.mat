@@ -126,7 +126,7 @@ Material:
     - _FresnelPower: 4
     - _GlossMapScale: 0
     - _Glossiness: 0
-    - _GlossinessStrength: 0.95
+    - _GlossinessStrength: 0.97
     - _GlossyReflections: 0
     - _HatchWidth: 0.002
     - _Metallic: 0
