@@ -20,6 +20,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private UIDocument _uiDocument;
     [SerializeField] private StyleSheet[] _styleSheets;
     [SerializeField] private CinemachineCamera _lobbyCamera;
+    [SerializeField] private AudioCueSO _hoverAudio;
+    [SerializeField] private AudioCueSO _selectionAudio;
 
     [Header("Settings")]
     [SerializeField] private AudioMixer _audioMixer;
@@ -83,17 +85,33 @@ public class MainMenuUI : MonoBehaviour
         Button start = UITK.AddElement<Button>(menu, "PrimaryButton", "RigidButton", "H3", "menuButton", "start");
         start.text = "Высадка";
         start.clicked += OnStartClicked;
+        start.clicked += () =>
+        { GameAudioManager.Instance.Play2D(_selectionAudio); };
+        start.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
+
 
         Button collection = UITK.AddElement<Button>(menu, "SecondaryButton", "RigidButton", "H3", "menuButton", "collection");
         collection.text = "Коллекция";
+        start.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
 
         Button options = UITK.AddElement<Button>(menu, "TertiaryButton", "RigidButton", "H3", "menuButton", "options");
         options.text = "Настройки";
         options.clicked += OpenSettings;
+        options.clicked += () =>
+        { GameAudioManager.Instance.Play2D(_selectionAudio); };
+        options.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
 
         Button quit = UITK.AddElement<Button>(menu, "TertiaryButton", "RigidButton", "H3", "menuButton", "quit");
         quit.text = "Выйти";
         quit.clicked += QuitGame;
+        quit.clicked += () =>
+        { GameAudioManager.Instance.Play2D(_selectionAudio); };
+        quit.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
+
 
         BuildSettingsPanel(root);
     }
@@ -142,10 +160,18 @@ public class MainMenuUI : MonoBehaviour
         Button reset = UITK.AddElement<Button>(actions, "SecondaryButton", "RigidButton", "P1", "settingsButton");
         reset.text = "Сброс";
         reset.clicked += ResetSettings;
+        reset.clicked += () =>
+        { GameAudioManager.Instance.Play2D(_selectionAudio); };
+        reset.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
 
         Button close = UITK.AddElement<Button>(actions, "PrimaryButton", "RigidButton", "P1", "settingsButton");
         close.text = "Назад";
         close.clicked += CloseSettings;
+        close.clicked += () =>
+        { GameAudioManager.Instance.Play2D(_selectionAudio); };
+        close.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
     }
 
     private void AddSliderSetting(VisualElement parent, string title, float startValue, Action<float> onChanged)

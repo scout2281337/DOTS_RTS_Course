@@ -8,7 +8,9 @@ public class LobbyUI : MonoBehaviour
     [Header("UI Toolkit")]
     [SerializeField] private UIDocument _uiDocument;
     [SerializeField] private StyleSheet[] _styleSheets;
-    [SerializeField] private CinemachineCamera _mainMenuCamera; 
+    [SerializeField] private CinemachineCamera _mainMenuCamera;
+    [SerializeField] private AudioCueSO _hoverAudio;
+    [SerializeField] private AudioCueSO _selectionAudio;
 
     [SerializeField] private SoldierAttributesConfig[] _attributeGroups;
     [SerializeField] private DifficultyButtonSO[] difficultyConfigs;
@@ -65,12 +67,20 @@ public class LobbyUI : MonoBehaviour
         var startButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H2", "startButton");
         startButton.text = "ВЫСАДКА";
         startButton.clicked += StartChosenDifficulty;
+        startButton.clicked += () =>
+        { GameAudioManager.Instance.Play2D(_selectionAudio); };
+        startButton.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
 
         var backButton = UITK.AddElement<Button>(topSection, "TertiaryButton", "P1", "backButton");
         backButton.text = "Назад";
         backButton.clicked += () => {
             _mainMenuCamera.Priority += 2;
         };
+        backButton.clicked += () =>
+        { GameAudioManager.Instance.Play2D(_selectionAudio); };
+        backButton.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
     }
 
     private void BuildMiddle(VisualElement midSection, out Button[] soldierIcons)

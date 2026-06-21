@@ -61,6 +61,25 @@ MonoBehaviour:
     Importance: 2
     Knowledge: 0
     ReportDuration: 20
+  - Id: Tutorial_Battle
+    Title: "\u041E\u0431\u0443\u0447\u0435\u043D\u0438\u0435: \u0411\u043E\u0439"
+    Description: "\u0423\u0431\u0435\u0439\u0442\u0435 10 \u0432\u0440\u0430\u0433\u043E\u0432."
+    Type: 5
+    AutoAdvance: 1
+    CompleteSessionOnFinish: 0
+    TargetAnchorId: 
+    ActivityId: 
+    Duration: 0
+    Radius: 6
+    RequiredFriendlyUnits: 0
+    RequiredKillCount: 10
+    KillTargetFaction: 1
+    MonologueOnStart: {fileID: 11400000, guid: d2c8ce3edc3572e418d7730aa3a016ac, type: 2}
+    MonologueOnComplete: {fileID: 0}
+    ReportOnStart: 0
+    Importance: 2
+    Knowledge: 0
+    ReportDuration: 1
   - Id: survive_allwaves
     Title: "\u0410\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u044F \u0433\u0435\u043D\u0435\u0440\u0430\u0442\u043E\u0440\u0430"
     Description: "\u0423\u043D\u0438\u0447\u0442\u043E\u0436\u044C\u0442\u0435 \u0432\u0441\u0435\u0445
@@ -73,35 +92,12 @@ MonoBehaviour:
     Duration: 0
     Radius: 6
     RequiredFriendlyUnits: 0
-    RequiredKillCount: 10
+    RequiredKillCount: 999999
     KillTargetFaction: 1
-    MonologueOnStart: {fileID: 11400000, guid: ed4f154b3803393449a5d4e4f69571ed, type: 2}
-    MonologueOnComplete: {fileID: 11400000, guid: 78e7a9f14593bc144be823d1a5742e79, type: 2}
+    MonologueOnStart: {fileID: 11400000, guid: e7d0aff5211f924438bc90171d4a1cde, type: 2}
+    MonologueOnComplete: {fileID: 0}
     ReportOnStart: 0
     Importance: 2
     Knowledge: 0
     ReportDuration: 1
-  EventRules:
-  - Id: start
-    Enabled: 1
-    Label: 123
-    Timing: 2
-    TaskId: Generator_Activation
-    Delay: 1
-    RepeatInterval: 0
-    MaxTriggers: 0
-    MinThreat: 0
-    MaxThreat: 0
-    Action: 3
-    Prefab: {fileID: 0}
-    ParentSpawnedPrefabToManager: 0
-    ThreatAmount: 1
-    PositionMode: 4
-    AnchorId: 
-    RandomRadius: 0
-    ReportWorldEvent: 1
-    WorldEventType: 9
-    Importance: 3
-    Knowledge: 1
-    EventRadius: 0
-    EventDuration: 0
+  EventRules: []

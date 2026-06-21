@@ -597,6 +597,8 @@ MonoBehaviour:
   _styleSheets:
   - {fileID: 7433441132597879392, guid: f267ca09d9dbb09459c5ed39b6d9b997, type: 3}
   _mainMenuCamera: {fileID: 696722061}
+  _hoverAudio: {fileID: 11400000, guid: 5ba5d9d4cdd34c74f9073ba0783b8ad8, type: 2}
+  _selectionAudio: {fileID: 11400000, guid: 605f39c78ed75c94cafc716f9ff35f37, type: 2}
   _attributeGroups:
   - {fileID: 11400000, guid: 58ca31c614777e0489631858beda6e11, type: 2}
   - {fileID: 11400000, guid: ee7e67b14c07c4746ad083ae399b73a6, type: 2}
@@ -605,8 +607,6 @@ MonoBehaviour:
   difficultyConfigs:
   - {fileID: 11400000, guid: 3ec990d5a1a19bd44b388c0e1931a4b7, type: 2}
   - {fileID: 11400000, guid: faa4d94be09cb8d459927365a2edf50f, type: 2}
-  - {fileID: 11400000, guid: 36c507691316faa4486373cc5a0afe09, type: 2}
-  - {fileID: 11400000, guid: 4b2a3e9f3b911f24ca1b7361ca491f32, type: 2}
 --- !u!114 &817891252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1085,6 +1085,8 @@ MonoBehaviour:
   _styleSheets:
   - {fileID: 7433441132597879392, guid: a27f3b7033e263f4e84ed45178ec6d4f, type: 3}
   _lobbyCamera: {fileID: 1149516421}
+  _hoverAudio: {fileID: 11400000, guid: 5ba5d9d4cdd34c74f9073ba0783b8ad8, type: 2}
+  _selectionAudio: {fileID: 11400000, guid: 605f39c78ed75c94cafc716f9ff35f37, type: 2}
   _audioMixer: {fileID: 0}
 --- !u!1 &1400695354 stripped
 GameObject:

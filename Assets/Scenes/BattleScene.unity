@@ -1012,6 +1012,8 @@ MonoBehaviour:
   _styleSheets:
   - {fileID: 7433441132597879392, guid: 99e5a3497fd6f8348af41613a1f1d0d5, type: 3}
   _texturesSO: {fileID: 11400000, guid: e2e1fe5a2e8ca58488cbedf82875c568, type: 2}
+  _hoverAudio: {fileID: 11400000, guid: 5ba5d9d4cdd34c74f9073ba0783b8ad8, type: 2}
+  _selectionAudio: {fileID: 11400000, guid: 605f39c78ed75c94cafc716f9ff35f37, type: 2}
   _modulesPerWave: 3
   _modulationTokens: 3
 --- !u!114 &540630496

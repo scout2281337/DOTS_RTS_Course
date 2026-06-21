@@ -15,7 +15,7 @@ MonoBehaviour:
   tier: 1
   category: 2
   effectType: 7
-  wideIcon: {fileID: 0}
+  wideIcon: {fileID: 2800000, guid: 302b7deba4b70634b98889b0ffc00736, type: 3}
   description: "/\u042D\u0444\u0444\u0435\u043A\u0442/ \u0423\u0440\u043E\u043D \u043D\u0430\u043D\u043E\u0441\u0438\u043C\u044B\u0439
     \u0443\u043C\u0435\u043D\u0438\u0435\u043C, \u043E\u0433\u043B\u0443\u0448\u0430\u0435\u0442
     \u0432\u0440\u0430\u0433\u0430 \u043D\u0430 0.3 \u0441\u0435\u043A\u0443\u043D\u0434\u044B."

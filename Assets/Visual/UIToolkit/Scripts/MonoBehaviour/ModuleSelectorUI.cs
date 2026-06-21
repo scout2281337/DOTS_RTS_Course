@@ -8,6 +8,8 @@ public class ModuleSelectorUI : MonoBehaviour
     [SerializeField] private UIDocument _uiDocument;
     [SerializeField] private StyleSheet[] _styleSheets;
     [SerializeField] private ModuleSelectorTexturesSO _texturesSO;
+    [SerializeField] private AudioCueSO _hoverAudio;
+    [SerializeField] private AudioCueSO _selectionAudio;
 
     [SerializeField] private int _modulesPerWave = 3;
     [SerializeField] private int _modulationTokens = 3;
@@ -50,9 +52,12 @@ public class ModuleSelectorUI : MonoBehaviour
         _upgradeButton = UITK.AddElement<Button>(topSection, "PrimaryButton", "H1", "upgradeButton");
         _upgradeButton.text = "UPGRADE";
         _upgradeButton.clicked += StartUpgrade;
+        _upgradeButton.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
+        _upgradeButton.style.display = DisplayStyle.Flex;
 
         _tokenModuleTracker = UITK.AddElement<Label>(topSection, "H4", "tokenModuleTracker");
-        _tokenModuleTracker.text = "ML: " + _modulesPerWave + "   MT: " + _modulationTokens;
+        _tokenModuleTracker.text = "ML: " + _modulesPerWave + "   " + "MT: " + _modulationTokens;
 
         var midSection = UITK.AddElement(root, "midSection");
 
@@ -60,6 +65,8 @@ public class ModuleSelectorUI : MonoBehaviour
         _recalibrateButton = UITK.AddElement<Button>(recalibrateButtonBox, "SecondaryButton", "H4", "recalibrateButton");
         _recalibrateButton.text = "RECALIBRATE";
         _recalibrateButton.clicked += RecalibrateModules;
+        _recalibrateButton.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
 
         _moduleBoard = UITK.AddElement(midSection, "moduleBoard");
 
@@ -67,10 +74,10 @@ public class ModuleSelectorUI : MonoBehaviour
         _stabilizeButton = UITK.AddElement<Button>(stabilizeButtonBox, "SecondaryButton", "H4", "stabilizeButton");
         _stabilizeButton.text = "STABILIZE";
         _stabilizeButton.clicked += StabilizeModules;
+        _stabilizeButton.RegisterCallback<PointerEnterEvent>(_ =>
+        { GameAudioManager.Instance.Play2D(_hoverAudio); });
 
         HideModuleBoard();
-
-        _upgradeButton.style.display = DisplayStyle.Flex;
     }
 
     private void StartUpgrade()
@@ -90,6 +97,8 @@ public class ModuleSelectorUI : MonoBehaviour
         _modulationTokens--;
 
         UpdateModuleScreen();
+
+        GameAudioManager.Instance.Play2D(_selectionAudio);
     }
 
     private void StabilizeModules()
@@ -105,6 +114,8 @@ public class ModuleSelectorUI : MonoBehaviour
             _isStabilized = true;
             _modulationTokens--;
         }
+
+        GameAudioManager.Instance.Play2D(_selectionAudio);
 
         UpdateModuleScreen();
     }
@@ -181,7 +192,7 @@ public class ModuleSelectorUI : MonoBehaviour
     private void ModuleBuilder(UnitClass TargetUnitClass, ModuleBaseSO moduleSO)
     {
         var box = _unitAssignedBox[TargetUnitClass];
-        var module = new Module(moduleSO, box, _texturesSO);
+        var module = new Module(moduleSO, box, _texturesSO, _hoverAudio);
 
         module.moduleCase.clicked += () => SelectModule(module);
         _unitDisplayedModules.Add(TargetUnitClass, module);
@@ -215,6 +226,8 @@ public class ModuleSelectorUI : MonoBehaviour
 
         UpdateModuleScreen();
 
+        GameAudioManager.Instance.Play2D(_selectionAudio);
+
         if (_takenModules < _modulesPerWave) return;
         HideModuleBoard();
     }
@@ -245,6 +258,7 @@ public class ModuleSelectorUI : MonoBehaviour
         public ModuleBaseSO moduleConfig;
         public VisualElement moduleBox;
         public ModuleSelectorTexturesSO texturesSO;
+        public AudioCueSO hoverAudio;
         public bool isTaken = false;
 
         //Elements
@@ -257,12 +271,12 @@ public class ModuleSelectorUI : MonoBehaviour
         public Label buff;
         public VisualElement[] moduleCOLayers;
 
-
-        public Module(ModuleBaseSO moduleConfig, VisualElement moduleBox, ModuleSelectorTexturesSO texturesSO)
+        public Module(ModuleBaseSO moduleConfig, VisualElement moduleBox, ModuleSelectorTexturesSO texturesSO, AudioCueSO hoverAudio)
         {
             this.moduleConfig = moduleConfig;
             this.moduleBox = moduleBox;
             this.texturesSO = texturesSO;
+            this.hoverAudio = hoverAudio;
 
             BuildModule();
         }
@@ -278,6 +292,8 @@ public class ModuleSelectorUI : MonoBehaviour
             };
 
             moduleCase = UITK.AddElement<Button>(moduleBox, "ClearButton", "moduleCase");
+            moduleCase.RegisterCallback<PointerEnterEvent>(_ =>
+            { GameAudioManager.Instance.Play2D(hoverAudio); });
 
             moduleBG = UITK.AddElement(moduleCase, colorClass, "moduleBG");
             moduleBG.style.backgroundImage = texturesSO.ModuleCaseMask;
