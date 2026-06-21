@@ -108,7 +108,9 @@ public enum GameSessionTaskType
     KillEnemies,
     ActivateGenerator,
     Extract,
-    EscortPlatform
+    EscortPlatform,
+    SelectFullSquad,
+    MoveSquadCommand
 }
 
 public enum GameSessionEventTiming

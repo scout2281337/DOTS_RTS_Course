@@ -38,6 +38,7 @@ public class VFXManager : Singleton<VFXManager>
 
     private void OnReleaseToPool(VFXObject pooledObject)
     {
+        pooledObject.ResetLocalScale();
         pooledObject.gameObject.SetActive(false);
     }
 
@@ -102,6 +103,15 @@ public class VFXManager : Singleton<VFXManager>
         );
 
         return vfxObject;
+    }
+
+    private static void ApplyAreaRadiusScale(VFXObject vfxObject, float radius)
+    {
+        if (vfxObject == null || radius <= 0f)
+            return;
+
+        float diameter = radius * 2f;
+        vfxObject.transform.localScale = new Vector3(diameter, vfxObject.transform.localScale.y, diameter);
     }
     #endregion CreateVFX
 
@@ -302,7 +312,8 @@ public class VFXManager : Singleton<VFXManager>
         Debug.Log("CreateBarricadeEffect Activated" + evt.Type);
 
         float duration = evt.Duration > 0 ? evt.Duration : 1f;
-        CreateVFXObjectAtPoint(_barricadePool, evt.End, duration);
+        VFXObject barricade = CreateVFXObjectAtPoint(_barricadePool, evt.End, duration);
+        ApplyAreaRadiusScale(barricade, evt.Area);
     }
 
     private void CreateScorcherEffect(AbilityStartedEvent evt)
@@ -310,7 +321,8 @@ public class VFXManager : Singleton<VFXManager>
         Debug.Log("CreateScorcherEffect Activated" + evt.Type);
 
         float duration = evt.Duration > 0 ? evt.Duration : 1f;
-        CreateVFXObjectAtPoint(_scorcherPool, evt.End, duration);
+        VFXObject scorcher = CreateVFXObjectAtPoint(_scorcherPool, evt.End, duration);
+        ApplyAreaRadiusScale(scorcher, evt.Area);
     }
 
     private void CreateGaussEffect(AbilityStartedEvent evt)

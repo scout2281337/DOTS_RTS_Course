@@ -2,6 +2,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 
+//[UpdateBefore(typeof(UnitMoverSystem))]
 public class ZombieSpawnerAuthoring : MonoBehaviour
 {
     [System.Serializable]

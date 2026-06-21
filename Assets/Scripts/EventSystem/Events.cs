@@ -32,7 +32,9 @@ public struct AbilityStartedEvent : IBufferElementData
     public AbilityType Type;
     public float3 Start; 
     public float3 End; 
-    public float Duration; 
+    public float Duration;
+    public float Range;
+    public float Area;
 }
 
 public struct AbilityEndedEvent : IBufferElementData

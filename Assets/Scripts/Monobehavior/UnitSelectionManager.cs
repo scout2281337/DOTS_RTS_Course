@@ -10,6 +10,7 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
 {
     public event EventHandler OnSelectionAreaStart;
     public event EventHandler OnSelectionAreaEnd;
+    public event Action<Vector3, int> OnMoveCommandIssued;
 
     private const float MultipleSelectionThreshold = 40f;
 
@@ -307,6 +308,8 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
 
         var positions = GenerateMovePositions(target, commandableCount);
 
+        int issuedMoveCommandCount = 0;
+
         try
         {
             int moveIndex = 0;
@@ -336,6 +339,8 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
                 em.SetComponentData(entity, move);
                 em.SetComponentEnabled<MoveOverride>(entity, true);
             }
+
+            issuedMoveCommandCount = moveIndex;
         }
         finally
         {
@@ -343,6 +348,9 @@ public class UnitSelectionManager : Singleton<UnitSelectionManager>
             moveOverrides.Dispose();
             positions.Dispose();
         }
+
+        if (issuedMoveCommandCount > 0)
+            OnMoveCommandIssued?.Invoke(new Vector3(target.x, target.y, target.z), issuedMoveCommandCount);
     }
 
     private void SelectAllFriendlyUnits(EntityManager em)

@@ -54,7 +54,12 @@ public class GameSessionManager : Singleton<GameSessionManager>
     private int activeTaskKillCount;
     private bool hasSeenFriendlyUnit;
     private bool subscribedToEvents;
+    private bool subscribedToSelectionEvents;
+    private UnitSelectionManager subscribedSelectionManager;
     private EscortPlatformActivity activeEscortPlatform;
+    private bool hasSquadMoveCommand;
+    private Vector3 lastSquadMoveCommandPosition;
+    private int lastSquadMoveCommandUnitCount;
 
     public event Action<GameSessionState> OnStateChanged;
     public event Action<GameSessionTaskDefinition> OnTaskStarted;
@@ -267,6 +272,7 @@ public class GameSessionManager : Singleton<GameSessionManager>
         activeTaskKillCount = 0;
         activeEscortPlatform = null;
         hasSeenFriendlyUnit = false;
+        ResetTaskCommandProgress();
         scheduledEvents.Clear();
         BuildEventRuntimes();
     }
@@ -307,6 +313,7 @@ public class GameSessionManager : Singleton<GameSessionManager>
         activeTask = config.Tasks[index];
         activeTaskKillCount = 0;
         taskTimer = 0f;
+        ResetTaskCommandProgress();
         BeginTaskActivity(activeTask);
 
         SetState(ResolveStateForTask(activeTask));
@@ -360,6 +367,8 @@ public class GameSessionManager : Singleton<GameSessionManager>
             GameSessionTaskType.KillEnemies => activeTaskKillCount >= activeTask.RequiredKillCount,
             GameSessionTaskType.ActivateGenerator => IsGeneratorActivated(activeTask),
             GameSessionTaskType.EscortPlatform => IsEscortPlatformCompleted(activeTask),
+            GameSessionTaskType.SelectFullSquad => IsFullFriendlySquadSelected(),
+            GameSessionTaskType.MoveSquadCommand => HasRequiredSquadMoveCommand(activeTask),
             _ => false
         };
 
@@ -887,6 +896,90 @@ public class GameSessionManager : Singleton<GameSessionManager>
         return count;
     }
 
+    private void CountFriendlySelection(out int aliveCount, out int selectedCount)
+    {
+        aliveCount = 0;
+        selectedCount = 0;
+
+        if (!TryGetEntityManager(out EntityManager em))
+            return;
+
+        EntityQuery query = em.CreateEntityQuery(ComponentType.ReadOnly<Unit>());
+        NativeArray<Entity> entities = query.ToEntityArray(Allocator.Temp);
+
+        try
+        {
+            for (int i = 0; i < entities.Length; i++)
+            {
+                Entity entity = entities[i];
+                if (!em.Exists(entity) || em.HasComponent<DeadUnit>(entity))
+                    continue;
+
+                if (em.GetComponentData<Unit>(entity).faction != Faction.Friendly)
+                    continue;
+
+                aliveCount++;
+
+                if (em.HasComponent<Selected>(entity) && em.IsComponentEnabled<Selected>(entity))
+                    selectedCount++;
+            }
+        }
+        finally
+        {
+            entities.Dispose();
+            query.Dispose();
+        }
+    }
+
+    private bool IsFullFriendlySquadSelected()
+    {
+        CountFriendlySelection(out int aliveCount, out int selectedCount);
+        return aliveCount > 0 && selectedCount >= aliveCount;
+    }
+
+    private float GetSelectFullSquadProgress()
+    {
+        CountFriendlySelection(out int aliveCount, out int selectedCount);
+        return aliveCount <= 0 ? 0f : Mathf.Clamp01(selectedCount / (float)aliveCount);
+    }
+
+    private int GetAliveFriendlyUnitCountForProgress()
+    {
+        CountFriendlySelection(out int aliveCount, out _);
+        return aliveCount;
+    }
+
+    private int GetSelectedFriendlyUnitCount()
+    {
+        CountFriendlySelection(out _, out int selectedCount);
+        return selectedCount;
+    }
+
+    private bool HasRequiredSquadMoveCommand(GameSessionTaskDefinition task)
+    {
+        if (!hasSquadMoveCommand || task == null)
+            return false;
+
+        if (lastSquadMoveCommandUnitCount < Mathf.Max(1, task.RequiredFriendlyUnits))
+            return false;
+
+        if (string.IsNullOrWhiteSpace(task.TargetAnchorId))
+            return true;
+
+        Vector3 targetPosition = ResolveTaskPosition(task);
+        float radius = Mathf.Max(0.1f, task.Radius);
+        Vector3 delta = lastSquadMoveCommandPosition - targetPosition;
+        delta.y = 0f;
+        return delta.sqrMagnitude <= radius * radius;
+    }
+
+    private void ResetTaskCommandProgress()
+    {
+        hasSquadMoveCommand = false;
+        lastSquadMoveCommandPosition = Vector3.zero;
+        lastSquadMoveCommandUnitCount = 0;
+    }
+
     private bool TryGetFriendlySquadCenter(out Vector3 center)
     {
         center = default;
@@ -1004,6 +1097,8 @@ public class GameSessionManager : Singleton<GameSessionManager>
             GameSessionTaskType.Extract => HasEnoughFriendlyUnitsInTaskArea(activeTask) ? 1f : 0f,
             GameSessionTaskType.ActivateGenerator => IsGeneratorActivated(activeTask) ? 1f : 0f,
             GameSessionTaskType.EscortPlatform => GetEscortPlatformProgress(activeTask),
+            GameSessionTaskType.SelectFullSquad => GetSelectFullSquadProgress(),
+            GameSessionTaskType.MoveSquadCommand => HasRequiredSquadMoveCommand(activeTask) ? 1f : 0f,
             _ => 0f
         };
     }
@@ -1019,6 +1114,8 @@ public class GameSessionManager : Singleton<GameSessionManager>
             GameSessionTaskType.ReachArea => CountFriendlyUnitsInRadius(ResolveTaskPosition(activeTask), activeTask.Radius),
             GameSessionTaskType.Extract => CountFriendlyUnitsInRadius(ResolveTaskPosition(activeTask), activeTask.Radius),
             GameSessionTaskType.EscortPlatform => GetEscortPlatformProgressPercent(activeTask),
+            GameSessionTaskType.SelectFullSquad => GetSelectedFriendlyUnitCount(),
+            GameSessionTaskType.MoveSquadCommand => hasSquadMoveCommand ? lastSquadMoveCommandUnitCount : 0,
             _ => Mathf.RoundToInt(TaskProgress01 * GetTaskRequiredAmount())
         };
     }
@@ -1037,6 +1134,8 @@ public class GameSessionManager : Singleton<GameSessionManager>
             GameSessionTaskType.WaitTime => Mathf.CeilToInt(Mathf.Max(0f, activeTask.Duration)),
             GameSessionTaskType.SurviveTime => Mathf.CeilToInt(Mathf.Max(0f, activeTask.Duration)),
             GameSessionTaskType.EscortPlatform => 100,
+            GameSessionTaskType.SelectFullSquad => Mathf.Max(1, GetAliveFriendlyUnitCountForProgress()),
+            GameSessionTaskType.MoveSquadCommand => Mathf.Max(1, activeTask.RequiredFriendlyUnits),
             _ => 1
         };
     }
@@ -1053,6 +1152,8 @@ public class GameSessionManager : Singleton<GameSessionManager>
             GameSessionTaskType.Extract => $"{CountFriendlyUnitsInRadius(ResolveTaskPosition(activeTask), activeTask.Radius)} / {Mathf.Max(1, activeTask.RequiredFriendlyUnits)}",
             GameSessionTaskType.ActivateGenerator => IsGeneratorActivated(activeTask) ? "ONLINE" : "OFFLINE",
             GameSessionTaskType.EscortPlatform => $"{GetEscortPlatformProgressPercent(activeTask)}%",
+            GameSessionTaskType.SelectFullSquad => $"{GetSelectedFriendlyUnitCount()} / {Mathf.Max(1, GetAliveFriendlyUnitCountForProgress())}",
+            GameSessionTaskType.MoveSquadCommand => HasRequiredSquadMoveCommand(activeTask) ? "ORDER ISSUED" : $"{(hasSquadMoveCommand ? lastSquadMoveCommandUnitCount : 0)} / {Mathf.Max(1, activeTask.RequiredFriendlyUnits)}",
             GameSessionTaskType.Briefing => $"{Mathf.CeilToInt(ActiveTaskTimeRemaining)}s",
             GameSessionTaskType.WaitTime => $"{Mathf.CeilToInt(ActiveTaskTimeRemaining)}s",
             GameSessionTaskType.SurviveTime => $"{Mathf.CeilToInt(ActiveTaskTimeRemaining)}s",
@@ -1094,27 +1195,55 @@ public class GameSessionManager : Singleton<GameSessionManager>
 
     private void TrySubscribeToEvents()
     {
-        if (subscribedToEvents)
+        if (!subscribedToEvents)
+        {
+            EventMediator mediator = FindFirstObjectByType<EventMediator>();
+            if (mediator != null)
+            {
+                mediator.OnUnitDeath += OnUnitDeath;
+                subscribedToEvents = true;
+            }
+        }
+
+        if (subscribedToSelectionEvents)
             return;
 
-        EventMediator mediator = FindFirstObjectByType<EventMediator>();
-        if (mediator == null)
+        UnitSelectionManager selectionManager = FindFirstObjectByType<UnitSelectionManager>();
+        if (selectionManager == null)
             return;
 
-        mediator.OnUnitDeath += OnUnitDeath;
-        subscribedToEvents = true;
+        selectionManager.OnMoveCommandIssued += OnSquadMoveCommandIssued;
+        subscribedSelectionManager = selectionManager;
+        subscribedToSelectionEvents = true;
     }
 
     private void UnsubscribeFromEvents()
     {
-        if (!subscribedToEvents)
-            return;
+        if (subscribedToEvents)
+        {
+            EventMediator mediator = FindFirstObjectByType<EventMediator>();
+            if (mediator != null)
+                mediator.OnUnitDeath -= OnUnitDeath;
 
-        EventMediator mediator = FindFirstObjectByType<EventMediator>();
-        if (mediator != null)
-            mediator.OnUnitDeath -= OnUnitDeath;
+            subscribedToEvents = false;
+        }
 
-        subscribedToEvents = false;
+        if (subscribedToSelectionEvents && subscribedSelectionManager != null)
+        {
+            subscribedSelectionManager.OnMoveCommandIssued -= OnSquadMoveCommandIssued;
+            subscribedSelectionManager = null;
+            subscribedToSelectionEvents = false;
+        }
+    }
+
+    private void OnSquadMoveCommandIssued(Vector3 position, int unitCount)
+    {
+        hasSquadMoveCommand = unitCount > 0;
+        lastSquadMoveCommandPosition = position;
+        lastSquadMoveCommandUnitCount = Mathf.Max(0, unitCount);
+
+        if (IsSessionRunning() && activeTask != null && activeTask.Type == GameSessionTaskType.MoveSquadCommand)
+            UpdateActiveTask();
     }
 
     private void Log(string message)

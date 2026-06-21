@@ -135,6 +135,7 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             abilityData.Duration = skillConfig.duration;
             abilityData.Power = skillConfig.power;
             abilityData.Range = skillConfig.range;
+            abilityData.Area = skillConfig.area;
         }
         else
         {
@@ -144,6 +145,7 @@ public class FriendlyUnitManager : Singleton<FriendlyUnitManager>
             abilityData.Duration = 0f;
             abilityData.Power = 0f;
             abilityData.Range = 0f;
+            abilityData.Area = 0f;
         }
 
         abilityData.Owner = currentEntity;

@@ -59,6 +59,15 @@ partial struct AbilityEffectSystem : ISystem
                     }
 
                     var field = em.Instantiate(entitiesReferences.AntiGravitationBarrier);
+                    if (em.HasComponent<AGB>(field))
+                    {
+                        AGB agb = em.GetComponentData<AGB>(field);
+                        agb.Range = ResolveEffectRadius(ability.ValueRO, agb.Range);
+                        agb.Duration = ability.ValueRO.Duration > 0f ? ability.ValueRO.Duration : agb.Duration;
+                        agb.SpeedDebuff = ability.ValueRO.Power != 0f ? ability.ValueRO.Power : agb.SpeedDebuff;
+                        em.SetComponentData(field, agb);
+                    }
+
                     if (em.HasComponent<LocalTransform>(field))
                     {
                         em.SetComponentData(field, new LocalTransform
@@ -75,6 +84,9 @@ partial struct AbilityEffectSystem : ISystem
                     var fireball = em.Instantiate(entitiesReferences.FireballPrefabEntity);
                     var fireballData = em.GetComponentData<Fireball>(fireball);
                     fireballData.Owner = owner;
+                    fireballData.Radius = ResolveEffectRadius(ability.ValueRO, fireballData.Radius);
+                    fireballData.Duration = ability.ValueRO.Duration > 0f ? ability.ValueRO.Duration : fireballData.Duration;
+                    fireballData.Damage = ability.ValueRO.Power > 0f ? ability.ValueRO.Power : fireballData.Damage;
                     em.SetComponentData(fireball, fireballData);
 
                     em.SetComponentData(fireball, new LocalTransform
@@ -148,6 +160,13 @@ partial struct AbilityEffectSystem : ISystem
         return ability.Owner != Entity.Null && em.Exists(ability.Owner)
             ? ability.Owner
             : fallback;
+    }
+
+    private static float ResolveEffectRadius(in Ability ability, float fallbackRadius)
+    {
+        return ability.Area > 0f
+            ? ability.Area
+            : math.max(0f, fallbackRadius);
     }
 
     private static bool IsAbilityCasterDead(EntityManager em, Entity owner, Entity fallback)

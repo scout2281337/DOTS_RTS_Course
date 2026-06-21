@@ -82,7 +82,9 @@ partial struct AbilitySystem : ISystem
                         Type = ability.ValueRO.Type,
                         Start = startPos,
                         End = ResolveAbilityEndPosition(ability.ValueRO, startPos, forward),
-                        Duration = ability.ValueRO.Duration
+                        Duration = ability.ValueRO.Duration,
+                        Range = ability.ValueRO.Range,
+                        Area = ability.ValueRO.Area
                     });
                 }
 

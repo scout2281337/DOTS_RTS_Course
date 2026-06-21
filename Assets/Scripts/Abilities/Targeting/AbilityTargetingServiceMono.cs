@@ -82,7 +82,8 @@ public class AbilityTargetingServiceMono : Singleton<AbilityTargetingServiceMono
         activeUnitClass = unitClass;
         isTargeting = true;
         EnsureRuntimeVisualObjects();
-        PublishPointerStarted(caster, ability, casterTransform.Position, castRange, ResolveSkillArea(unitClass));
+        float effectRadius = ability.Area > 0f ? ability.Area : ResolveSkillArea(unitClass);
+        PublishPointerStarted(caster, ability, casterTransform.Position, castRange, effectRadius);
         return true;
     }
 

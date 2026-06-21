@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c50366e447c4ca98f583364d74ed357, type: 3}
   m_Name: TutorialMovement
   m_EditorClassIdentifier: Assembly-CSharp::MonologueSequence
-  InterruptCurrent: 1
-  QueueIfBusy: 0
+  InterruptCurrent: 0
+  QueueIfBusy: 1
   Lines:
   - Speaker: "\u041E\u041F\u0415\u0420\u0410\u0422\u041E\u0420"
     Text: "\u0427\u0442\u043E\u0431\u044B \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C

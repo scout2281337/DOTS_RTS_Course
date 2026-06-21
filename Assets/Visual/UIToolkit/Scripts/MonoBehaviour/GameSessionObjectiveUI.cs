@@ -251,6 +251,8 @@ public class GameSessionObjectiveUI : MonoBehaviour
             GameSessionTaskType.SurviveTime => "Hold position until the timer expires.",
             GameSessionTaskType.ActivateGenerator => "Find and activate the generator.",
             GameSessionTaskType.EscortPlatform => "Stay near the platform and escort it to the destination.",
+            GameSessionTaskType.SelectFullSquad => "Select every member of your squad.",
+            GameSessionTaskType.MoveSquadCommand => "Order the squad to move to the marked point.",
             GameSessionTaskType.Extract => "Reach the extraction zone.",
             GameSessionTaskType.Briefing => "Stand by for mission details.",
             GameSessionTaskType.WaitTime => "Await further instructions.",

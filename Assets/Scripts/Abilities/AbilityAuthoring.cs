@@ -33,6 +33,7 @@ public class AbilityAuthoring : MonoBehaviour
                 Duration = authoring.ClassSkillConfig.duration,
                 Power = authoring.ClassSkillConfig.power,
                 Range = authoring.ClassSkillConfig.range,
+                Area = authoring.ClassSkillConfig.area,
             });
         }
     }
@@ -53,6 +54,7 @@ public struct Ability : IComponentData
     public float3 TargetPosition;
     public float Power;
     public float Range;
+    public float Area;
 }
 
 public enum AbilityType
