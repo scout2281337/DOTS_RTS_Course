@@ -40,6 +40,22 @@ namespace TMG.ECSAnimations
                     Value = animator
                 };
 
+                GameObject visualRoot = animator.transform.root.gameObject;
+                if (SystemAPI.HasComponent<LocalTransform>(entity))
+                {
+                    LocalTransform transform = SystemAPI.GetComponent<LocalTransform>(entity);
+                    visualRoot.transform.position = transform.Position;
+                    visualRoot.transform.rotation = transform.Rotation;
+                }
+
+                bool isDead = SystemAPI.HasComponent<DeadUnit>(entity);
+                bool hiddenByFog =
+                    SystemAPI.HasComponent<FogRevealable>(entity) &&
+                    SystemAPI.HasComponent<FogVisible>(entity) &&
+                    !SystemAPI.IsComponentEnabled<FogVisible>(entity);
+
+                visualRoot.SetActive(!isDead && !hiddenByFog);
+
                 ecb.AddComponent(entity, animatorRef);
             }
 

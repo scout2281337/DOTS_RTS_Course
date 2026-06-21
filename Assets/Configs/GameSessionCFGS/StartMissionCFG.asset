@@ -73,7 +73,7 @@ MonoBehaviour:
     Duration: 0
     Radius: 6
     RequiredFriendlyUnits: 0
-    RequiredKillCount: 99
+    RequiredKillCount: 10
     KillTargetFaction: 1
     MonologueOnStart: {fileID: 11400000, guid: ed4f154b3803393449a5d4e4f69571ed, type: 2}
     MonologueOnComplete: {fileID: 11400000, guid: 78e7a9f14593bc144be823d1a5742e79, type: 2}
