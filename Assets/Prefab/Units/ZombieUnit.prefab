@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7360125597435588533, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: healthAmount
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -7360125597435588533, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: healthAmountMax
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 273691799339553324, guid: 29caaf9285da4f344a0045d4d40be8f0, type: 3}
       propertyPath: BaseSpeed
