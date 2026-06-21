@@ -1,0 +1,193 @@
+.gameplayPauseOverlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.48);
+}
+
+.gameplayPauseFrame {
+    width: 780px;
+    min-height: 620px;
+    padding: 42px;
+    justify-content: flex-start;
+    background-color: rgba(5, 8, 11, 0.94);
+    border-width: 3px;
+    border-color: var(--accent-main);
+    border-radius: 0;
+}
+
+.pauseEyebrow {
+    color: var(--accent-main);
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.pauseTitle {
+    color: var(--white);
+    margin-bottom: 14px;
+    -unity-text-align: middle-left;
+}
+
+.pauseSubtitle {
+    color: var(--light-gray);
+    margin-bottom: 28px;
+}
+
+.pauseTelemetry {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.pauseChip {
+    width: 220px;
+    min-height: 74px;
+    padding: 10px 14px;
+    background-color: rgba(255, 255, 255, 0.035);
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.20);
+}
+
+.pauseChipLabel {
+    color: var(--light-gray);
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.pauseChipValue {
+    color: var(--accent-main);
+}
+
+.pauseActions {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.pauseButton {
+    width: 100%;
+    height: 76px;
+    margin-bottom: 18px;
+}
+
+.dangerButton {
+    border-color: rgba(255, 58, 58, 0.86);
+}
+
+.dangerButton:hover {
+    color: var(--white);
+    border-color: rgba(255, 94, 94, 1);
+    background-color: rgba(120, 8, 12, 0.86);
+}
+
+.pauseHint {
+    color: var(--light-gray);
+    margin-top: 8px;
+    opacity: 0.84;
+}
+
+.gameplaySettingsOverlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.66);
+}
+
+.settingsPanel {
+    width: 780px;
+    min-height: 620px;
+    padding: 42px;
+    justify-content: flex-start;
+    background-color: rgba(8, 10, 12, 0.96);
+    border-width: 4px;
+    border-color: var(--accent-main);
+}
+
+.settingsTitle {
+    -unity-text-align: middle-center;
+    margin-bottom: 8px;
+    color: var(--white);
+}
+
+.settingsSubtitle {
+    -unity-text-align: middle-center;
+    margin-bottom: 28px;
+    color: var(--light-gray);
+}
+
+.settingsBlock {
+    width: 100%;
+    margin-bottom: 22px;
+}
+
+.settingsRow {
+    width: 100%;
+    min-height: 48px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settingsToggleRow {
+    margin-bottom: 22px;
+}
+
+.settingsLabel {
+    width: 360px;
+    color: var(--white);
+}
+
+.settingsValue {
+    min-width: 96px;
+    -unity-text-align: middle-right;
+    color: var(--accent-main);
+}
+
+.settingsSlider {
+    height: 26px;
+    margin-top: 8px;
+}
+
+.settingsToggle {
+    width: 72px;
+}
+
+.qualityControls {
+    width: 310px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.qualityButton {
+    width: 54px;
+    height: 48px;
+}
+
+.qualityValue {
+    width: 190px;
+    margin-left: 10px;
+    margin-right: 10px;
+    -unity-text-align: middle-center;
+    color: var(--white);
+}
+
+.settingsActions {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 26px;
+}
+
+.settingsButton {
+    width: 300px;
+    height: 64px;
+}

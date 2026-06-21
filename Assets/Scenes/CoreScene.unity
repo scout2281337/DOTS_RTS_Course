@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneDirector
   _canOverwrite: 1
   _isDestroyedOnLoad: 0
-  _isFirstLaunch: 0
+  _isFirstLaunch: 1
 --- !u!4 &184681227
 Transform:
   m_ObjectHideFlags: 0
