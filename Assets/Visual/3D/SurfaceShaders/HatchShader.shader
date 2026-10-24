@@ -44,6 +44,7 @@ Shader "Custom/General/HatchShader"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "Assets/Visual/3D/SurfaceShaders/CrossHatching.hlsl"
+            #include "Assets/Visual/3D/SurfaceShaders/UtilLib.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _BaseColor;
@@ -181,15 +182,22 @@ Shader "Custom/General/HatchShader"
                 
                 // Hatch Shadow
                 float hatchShadow;
-                float dist = distance(i.positionWS, _WorldSpaceCameraPos);
-                float width = floor(log2(dist + 2)) * _HatchWidth;
+                float3 pivotWS = mul(unity_ObjectToWorld, float4(0.0, 0.0, 0.0, 1.0)).xyz;
+                float dist = distance(pivotWS, _WorldSpaceCameraPos);
+                float width = floor(pow(dist + 1, 3.0)) * _HatchWidth;
                 const float sin45 = 0.70710678;
                 float2 centeredUV = i.uv - 0.5;
                 float2 rotatedUV = float2(
                     centeredUV.x * sin45 - centeredUV.y * sin45,
-                    centeredUV.x * sin45 + centeredUV.y * sin45
-                ) + 0.5;
-                CrossHatchingDithering_float(shadows, rotatedUV, width, _ShadowEdges, 0.1, hatchShadow);
+                    centeredUV.x * sin45 + centeredUV.y * sin45) + 0.5;
+
+                float hatchFrameRate = 4.0;
+                float hatchFrameNum = floor(_Time.y * hatchFrameRate);
+                float2 shiftedRotatedUV = float2(
+                    rotatedUV.x + randFloat(hatchFrameNum) - 0.5,
+                    rotatedUV.y + randFloat(hatchFrameNum - 1) - 0.5);
+
+                CrossHatchingDithering_float(shadows, shiftedRotatedUV, width, _ShadowEdges, 0.1, hatchShadow);
                 hatchShadow = 1 - hatchShadow;
 
                 allAddLightColor = log(allAddLightColor + 1);

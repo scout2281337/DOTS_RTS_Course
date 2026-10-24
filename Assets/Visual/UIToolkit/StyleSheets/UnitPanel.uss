@@ -56,6 +56,28 @@
     flex-grow: 1;
 }
 
+.delayedHealthBar {
+    position: absolute;
+    width: 220px;
+    height: 40px;
+}
+    .delayedHealthBar .unity-progress-bar__progress {
+        background-color: var(--second-main);
+    }
+
+.trueHealthBar {
+    position: absolute;
+    width: 220px;
+    height: 40px;
+}
+    .trueHealthBar .unity-progress-bar__background {
+        background-color: #00000000;
+    }
+
+.healthAmount {
+    align-self: center;
+}
+
 .statsBoard {
     height: 45px;
     margin-top: 5px;

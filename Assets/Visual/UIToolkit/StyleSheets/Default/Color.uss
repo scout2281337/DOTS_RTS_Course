@@ -6,6 +6,7 @@
     --black: #040404;
 
     --accent-main: #EE1401;
+    --second-main: #E38D0B;
     --accent-enemy: #357BEE;
 
     --accent-wp: #E09834;

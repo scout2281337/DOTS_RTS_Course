@@ -128,7 +128,7 @@ Material:
     - _Glossiness: 0
     - _GlossinessStrength: 0.97
     - _GlossyReflections: 0
-    - _HatchWidth: 0.002
+    - _HatchWidth: 0.00005
     - _Metallic: 0
     - _NormalStrength: 1
     - _OcclusionStrength: 1

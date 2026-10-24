@@ -100,7 +100,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 08be606c9a0d80448b0270a8d5d14399, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08be606c9a0d80448b0270a8d5d14399, type: 3}
       propertyPath: m_LocalPosition.y
@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 08be606c9a0d80448b0270a8d5d14399, type: 3}
       propertyPath: m_Name
-      value: GameObjectForAnimControllerTest 1
+      value: SniperAnim
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 08be606c9a0d80448b0270a8d5d14399, type: 3}
       propertyPath: m_Avatar
@@ -182,15 +182,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3b27f9415f7e09946a22ba3a20c8b6f1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.29411134
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b27f9415f7e09946a22ba3a20c8b6f1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00000034704289
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b27f9415f7e09946a22ba3a20c8b6f1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.024805918
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b27f9415f7e09946a22ba3a20c8b6f1, type: 3}
       propertyPath: m_LocalRotation.w

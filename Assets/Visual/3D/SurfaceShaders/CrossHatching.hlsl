@@ -2,11 +2,7 @@
 #define CrossHatching_INCLUDED
 
 #include "Assets/Visual/3D/SurfaceShaders/SDFFunctions.hlsl"
-
-float rand(float x)
-{
-    return frac(sin(x) * 43732.5453);
-}
+#include "Assets/Visual/3D/SurfaceShaders/UtilLib.hlsl"
 
 float HatchingSDF(float2 uv, float amount, float width, float length, float smoothness, float2 uvShift)
 {
@@ -15,8 +11,8 @@ float HatchingSDF(float2 uv, float amount, float width, float length, float smoo
 	aUV += uvShift;
 	float2 flooredUV = floor(aUV);
 	
-	float randNumForTile = rand(floor(aUV.x) + 10.0 * floor(aUV.y));
-	float2 randShift = (float2(randNumForTile, rand(randNumForTile)) - 0.5) * 0.25;
+    float randNumForTile = randFloat(floor(aUV.x) + 10.0 * floor(aUV.y));
+    float2 randShift = (float2(randNumForTile, randFloat(randNumForTile)) - 0.5) * 0.25;
 	
 	float SDFLines;
 	float2 lineStart = float2(0.5 + flooredUV.x + randShift.x,

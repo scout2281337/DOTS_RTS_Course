@@ -17,29 +17,6 @@ public class Presenter : Singleton<Presenter>
         EnsureDefaultAbilityBindings();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F1)) 
-        {
-            InvokeAbilityPress(0);
-            Debug.Log(" Абилка рейдера сработала ");
-        }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            InvokeAbilityPress(1);
-            Debug.Log(" Абилка танка сработала ");
-        }
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            InvokeAbilityPress(2);
-            Debug.Log(" Абилка огнемеьчика сработала ");
-        }
-        if (Input.GetKeyDown(KeyCode.F4))
-        {
-            InvokeAbilityPress(3);
-            Debug.Log(" Абилка снайпера сработала ");
-        }
-    }
     public void InvokeEscBuffer()
     {
         OnEscBuffer?.Invoke();

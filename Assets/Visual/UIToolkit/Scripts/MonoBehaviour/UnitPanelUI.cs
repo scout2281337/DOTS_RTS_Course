@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines.Interpolators;
 using UnityEngine.UIElements;
 
 public class UnitPanelUI : MonoBehaviour
@@ -129,7 +130,10 @@ public class UnitPanelUI : MonoBehaviour
 
         public readonly Button SkillButton;
         public readonly ProgressBar CooldownBar;
-        public readonly ProgressBar HealthBar;
+        public readonly VisualElement healthBar;
+        public readonly ProgressBar delayedHealthBar;
+        public readonly ProgressBar trueHealthBar;
+        public readonly Label healthAmount;
 
 
         public UnitProfile(UnitClass unitClass, SoldierAttributesConfig soldierConfig,
@@ -146,7 +150,7 @@ public class UnitPanelUI : MonoBehaviour
 
             AttributesContainer = UITK.AddElement(unitProfile, "attributesContainer");
             BuildSkillIcon(soldierConfig, out SkillButton, out CooldownBar);
-            BuildHPStatsBoard(textures, out HealthBar);
+            BuildHPStatsBoard(textures, out healthBar, out delayedHealthBar, out trueHealthBar, out healthAmount);
         }
 
         private void BuildModuleMesh(ViewController UIController)
@@ -155,7 +159,8 @@ public class UnitPanelUI : MonoBehaviour
             moduleMesh.style.backgroundImage = UIController.BaseTextures.LinearGradient;
         }
 
-        private void BuildSkillIcon(SoldierAttributesConfig soldierConfig, out Button skillButton, out ProgressBar cooldownBar)
+        private void BuildSkillIcon(SoldierAttributesConfig soldierConfig,
+            out Button skillButton, out ProgressBar cooldownBar)
         {
             var skillBlock = UITK.AddElement(AttributesContainer, "skillBlock");
 
@@ -171,13 +176,24 @@ public class UnitPanelUI : MonoBehaviour
             cooldownBar.value = SkillConfig.cooldown;
         }
 
-        private void BuildHPStatsBoard(UnitPanelTexturesSO icons, out ProgressBar healthBar)
+        private void BuildHPStatsBoard(UnitPanelTexturesSO icons, out VisualElement healthBar, 
+            out ProgressBar delayedHealthBar, out ProgressBar trueHealthBar, out Label healthAmount)
         {
             var healthStatsBoard = UITK.AddElement(AttributesContainer, "healthStatsBoard");
 
-            healthBar = UITK.AddElement<ProgressBar>(healthStatsBoard, "healthBar");
-            healthBar.highValue = BodyConfig.maxHealth;
-            healthBar.value = BodyConfig.maxHealth;
+            healthBar = UITK.AddElement(healthStatsBoard, "P1", "healthBar");
+
+            delayedHealthBar = UITK.AddElement<ProgressBar>(healthBar, "delayedHealthBar");
+            delayedHealthBar.highValue = BodyConfig.maxHealth;
+            delayedHealthBar.value = BodyConfig.maxHealth;
+
+            trueHealthBar = UITK.AddElement<ProgressBar>(healthBar, "trueHealthBar");
+            trueHealthBar.highValue = BodyConfig.maxHealth;
+            trueHealthBar.value = BodyConfig.maxHealth;
+
+            healthAmount = UITK.AddElement<Label>(healthBar, "healthAmount");
+            healthAmount.text = BodyConfig.maxHealth.ToString();
+
 
             //TO-DO link with in-gmae stats
             var statsBoard = UITK.AddElement(healthStatsBoard, "P1", "statsBoard");
@@ -200,12 +216,46 @@ public class UnitPanelUI : MonoBehaviour
             //AREA.text = "x 1.5";
         }
 
-        public void OnHealthChanged(DamageEvent evt)
+        public async void OnHealthChanged(DamageEvent evt)
         {
             // The event is broadcasted globally, so each profile filters for its own unit and updates only its cached bar.
             if (evt.TargetEntityClass!= this.UnitClass) return;
 
-            HealthBar.value = Mathf.Clamp(HealthBar.value - evt.DamageAmount, 0f, HealthBar.highValue);
+            float newHealthAmount = Mathf.Clamp(trueHealthBar.value - evt.DamageAmount, 0f, trueHealthBar.highValue);
+            trueHealthBar.value = newHealthAmount;
+            healthAmount.text = newHealthAmount.ToString();
+
+            //Animation: Twitch
+            Vector2 twitchDirection = new Vector2(Random.value - 0.5f, Random.value - 0.5f).normalized; // - 0.5 to centralize and allow negative 
+            float power = evt.DamageAmount;
+
+            // Way back
+            float timer = 0;
+            float duration = 0.3f;
+            while (timer  < duration)
+            {
+                timer += Time.deltaTime;
+                float normolizedTimer = timer / duration; // Normolized to go from 0 to 1 despite actual timer
+
+                healthBar.style.left = Mathf.Lerp(twitchDirection.x * power, 0, Easing.OutCubic(normolizedTimer));
+                healthBar.style.top = Mathf.Lerp(twitchDirection.y * power, 0, Easing.OutCubic(normolizedTimer));
+
+                await Awaitable.NextFrameAsync();
+            }
+
+            //Animation: DelayedHealthBar
+            timer = 0;
+            duration = 0.2f;
+            float previousValue = delayedHealthBar.value;
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+                float normolizedTimer = timer / duration; // Normolized to go from 0 to 1 despite actual timer
+
+                delayedHealthBar.value = Mathf.Lerp(previousValue, newHealthAmount, Easing.OutCubic(normolizedTimer));
+
+                await Awaitable.NextFrameAsync();
+            }
         }
 
         public void OnAbilityStarted(AbilityStartedEvent evt)

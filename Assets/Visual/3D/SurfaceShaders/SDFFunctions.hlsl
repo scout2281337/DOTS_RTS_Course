@@ -9,5 +9,4 @@ void SDFLine_float (float2 p, float2 lineStart, float2 lineEnd, float radius, ou
 	sdf = length( pa - ba * h ) - radius;
 }
 
-
 #endif
