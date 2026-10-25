@@ -9,32 +9,52 @@
 }
 
 .unitProfile {
-    width: 320px;
-    height: 180px;
+    width: 330px;
+    height: 150px;
 }
 
 .moduleMesh {
-    height: 75px;
+    height: 70px;
+    flex-shrink: 0;
     -unity-background-image-tint-color: var(--accent-main-50);
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.moduleSlot{
+    width: 40px;
+    height: 40px;
+    rotate: 45deg;
+    align-items: center;
+    justify-content: center;
+}
+
+.moduleIcon{
+    width: 35px;
+    height: 35px;
 }
 
 .attributesContainer {
-    height: 105px;
+    height: 80px;
+    flex-shrink: 0;
     background-color: var(--dark-gray-50);
     border-width: 3px;
     border-color: var(--accent-main);
     padding: 7px;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .skillBlock {
-    height: 85px;
     width: 75px;
+    height: 60px;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .skillButton {
-    width: 75px;
-    height: 75px;
+    width: 60px;
+    height: 60px;
 }
     .skillButton.Activated {
         -unity-background-image-tint-color: var(--accent-main-50);
@@ -43,55 +63,50 @@
         -unity-background-image-tint-color: var(--dark-gray-50);
     }
 
-.skillCooldownBar .unity-progress-bar__progress {
-    background-color: var(--white);
+.cooldownBarContainer {
+    width: 10px;
+    height: 60px;
+    flex-direction: row;
+    justify-content: center;
 }
 
-.healthStatsBoard {
-    flex-grow: 1;
-    margin-left: 5px;
+.skillCooldownBar {
+    width: 60px;
+    height: 10px;
+    top: 25px;
+    rotate: -90deg;
 }
+
+    .skillCooldownBar .unity-progress-bar__progress {
+        background-color: var(--white);
+    }
 
 .healthBar {
-    flex-grow: 1;
+    width: 225px;
+    height: 60px;
 }
 
 .delayedHealthBar {
+    width: 225px;
+    height: 60px;
     position: absolute;
-    width: 220px;
-    height: 40px;
 }
     .delayedHealthBar .unity-progress-bar__progress {
         background-color: var(--second-main);
     }
 
 .trueHealthBar {
+    width: 225px;
+    height: 60px;
     position: absolute;
-    width: 220px;
-    height: 40px;
 }
     .trueHealthBar .unity-progress-bar__background {
         background-color: #00000000;
     }
 
 .healthAmount {
-    align-self: center;
-}
-
-.statsBoard {
-    height: 45px;
-    margin-top: 5px;
-    justify-content: space-between;
-}
-
-.statsRow {
-    height: 18px;
-    margin-top: 4px;
-    flex-direction: row;
-    justify-content: space-evenly;
+    width: 225px;
+    height: 60px;
     -unity-text-align: middle-center;
-}
-
-.statElement {
-
+    letter-spacing: 40px;
 }

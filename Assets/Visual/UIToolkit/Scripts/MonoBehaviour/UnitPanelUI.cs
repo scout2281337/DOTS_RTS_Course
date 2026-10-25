@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Splines.Interpolators;
 using UnityEngine.UIElements;
 
 public class UnitPanelUI : MonoBehaviour
@@ -9,11 +8,12 @@ public class UnitPanelUI : MonoBehaviour
     [SerializeField] private UIDocument _uiDocument;
     [SerializeField] private StyleSheet[] _styleSheets;
     [SerializeField] private UnitPanelTexturesSO _texturesSO;
-    
+    [SerializeField] private ModuleBaseSO testModule;
+
     private ViewController _UIController;
     private EventMediator _eventMediator;
 
-    private readonly Dictionary<UnitClass, UnitProfile> _unitProfilesDict = new();
+    private Dictionary<UnitClass, UnitProfile> _unitProfilesDict = new();
 
     private VisualElement _bottomSection;
 
@@ -69,6 +69,7 @@ public class UnitPanelUI : MonoBehaviour
             _eventMediator.OnAbilityStarted += newUnitProfile.OnAbilityStarted;
             _eventMediator.OnAbilityEnded += newUnitProfile.OnAbilityEnded;
             _eventMediator.OnCooldownEnded += newUnitProfile.OnCooldownEnded;
+            _eventMediator.OnNewModule += newUnitProfile.OnNewModule;
         }
 
         newUnitProfile.unitProfile.RegisterCallback<ClickEvent>(_ =>
@@ -128,8 +129,12 @@ public class UnitPanelUI : MonoBehaviour
         public readonly VisualElement unitProfile;
         public readonly VisualElement AttributesContainer;
 
+        public readonly VisualElement moduleMesh;
+        public int moduleAmount = 0;
+
         public readonly Button SkillButton;
         public readonly ProgressBar CooldownBar;
+
         public readonly VisualElement healthBar;
         public readonly ProgressBar delayedHealthBar;
         public readonly ProgressBar trueHealthBar;
@@ -146,16 +151,16 @@ public class UnitPanelUI : MonoBehaviour
             SkillConfig = soldierConfig.skillConfigs[0];
 
             unitProfile = UITK.AddElement(bottomSection, "unitProfile");
-            BuildModuleMesh(UIController);
+            BuildModuleMesh(UIController, out moduleMesh);
 
             AttributesContainer = UITK.AddElement(unitProfile, "attributesContainer");
             BuildSkillIcon(soldierConfig, out SkillButton, out CooldownBar);
-            BuildHPStatsBoard(textures, out healthBar, out delayedHealthBar, out trueHealthBar, out healthAmount);
+            BuildHealthBar(textures, out healthBar, out delayedHealthBar, out trueHealthBar, out healthAmount);
         }
 
-        private void BuildModuleMesh(ViewController UIController)
+        private void BuildModuleMesh(ViewController UIController, out VisualElement moduleMesh)
         {
-            var moduleMesh = UITK.AddElement(unitProfile, "moduleMesh");
+            moduleMesh = UITK.AddElement(unitProfile, "moduleMesh");
             moduleMesh.style.backgroundImage = UIController.BaseTextures.LinearGradient;
         }
 
@@ -164,24 +169,25 @@ public class UnitPanelUI : MonoBehaviour
         {
             var skillBlock = UITK.AddElement(AttributesContainer, "skillBlock");
 
+            var cooldownBarContainer = UITK.AddElement(skillBlock, "cooldownBarContainer"); // Because we are rotating the progress bar we need a separate container so that we can keep correct layout
+
+            cooldownBar = UITK.AddElement<ProgressBar>(cooldownBarContainer, "skillCooldownBar");
+            cooldownBar.highValue = SkillConfig.cooldown;
+            cooldownBar.value = SkillConfig.cooldown;
+
             skillButton = UITK.AddElement<Button>(skillBlock, "RigidButton", "skillButton");
             skillButton.style.backgroundImage = soldierConfig.icon;
             skillButton.AddToClassList("Activated");
             skillButton.EnableInClassList("Activated", false);
             skillButton.AddToClassList("Cooldown");
             skillButton.EnableInClassList("Cooldown", false);
-
-            cooldownBar = UITK.AddElement<ProgressBar>(skillBlock, "skillCooldownBar");
-            cooldownBar.highValue = SkillConfig.cooldown;
-            cooldownBar.value = SkillConfig.cooldown;
         }
 
-        private void BuildHPStatsBoard(UnitPanelTexturesSO icons, out VisualElement healthBar, 
+        private void BuildHealthBar(UnitPanelTexturesSO icons, out VisualElement healthBar, 
             out ProgressBar delayedHealthBar, out ProgressBar trueHealthBar, out Label healthAmount)
         {
-            var healthStatsBoard = UITK.AddElement(AttributesContainer, "healthStatsBoard");
 
-            healthBar = UITK.AddElement(healthStatsBoard, "P1", "healthBar");
+            healthBar = UITK.AddElement(AttributesContainer, "P1", "healthBar");
 
             delayedHealthBar = UITK.AddElement<ProgressBar>(healthBar, "delayedHealthBar");
             delayedHealthBar.highValue = BodyConfig.maxHealth;
@@ -191,39 +197,19 @@ public class UnitPanelUI : MonoBehaviour
             trueHealthBar.highValue = BodyConfig.maxHealth;
             trueHealthBar.value = BodyConfig.maxHealth;
 
-            healthAmount = UITK.AddElement<Label>(healthBar, "healthAmount");
+            healthAmount = UITK.AddElement<Label>(healthBar, "H2", "healthAmount");
             healthAmount.text = BodyConfig.maxHealth.ToString();
 
-
-            //TO-DO link with in-gmae stats
-            var statsBoard = UITK.AddElement(healthStatsBoard, "P1", "statsBoard");
-            //statsBoard.style.backgroundImage = icons.StatsBoardBG;
-
-            //var weaponRow = UITK.AddElement(statsBoard, "statsRow");
-            //var DMG = UITK.AddElement<Label>(weaponRow, "DMG", "statElement");
-            //DMG.text = "x 1.5";
-            //var FIRE = UITK.AddElement<Label>(weaponRow, "FIRE", "statElement");
-            //FIRE.text = "x 1.5";
-            //var DST = UITK.AddElement<Label>(weaponRow, "DST", "statElement");
-            //DST.text = "x 1.5";
-
-            //var skillRow = UITK.AddElement(statsBoard, "statsRow");
-            //var PWR = UITK.AddElement<Label>(skillRow, "PWR", "statElement");
-            //PWR.text = "x 1.5";
-            //var TIME = UITK.AddElement<Label>(skillRow, "TIME", "statElement");
-            //TIME.text = "x 1.5";
-            //var AREA = UITK.AddElement<Label>(skillRow, "AREA", "statElement");
-            //AREA.text = "x 1.5";
         }
 
         public async void OnHealthChanged(DamageEvent evt)
         {
-            // The event is broadcasted globally, so each profile filters for its own unit and updates only its cached bar.
+            // The event is broadcasted globally, so each profile filters for its own unit.
             if (evt.TargetEntityClass!= this.UnitClass) return;
 
             float newHealthAmount = Mathf.Clamp(trueHealthBar.value - evt.DamageAmount, 0f, trueHealthBar.highValue);
             trueHealthBar.value = newHealthAmount;
-            healthAmount.text = newHealthAmount.ToString();
+            healthAmount.text = Mathf.RoundToInt(newHealthAmount).ToString();
 
             //Animation: Twitch
             Vector2 twitchDirection = new Vector2(Random.value - 0.5f, Random.value - 0.5f).normalized; // - 0.5 to centralize and allow negative 
@@ -235,10 +221,10 @@ public class UnitPanelUI : MonoBehaviour
             while (timer  < duration)
             {
                 timer += Time.deltaTime;
-                float normolizedTimer = timer / duration; // Normolized to go from 0 to 1 despite actual timer
+                float normalizedTimer = timer / duration; // Normalized to go from 0 to 1 despite actual timer
 
-                healthBar.style.left = Mathf.Lerp(twitchDirection.x * power, 0, Easing.OutCubic(normolizedTimer));
-                healthBar.style.top = Mathf.Lerp(twitchDirection.y * power, 0, Easing.OutCubic(normolizedTimer));
+                healthBar.style.left = Mathf.Lerp(twitchDirection.x * power, 0, Easing.OutCubic(normalizedTimer));
+                healthBar.style.top = Mathf.Lerp(twitchDirection.y * power, 0, Easing.OutCubic(normalizedTimer));
 
                 await Awaitable.NextFrameAsync();
             }
@@ -250,9 +236,9 @@ public class UnitPanelUI : MonoBehaviour
             while (timer < duration)
             {
                 timer += Time.deltaTime;
-                float normolizedTimer = timer / duration; // Normolized to go from 0 to 1 despite actual timer
+                float normalizedTimer = timer / duration; // Normalized to go from 0 to 1 despite actual timer
 
-                delayedHealthBar.value = Mathf.Lerp(previousValue, newHealthAmount, Easing.OutCubic(normolizedTimer));
+                delayedHealthBar.value = Mathf.Lerp(previousValue, newHealthAmount, Easing.OutCubic(normalizedTimer));
 
                 await Awaitable.NextFrameAsync();
             }
@@ -293,12 +279,43 @@ public class UnitPanelUI : MonoBehaviour
             SkillButton.EnableInClassList("Activated", false);
             SkillButton.EnableInClassList("Cooldown", false);
         }
+
+        public void OnNewModule(UnitClass unit, ModuleBaseSO moduleSO)
+        {
+            // The event is broadcasted globally, so each profile filters for its own unit.
+            if (unit != this.UnitClass) return;
+
+            moduleAmount++;
+
+            string moduleCat = moduleSO.category switch
+            {
+                ModuleCategory.WeaponPower => "WP",
+                ModuleCategory.TacticalSystem => "TS",
+                ModuleCategory.DefensiveProtocol => "DP",
+                _ => "Error"
+            };
+
+            var newModule = UITK.AddElement(moduleMesh, moduleCat, "moduleSlot");
+            int shiftDir = moduleAmount % 2 == 0 ? 1 : -1;
+            newModule.style.top = 10 * shiftDir;
+
+            var newModuleIcon = UITK.AddElement(newModule, "moduleIcon");
+            newModuleIcon.style.backgroundImage = moduleSO.wideIcon;
+        }
     }
 
 
     private void Awake()
     {
         BuildUnitPanel();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            _unitProfilesDict[UnitClass.Arsonist].OnNewModule(UnitClass.Arsonist, testModule);
+        }
     }
 
     private void OnDestroy()

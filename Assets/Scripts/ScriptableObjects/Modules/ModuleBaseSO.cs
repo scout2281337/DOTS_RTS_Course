@@ -2,11 +2,21 @@ using UnityEngine;
 
 public abstract class ModuleBaseSO : ScriptableObject
 {
-    public int tier;
+    public Module module;
     public ModuleCategory category;
-    public ModuleEffectType effectType;
+    public ModuleTriggerType triggerType;
+    public int tier;
     public Texture2D wideIcon;
     [TextArea] public string description;
+}
+
+public enum ModuleTriggerType
+{
+    None,
+    Constant,
+    Instant,
+    Temporarily,
+    stackable
 }
 
 public enum ModuleCategory
@@ -17,7 +27,7 @@ public enum ModuleCategory
     DefensiveProtocol
 }
 
-public enum ModuleEffectType
+public enum Module
 {
     None,
     Berserker,

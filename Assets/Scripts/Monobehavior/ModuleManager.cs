@@ -51,9 +51,9 @@ public class ModuleManager : Singleton<ModuleManager>
         ApplyModuleToUnit(unit, module);
     }
 
-    public bool GiveModuleToUnit(UnitClass unitClass, ModuleEffectType effectType)
+    public bool GiveModuleToUnit(UnitClass unitClass, Module effectType)
     {
-        if (effectType == ModuleEffectType.None)
+        if (effectType == Module.None)
             return false;
 
         if (!TryResolveUnitEntity(unitClass, out var em, out var unitEntity))
@@ -71,7 +71,7 @@ public class ModuleManager : Singleton<ModuleManager>
         if (!TryResolveUnitEntity(unitClass, out var em, out var unitEntity))
             return;
 
-        ModuleEffectType effect = ResolveModuleEffect(module);
+        Module effect = ResolveModuleEffect(module);
         ApplyModuleEffectToEntity(em, unitEntity, effect);
     }
 
@@ -97,16 +97,16 @@ public class ModuleManager : Singleton<ModuleManager>
         return true;
     }
 
-    private static void ApplyModuleEffectToEntity(EntityManager em, Entity unitEntity, ModuleEffectType effect)
+    private static void ApplyModuleEffectToEntity(EntityManager em, Entity unitEntity, Module effect)
     {
         switch (effect)
         {
-            case ModuleEffectType.Berserker:
+            case Module.Berserker:
                 if (!em.HasComponent<BerserkerICD>(unitEntity))
                     em.AddComponentData(unitEntity, new BerserkerICD());
                 break;
 
-            case ModuleEffectType.Ricochet:
+            case Module.Ricochet:
                 if (!em.HasComponent<RicochetModule>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new RicochetModule
@@ -119,7 +119,7 @@ public class ModuleManager : Singleton<ModuleManager>
                 }
                 break;
 
-            case ModuleEffectType.AcidBullets:
+            case Module.AcidBullets:
                 if (!em.HasComponent<AcidBulletsModule>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new AcidBulletsModule
@@ -131,7 +131,7 @@ public class ModuleManager : Singleton<ModuleManager>
                 }
                 break;
 
-            case ModuleEffectType.EnergyVampire:
+            case Module.EnergyVampire:
                 if (!em.HasComponent<EnergyVampireModule>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new EnergyVampireModule
@@ -141,7 +141,7 @@ public class ModuleManager : Singleton<ModuleManager>
                 }
                 break;
 
-            case ModuleEffectType.ExtraBattery:
+            case Module.ExtraBattery:
                 if (!em.HasComponent<ExtraBatteryModule>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new ExtraBatteryModule
@@ -159,7 +159,7 @@ public class ModuleManager : Singleton<ModuleManager>
                 }
                 break;
 
-            case ModuleEffectType.DeafeningReverb:
+            case Module.DeafeningReverb:
                 if (!em.HasComponent<DeafSoundModule>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new DeafSoundModule
@@ -169,7 +169,7 @@ public class ModuleManager : Singleton<ModuleManager>
                 }
                 break;
 
-            case ModuleEffectType.Vampirism:
+            case Module.Vampirism:
                 if (!em.HasComponent<VampirismModule>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new VampirismModule
@@ -180,7 +180,7 @@ public class ModuleManager : Singleton<ModuleManager>
                 }
                 break;
 
-            case ModuleEffectType.BloodySpeedUp:
+            case Module.BloodySpeedUp:
                 if (!em.HasComponent<BloodySpeedUpModule>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new BloodySpeedUpModule
@@ -194,7 +194,7 @@ public class ModuleManager : Singleton<ModuleManager>
                 }
                 break;
 
-            case ModuleEffectType.SupplyLines:
+            case Module.SupplyLines:
                 if (!em.HasComponent<SupplyLinesModule>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new SupplyLinesModule
@@ -204,7 +204,7 @@ public class ModuleManager : Singleton<ModuleManager>
                 }
                 break;
 
-            case ModuleEffectType.DoubleShell:
+            case Module.DoubleShell:
                 if (!em.HasComponent<DoubleShell>(unitEntity))
                 {
                     em.AddComponentData(unitEntity, new DoubleShell
@@ -216,34 +216,34 @@ public class ModuleManager : Singleton<ModuleManager>
         }
     }
 
-    private static ModuleEffectType ResolveModuleEffect(ModuleBaseSO module)
+    private static Module ResolveModuleEffect(ModuleBaseSO module)
     {
-        if (module.effectType != ModuleEffectType.None)
-            return module.effectType;
+        if (module.module != Module.None)
+            return module.module;
 
         string key = $"{module.name} {module.description}".ToLowerInvariant();
 
         if (key.Contains("ricochet") || key.Contains("ricoshet") || key.Contains("rikoshet"))
-            return ModuleEffectType.Ricochet;
+            return Module.Ricochet;
         if (key.Contains("acid"))
-            return ModuleEffectType.AcidBullets;
+            return Module.AcidBullets;
         if (key.Contains("energy vampire") || key.Contains("energyvampire"))
-            return ModuleEffectType.EnergyVampire;
+            return Module.EnergyVampire;
         if (key.Contains("battery"))
-            return ModuleEffectType.ExtraBattery;
+            return Module.ExtraBattery;
         if (key.Contains("echo") || key.Contains("deaf"))
-            return ModuleEffectType.DeafeningReverb;
+            return Module.DeafeningReverb;
         if (key.Contains("vampirism"))
-            return ModuleEffectType.Vampirism;
+            return Module.Vampirism;
         if (key.Contains("bloody"))
-            return ModuleEffectType.BloodySpeedUp;
+            return Module.BloodySpeedUp;
         if (key.Contains("supply"))
-            return ModuleEffectType.SupplyLines;
+            return Module.SupplyLines;
         if (key.Contains("berserk"))
-            return ModuleEffectType.Berserker;
+            return Module.Berserker;
         if (key.Contains("shell"))
-            return ModuleEffectType.DoubleShell;
+            return Module.DoubleShell;
 
-        return ModuleEffectType.None;
+        return Module.None;
     }
 }

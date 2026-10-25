@@ -44,23 +44,23 @@ public class DeveloperConsole : MonoBehaviour
         ["sniper"] = UnitClass.Sniper
     };
 
-    private static readonly Dictionary<string, ModuleEffectType> ModuleAliases = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, Module> ModuleAliases = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["berserk"] = ModuleEffectType.Berserker,
-        ["ricochet"] = ModuleEffectType.Ricochet,
-        ["acid"] = ModuleEffectType.AcidBullets,
-        ["acidbullets"] = ModuleEffectType.AcidBullets,
-        ["energyvampire"] = ModuleEffectType.EnergyVampire,
-        ["battery"] = ModuleEffectType.ExtraBattery,
-        ["extrabattery"] = ModuleEffectType.ExtraBattery,
-        ["echo"] = ModuleEffectType.DeafeningReverb,
-        ["deafeningecho"] = ModuleEffectType.DeafeningReverb,
-        ["vampirism"] = ModuleEffectType.Vampirism,
-        ["bloody"] = ModuleEffectType.BloodySpeedUp,
-        ["bloodyspeed"] = ModuleEffectType.BloodySpeedUp,
-        ["supply"] = ModuleEffectType.SupplyLines,
-        ["supplylines"] = ModuleEffectType.SupplyLines,
-        ["doubleshell"] = ModuleEffectType.DoubleShell
+        ["berserk"] = Module.Berserker,
+        ["ricochet"] = Module.Ricochet,
+        ["acid"] = Module.AcidBullets,
+        ["acidbullets"] = Module.AcidBullets,
+        ["energyvampire"] = Module.EnergyVampire,
+        ["battery"] = Module.ExtraBattery,
+        ["extrabattery"] = Module.ExtraBattery,
+        ["echo"] = Module.DeafeningReverb,
+        ["deafeningecho"] = Module.DeafeningReverb,
+        ["vampirism"] = Module.Vampirism,
+        ["bloody"] = Module.BloodySpeedUp,
+        ["bloodyspeed"] = Module.BloodySpeedUp,
+        ["supply"] = Module.SupplyLines,
+        ["supplylines"] = Module.SupplyLines,
+        ["doubleshell"] = Module.DoubleShell
     };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -352,7 +352,7 @@ public class DeveloperConsole : MonoBehaviour
             return;
         }
 
-        if (!TryParseModuleEffect(parts[1], out ModuleEffectType effectType))
+        if (!TryParseModuleEffect(parts[1], out Module effectType))
         {
             Print("Unknown module. Use: berserk, ricochet, acid, energyvampire, battery, echo, vampirism, bloody, supply, doubleshell");
             return;
@@ -486,9 +486,9 @@ public class DeveloperConsole : MonoBehaviour
         return true;
     }
 
-    private static bool TryParseModuleEffect(string raw, out ModuleEffectType effectType)
+    private static bool TryParseModuleEffect(string raw, out Module effectType)
     {
-        if (Enum.TryParse(raw, true, out effectType) && effectType != ModuleEffectType.None)
+        if (Enum.TryParse(raw, true, out effectType) && effectType != Module.None)
             return true;
 
         return ModuleAliases.TryGetValue(raw, out effectType);
