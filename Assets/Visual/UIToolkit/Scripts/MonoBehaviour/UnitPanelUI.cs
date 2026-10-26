@@ -297,10 +297,19 @@ public class UnitPanelUI : MonoBehaviour
 
             var newModule = UITK.AddElement(moduleMesh, moduleCat, "moduleSlot");
             int shiftDir = moduleAmount % 2 == 0 ? 1 : -1;
-            newModule.style.top = 10 * shiftDir;
+            newModule.style.top = 8 * shiftDir;
 
             var newModuleIcon = UITK.AddElement(newModule, "moduleIcon");
             newModuleIcon.style.backgroundImage = moduleSO.wideIcon;
+
+            newModule.AddToClassList("Disabled");
+            newModule.EnableInClassList("Disabled", false);
+
+            var stackCount = UITK.AddElement<Label>(newModule, "P3", "stackCount");
+            stackCount.text = "2";
+
+            var hintBox = UITK.AddHintBox(newModule, moduleSO.description);
+            hintBox.AddToClassList("P3");
         }
     }
 

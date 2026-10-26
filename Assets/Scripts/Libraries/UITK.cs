@@ -153,8 +153,9 @@ public static class UITK
 
     public static Label AddHintBox(VisualElement element)
     {
-        var hintBox = UITK.AddElement<Label>(element, "HintBox", "SubText");
-        hintBox.pickingMode = PickingMode.Ignore;
+        var hintBox = UITK.AddElement<Label>(element, "HintBox");
+        hintBox.pickingMode = PickingMode.Ignore; //We want to ignore the hitbox itself so that it wouldn't stay if we hovered over it
+        hintBox.style.display = DisplayStyle.None;
         hintBox.BringToFront();
 
         element.RegisterCallback<PointerEnterEvent>(evt =>

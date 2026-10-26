@@ -120,6 +120,8 @@
     width: 245px;
     height: 325px;
     justify-content: space-around;
+    -unity-text-generator: advanced;
+    -unity-text-auto-size: best-fit 12px 20px;
 }
 
     .textBox.WP {
